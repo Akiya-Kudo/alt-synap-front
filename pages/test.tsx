@@ -2,14 +2,14 @@ import Link from 'next/link';
 import React from 'react';
 import { Header } from '../components/layouts/Header/Header';
 
-const index = () => {
+const test = () => {
   return (
     <>
-      <Header/>
-      <div>index</div>
-      <Link  href="/test">Test</Link>
+        <Header/>
+        <div>test</div>
+        <Link  href="/">Home</Link>
     </>
   )
 }
 
-export default index
+export default test
