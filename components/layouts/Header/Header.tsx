@@ -1,11 +1,21 @@
-import { memo } from 'react'
+import React from 'react';
+import styles from '../../../styles/components/layouts/Header.module.css';
 
-let render = 0
 
-console.log('render Child');
+const Header = () => {
+    return (
+    <div className={styles.header}>
+        <div className={ styles.headerBox }>
+            <div className={ styles.logo }>logo</div>
+            <div className={ styles.dig }>dig</div>
+            <div className={ styles.nav }>
+                <div className={ styles.add }>add</div>
+                <div className={ styles.myIcon }>icon</div>
+            </div>
 
-export const Header = () => {
-    console.log(`render${render}`)
-    render++
-    return <header>header</header>
-};
+        </div>
+    </div>
+    )
+}
+
+export default Header

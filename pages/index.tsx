@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
-import { Header } from '../components/layouts/Header/Header';
+import Header from '../components/layouts/Header/Header';
+
 
 const index = () => {
   return (

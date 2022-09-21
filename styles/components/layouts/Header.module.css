@@ -1,0 +1,43 @@
+.header {
+    height: 7vh;
+    width: 100%;
+    background-color: aquamarine;
+
+    display: flex;
+    justify-content: center;
+}
+
+.headerBox {
+    height: 100%;
+    width: 90%;
+    background-color: aliceblue;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: black;
+    margin: 0 .5rem;
+}
+
+.dig {
+    flex: 1;
+
+    display: flex;
+    justify-content: end;
+    margin: 0 .5rem;
+}
+
+.nav {
+    display: flex;
+}
+
+.add {
+    margin: 0 .5rem;
+}
+
+.myIcon {
+    margin: 0 .5rem;
+}
