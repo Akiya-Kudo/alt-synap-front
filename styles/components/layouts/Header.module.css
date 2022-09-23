@@ -1,7 +1,6 @@
-.header {
+/* .header {
     height: 7vh;
     width: 100%;
-    background-color: aquamarine;
 
     display: flex;
     justify-content: center;
@@ -9,8 +8,7 @@
 
 .headerBox {
     height: 100%;
-    width: 90%;
-    background-color: aliceblue;
+    width: 100%;
 
     display: flex;
     align-items: center;
@@ -40,4 +38,4 @@
 
 .myIcon {
     margin: 0 .5rem;
-}
+} */
