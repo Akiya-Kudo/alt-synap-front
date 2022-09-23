@@ -1,20 +1,41 @@
-import React from 'react';
-import styles from '../../../styles/components/layouts/Header.module.css';
+import { Box, BoxProps, Button } from '@chakra-ui/react';
+import { ScaleFade, useDisclosure } from '@chakra-ui/react';
+import React, { Children } from 'react';
 
+const Container = (props: BoxProps) => <Box w="100%" h="7.5vh" pos="fixed" zIndex={2}>{props.children}</Box>
+const Inner = (props: BoxProps) => <Box w="100%" h="7.5vh">{props.children}</Box>
+
+function ScaleFadeEx(props: BoxProps) {
+const { isOpen, onToggle } = useDisclosure()
+return (
+        <>
+        <Button onClick={onToggle}>Click Me</Button>
+        <ScaleFade initialScale={0.9} in={isOpen}>
+            <Box
+                p='40px'
+                color='white'
+                mt='4'
+                bg='teal.500'
+                rounded='md'
+                shadow='md'
+            >
+            Fade
+            </Box>
+        </ScaleFade>
+        </>
+    )
+}
 
 const Header = () => {
-    return (
-    <div className={styles.header}>
-        <div className={ styles.headerBox }>
-            <div className={ styles.logo }>logo</div>
-            <div className={ styles.dig }>dig</div>
-            <div className={ styles.nav }>
-                <div className={ styles.add }>add</div>
-                <div className={ styles.myIcon }>icon</div>
-            </div>
 
-        </div>
-    </div>
+    return (
+        <>
+            <Container>
+                <Inner>
+                    <ScaleFadeEx></ScaleFadeEx>
+                </Inner>
+            </Container>
+        </>
     )
 }
 
