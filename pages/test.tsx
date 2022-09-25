@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import Header from '../components/layouts/Header/Header';
+import {Header} from '../components/layouts/Header/Header';
 
 // import { Box, Button, ScaleFade, useDisclosure } from "@chakra-ui/react"
 
@@ -8,8 +8,9 @@ const test = () => {
   return (
     <>
         <Header/>
-        <div>test</div>
-        <Link  href="/">Home</Link>
+        <div className="page">   
+          <Link  href="/">Home</Link>
+        </div>
     </>
   )
 }
