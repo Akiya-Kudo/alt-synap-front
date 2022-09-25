@@ -5,15 +5,15 @@ import React from 'react';
 import {Header} from '../components/layouts/Header/Header';
 
 // headerの処理
-type Props = {status: string;}
-export const getServerSideProps: GetServerSideProps = async(context) => {
+// type Props = {status: string;}
+// export const getServerSideProps: GetServerSideProps = async(context) => {
 
-  const props: Props = {
-    status: 'guest'
-  }
+//   const props: Props = {
+//     status: 'guest'
+//   }
 
-  return {props: props};
-}
+//   return {props: props};
+// }
 
 const index = () => {
   return (
