@@ -10,6 +10,7 @@ const test = () => {
         <Header/>
         <div className="page">   
           <Link  href="/">Home</Link>
+          <div></div>
         </div>
     </>
   )
