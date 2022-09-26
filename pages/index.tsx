@@ -1,8 +1,20 @@
 import { Box, Text } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import React from 'react';
 import {Header} from '../components/layouts/Header/Header';
+
+import { FirebaseApp, getApp } from 'firebase/app';
+
+const Home = () => {
+  const app: FirebaseApp = getApp()
+  return  (
+    <ul>
+      <li>name = {app.name}</li>
+      <li>appId = {app.options.appId}</li>
+      <li>apiKey = {app.options.apiKey}</li>
+    </ul>
+  )
+}
 
 // headerの処理
 // type Props = {status: string;}
@@ -20,8 +32,14 @@ const index = () => {
     <>
       <Header/>
       <div className="page">
+        <Home/>
         <Text bg='red.500'>index</Text>
-        <Link  href="/test">Test</Link>
+        <Box>
+          <Link  href="/test">Test</Link>
+        </Box>
+        <Box>
+          <Link  href="/signin">sign in</Link>
+        </Box>
       </div>
     </>
   )
