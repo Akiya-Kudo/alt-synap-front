@@ -1,7 +1,7 @@
-import { BoxProps, Button, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
+import { Button, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
 import React from 'react'
 
-import { useForm } from "react-hook-form";
+// useFormは呼び出し先で変数定義する
 
 
 type Props = {
@@ -90,11 +90,9 @@ export function PasswordRemaindInput({ errors, register, password }: Props) {
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
 
-
-
   return (
     <FormControl
-      id="inputText2"
+      id="inputText4"
       isRequired
       isInvalid={errors.inputText4 ? true : false}
     >
@@ -106,10 +104,11 @@ export function PasswordRemaindInput({ errors, register, password }: Props) {
           type={show ? 'text' : 'password'}
           {...register("inputText4", {
             required: "パスワード確認は必須です。",
-            pattern: {
-              validate: (value: any) => value === password,
-              message: "passwordと一致していません",
-            },
+            validate: (value: any) => {
+              return (
+                value === password || "メールアドレスが一致しません"
+              );
+            }
           })}
         />
         <InputRightElement width='4.5rem'>
