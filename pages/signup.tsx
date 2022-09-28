@@ -1,13 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
 
+import { signIn } from '../utils/login';
 import { Header } from '../components/layouts/Header/Header';
 import { EmailInput, PasswordInput, PasswordRemaindInput, SubmitButton } from '../components/forms';
 import { BoxProps, Flex, Heading, Text } from '@chakra-ui/react'
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
-const auth = getAuth();
 
 
 // コンポーネント定義
@@ -22,33 +21,11 @@ const Form = (props : BoxProps) => <Flex
         const target = e.target as any;
         const email = target.inputText3.value as string;
         const password = target.inputText2.value as string;
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // ...
-        console.log("user created");
-        console.log(user);
-        })
-        .catch((error) => {
-        // const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-        alert(errorMessage)
-        console.log(error);
-        });
-        console.log(email);
+        signIn(email, password);
     }}
 >
     {props.children}
 </Flex>
-
-//  型
-interface Inputs {
-    email: string;
-    password: string;
-}
-
 
 
 
@@ -56,9 +33,7 @@ interface Inputs {
 // ページコンポーネント定義
 const SignUp = () => {
 
-    const { register, formState: { errors }, formState, getValues } = useForm({
-        mode: "all",
-    });
+    const { register, formState: { errors }, formState, getValues } = useForm({mode: "all"});
 
     return (
         <>
