@@ -1,13 +1,15 @@
-import { Box, Button, Text } from '@chakra-ui/react';
-import Link from 'next/link';
-import React from 'react';
+import { Text } from '@chakra-ui/react';
+import React, { useContext, useState } from 'react';
 import {Header} from '../components/layouts/Header/Header';
 
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 
 import { auth } from '../utils/firebase/init';
+import { AuthContext } from '../context/auth';
 
 const Info = () => {
+
+  const { userState } = useContext(AuthContext);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -31,32 +33,14 @@ const Info = () => {
 
 
 
-
-
-const Logouter = () => {
-  signOut (auth).then(() => {
-    console.log('sign out successed');
-    console.log(auth);
-  }).catch((error) => {
-    console.log(error.message)
-  })
-}
-
-
 const index = () => {
+
   return (
     <>
       <Header/>
       <div className="page">
         <Info/>
         <Text bg='red.500'>index</Text>
-        <Box>
-          <Link  href="/test">Test</Link>
-        </Box>
-        <Box>
-          <Link  href="/signup">sign in</Link>
-        </Box>
-        <Button onClick={ Logouter }>Log out</Button>
       </div>
     </>
   )

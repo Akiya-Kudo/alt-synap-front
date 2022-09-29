@@ -1,5 +1,8 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+
+import { AuthProvider } from '../context/auth';
+
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
 import { FirebaseApp, getApp } from 'firebase/app';
@@ -8,7 +11,7 @@ import '../utils/firebase/init'; //Initialize FirebaseApp
 const app: FirebaseApp = getApp()
 
 function MyApp({ Component, pageProps }: AppProps) {
-  console.log(pageProps)
+  
   return (
     <ChakraProvider
     theme={extendTheme({
@@ -18,7 +21,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       },
     })}
     >
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
     </ChakraProvider>
   )
 
