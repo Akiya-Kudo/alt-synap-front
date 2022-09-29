@@ -3,7 +3,6 @@ import React from 'react'
 
 // useFormは呼び出し先で変数定義する
 
-
 type Props = {
   text?: string;
   errors?: any;

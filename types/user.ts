@@ -11,3 +11,5 @@ export type User = {
     email: string;
     // createdAt: number;
 };
+
+export type userStateType = 'isUser' | 'guest' | 'loading';

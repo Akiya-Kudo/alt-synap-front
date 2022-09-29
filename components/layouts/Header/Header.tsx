@@ -11,6 +11,8 @@ import {  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHe
 
 import { useForm } from "react-hook-form";
 import { logInFunc, logOutFunc } from '../../../utils/login';
+import Loading from '../../Loading';
+import { userStateType } from '../../../types/user';
 
 const Container = (props: BoxProps) => <Flex w="100%" h="8vh" pos="fixed" zIndex={10} boxShadow='md' p={0} alignItems='center' bg='white'>{props.children}</Flex>
 
@@ -22,9 +24,9 @@ const Form = (props : BoxProps) => {
 
 
     const { userState, setUserState } = useContext(AuthContext);
-    const changeUserState = () => {
-        setUserState(!userState);
-    }
+    const changeUserState = (state: userStateType) => setUserState(state);
+
+    const changeUserStateLoading = () => setUserState('loading');
 
     return (
         <Flex
@@ -36,6 +38,7 @@ const Form = (props : BoxProps) => {
                 const target = e.target as any;
                 const email = target.inputText3.value as string;
                 const password = target.inputText2.value as string;
+                changeUserStateLoading();
                 logInFunc(email, password, changeUserState);
             }}
         >
@@ -94,9 +97,8 @@ const LoginModal = () => {
 const UserMenu = () => {
 
     const { userState, setUserState } = useContext(AuthContext);
-    const changeUserState = () => {
-        setUserState(!userState);
-    }
+    const changeUserState = (state: userStateType) => setUserState(state);
+    const changeUserStateLoading = () => setUserState('loading');
 
     return (
         <Menu>
@@ -104,7 +106,13 @@ const UserMenu = () => {
             <MenuList>
                 <MenuGroup title='- PROFILE -'>
                 <MenuItem>MY PAGE</MenuItem>
-                <MenuItem onClick={ () => {logOutFunc(changeUserState) }}>LOG OUT </MenuItem>
+                <MenuItem 
+                    onClick={ () => {
+                        changeUserStateLoading()
+                        logOutFunc(changeUserState) 
+                        }}>
+                    LOG OUT
+                </MenuItem>
                 </MenuGroup>
                 <MenuDivider />
                 <MenuGroup title='- Help -'>
@@ -138,14 +146,18 @@ export const Header = () => {
                     </Flex>
                     <Spacer />
                     <ButtonGroup gap='2' mx='3'>
-                        { !userState &&
+                        { userState == 'guest' &&
                             <><Link href="/signup" passHref><Button colorScheme='orange' color='orange.300' variant='ghost' size='sm'>SIGN UP</Button></Link>
                                 <LoginModal /></>
                         }
 
-                        { userState &&   
+                        { userState == 'isUser' &&   
                             <><Button colorScheme='orange' color='orange.300' variant='ghost' fontSize='xl' rounded='3xl' ><AddIcon /></Button>
                             <UserMenu /></>
+                        }
+
+                        { userState == 'loading' &&   
+                            <><Loading message="User Info Loading"/></>
                         }
                     </ButtonGroup>
                 </Flex>

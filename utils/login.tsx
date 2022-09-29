@@ -1,24 +1,25 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth";
+import { userStateType } from "../types/user";
 import { auth } from '../utils/firebase/init';
 
-export const signUpFunc = ( email: string, password: string, changeUserState: any ) => {
+export const signUpFunc = ( email: string, password: string, changeUserState: (state: userStateType) => void ) => {
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const user = userCredential.user;
-        changeUserState()
+        changeUserState('isUser')
         console.log(user)
     })
     .catch((error) => {
         // const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage)
-        console.log(error);
+        changeUserState('guest');
     });
 }
 
-export const logInFunc = ( email: string, password: string, changeUserState: any ) => {
+export const logInFunc = ( email: string, password: string, changeUserState: (state: userStateType) => void ) => {
 
 
     signInWithEmailAndPassword(auth, email, password)
@@ -27,22 +28,24 @@ export const logInFunc = ( email: string, password: string, changeUserState: any
         const user = userCredential.user;
         // ...
         console.log("user logged in");
-        changeUserState();
+        changeUserState('isUser');
     })
     .catch((error) => {
         // const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage)
+        changeUserState('guest');
         console.log(error);
     });
 }
 
-export const logOutFunc = (changeUserState: any ) => {
+export const logOutFunc = (changeUserState: (state: userStateType) => void ) => {
     signOut (auth).then(() => {
         console.log('sign out successed');
         console.log(auth);
-        changeUserState()
+        changeUserState('guest')
     }).catch((error) => {
+        changeUserState('isUser');
         console.log(error.message)
     });
 }

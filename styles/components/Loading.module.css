@@ -1,0 +1,32 @@
+.screen {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255);
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.text {
+    font-weight: bold;
+    position: relative;
+}
+
+.hello {
+    position: absolute;
+    top: -50%;
+    left:35%;
+    z-index: -10;
+    opacity: 0.8;
+}
+
+.world {
+    position: absolute;
+    left:44.5%;
+    z-index: -10;
+}
