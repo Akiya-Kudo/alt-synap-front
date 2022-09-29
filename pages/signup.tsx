@@ -1,31 +1,43 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
 
-import { signIn } from '../utils/login';
+import { signUpFunc } from '../utils/login';
 import { Header } from '../components/layouts/Header/Header';
 import { EmailInput, PasswordInput, PasswordRemaindInput, SubmitButton } from '../components/forms';
 import { BoxProps, Flex, Heading, Text } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";
+import { AuthContext } from '../context/auth';
 
 
 // コンポーネント定義
-const Form = (props : BoxProps) => <Flex
-    as="form" 
-    direction="column" 
-    w={400} 
-    justify="center" 
-    align="center" 
-    onSubmit={async e => {
-        e.preventDefault()
-        const target = e.target as any;
-        const email = target.inputText3.value as string;
-        const password = target.inputText2.value as string;
-        signIn(email, password);
-    }}
->
-    {props.children}
-</Flex>
+const Form = (props : BoxProps) => {
+
+    const { userState, setUserState } = useContext(AuthContext);
+    const changeUserState = () => {
+        setUserState(!userState);
+    }
+
+    return (
+        <Flex
+            as="form" 
+            direction="column" 
+            w={400} 
+            justify="center" 
+            align="center" 
+            onSubmit={async e => {
+                e.preventDefault()
+                const target = e.target as any;
+                const email = target.inputText3.value as string;
+                const password = target.inputText2.value as string;
+                signUpFunc(email, password, changeUserState );
+            }}
+        >
+            {props.children}
+        </Flex>
+    )
+}
+
 
 
 
