@@ -1,11 +1,12 @@
 import { Text } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {Header} from '../components/layouts/Header/Header';
 
 import { onAuthStateChanged } from 'firebase/auth';
 
 import { auth } from '../utils/firebase/init';
 import { AuthContext } from '../context/auth';
+import { NextPage } from 'next';
 
 const Info = () => {
 
@@ -33,7 +34,7 @@ const Info = () => {
 
 
 
-const index = () => {
+const index: NextPage  = () => {
 
   return (
     <>

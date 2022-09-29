@@ -12,6 +12,8 @@ const app: FirebaseApp = getApp()
 
 function MyApp({ Component, pageProps }: AppProps) {
   
+  
+
   return (
     <ChakraProvider
     theme={extendTheme({
