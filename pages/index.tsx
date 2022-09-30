@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import React, { useContext, useLayoutEffect } from 'react';
 import {Header} from '../components/layouts/Header/Header';
 
 import { onAuthStateChanged } from 'firebase/auth';
@@ -10,20 +10,21 @@ import { NextPage } from 'next';
 
 const Info = () => {
 
-  const { userState } = useContext(AuthContext);
+  const { userState, setUserState } = useContext(AuthContext);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      // console.log(user)
-      console.log(auth)
-      // ...
-    } else {
-      console.log("none is logging in")
-    }
-  });
+  console.log(userState)
+  useLayoutEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        setUserState('isUser');
+        console.log('hello')
+        console.log(userState)
+      } else {
+        setUserState('guest');
+      }
+    });
+  },[])
 
   return  (
     <ul>

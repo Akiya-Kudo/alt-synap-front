@@ -95,7 +95,7 @@ const LoginModal = () => {
 
 
 const UserMenu = () => {
-
+    
     const { userState, setUserState } = useContext(AuthContext);
     const changeUserState = (state: userStateType) => setUserState(state);
     const changeUserStateLoading = () => setUserState('loading');

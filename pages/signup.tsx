@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useLayoutEffect } from 'react'
 
 import { signUpFunc } from '../utils/login';
 import { Header } from '../components/layouts/Header/Header';
@@ -10,6 +10,8 @@ import { AuthContext } from '../context/auth';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { userStateType } from '../types/user';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../utils/firebase/init';
 
 
 // コンポーネント定義
@@ -47,12 +49,29 @@ const Form = (props : BoxProps) => {
 // ページコンポーネント定義
 const SignUp: NextPage  = () => {
 
-    const { userState } = useContext(AuthContext);
+    const { userState, setUserState } = useContext(AuthContext);
     const router = useRouter()
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
 
 
     const { register, formState: { errors }, formState, getValues } = useForm({mode: "all"});
+
+    console.log(userState)
+    useLayoutEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+            const uid = user.uid;
+                setUserState('isUser');
+                console.log(userState)
+            } else {
+                setUserState('guest');
+            }
+        });
+    },[])
+
+
+
+
 
     return (
         <>

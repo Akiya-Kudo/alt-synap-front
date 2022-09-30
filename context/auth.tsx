@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 // コンテクストを作成
 // コンテクストを作成
@@ -14,7 +14,7 @@ export const AuthProvider = (props: any) => {
 
     const { children } = props;
 
-    const [userState, setUserState] = useState('guest');
+    const [userState, setUserState] = useState('loading');
 
     return <AuthContext.Provider value={{userState, setUserState}}>{children}</AuthContext.Provider>;
 }
