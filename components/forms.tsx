@@ -1,5 +1,7 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
+import { BoxProps, Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
 import React from 'react'
+import { githubLoginFunc, googleLoginFunc } from '../utils/login';
+import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 // useFormは呼び出し先で変数定義する
 
@@ -140,5 +142,17 @@ export function SubmitButton ({ text = "Submit", formState }:Props) {
     >
       {text}
     </Button>
+  )
+}
+
+// google ログインボタンコンポーネント定義
+export const SocialLoginButtons = (props : BoxProps) => {
+  return (
+      <>
+      <Flex direction='row' mt={0} align='center' justify='center'>
+          <Button colorScheme='facebook' bg='facebook.400' rightIcon={<FaGithub />} m={2} px={10} onClick={ () => githubLoginFunc() }>Github</Button>
+          <Button colorScheme='red' bg='red.400' rightIcon={<FaGoogle/>} m={2} px={10} onClick={ () => googleLoginFunc() } >GMail</Button>
+      </Flex>
+      </>
   )
 }

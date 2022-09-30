@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useLayoutEffect } from 'react'
 
 import { signUpFunc } from '../utils/login';
 import { Header } from '../components/layouts/Header/Header';
-import { EmailInput, PasswordInput, PasswordRemaindInput, SubmitButton } from '../components/forms';
+import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton } from '../components/forms';
 import { BoxProps, Flex, Heading, Text } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";
@@ -53,13 +53,7 @@ const SignUp: NextPage  = () => {
     const router = useRouter()
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
 
-
     const { register, formState: { errors }, formState, getValues } = useForm({mode: "all"});
-
-
-
-
-
 
     return (
         <>
@@ -72,6 +66,7 @@ const SignUp: NextPage  = () => {
                     <PasswordRemaindInput  errors={ errors } register={ register } password={ getValues("inputText2") }/>
                     <SubmitButton text='Sign up' formState={ formState }/>
                 </Form>
+                <SocialLoginButtons/>
             </Flex>
         </>
     )

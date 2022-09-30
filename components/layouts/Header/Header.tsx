@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { EmailInput, PasswordInput, SubmitButton } from '../../forms';
+import { EmailInput, PasswordInput, SocialLoginButtons, SubmitButton } from '../../forms';
+import Loading from '../../Loading';
 
 import { AuthContext } from '../../../context/auth';
 
@@ -11,7 +12,6 @@ import {  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHe
 
 import { useForm } from "react-hook-form";
 import { logInFunc, logOutFunc } from '../../../utils/login';
-import Loading from '../../Loading';
 import { userStateType } from '../../../types/user';
 
 const Container = (props: BoxProps) => <Flex w="100%" h="8vh" pos="fixed" zIndex={10} boxShadow='md' p={0} alignItems='center' bg='white'>{props.children}</Flex>
@@ -19,7 +19,7 @@ const Container = (props: BoxProps) => <Flex w="100%" h="8vh" pos="fixed" zIndex
 
 
 
-// コンポーネント定義
+// ログインフォームコンポーネント定義
 const Form = (props : BoxProps) => {
 
 
@@ -46,6 +46,8 @@ const Form = (props : BoxProps) => {
         </Flex>
     )
 }
+
+
 
 
 
@@ -80,11 +82,14 @@ const LoginModal = () => {
                     <ModalBody pb={6}>
                         <EmailInput  errors={ errors } register={ register }/>
                         <PasswordInput  errors={ errors } register={ register }/>
+                        <Flex direction='column' mt={2} align='center' justify='center'>
+                            <SubmitButton text='Log in' formState={ formState }/>
+                        </Flex>
+                        <SocialLoginButtons/>
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button onClick={onClose} mr={3}>Cancel</Button>
-                        <SubmitButton text='Log in' formState={ formState }/>
+                    <Button onClick={onClose}>Cancel</Button>
                     </ModalFooter>
                     </Form>
                 </ModalContent>
@@ -94,6 +99,12 @@ const LoginModal = () => {
 }
 
 
+
+
+
+
+
+// ログアウトコンポーネント定義
 const UserMenu = () => {
     
     const { setUserState } = useContext(AuthContext);
@@ -124,6 +135,13 @@ const UserMenu = () => {
 }
 
 
+
+
+
+
+
+
+// ヘッダー
 export const Header = () => {
 
     const { userState } = useContext(AuthContext);
