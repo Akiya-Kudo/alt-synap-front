@@ -1,7 +1,8 @@
-import { BoxProps, Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement } from '@chakra-ui/react'
+import { BoxProps, Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link } from '@chakra-ui/react'
 import React from 'react'
 import { githubLoginFunc, googleLoginFunc } from '../utils/login';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
+import NextLink from "next/link"
 
 // useFormは呼び出し先で変数定義する
 
@@ -134,7 +135,7 @@ export function SubmitButton ({ text = "Submit", formState }:Props) {
     <Button 
       colorScheme="teal" 
       w={100} 
-      m={5}
+      m={2}
       type="submit" 
       disabled={!formState.isValid}
       isLoading={formState.isSubmitting}
@@ -154,5 +155,14 @@ export const SocialLoginButtons = (props : BoxProps) => {
           <Button colorScheme='red' bg='red.400' rightIcon={<FaGoogle/>} m={2} px={10} onClick={ () => googleLoginFunc() } >GMail</Button>
       </Flex>
       </>
+  )
+}
+
+export const FotgetPassLink = () => {
+
+  return (
+    <NextLink href='/changePassword' passHref>
+      <Link color='teal.600'>Forget Your Password ?</Link>
+    </NextLink>
   )
 }

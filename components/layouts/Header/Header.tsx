@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { EmailInput, PasswordInput, SocialLoginButtons, SubmitButton } from '../../forms';
+import { EmailInput, FotgetPassLink, PasswordInput, SocialLoginButtons, SubmitButton } from '../../forms';
 import Loading from '../../Loading';
 
 import { AuthContext } from '../../../context/auth';
@@ -11,8 +11,9 @@ import { AddIcon } from '@chakra-ui/icons';
 import {  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 
 import { useForm } from "react-hook-form";
-import { logInFunc, logOutFunc } from '../../../utils/login';
+import { logInFunc, logOutFunc, PassChangeSendEmail } from '../../../utils/login';
 import { userStateType } from '../../../types/user';
+import { auth } from '../../../utils/firebase/init';
 
 const Container = (props: BoxProps) => <Flex w="100%" h="8vh" pos="fixed" zIndex={10} boxShadow='md' p={0} alignItems='center' bg='white'>{props.children}</Flex>
 
@@ -82,8 +83,9 @@ const LoginModal = () => {
                     <ModalBody pb={6}>
                         <EmailInput  errors={ errors } register={ register }/>
                         <PasswordInput  errors={ errors } register={ register }/>
-                        <Flex direction='column' mt={2} align='center' justify='center'>
+                        <Flex direction='column'  m={3} align='center' justify='center'>
                             <SubmitButton text='Log in' formState={ formState }/>
+                            <FotgetPassLink/>
                         </Flex>
                         <SocialLoginButtons/>
                     </ModalBody>
@@ -111,17 +113,25 @@ const UserMenu = () => {
     const changeUserState = (state: userStateType) => setUserState(state);
     const changeUserStateLoading = () => setUserState('loading');
 
+    let email: any = null
+    const user = auth.currentUser;
+    if (user !== null) {
+        email = user.email;
+        console.log(email)
+    }
+
     return (
         <Menu>
             <MenuButton as={Button} colorScheme='orange' bg='orange.300' boxShadow='md' rounded='base' size='sm' mt={1}>ICON</MenuButton>
             <MenuList>
                 <MenuGroup title='- PROFILE -'>
                 <MenuItem>MY PAGE</MenuItem>
+                { email && <MenuItem onClick={() => PassChangeSendEmail(email)}>CHANGE PASSWORD</MenuItem> }
                 <MenuItem 
                     onClick={ () => {
                         changeUserStateLoading()
                         logOutFunc(changeUserState) 
-                        }}>
+                    }}>
                     LOG OUT
                 </MenuItem>
                 </MenuGroup>

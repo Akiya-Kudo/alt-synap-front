@@ -23,10 +23,10 @@ export const AuthProvider = (props: any) => {
         if (user) {
         const uid = user.uid;
         setUserState('isUser');
-        console.log('hello')
-        console.log(userState)
+        console.log('logging in')
         } else {
         setUserState('guest');
+        console.log('not logged in')
         }
     });
 },[])
