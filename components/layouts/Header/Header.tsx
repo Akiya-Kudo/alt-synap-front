@@ -23,7 +23,7 @@ const Container = (props: BoxProps) => <Flex w="100%" h="8vh" pos="fixed" zIndex
 const Form = (props : BoxProps) => {
 
 
-    const { userState, setUserState } = useContext(AuthContext);
+    const { setUserState } = useContext(AuthContext);
     const changeUserState = (state: userStateType) => setUserState(state);
 
     const changeUserStateLoading = () => setUserState('loading');
@@ -96,7 +96,7 @@ const LoginModal = () => {
 
 const UserMenu = () => {
     
-    const { userState, setUserState } = useContext(AuthContext);
+    const { setUserState } = useContext(AuthContext);
     const changeUserState = (state: userStateType) => setUserState(state);
     const changeUserStateLoading = () => setUserState('loading');
 

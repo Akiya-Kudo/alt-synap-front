@@ -10,21 +10,7 @@ import { NextPage } from 'next';
 
 const Info = () => {
 
-  const { userState, setUserState } = useContext(AuthContext);
-
-  console.log(userState)
-  useLayoutEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        setUserState('isUser');
-        console.log('hello')
-        console.log(userState)
-      } else {
-        setUserState('guest');
-      }
-    });
-  },[])
+  const { userState } = useContext(AuthContext);
 
   return  (
     <ul>

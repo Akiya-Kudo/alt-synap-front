@@ -49,25 +49,13 @@ const Form = (props : BoxProps) => {
 // ページコンポーネント定義
 const SignUp: NextPage  = () => {
 
-    const { userState, setUserState } = useContext(AuthContext);
+    const { userState } = useContext(AuthContext);
     const router = useRouter()
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
 
 
     const { register, formState: { errors }, formState, getValues } = useForm({mode: "all"});
 
-    console.log(userState)
-    useLayoutEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-            const uid = user.uid;
-                setUserState('isUser');
-                console.log(userState)
-            } else {
-                setUserState('guest');
-            }
-        });
-    },[])
 
 
 
