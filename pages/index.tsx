@@ -1,8 +1,6 @@
-import { Text } from '@chakra-ui/react';
+import { Box, Heading, Text } from '@chakra-ui/react';
 import React, { useContext, useLayoutEffect } from 'react';
 import {Header} from '../components/layouts/Header/Header';
-
-import { onAuthStateChanged } from 'firebase/auth';
 
 import { auth } from '../utils/firebase/init';
 import { AuthContext } from '../context/auth';
@@ -12,9 +10,36 @@ const Info = () => {
 
   const { userState } = useContext(AuthContext);
 
+  const user = auth.currentUser;
+
+  let displayName = null
+  let email = null
+  let photoURL = null
+  let emailVerified = null
+  let uid = null
+
+  if (user !== null) {
+    uid = user.uid;
+
+    // The user object has basic properties such as display name, email, etc.
+    displayName = user.displayName;
+    email = user.email;
+    photoURL = user.photoURL;
+    emailVerified = user.emailVerified;
+
+    console.log(uid)
+    console.log(user)
+  } else {
+    displayName = 'no user is loged in'
+  }
+
   return  (
     <ul>
-      {auth.currentUser && <li>user = {auth.currentUser.email}</li> }
+      {displayName && <Heading>displayName = {displayName}</Heading> }
+      {email && <li>email = {email}</li> }
+      {photoURL && <li>photoURL = {photoURL}</li> }
+      {emailVerified ? <li>emailVerified = true</li> : <li>emailVerified = not</li>  }
+      {uid && <li>uid = {uid}</li> }
     </ul>
   )
 }
