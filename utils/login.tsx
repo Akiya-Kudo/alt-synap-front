@@ -1,8 +1,6 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { useContext } from "react";
-import { AuthContext } from "../context/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithRedirect, signOut } from "firebase/auth";
 import { userStateType } from "../types/user";
-import { auth } from '../utils/firebase/init';
+import { auth, githubProvider, googleProvider } from '../utils/firebase/init';
 
 export const signUpFunc = ( email: string, password: string, changeUserState: (state: userStateType) => void ) => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -49,3 +47,11 @@ export const logOutFunc = (changeUserState: (state: userStateType) => void ) => 
         console.log(error.message)
     });
 }
+
+export const googleLoginFunc = () => {
+    signInWithRedirect(auth, googleProvider)
+};
+
+export const githubLoginFunc = () => {
+    signInWithRedirect(auth, githubProvider)
+};
