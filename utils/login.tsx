@@ -66,7 +66,7 @@ export const VarifiedNotifySendEmail = () => {
     }
 }
 
-export const PassChangeSendEmail = (email: string) => {
+export const PassChangeSendEmail = (email: string, changeUserState: (state: userStateType) => void) => {
     sendPasswordResetEmail(auth, email)
     .then(() => {
         alert(`
@@ -75,12 +75,35 @@ export const PassChangeSendEmail = (email: string) => {
         We Sent a Email. Please Change your Passeword from It !
         It may be in Scam mail Box.
         `)
+        changeUserState('isUser');
     })
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage)
         console.log(errorCode)
+        changeUserState('isUser');
+    });
+}
+
+export const GuestPassChangeSendEmail = (email: string, changeUserState: (state: userStateType) => void ) => {
+
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+        alert(`
+        パスワード変更用のEメールを送りました。
+        迷惑メールに送られているかもしれません。ご確認お願いします。
+        We Sent a Email. Please Change your Passeword from It !
+        It may be in Scam mail Box.
+        `)
+        changeUserState('guest');
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage)
+        console.log(errorCode)
+        changeUserState('guest');
         // ..
     });
 }

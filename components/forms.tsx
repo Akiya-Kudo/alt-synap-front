@@ -3,6 +3,7 @@ import React from 'react'
 import { githubLoginFunc, googleLoginFunc } from '../utils/login';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import NextLink from "next/link"
+import { AuthProvider } from 'firebase/auth';
 
 // useFormは呼び出し先で変数定義する
 
@@ -12,7 +13,6 @@ type Props = {
   formState?: any;
   register?: any;
   password?: string;
-
 }
 
 
@@ -25,6 +25,7 @@ export function EmailInput({ errors, register }: Props) {
       id="inputText3"
       isRequired
       isInvalid={errors.inputText3 ? true : false}
+      m={2}
     >
       <FormLabel>Email</FormLabel>
       <Input
@@ -57,6 +58,7 @@ export function PasswordInput({ errors, register }: Props) {
       id="inputText2"
       isRequired
       isInvalid={errors.inputText2 ? true : false}
+      m={2}
     >
       <FormLabel>Password</FormLabel>
       <InputGroup size='md'>
@@ -97,6 +99,7 @@ export function PasswordRemaindInput({ errors, register, password }: Props) {
       id="inputText4"
       isRequired
       isInvalid={errors.inputText4 ? true : false}
+      m={2}
     >
       <FormLabel>Password Again</FormLabel>
       <InputGroup size='md'>
@@ -134,12 +137,10 @@ export function SubmitButton ({ text = "Submit", formState }:Props) {
   return (
     <Button 
       colorScheme="teal" 
-      w={100} 
       m={2}
       type="submit" 
       disabled={!formState.isValid}
       isLoading={formState.isSubmitting}
-
     >
       {text}
     </Button>
@@ -161,7 +162,7 @@ export const SocialLoginButtons = (props : BoxProps) => {
 export const FotgetPassLink = () => {
 
   return (
-    <NextLink href='/changePassword' passHref>
+    <NextLink href='/guest/changePassword' passHref>
       <Link color='teal.600'>Forget Your Password ?</Link>
     </NextLink>
   )

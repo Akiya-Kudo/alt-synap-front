@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useLayoutEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 import { signUpFunc } from '../utils/login';
 import { Header } from '../components/layouts/Header/Header';
 import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton } from '../components/forms';
-import { BoxProps, Flex, Heading, Text } from '@chakra-ui/react'
+import { BoxProps, Flex, Heading } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../context/auth';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { userStateType } from '../types/user';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../utils/firebase/init';
 
 
 // コンポーネント定義

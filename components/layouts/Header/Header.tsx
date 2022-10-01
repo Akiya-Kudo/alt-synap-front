@@ -126,7 +126,7 @@ const UserMenu = () => {
             <MenuList>
                 <MenuGroup title='- PROFILE -'>
                 <MenuItem>MY PAGE</MenuItem>
-                { email && <MenuItem onClick={() => PassChangeSendEmail(email)}>CHANGE PASSWORD</MenuItem> }
+                { email && <MenuItem onClick={() => PassChangeSendEmail(email, changeUserState)}>CHANGE PASSWORD</MenuItem> }
                 <MenuItem 
                     onClick={ () => {
                         changeUserStateLoading()
