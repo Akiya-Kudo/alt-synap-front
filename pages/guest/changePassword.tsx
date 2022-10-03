@@ -1,4 +1,4 @@
-import { BoxProps, Center, Flex, Heading, Text } from '@chakra-ui/react'
+import { BoxProps, Center, Divider, Flex, Heading, Text } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
@@ -53,7 +53,9 @@ export const ChangePassword: NextPage = () => {
             <Flex className="page" direction="column" justify="center" align="center">  
                 <Form>
                     <Heading mb={5}>Change Password</Heading>
-                    <Center fontSize='sm'  color='grey'>please fill form and change password from the link in Email we will send</Center>
+                    <Divider />
+                    <Center fontSize='sm'  color='grey' my={3}>please fill form and change password from the link in Email we will send</Center>
+                    <Divider />
                     <EmailInput errors={ errors } register={ register } />
                     <SubmitButton text='Password Change from your Email' formState={ formState }/>
                 </Form>

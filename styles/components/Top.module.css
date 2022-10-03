@@ -1,0 +1,35 @@
+.top {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+    background: linear-gradient(to bottom left,  #ffeac0,#ffc766);
+}
+
+.top_filter {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+    background: linear-gradient(to bottom left, #FBD38D, #fff);
+    z-index: 1;
+    opacity: 0.5;
+}
+
+.top_card {
+    color: rgb(212, 212, 212);
+    max-width: 500px;
+    position: relative;
+    z-index: 500;
+}
+
+.container {
+    min-height: 200vh;
+    width: 100%;
+    position: absolute;
+    background-color: white;
+    margin-top: 413.4px;
+    box-shadow:0px 4px 15px -3px rgb(131, 131, 131);
+    z-index: 10;
+
+}

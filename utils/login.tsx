@@ -55,6 +55,12 @@ export const googleLoginFunc = () => {
 
 export const githubLoginFunc = () => {
     signInWithRedirect(auth, githubProvider)
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage)
+        console.log(errorCode)
+    });
 };
 
 export const VarifiedNotifySendEmail = () => {

@@ -163,7 +163,7 @@ export const FotgetPassLink = () => {
 
   return (
     <NextLink href='/guest/changePassword' passHref>
-      <Link color='teal.600'>Forget Your Password ?</Link>
+      <Link color='teal.600' mb={3}>Forget Your Password ?</Link>
     </NextLink>
   )
 }

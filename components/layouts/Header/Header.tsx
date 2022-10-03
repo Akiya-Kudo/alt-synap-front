@@ -6,7 +6,7 @@ import Loading from '../../Loading';
 
 import { AuthContext } from '../../../context/auth';
 
-import { Box, BoxProps, Button, ButtonGroup, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
+import { Box, BoxProps, Button, ButtonGroup, Divider, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import {  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 
@@ -15,7 +15,8 @@ import { logInFunc, logOutFunc, PassChangeSendEmail } from '../../../utils/login
 import { userStateType } from '../../../types/user';
 import { auth } from '../../../utils/firebase/init';
 
-const Container = (props: BoxProps) => <Flex w="100%" h="8vh" pos="fixed" zIndex={10} boxShadow='md' p={0} alignItems='center' bg='white'>{props.children}</Flex>
+const Container = (props: BoxProps) => <Flex w="100%" h="7.5vh" pos="fixed" zIndex={10} boxShadow='sm' p={0} alignItems='center' bg='white'>{props.children}</Flex>
+const ContainerTag = (props: BoxProps) => <Flex mt="7.5vh" w="100%" h="7.5vh" pos="fixed" zIndex={9} boxShadow='md' p={0} alignItems='center' bg='white'>{props.children}</Flex>
 
 
 
@@ -70,7 +71,7 @@ const LoginModal = () => {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>
+                    <ModalHeader boxShadow='base'>
                         <Flex fontSize={25}>
                             <Box style={{width: 40, height: 40}} mr={2}>
                                 <Image src='/logo3.svg'  width={300} height={300} layout={'responsive'} alt="logo" priority></Image>
@@ -86,6 +87,7 @@ const LoginModal = () => {
                         <Flex direction='column'  m={3} align='center' justify='center'>
                             <SubmitButton text='Log in' formState={ formState }/>
                             <FotgetPassLink/>
+                        <Divider/>
                         </Flex>
                         <SocialLoginButtons/>
                     </ModalBody>
@@ -167,7 +169,7 @@ export const Header = () => {
                                     <Image src='/logo3.svg'  width={300} height={300} layout={'responsive'} alt="logo" priority></Image>
                                 </Box>
                                 <Flex justify='center' align='center'>
-                                    <Heading size='md' color='orange.300' textShadow='1px 2px #e6de8a' >Tipsy</Heading>
+                                    <Heading size='md' color='orange.300' textShadow='1px 2px #bae9ff' >Tipsy</Heading>
                                 </Flex>
                             </Flex>
                         </Link>
@@ -190,6 +192,8 @@ export const Header = () => {
                     </ButtonGroup>
                 </Flex>
             </Container>
+            <ContainerTag>
+            </ContainerTag>
         </>
     )
 }
