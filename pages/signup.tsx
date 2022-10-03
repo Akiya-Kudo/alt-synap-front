@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import { signUpFunc } from '../utils/login';
 import { Header } from '../components/layouts/Header/Header';
 import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton } from '../components/forms';
-import { BoxProps, Flex, Heading } from '@chakra-ui/react'
+import { BoxProps, Divider, Flex, Heading } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";
 import { AuthContext } from '../context/auth';
@@ -24,6 +24,7 @@ const Form = (props : BoxProps) => {
             as="form" 
             direction="column" 
             w={400} 
+            m={3}
             justify="center" 
             align="center" 
             onSubmit={async e => {
@@ -59,10 +60,12 @@ const SignUp: NextPage  = () => {
             <Flex className="page" direction="column" justify="center" align="center">  
                 <Form>
                     <Heading mb={5}>Sign up</Heading>
+                    <Divider />
                     <EmailInput errors={ errors } register={ register } />
                     <PasswordInput errors={ errors } register={ register }/>
                     <PasswordRemaindInput  errors={ errors } register={ register } password={ getValues("inputText2") }/>
                     <SubmitButton text='Sign up' formState={ formState }/>
+                    <Divider />
                 </Form>
                 <SocialLoginButtons/>
             </Flex>
