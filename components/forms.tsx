@@ -3,7 +3,6 @@ import React from 'react'
 import { githubLoginFunc, googleLoginFunc } from '../utils/login';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import NextLink from "next/link"
-import { AuthProvider } from 'firebase/auth';
 
 // useFormは呼び出し先で変数定義する
 

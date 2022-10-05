@@ -1,11 +1,16 @@
-import { Heading } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import {Header} from '../components/layouts/Header/Header';
+import CardContainer from '../components/CardContainer';
+import Top from '../components/Top';
+
+import { BoxProps, Flex, Heading } from '@chakra-ui/react';
 
 import { auth } from '../utils/firebase/init';
 import { AuthContext } from '../context/auth';
 import { NextPage } from 'next';
-import Top from '../components/Top';
+
+
+
 
 const Info = () => {
 
@@ -53,8 +58,8 @@ const index: NextPage  = () => {
     <>
       <Header/>
       <div className="page">
-        <Top/>
-        {/* <Info/> */}
+      <Top/>
+        <CardContainer/>
       </div>
     </>
   )

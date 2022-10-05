@@ -15,10 +15,8 @@ import { logInFunc, logOutFunc, PassChangeSendEmail } from '../../../utils/login
 import { userStateType } from '../../../types/user';
 import { auth } from '../../../utils/firebase/init';
 
-const Container = (props: BoxProps) => <Flex w="100%" h="7.5vh" pos="fixed" zIndex={10} boxShadow='sm' p={0} alignItems='center' bg='white'>{props.children}</Flex>
+const Container = (props: BoxProps) => <Flex w="100%" h="7.5vh" pos="fixed"  zIndex={10} boxShadow='sm' p={0} alignItems='center' bg='white'>{props.children}</Flex>
 const ContainerTag = (props: BoxProps) => <Flex mt="7.5vh" w="100%" h="7.5vh" pos="fixed" zIndex={9} boxShadow='md' p={0} alignItems='center' bg='white'>{props.children}</Flex>
-
-
 
 
 // ログインフォームコンポーネント定義
