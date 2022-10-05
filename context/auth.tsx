@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { createContext, useEffect, useLayoutEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { auth } from "../utils/firebase/init";
 
 // コンテクストを作成
@@ -19,17 +19,17 @@ export const AuthProvider = (props: any) => {
     const [userState, setUserState] = useState('loading');
 
     useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-        const uid = user.uid;
-        setUserState('isUser');
-        console.log('logging in')
-        } else {
-        setUserState('guest');
-        console.log('not logged in')
-        }
-    });
-},[])
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+            const uid = user.uid;
+            setUserState('isUser');
+            console.log('logging in')
+            } else {
+            setUserState('guest');
+            console.log('not logged in')
+            }
+        });
+    },[])
 
     return <AuthContext.Provider value={{userState, setUserState}}>{children}</AuthContext.Provider>;
 }

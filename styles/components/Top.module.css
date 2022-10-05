@@ -4,6 +4,7 @@
     overflow: hidden;
     position: fixed;
     background: linear-gradient(to bottom left,  #ffeac0,#ffc766);
+    background: linear-gradient(to bottom left,  #fff,#FEEBC8);
 }
 
 .top_filter {
