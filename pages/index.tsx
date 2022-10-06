@@ -8,6 +8,7 @@ import { BoxProps, Flex, Heading } from '@chakra-ui/react';
 import { auth } from '../utils/firebase/init';
 import { AuthContext } from '../context/auth';
 import { NextPage } from 'next';
+import TagHeader from '../components/layouts/Header/TagHeader';
 
 
 
@@ -57,8 +58,9 @@ const index: NextPage  = () => {
   return (
     <>
       <Header/>
+      <TagHeader/>
       <div className="page">
-      <Top/>
+        <Top/>
         <CardContainer/>
       </div>
     </>

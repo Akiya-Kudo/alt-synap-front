@@ -11,7 +11,7 @@ const Top = () => {
         <>
             <Box className={ styles.top } >
                 <TopBack/>
-                <Flex width="80vw" mx="auto" h={250} bg="white" borderRadius={30} boxShadow='lg'  align="center" mt="20vh" className={ styles.top_card } >
+                <Flex width="80vw" mx="auto" h={250} bg="white" borderRadius={30} boxShadow='lg'  align="center" mt="20vh" className={ styles.top_card } border=".5px solid rgb(209, 209, 209)">
                     <Box className={logo.center} ml="56.850px">
                         <div className={logo.circle}>
                             <div className={logo.wave}></div>
