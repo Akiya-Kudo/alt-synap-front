@@ -14,8 +14,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider
     theme={extendTheme({
       fonts: {
-        heading: 'Ubuntu, sans-serif;',
-        body: 'Ubuntu, sans-serif;',
+        heading: 'Ubuntu, Kiwi_Maru, sans-serif;',
+        body: 'Ubuntu, Kiwi_Maru, sans-serif;',
       },
     })}
     >
