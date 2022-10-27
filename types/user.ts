@@ -4,12 +4,13 @@
 //     password: string;
 // }
 
+
 export type User = {
-    id: string;
-    // name: string;
-    // photoURL: string;
-    email: string;
-    // createdAt: number;
-};
+    firebase_id: string;
+    user_name: string;
+    photo_url: string;
+    comment: string;
+    pinterest_user_id: string;
+}
 
 export type userStateType = 'isUser' | 'guest' | 'loading';
