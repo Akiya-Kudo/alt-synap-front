@@ -3,7 +3,7 @@ import {Header} from '../components/layouts/Header/Header';
 import CardContainer from '../components/CardContainer';
 import Top from '../components/Top';
 
-import { BoxProps, Flex, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 
 import { auth } from '../utils/firebase/init';
 import { AuthContext } from '../context/auth';
@@ -19,11 +19,11 @@ const Info = () => {
 
   const user = auth.currentUser;
 
-  let displayName = null
-  let email = null
-  let photoURL = null
-  let emailVerified = null
-  let uid = null
+  let displayName, email, photoURL, emailVerified, uid = null
+  // let email = null
+  // let photoURL = null
+  // let emailVerified = null
+  // let uid = null
 
   if (user !== null) {
     uid = user.uid;

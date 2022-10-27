@@ -5,10 +5,17 @@ import { AuthProvider } from '../context/auth';
 
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
 // import { FirebaseApp, getApp } from 'firebase/app';
 import '../utils/firebase/init'; //Initialize FirebaseApp
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  const client = new ApolloClient({
+    uri: 'http://localhost:4000/',
+    cache: new InMemoryCache(),
+  });
 
   return (
     <ChakraProvider
@@ -20,7 +27,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     })}
     >
       <AuthProvider>
-        <Component {...pageProps} />
+        <ApolloProvider client={client}>
+          <Component {...pageProps} />
+        </ApolloProvider>
       </AuthProvider>
     </ChakraProvider>
   )
@@ -28,9 +37,3 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 export default MyApp
-
-// const app: FirebaseApp = getApp()
-
-{/* <li>name = {app.name}</li>
-<li>appId = {app.options.appId}</li>
-<li>apiKey = {app.options.apiKey}</li> */}

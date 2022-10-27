@@ -116,7 +116,7 @@ const UserMenu = () => {
     const user = auth.currentUser;
     if (user !== null) {
         email = user.email;
-        console.log(email)
+        // console.log(email)
     }
 
     return (
@@ -124,7 +124,7 @@ const UserMenu = () => {
             <MenuButton as={Button} colorScheme='orange' bg='orange.300' boxShadow='md' rounded='base' size='sm' mt={1}>ICON</MenuButton>
             <MenuList>
                 <MenuGroup title='- PROFILE -'>
-                <MenuItem>MY PAGE</MenuItem>
+                <Link href="/mypage" passHref><MenuItem>MY PAGE</MenuItem></Link>
                 { email && <MenuItem onClick={() => PassChangeSendEmail(email, changeUserState)}>CHANGE PASSWORD</MenuItem> }
                 <MenuItem 
                     onClick={ () => {

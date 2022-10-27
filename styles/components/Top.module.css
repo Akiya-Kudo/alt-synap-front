@@ -18,7 +18,7 @@
 }
 
 .top_card {
-    color: rgb(212, 212, 212);
+    /* color: rgb(212, 212, 212); */
     max-width: 500px;
     position: relative;
     z-index: 500;

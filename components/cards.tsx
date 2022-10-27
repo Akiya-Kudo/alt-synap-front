@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Center, Grid, GridItem, Heading, HStack, Icon, Lin
 import Image from "next/image";
 import Link from "next/link";
 import { AiFillLike, AiOutlinePicture } from 'react-icons/ai';
-import { FaBookmark, FaLink, FaListUl, FaPen } from 'react-icons/fa';
+import { FaLink, FaListUl, FaPen } from 'react-icons/fa';
 import styles from "../styles/components/cards.module.css";
 
 
@@ -32,7 +32,7 @@ export const ContentCard = ({title}: {title: string }) => {
                     <HStack ms={3}>
                         <Link href='/' passHref>
                             <LinkOverlay>
-                            <Heading color="gray.600"  size='sm' className={ styles.topic }>{title}</Heading>
+                                <Heading color="gray.600"  size='sm' className={ styles.topic }>{title}</Heading>
                             </LinkOverlay>
                         </Link>
                     </HStack>
@@ -45,7 +45,6 @@ export const ContentCard = ({title}: {title: string }) => {
                             <Icon as={AiFillLike} w={5} h={5} color='blackAlpha.400'/>
                             <Text color="gray.500" fontSize={13} >100</Text>
                         </SimpleGrid>
-                        <Icon as={FaBookmark} w={4} h={4} color='blackAlpha.400'/>
                     </HStack>
 
                 </GridItem>
@@ -92,7 +91,6 @@ export const LinkOnlyCard = ({title}: {title: string }) => {
                             <Icon as={AiFillLike} w={5} h={5} color='red.300' className={ styles.good }/>
                             <Text color="gray.500" fontSize={13} >100</Text>
                         </SimpleGrid>
-                        <Icon as={FaBookmark} w={4} h={4} color='blue.300' className={ styles.good }/>
                     </HStack>
 
                 </GridItem>
@@ -144,7 +142,6 @@ export const PictureContentCard = ({title, src}: {title: string, src: string }) 
                                         <Icon as={AiFillLike} w={5} h={5} color='red.300' className={ styles.good }/>
                                         <Text color="gray.500" fontSize={13} >100</Text>
                                     </SimpleGrid>
-                                    <Icon as={FaBookmark} w={4} h={4} color='blue.300' className={ styles.good }/>
                                 </HStack>
                             </Stack>
                         </GridItem>
@@ -201,7 +198,6 @@ export const PictureLinkOnlyCard = ({title, src}: {title: string, src: string })
                                         <Icon as={AiFillLike} w={5} h={5} color='red.300' className={ styles.good }/>
                                         <Text color="gray.500" fontSize={13} >100</Text>
                                     </SimpleGrid>
-                                    <Icon as={FaBookmark} w={4} h={4} color='blue.300' className={ styles.good }/>
                                 </HStack>
                             </Stack>
                         </GridItem>
