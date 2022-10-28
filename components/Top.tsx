@@ -29,9 +29,6 @@ const Top = () => {
                     </Flex>
                 </Flex>
             </Box>
-            <div className={ styles.container }>
-                
-            </div>
         </>
     )
 }
