@@ -1,9 +1,7 @@
-
 // export interface Inputs {
 //     email: string;
 //     password: string;
 // }
-
 
 export type User = {
     firebase_id: string;

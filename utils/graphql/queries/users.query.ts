@@ -2,13 +2,12 @@ import { gql } from '@apollo/client';
 import { User} from '../../../types/user'
 
 export const USER_QUERY = gql`
-    query {
-        user {
+    query Query($userId: ID!) {
+        user(id: $userId) {
             firebase_id
             user_name
             photo_url
             comment
-            pinterest_user_id
         }
     }
 `;
@@ -16,3 +15,13 @@ export const USER_QUERY = gql`
 export interface UserData {
     user: User[];
 }
+
+// query {
+//     user {
+//         firebase_id
+//         user_name
+//         photo_url
+//         comment
+//         pinterest_user_id
+//     }
+// }
