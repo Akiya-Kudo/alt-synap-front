@@ -5,6 +5,7 @@ import styles from '../styles/components/Top.module.css'
 import { Grid, GridItem, SimpleGrid } from '@chakra-ui/react'
 
 const CardContainer = () => {
+
     return (
         <div className={ styles.container }>
             <Grid 

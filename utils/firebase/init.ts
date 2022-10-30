@@ -22,3 +22,6 @@ export const app = initializeApp(firebaseConfig);
 export const auth: Auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const githubProvider = new GithubAuthProvider();
+
+// const isSSR = typeof window === "undefined";
+// console.log(isSSR);

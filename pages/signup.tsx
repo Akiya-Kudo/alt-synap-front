@@ -6,7 +6,7 @@ import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, Su
 import { BoxProps, Divider, Flex, Heading } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";
-import { AuthContext } from '../context/auth';
+import { setAuthContext, AuthContext } from '../context/auth';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { userStateType } from '../types/user';
@@ -15,7 +15,7 @@ import { userStateType } from '../types/user';
 // コンポーネント定義
 const Form = (props : BoxProps) => {
 
-    const { setUserState } = useContext(AuthContext);
+    const { setUserState } = useContext(setAuthContext);
     const changeUserState = (state: userStateType) => setUserState(state);
     const changeUserStateLoading = () => setUserState('loading');
 
@@ -50,6 +50,7 @@ const SignUp: NextPage  = () => {
 
     const { userState } = useContext(AuthContext);
     const router = useRouter()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
 
     const { register, formState: { errors }, formState, getValues } = useForm({mode: "all"});

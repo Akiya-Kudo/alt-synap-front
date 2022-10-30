@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { EmailInput, FotgetPassLink, PasswordInput, SocialLoginButtons, SubmitButton } from '../../forms';
 import Loading from '../../Loading';
 
-import { AuthContext } from '../../../context/auth';
+import { setAuthContext, AuthContext, UserInfoContext, setUserInfoContext } from '../../../context/auth';
 
-import { Box, BoxProps, Button, ButtonGroup, Divider, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
+import { Avatar, Box, BoxProps, Button, ButtonGroup, Divider, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import {  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 
@@ -21,8 +21,7 @@ const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="7.5vh" pos=
 // ログインフォームコンポーネント定義
 const Form = (props : BoxProps) => {
 
-
-    const { setUserState } = useContext(AuthContext);
+    const { setUserState } = useContext(setAuthContext);
     const changeUserState = (state: userStateType) => setUserState(state);
 
     const changeUserStateLoading = () => setUserState('loading');
@@ -107,8 +106,12 @@ const LoginModal = () => {
 
 // ログアウトコンポーネント定義
 const UserMenu = () => {
+
+    const { userInfo } = useContext(UserInfoContext);
+    const photo_url = userInfo?.photo_url ? userInfo.photo_url : "https://bit.ly/dan-abramov"
     
-    const { setUserState } = useContext(AuthContext);
+    const { setUserState } = useContext(setAuthContext);
+    const { setUserInfo } = useContext(setUserInfoContext);
     const changeUserState = (state: userStateType) => setUserState(state);
     const changeUserStateLoading = () => setUserState('loading');
 
@@ -116,12 +119,13 @@ const UserMenu = () => {
     const user = auth.currentUser;
     if (user !== null) {
         email = user.email;
-        // console.log(email)
     }
 
     return (
         <Menu>
-            <MenuButton as={Button} colorScheme='orange' bg='orange.300' boxShadow='md' rounded='base' size='sm' mt={1}>ICON</MenuButton>
+            <MenuButton as={Button} colorScheme='orange' bg='orange.200'  boxShadow='md' rounded="3xl" p={0} mt={1}>
+                <Avatar size='sm' name='Dan Abrahmov' src={ photo_url }/>
+            </MenuButton>
             <MenuList>
                 <MenuGroup title='- PROFILE -'>
                 <Link href="/mypage" passHref><MenuItem>MY PAGE</MenuItem></Link>
@@ -130,6 +134,7 @@ const UserMenu = () => {
                     onClick={ () => {
                         changeUserStateLoading()
                         logOutFunc(changeUserState) 
+                        setUserInfo(null);
                     }}>
                     LOG OUT
                 </MenuItem>
@@ -152,6 +157,8 @@ const UserMenu = () => {
 
 // ヘッダー
 export const Header = () => {
+
+    console.log("indexレンダー")
 
     const { userState } = useContext(AuthContext);
     

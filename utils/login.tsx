@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getRedirectResult, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithRedirect, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithRedirect, signOut } from "firebase/auth";
 import { userStateType } from "../types/user";
 import { auth, githubProvider, googleProvider } from '../utils/firebase/init';
 
@@ -25,7 +25,6 @@ export const logInFunc = ( email: string, password: string, changeUserState: (st
     .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        // ...
         console.log("user logged in");
         changeUserState('isUser');
     })

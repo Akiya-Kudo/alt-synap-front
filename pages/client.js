@@ -32,3 +32,10 @@ import { ApolloClient , InMemoryCache , ApolloProvider , gql } from '@apollo/cli
         }
         
         export default clientpage
+
+
+        const { loading, error, data } = useQuery<UserData>(USER_QUERY, {
+            variables: {
+                "userId" : userId,
+            }
+        });

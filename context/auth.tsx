@@ -1,52 +1,74 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../utils/firebase/init";
 
-import { useQuery } from '@apollo/client';
-import { USER_QUERY, UserData } from '../utils/graphql/queries/users.query';
+import { useLazyQuery } from '@apollo/client';
+import { User } from "../types/user";
+import { USER_QUERY } from '../utils/graphql/queries/users.query';
 
-// コンテクストを作成
-// コンテクストを作成
+
 // type UserStateStringType = 'isUser' | 'guest' | 'loading'; 
 type UserStateStringType = string; 
+type UserInfoType = User | null;
 
-export const AuthContext = createContext({} as {
-    userState : UserStateStringType; 
-    setUserState: React.Dispatch<React.SetStateAction<string>>
-});
+export const AuthContext = createContext({} as {userState : UserStateStringType});
+export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<string>>});
+export const UserInfoContext = createContext({} as {userInfo : UserInfoType});
+export const setUserInfoContext = createContext({} as {setUserInfo : React.Dispatch<React.SetStateAction<any>>});
+
 
 export const AuthProvider = (props: any) => {
-
     const { children } = props;
 
-    const [userState, setUserState] = useState('loading');
-
-    // let uid: null | string = null
-    // const user = auth.currentUser;
-    // if (user !== null) {
-    //     uid = user.uid;
-    // }
-    // // apollo client query 処理
-    // const { loading, error, data } = useQuery<UserData>(USER_QUERY, {
-    //     variables: {
-    //         "userId" : uid,
-    //     }
-    // });
+    const [userState, setUserState] = useState<string>('guest');
+    const [userId, setUserId] = useState<string | null>(null);
+    const [userInfo, setUserInfo] = useState<any>(null);
 
     useEffect(() => {
+        setUserState('loading')
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                const uid = user.uid;
-                setUserState('isUser');
                 console.log('logging in')
-                console.log(user);
-                
+                setUserState('isUser')
+                setUserId(user.uid)
             } else {
-                setUserState('guest');
                 console.log('not logged in')
+                setUserState('guest')
             }
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
-    return <AuthContext.Provider value={{userState, setUserState}}>{children}</AuthContext.Provider>;
+    // apollo client query 処理    
+    const [getUserInfo, { loading, error, data }] = useLazyQuery(USER_QUERY, {
+        variables: {
+            "userId" : userId,
+        }
+    });
+    
+    useEffect(() => {
+        getUserInfo()
+        .then(({data}) => {
+            setUserInfo(data?.user[0])
+        }).catch(({error}) => {
+            alert("query error happend check the console ");
+            console.log(error)
+        }).finally(() => {
+            // console.log(userInfo)
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userId])
+
+
+    return(
+        <AuthContext.Provider value={{userState}}>
+            <setAuthContext.Provider value={{setUserState}}>
+                <UserInfoContext.Provider value={{userInfo}}>
+                    <setUserInfoContext.Provider value={{setUserInfo}}>
+                        {children}
+                    </setUserInfoContext.Provider>    
+                </UserInfoContext.Provider>
+            </setAuthContext.Provider>
+        </AuthContext.Provider>
+    )
 }
