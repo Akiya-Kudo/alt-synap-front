@@ -4,7 +4,8 @@ import { auth } from "../utils/firebase/init";
 
 import { useLazyQuery } from '@apollo/client';
 import { User } from "../types/user";
-import { USER_QUERY } from '../utils/graphql/queries/users.query';
+import { USER_QUERY } from '../utils/graphql/queries/users.query.schema';
+import { useUserInfoQuery } from "../utils/hooks/useQuery";
 
 
 // type UserStateStringType = 'isUser' | 'guest' | 'loading'; 
@@ -18,20 +19,30 @@ export const setUserInfoContext = createContext({} as {setUserInfo : React.Dispa
 
 
 export const AuthProvider = (props: any) => {
+    console.log('Authレンダリング！！！！！')
     const { children } = props;
 
     const [userState, setUserState] = useState<string>('guest');
-    const [userId, setUserId] = useState<string | null>(null);
     const [userInfo, setUserInfo] = useState<any>(null);
 
+    const {getUserInfo} = useUserInfoQuery()
+    
     useEffect(() => {
-        setUserState('loading')
+        // setUserState('loading')
         onAuthStateChanged(auth, (user) => {
+            setUserState('loading')
             if (user) {
                 console.log('logging in')
                 console.log(user)
                 setUserState('isUser')
-                setUserId(user.uid)
+                
+                getUserInfo()
+                .then(({data}) => {
+                    setUserInfo(data?.user[0])
+                }).catch(({error}) => {
+                    alert("query error happend check the console ");
+                    console.log(error)
+                })
             } else {
                 console.log('not logged in')
                 setUserState('guest')
@@ -39,27 +50,6 @@ export const AuthProvider = (props: any) => {
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
-
-    // apollo client query 処理    
-    const [getUserInfo, { loading, error, data }] = useLazyQuery(USER_QUERY, {
-        variables: {
-            "userId" : userId,
-        }
-    });
-    
-    useEffect(() => {
-        getUserInfo()
-        .then(({data}) => {
-            setUserInfo(data?.user[0])
-        }).catch(({error}) => {
-            alert("query error happend check the console ");
-            console.log(error)
-        }).finally(() => {
-            // console.log(userInfo)
-        })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userId])
-
 
     return(
         <AuthContext.Provider value={{userState}}>
