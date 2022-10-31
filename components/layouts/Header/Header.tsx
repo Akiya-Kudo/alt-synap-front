@@ -4,15 +4,14 @@ import Image from 'next/image';
 import { EmailInput, FotgetPassLink, PasswordInput, SocialLoginButtons, SubmitButton } from '../../forms';
 import Loading from '../../Loading';
 
-import { setAuthContext, AuthContext, UserInfoContext, setUserInfoContext } from '../../../context/auth';
+import { AuthContext, UserInfoContext } from '../../../context/auth';
 
 import { Avatar, Box, BoxProps, Button, ButtonGroup, Divider, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import {  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 
 import { useForm } from "react-hook-form";
-import { logInFunc, logOutFunc, PassChangeSendEmail } from '../../../utils/hooks/useAurh';
-import { userStateType } from '../../../types/user';
+import { useLogInFunc,  useLogOutFunc, usePassChangeSendEmail } from '../../../utils/hooks/useAuth';
 import { auth } from '../../../utils/firebase/init';
 
 const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="7.5vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' bg='white' >{props.children}</Flex>
@@ -21,10 +20,7 @@ const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="7.5vh" pos=
 // ログインフォームコンポーネント定義
 const Form = (props : BoxProps) => {
 
-    const { setUserState } = useContext(setAuthContext);
-    const changeUserState = (state: userStateType) => setUserState(state);
-
-    const changeUserStateLoading = () => setUserState('loading');
+    const {execute} = useLogInFunc()
 
     return (
         <Flex
@@ -36,8 +32,7 @@ const Form = (props : BoxProps) => {
                 const target = e.target as any;
                 const email = target.inputText3.value as string;
                 const password = target.inputText2.value as string;
-                changeUserStateLoading();
-                logInFunc(email, password, changeUserState);
+                execute(email, password);
             }}
         >
             {props.children}
@@ -109,17 +104,9 @@ const UserMenu = () => {
 
     const { userInfo } = useContext(UserInfoContext);
     const photo_url = userInfo?.photo_url ? userInfo.photo_url : "https://bit.ly/dan-abramov"
-    
-    const { setUserState } = useContext(setAuthContext);
-    const { setUserInfo } = useContext(setUserInfoContext);
-    const changeUserState = (state: userStateType) => setUserState(state);
-    const changeUserStateLoading = () => setUserState('loading');
 
-    let email: any = null
-    const user = auth.currentUser;
-    if (user !== null) {
-        email = user.email;
-    }
+    const {execute} = useLogOutFunc()
+    const {executeSendEmail} = usePassChangeSendEmail();
 
     return (
         <Menu>
@@ -129,12 +116,10 @@ const UserMenu = () => {
             <MenuList>
                 <MenuGroup title='- PROFILE -'>
                 <Link href="/mypage" passHref><MenuItem>MY PAGE</MenuItem></Link>
-                { email && <MenuItem onClick={() => PassChangeSendEmail(email, changeUserState)}>CHANGE PASSWORD</MenuItem> }
+                { auth.currentUser?.email && <MenuItem onClick={() => executeSendEmail(auth.currentUser?.email)}>CHANGE PASSWORD</MenuItem> }
                 <MenuItem 
                     onClick={ () => {
-                        changeUserStateLoading()
-                        logOutFunc(changeUserState) 
-                        setUserInfo(null);
+                        execute();
                     }}>
                     LOG OUT
                 </MenuItem>
@@ -157,8 +142,6 @@ const UserMenu = () => {
 
 // ヘッダー
 export const Header = () => {
-
-    console.log("indexレンダー")
 
     const { userState } = useContext(AuthContext);
     
