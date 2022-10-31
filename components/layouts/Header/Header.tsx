@@ -11,7 +11,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import {  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 
 import { useForm } from "react-hook-form";
-import { logInFunc, logOutFunc, PassChangeSendEmail } from '../../../utils/login';
+import { logInFunc, logOutFunc, PassChangeSendEmail } from '../../../utils/hooks/useAurh';
 import { userStateType } from '../../../types/user';
 import { auth } from '../../../utils/firebase/init';
 

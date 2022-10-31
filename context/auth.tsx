@@ -29,6 +29,7 @@ export const AuthProvider = (props: any) => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log('logging in')
+                console.log(user)
                 setUserState('isUser')
                 setUserId(user.uid)
             } else {
