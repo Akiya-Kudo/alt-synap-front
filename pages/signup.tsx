@@ -1,23 +1,21 @@
 import React, { useContext, useEffect } from 'react'
 
-import { signUpFunc } from '../utils/hooks/useAurh';
+import { useSignUpFunc } from '../utils/hooks/useAuth';
 import { Header } from '../components/layouts/Header/Header';
 import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton } from '../components/forms';
 import { BoxProps, Divider, Flex, Heading } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";
-import { setAuthContext, AuthContext } from '../context/auth';
+import { AuthContext } from '../context/auth';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { userStateType } from '../types/user';
 
 
 // コンポーネント定義
 const Form = (props : BoxProps) => {
 
-    const { setUserState } = useContext(setAuthContext);
-    const changeUserState = (state: userStateType) => setUserState(state);
-    const changeUserStateLoading = () => setUserState('loading');
+    const {execute} = useSignUpFunc()
+
 
     return (
         <Flex
@@ -29,11 +27,10 @@ const Form = (props : BoxProps) => {
             align="center" 
             onSubmit={async e => {
                 e.preventDefault()
-                const target = e.target as any;
-                const email = target.inputText3.value as string;
-                const password = target.inputText2.value as string;
-                changeUserStateLoading()
-                signUpFunc(email, password, changeUserState );
+                const target = await e.target as any;
+                const email = await target.inputText3.value as string;
+                const password = await target.inputText2.value as string;
+                execute(email, password );
             }}
         >
             {props.children}

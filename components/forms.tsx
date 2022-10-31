@@ -1,6 +1,6 @@
 import { BoxProps, Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link } from '@chakra-ui/react'
 import React from 'react'
-import { githubLoginFunc, googleLoginFunc } from '../utils/hooks/useAurh';
+import { useSocialLoginFunc } from '../utils/hooks/useAuth';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import NextLink from "next/link"
 
@@ -31,10 +31,10 @@ export function EmailInput({ errors, register }: Props) {
         focusBorderColor='teal.300'
         placeholder="test@example.com"
         {...register("inputText3", {
-          required: "メールアドレスは必須です。",
+          required: "メールアドレスは必須です | password required",
           pattern: {
             value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            message: "メールアドレス形式で入力してください。",
+            message: "メールアドレス形式で入力してください | email required",
           },
         })}
       />
@@ -66,10 +66,10 @@ export function PasswordInput({ errors, register }: Props) {
           placeholder='Enter password'
           type={show ? 'text' : 'password'}
           {...register("inputText2", {
-            required: "パスワードは必須です。",
+            required: "パスワードは必須です | password required",
             pattern: {
               value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,24}$/,
-              message: "8文字以上、大文字アルファベット、小文字アルファベット、数字を一文字以上含めてください",
+              message: "8文字以上、大文字アルファベット、小文字アルファベット、数字を一文字以上含めてください | At least 8 characters, upper & lower case letter & number",
             },
           })}
         />
@@ -110,7 +110,7 @@ export function PasswordRemaindInput({ errors, register, password }: Props) {
             required: "パスワード確認は必須です。",
             validate: (value: any) => {
               return (
-                value === password || "メールアドレスが一致しません"
+                value === password || "パスワードが一致しません | password do not match"
               );
             }
           })}
@@ -148,11 +148,14 @@ export function SubmitButton ({ text = "Submit", formState }:Props) {
 
 // google ログインボタンコンポーネント定義
 export const SocialLoginButtons = (props : BoxProps) => {
+
+  const {executeGoogle, executeGithub} = useSocialLoginFunc();
+
   return (
       <>
       <Flex direction='row' mt={0} align='center' justify='center'>
-          <Button colorScheme='facebook' bg='facebook.400' rightIcon={<FaGithub />} m={2} px={10} onClick={ () => githubLoginFunc() }>Github</Button>
-          <Button colorScheme='red' bg='red.400' rightIcon={<FaGoogle/>} m={2} px={10} onClick={ () => googleLoginFunc() } >GMail</Button>
+          <Button colorScheme='facebook' bg='facebook.400' rightIcon={<FaGithub />} m={2} px={10} onClick={ () => executeGithub() }>Github</Button>
+          <Button colorScheme='red' bg='red.400' rightIcon={<FaGoogle/>} m={2} px={10} onClick={ () => executeGoogle() } >GMail</Button>
       </Flex>
       </>
   )
