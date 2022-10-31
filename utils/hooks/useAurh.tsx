@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithRedirect, signOut } from "firebase/auth";
-import { userStateType } from "../types/user";
-import { auth, githubProvider, googleProvider } from '../utils/firebase/init';
+import { userStateType } from "../../types/user";
+import { auth, githubProvider, googleProvider } from '../firebase/init';
 
 export const signUpFunc = ( email: string, password: string, changeUserState: (state: userStateType) => void ) => {
     createUserWithEmailAndPassword(auth, email, password)

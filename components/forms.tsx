@@ -1,6 +1,6 @@
 import { BoxProps, Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link } from '@chakra-ui/react'
 import React from 'react'
-import { githubLoginFunc, googleLoginFunc } from '../utils/login';
+import { githubLoginFunc, googleLoginFunc } from '../utils/hooks/useAurh';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import NextLink from "next/link"
 

@@ -5,14 +5,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { EmailInput, SubmitButton } from '../../components/forms'
 import { Header } from '../../components/layouts/Header/Header'
-import { AuthContext } from '../../context/auth'
+import { AuthContext, setAuthContext } from '../../context/auth'
 import { userStateType } from '../../types/user'
-import { GuestPassChangeSendEmail } from '../../utils/login'
+import { GuestPassChangeSendEmail } from '../../utils/hooks/useAurh'
 
 
 const Form = (props : BoxProps) => {
 
-    const { setUserState } = useContext(AuthContext);
+    const { setUserState } = useContext(setAuthContext);
     const changeUserState = (state: userStateType) => setUserState(state);
     const changeUserStateLoading = () => setUserState('loading');
 
@@ -44,6 +44,7 @@ export const ChangePassword: NextPage = () => {
 
     const { userState } = useContext(AuthContext);
     const router = useRouter()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
 
 
