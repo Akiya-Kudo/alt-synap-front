@@ -1,11 +1,12 @@
 import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithRedirect, signOut } from "firebase/auth";
 import { useContext } from "react";
 import { setAuthContext, setUserInfoContext } from "../../context/auth";
-import { userStateType } from "../../types/user";
 import { auth, githubProvider, googleProvider } from '../firebase/init';
+import { useUserRegister } from "./useMutation";
 
 export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);
+    const { userRegister } = useUserRegister();
 
     const VarifiedNotifySendEmail = async () => {
         if(auth.currentUser) {
@@ -18,13 +19,25 @@ export const useSignUpFunc = () => {
 
     const execute = async (email: string, password: string) => {
         setUserState('loading')
+
+        // Firebase　新規登録処理
         return createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then((data) => {
             VarifiedNotifySendEmail()
-            setUserState('isUser')
-            const user = userCredential.user;
+            const user = data.user;
             console.log(user)
-            // return user
+            return user
+        }).then((user) => {
+
+            // Firebaseに新規登録後でDatabaseにInsertリクエスト
+            userRegister({ variables: { fireabse_id :  user.uid } })
+            .then(() => {
+                console.log('insert cleared')
+            }).catch((error) => {
+                console.log(error.message)
+            })
+
+            setUserState('isUser')
         }).catch((error) => {
             setUserState('guest')
             console.log(error.message)
