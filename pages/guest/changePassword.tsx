@@ -1,12 +1,11 @@
-import { BoxProps, Center, Divider, Flex, Heading, Text } from '@chakra-ui/react'
+import { BoxProps, Center, Divider, Flex, Heading } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { EmailInput, SubmitButton } from '../../components/forms'
 import { Header } from '../../components/layouts/Header/Header'
-import { AuthContext, setAuthContext } from '../../context/auth'
-import { userStateType } from '../../types/user'
+import { AuthContext } from '../../context/auth'
 import { usePassChangeSendEmail } from '../../utils/hooks/useAuth'
 
 

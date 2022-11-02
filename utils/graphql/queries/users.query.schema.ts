@@ -12,6 +12,6 @@ export const USER_QUERY = gql`
     }
 `;
 
-export interface UserData {
-    user: User[];
-}
+// export interface UserData {
+//     user: User[];
+// }
