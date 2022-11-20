@@ -131,8 +131,6 @@ export function PasswordRemaindInput({ errors, register, password }: Props) {
 
 
 export function SubmitButton ({ text = "Submit", formState }:Props) {
-
-
   return (
     <Button 
       colorScheme="teal" 

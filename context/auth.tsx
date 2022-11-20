@@ -19,30 +19,31 @@ export const setUserInfoContext = createContext({} as {setUserInfo : React.Dispa
 
 
 export const AuthProvider = (props: any) => {
-    console.log('Authレンダリング！！！！！')
+    console.log('Authレンダリング！！！！！');
     const { children } = props;
 
     const [userState, setUserState] = useState<string>('guest');
     const [userInfo, setUserInfo] = useState<any>(null);
 
-    const {getUserInfo} = useUserInfoQuery()
-    
+    const {getUserInfo,loading, error, data} = useUserInfoQuery();
+
     useEffect(() => {
         // setUserState('loading')
         onAuthStateChanged(auth, (user) => {
-            setUserState('loading')
+            setUserState('loading');
             if (user) {
-                console.log('logging in')
-                console.log(user)
-                setUserState('isUser')
+                console.log('logging in');
+                console.log(user);
+                setUserState('isUser');
                 
-                getUserInfo()
+                const userinfo = getUserInfo()
                 .then(({data}) => {
                     setUserInfo(data?.user[0])
                 }).catch(({error}) => {
                     alert("query error happend check the console ");
                     console.log(error)
                 })
+
             } else {
                 console.log('not logged in')
                 setUserState('guest')

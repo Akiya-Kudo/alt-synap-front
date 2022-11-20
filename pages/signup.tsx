@@ -13,9 +13,7 @@ import { useRouter } from 'next/router';
 
 // コンポーネント定義
 const Form = (props : BoxProps) => {
-
     const {execute} = useSignUpFunc()
-
 
     return (
         <Flex
