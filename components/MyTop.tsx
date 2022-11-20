@@ -8,6 +8,7 @@ import  styles  from '../styles/components/Top.module.css';
 const MyTop = () => {
 
     const { userInfo } = useContext(UserInfoContext);
+    console.log(userInfo);
     
     const user_name = userInfo?.user_name ? userInfo.user_name : "Guest";
     const comment = userInfo?.comment ? userInfo.comment : null

@@ -28,15 +28,13 @@ export const useSignUpFunc = () => {
             console.log(user)
             return user
         }).then((user) => {
-
             // Firebaseに新規登録後でDatabaseにInsertリクエスト
-            userRegister({ variables: { fireabse_id :  user.uid } })
+            userRegister({ variables: { firebase_id :  user.uid } })
             .then(() => {
                 console.log('insert cleared')
             }).catch((error) => {
                 console.log(error.message)
             })
-
             setUserState('isUser')
         }).catch((error) => {
             setUserState('guest')
