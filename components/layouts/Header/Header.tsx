@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { EmailInput, FotgetPassLink, PasswordInput, SocialLoginButtons, SubmitButton } from '../../forms';
@@ -13,6 +13,9 @@ import {  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHe
 import { useForm } from "react-hook-form";
 import { useLogInFunc,  useLogOutFunc, usePassChangeSendEmail } from '../../../utils/hooks/useAuth';
 import { auth } from '../../../utils/firebase/init';
+import { getRedirectResult, GoogleAuthProvider } from 'firebase/auth';
+import { useUserRegister } from '../../../utils/hooks/useMutation';
+import { useUserInfoQuery } from '../../../utils/hooks/useQuery';
 
 const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="7.5vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' bg='white' >{props.children}</Flex>
 
@@ -103,7 +106,7 @@ const LoginModal = () => {
 const UserMenu = () => {
 
     const { userInfo } = useContext(UserInfoContext);
-    const photo_url = userInfo?.photo_url ? userInfo.photo_url : "https://bit.ly/dan-abramov"
+    const photo_url = userInfo?.photo_url ? userInfo.photo_url : auth.currentUser?.photoURL ? auth.currentUser.photoURL: "https://bit.ly/dan-abramov"
 
     const {execute} = useLogOutFunc()
     const {executeSendEmail} = usePassChangeSendEmail();
@@ -144,6 +147,43 @@ const UserMenu = () => {
 export const Header = () => {
 
     const { userState } = useContext(AuthContext);
+
+    const { userRegister } = useUserRegister();
+    const { getUserInfo } = useUserInfoQuery();
+
+    // ソーシャルログイン時のRedirect後Database挿入処理
+    useEffect(() => {
+        console.log("qqqqqqq")
+        getRedirectResult(auth)
+        .then((result) => {
+          if(result !== null) {
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential?.accessToken;
+            const user = result.user;
+
+            getUserInfo()
+            .then(({data}) => {
+                if (!data.user) {
+
+                    userRegister({ variables: { firebase_id :  user.uid } })
+                    .then(() => {
+                        console.log('insert cleared')
+                    }).catch((error: { message: any; }) => {
+                        console.log(error.message)
+                    })
+                }
+            }).catch(({error}) => {
+                alert("query error happend check the console ");
+                console.log(error)
+            })
+
+          }
+        }).catch((error) => {
+          const {errorCode, errorMessage, email }  = error;
+          //const credential = GoogleAuthProvider.credentialFromError(error);
+        });    
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      },[]);
     
     return (
         <>

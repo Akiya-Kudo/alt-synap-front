@@ -9,10 +9,5 @@ export const useUserInfoQuery = () => {
             "userId" : auth.currentUser?.uid,
         }
     });
-    console.log('helo!!');
-    console.log(auth.currentUser?.uid);
-    console.log(data);
-    console.log(error);
-    console.log(loading);
     return {getUserInfo,loading, error, data};
 }
