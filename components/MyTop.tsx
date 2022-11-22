@@ -1,18 +1,20 @@
 import React, { useContext } from 'react'
-import { UserInfoContext } from '../context/auth';
+import { AuthContext, UserInfoContext } from '../context/auth';
 
 import { Avatar, Box, Grid, GridItem, Heading, Skeleton, SkeletonCircle, SkeletonText, Text } from '@chakra-ui/react';
 import  styles  from '../styles/components/Top.module.css';
+import { auth } from '../utils/firebase/init';
+import Link from 'next/link';
 
 
 const MyTop = () => {
 
+    const { userState } = useContext(AuthContext)
     const { userInfo } = useContext(UserInfoContext);
-    console.log(userInfo);
     
-    const user_name = userInfo?.user_name ? userInfo.user_name : "Guest";
-    const comment = userInfo?.comment ? userInfo.comment : null
-    const photo_url = userInfo?.photo_url ? userInfo.photo_url : "https://bit.ly/dan-abramov"
+    const user_name = userInfo?.user_name ? userInfo.user_name : auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
+    const comment = userInfo?.comment ? userInfo.comment :  null;
+    const photo_url = userInfo?.photo_url ? userInfo.photo_url : auth.currentUser?.photoURL ? auth.currentUser.photoURL: "https://bit.ly/dan-abramov"
 
     return (
         <>
@@ -23,7 +25,7 @@ const MyTop = () => {
                     width="80vw" mx="auto" h={250} bg="white" borderRadius={30} boxShadow='lg' mt="20vh" border=".5px solid rgb(209, 209, 209)" p={10}
                     className={ styles.top_card }
                 >
-                    {userInfo ?
+                    {userState == "isUser" ?
                         <>
                             <GridItem rowSpan={3} colSpan={1} m="auto">
                                 <Avatar size='xl' name='Dan Abrahmov' src={ photo_url }/>
@@ -34,8 +36,11 @@ const MyTop = () => {
                             <GridItem rowSpan={1} colSpan={2} m="auto">
                                 <Text>Follower: 10 Followee: 2</Text>
                             </GridItem>                    
-                            <GridItem rowSpan={2} colSpan={3} mt={2}>
+                            <GridItem rowSpan={2} colSpan={2} mt={2}>
                                 <Text>Comment : { comment}</Text>
+                            </GridItem>
+                            <GridItem rowSpan={1} colSpan={1} mt={2}>
+                                <Link href="">helo</Link>
                             </GridItem>
                         </>
                     : 

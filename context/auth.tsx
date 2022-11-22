@@ -31,14 +31,15 @@ export const AuthProvider = (props: any) => {
         // setUserState('loading')
         onAuthStateChanged(auth, (user) => {
             setUserState('loading');
+            console.log('useEffect内レンダリング！！！');
             if (user) {
                 console.log('logging in');
                 console.log(user);
                 setUserState('isUser');
                 
-                const userinfo = getUserInfo()
+                getUserInfo()
                 .then(({data}) => {
-                    setUserInfo(data?.user[0])
+                    setUserInfo(data.user)
                 }).catch(({error}) => {
                     alert("query error happend check the console ");
                     console.log(error)

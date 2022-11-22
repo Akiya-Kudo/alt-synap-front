@@ -6,7 +6,7 @@ import { useUserRegister } from "./useMutation";
 
 export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);
-    const { userRegister } = useUserRegister();
+    const { userRegister, error, data, loading } = useUserRegister();
 
     const VarifiedNotifySendEmail = async () => {
         if(auth.currentUser) {
@@ -25,14 +25,14 @@ export const useSignUpFunc = () => {
         .then((data) => {
             VarifiedNotifySendEmail()
             const user = data.user;
-            console.log(user)
+
             return user
         }).then((user) => {
             // Firebaseに新規登録後でDatabaseにInsertリクエスト
             userRegister({ variables: { firebase_id :  user.uid } })
             .then(() => {
                 console.log('insert cleared')
-            }).catch((error) => {
+            }).catch((error: { message: any; }) => {
                 console.log(error.message)
             })
             setUserState('isUser')
