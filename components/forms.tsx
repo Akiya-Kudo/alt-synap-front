@@ -1,8 +1,12 @@
-import { BoxProps, Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link } from '@chakra-ui/react'
-import React from 'react'
-import { useSocialLoginFunc } from '../utils/hooks/useAuth';
+import { Box, BoxProps, Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link, ModalBody, Text, Textarea } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { useLogInFunc, useSocialLoginFunc } from '../utils/hooks/useAuth';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import NextLink from "next/link"
+import { useForm } from 'react-hook-form';
+
+import ImageThumnail from "../public/thumnailimage.svg";
+import Image from 'next/image';
 
 // useFormは呼び出し先で変数定義する
 
@@ -12,13 +16,170 @@ type Props = {
   formState?: any;
   register?: any;
   password?: string;
+  defValue?: string | null;
+}
+type DefaultValue = {
+  user_name: string | null;
+  comment: string | null;
+  photo_url: string | null;
 }
 
+export const AccountForm = ({user_name, comment, photo_url}: DefaultValue) => {
 
+  const { register, formState: { errors }, formState } = useForm({mode: "all"});
+  const [displayImage, setDisplayImage] = useState(photo_url)
+
+  const {execute} = useLogInFunc()
+
+  return (
+    <Flex
+      as="form" 
+      direction="column" 
+      w="100%" 
+      onSubmit={async e => {
+        e.preventDefault()
+        const target = e.target as any;
+        const username = target.inputText5.value as string;
+        const comment = target.inputText6.value as string;
+        execute(username, comment);
+      }}
+    >
+      <ModalBody pb={6}>
+          <UserNameInput defValue={ user_name } errors={ errors } register={ register } />
+          <CommentInput defValue={ comment } errors={ errors } register={ register }/>
+          <ThumbnailInput defValue={ photo_url } setDisplayImage={ setDisplayImage } displayImage={ displayImage }/>
+          <Flex direction='column'  m={3} align='center' justify='center'>
+              <SubmitButton text='Log in' formState={ formState }/>
+          </Flex>
+      </ModalBody>
+    </Flex>
+    )
+}
+
+// ログインフォームコンポーネント定義
+export const LoginForm = () => {
+
+  const { register, formState: { errors }, formState } = useForm({mode: "all"});
+
+  const {execute} = useLogInFunc()
+
+  return (
+      <Flex
+          as="form" 
+          direction="column" 
+          w="100%" 
+          onSubmit={async e => {
+              e.preventDefault()
+              const target = e.target as any;
+              const email = target.inputText3.value as string;
+              const password = target.inputText2.value as string;
+              execute(email, password);
+          }}
+      >
+        <ModalBody pb={6}>
+            <EmailInput  errors={ errors } register={ register }/>
+            <PasswordInput  errors={ errors } register={ register }/>
+            <Flex direction='column'  m={3} align='center' justify='center'>
+                <SubmitButton text='Log in' formState={ formState }/>
+                <FotgetPassLink/>
+            <Divider/>
+            </Flex>
+            <SocialLoginButtons/>
+        </ModalBody>
+      </Flex>
+  )
+}
+
+export function UserNameInput({ errors, register, defValue }: Props  ) {
+  return (
+    <FormControl
+    id="inputText5"
+    isInvalid={errors.inputText5 ? true : false}
+    my={5}
+    >
+      <FormLabel>User Name : ユーザネーム</FormLabel>
+      <Input
+        focusBorderColor='teal.300'
+        placeholder="Tipsco"
+        defaultValue={defValue}
+
+        {...register("inputText5",  {
+          maxLength: { value: 50, message: 'Please make User Name less than 50 words' },
+          minLength: { value: 2, message: "Please make User Name more than 2 words" }
+        })}
+      />
+      <FormErrorMessage>
+        {errors.inputText5 && <div role="alert">{errors.inputText5?.message + " "}</div>}
+      </FormErrorMessage>
+    </FormControl>
+  )
+}
+
+export function CommentInput({ errors, register, defValue }: Props) {
+  return (
+    <FormControl
+    id="inputText6"
+    isInvalid={errors.inputText6 ? true : false}
+    placeholder="Hy I'm studying Laravel & PHP. I wanna be backend enginner"
+    my={5}
+    >
+      <FormLabel>Comment : コメント</FormLabel>
+      <Textarea 
+        focusBorderColor='teal.300'
+        placeholder='Here is a sample placeholder'
+        defaultValue={defValue}
+        {...register("inputText6", {
+          maxLength: { value: 150, message: "Please make Comment less than 150 words" }
+        })}
+      />
+      <FormErrorMessage>
+        {errors.inputText6 && <div role="alert">{errors.inputText6?.message + " "}</div>}
+      </FormErrorMessage>
+    </FormControl>
+  )
+}
+
+export function ThumbnailInput ({displayImage, setDisplayImage}: any) {
+  
+  const ImageSet = (e: any) => {
+    const file = e.target.files[0]
+    console.log(file)
+    const image = window.URL.createObjectURL(file)
+    console.log(image)
+    setDisplayImage(image)
+  }
+  return (
+    <FormControl
+    id="inputText7"
+    my={5}
+    >
+      <FormLabel mb={5}>User Photo : ユーザ画像 (Only Jpeg・Png)</FormLabel>
+        <Box display={"flex"} justifyContent="center" alignItems={"center"} gap={10}>          
+          { displayImage 
+          ? 
+            <Box style={{width: 100, height: 100}} borderRadius={10} overflow="hidden"  boxShadow="0px 0px 20px gray">
+              <Image alt="" src={displayImage} width={100} height={100} layout={'responsive'} /> 
+            </Box>
+          : 
+            null 
+          }
+          <Box border="1.5px dashed #319795" borderRadius={5} pos="relative" display={"flex"} flexDirection="column" alignItems={"center"} justifyContent="center" textAlign={"center"} p={5}>
+              <Box style={{width: 100, height: 100}} borderRadius={10} overflow="hidden">
+                <Image alt="" src={ ImageThumnail} width={100} height={100} layout={'responsive'} />
+              </Box>
+              <Text color={"gray.500"} mt={2}>Click or Drug & Drop</Text>
+            <Input   
+            type={"file"} 
+            accept=" .png, .jpeg, .jpg, .svg"
+            onChange={ ImageSet }
+            cursor={"pointer"} w="100%" h="100%" pos={"absolute"} left={0} right={0} opacity={0} />
+          </Box>
+        </Box>
+    </FormControl>
+  )
+}
 
 export function EmailInput({ errors, register }: Props) {
-
-
   return (
     <FormControl
       id="inputText3"
@@ -134,7 +295,7 @@ export function SubmitButton ({ text = "Submit", formState }:Props) {
   return (
     <Button 
       colorScheme="teal" 
-      m={2}
+      m={5}
       type="submit" 
       disabled={!formState.isValid}
       isLoading={formState.isSubmitting}

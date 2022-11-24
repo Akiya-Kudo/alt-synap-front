@@ -5,6 +5,8 @@ import { Avatar, Box, Grid, GridItem, Heading, Skeleton, SkeletonCircle, Skeleto
 import  styles  from '../styles/components/Top.module.css';
 import { auth } from '../utils/firebase/init';
 import Link from 'next/link';
+import { MyModal } from './modals';
+import { AccountForm, LoginForm } from './forms';
 
 
 const MyTop = () => {
@@ -40,7 +42,9 @@ const MyTop = () => {
                                 <Text>Comment : { comment}</Text>
                             </GridItem>
                             <GridItem rowSpan={1} colSpan={1} mt={2}>
-                                <Link href="">helo</Link>
+                                <MyModal title={"Account Setting"}>
+                                    <AccountForm user_name={user_name} comment={comment} photo_url={photo_url}/>
+                                </MyModal>
                             </GridItem>
                         </>
                     : 
