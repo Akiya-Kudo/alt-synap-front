@@ -1,102 +1,22 @@
 import React, { useContext, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { EmailInput, FotgetPassLink, PasswordInput, SocialLoginButtons, SubmitButton } from '../../forms';
 import Loading from '../../Loading';
 
 import { AuthContext, UserInfoContext } from '../../../context/auth';
 
-import { Avatar, Box, BoxProps, Button, ButtonGroup, Divider, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
+import { Avatar, Box, BoxProps, Button, ButtonGroup, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import {  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 
-import { useForm } from "react-hook-form";
-import { useLogInFunc,  useLogOutFunc, usePassChangeSendEmail } from '../../../utils/hooks/useAuth';
+import { useLogOutFunc, usePassChangeSendEmail } from '../../../utils/hooks/useAuth';
 import { auth } from '../../../utils/firebase/init';
 import { getRedirectResult, GoogleAuthProvider } from 'firebase/auth';
 import { useUserRegister } from '../../../utils/hooks/useMutation';
 import { useUserInfoQuery } from '../../../utils/hooks/useQuery';
+import { MyModal } from '../../modals';
+import { LoginForm } from '../../forms';
 
 const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="7.5vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' bg='white' >{props.children}</Flex>
-
-
-// ログインフォームコンポーネント定義
-const Form = (props : BoxProps) => {
-
-    const {execute} = useLogInFunc()
-
-    return (
-        <Flex
-            as="form" 
-            direction="column" 
-            w="100%" 
-            onSubmit={async e => {
-                e.preventDefault()
-                const target = e.target as any;
-                const email = target.inputText3.value as string;
-                const password = target.inputText2.value as string;
-                execute(email, password);
-            }}
-        >
-            {props.children}
-        </Flex>
-    )
-}
-
-
-
-
-
-
-
-const LoginModal = () => {
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-    const { register, formState: { errors }, formState } = useForm({mode: "all"});
-
-    return (
-        <>
-            <Button onClick={onOpen}  colorScheme='orange' bg='orange.300' boxShadow='md' rounded='base' size='sm'>LOG IN</Button>
-
-            <Modal
-                isOpen={isOpen}
-                onClose={onClose}
-            >
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader boxShadow='base'>
-                        <Flex fontSize={25}>
-                            <Box style={{width: 40, height: 40}} mr={2}>
-                                <Image src='/logo3.svg'  width={300} height={300} layout={'responsive'} alt="logo" priority></Image>
-                            </Box>
-                        Log in
-                        </Flex>
-                    </ModalHeader>
-                    <ModalCloseButton />
-                    <Form>
-                    <ModalBody pb={6}>
-                        <EmailInput  errors={ errors } register={ register }/>
-                        <PasswordInput  errors={ errors } register={ register }/>
-                        <Flex direction='column'  m={3} align='center' justify='center'>
-                            <SubmitButton text='Log in' formState={ formState }/>
-                            <FotgetPassLink/>
-                        <Divider/>
-                        </Flex>
-                        <SocialLoginButtons/>
-                    </ModalBody>
-
-                    <ModalFooter>
-                    <Button onClick={onClose}>Cancel</Button>
-                    </ModalFooter>
-                    </Form>
-                </ModalContent>
-            </Modal>
-        </>
-    )
-}
-
-
 
 
 
@@ -153,7 +73,6 @@ export const Header = () => {
 
     // ソーシャルログイン時のRedirect後Database挿入処理
     useEffect(() => {
-        console.log("qqqqqqq")
         getRedirectResult(auth)
         .then((result) => {
           if(result !== null) {
@@ -204,8 +123,13 @@ export const Header = () => {
                     <Spacer />
                     <ButtonGroup gap='2' mx='3'>
                         { userState == 'guest' &&
-                            <><Link href="/signup" passHref><Button colorScheme='orange' color='orange.300' variant='ghost' size='sm'>SIGN UP</Button></Link>
-                                <LoginModal /></>
+                            <>
+                                <Link href="/signup" passHref><Button colorScheme='orange' color='orange.300' variant='ghost' size='sm'>SIGN UP</Button></Link>
+                                <MyModal title={"LOG IN"}>
+                                    <LoginForm/>
+                                </MyModal>
+
+                            </>
                         }
 
                         { userState == 'isUser' &&   
