@@ -1,5 +1,5 @@
 import { Box, BoxProps, Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link, ModalBody, Text, Textarea } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useLogInFunc, useSocialLoginFunc } from '../utils/hooks/useAuth';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import NextLink from "next/link"
@@ -7,6 +7,11 @@ import { useForm } from 'react-hook-form';
 
 import ImageThumnail from "../public/thumnailimage.svg";
 import Image from 'next/image';
+ 
+import { storage } from '../utils/firebase/init';
+import { ref, uploadBytes } from 'firebase/storage';
+import { setUserInfoContext, UserInfoContext } from '../context/auth';
+import { useUserInfoUpdater } from '../utils/hooks/useMutation';
 
 // useFormは呼び出し先で変数定義する
 
@@ -17,6 +22,8 @@ type Props = {
   register?: any;
   password?: string;
   defValue?: string | null;
+  isDirty?: boolean;
+  imageChanged?: boolean;
 }
 type DefaultValue = {
   user_name: string | null;
@@ -26,33 +33,78 @@ type DefaultValue = {
 
 export const AccountForm = ({user_name, comment, photo_url}: DefaultValue) => {
 
-  const { register, formState: { errors }, formState } = useForm({mode: "all"});
+  const { userInfo } = useContext(UserInfoContext);
+  const { setUserInfo } = useContext(setUserInfoContext);
+  
   const [displayImage, setDisplayImage] = useState(photo_url)
+  const [imageChanged, setImageChanged] = useState(false)
+  const { userInfoUpdater } = useUserInfoUpdater();
+  
+  const { register, formState: { errors, isDirty, dirtyFields }, formState } = useForm({mode: "all"});
 
-  const {execute} = useLogInFunc()
+
+  // Form送信イベントでの処理
+  const SubmitChange = async (e: any) => {
+    e.preventDefault()
+    const target = e.target as any;
+    const username = target.inputText5.value as string;
+    const comment = target.inputText6.value as string;
+    const photo = target.inputText7.files[0]; 
+
+    // 画像Storage 保存処理
+    const storageRef = ref(storage, "thumbnail/" + userInfo?.firebase_id);
+    if(photo) {
+      uploadBytes(storageRef, photo).then((snapshot) => {
+        console.log('strage Uploaded a blob or file!');
+      }).catch((error) => {
+        console.log(error.message)
+        alert(error.message)
+      });
+    }
+    // ユーザ情報database Insert処理
+    if(dirtyFields.inputText5 || dirtyFields.inputText6) {
+      userInfoUpdater({ 
+        variables: { 
+          updateUserInfoData: {
+            firebase_id: userInfo?.firebase_id,
+            user_name :  username,
+            comment :  comment,
+          }
+        }
+      })
+      .then((data) => {
+          console.log('db insert cleared')
+          console.log(data.data.updateUserInfo)
+          setUserInfo(data.data.updateUserInfo)
+      }).catch((error: { message: any; }) => {
+          console.log(error.message)
+          alert(error.message)
+      })
+    }
+  }
 
   return (
-    <Flex
-      as="form" 
-      direction="column" 
-      w="100%" 
-      onSubmit={async e => {
-        e.preventDefault()
-        const target = e.target as any;
-        const username = target.inputText5.value as string;
-        const comment = target.inputText6.value as string;
-        execute(username, comment);
-      }}
-    >
-      <ModalBody pb={6}>
-          <UserNameInput defValue={ user_name } errors={ errors } register={ register } />
-          <CommentInput defValue={ comment } errors={ errors } register={ register }/>
-          <ThumbnailInput defValue={ photo_url } setDisplayImage={ setDisplayImage } displayImage={ displayImage }/>
-          <Flex direction='column'  m={3} align='center' justify='center'>
-              <SubmitButton text='Log in' formState={ formState }/>
-          </Flex>
-      </ModalBody>
-    </Flex>
+    <>
+      {  userInfo ?   
+        <Flex
+          as="form" 
+          direction="column" 
+          w="100%" 
+          onSubmit={ SubmitChange }
+        >
+          <ModalBody pb={6}>
+              <UserNameInput defValue={ user_name } errors={ errors } register={ register } />
+              <CommentInput defValue={ comment } errors={ errors } register={ register }/>
+              <ThumbnailInput defValue={ photo_url } setDisplayImage={ setDisplayImage } displayImage={ displayImage } register={ register } setImageChanged={setImageChanged}/>
+              <Flex direction='column'  m={3} align='center' justify='center'>
+                  <SubmitOnlyWhenChangedButton formState={ formState } isDirty={ isDirty } imageChanged={imageChanged}/>
+              </Flex>
+          </ModalBody>
+        </Flex>
+      :
+        null
+      }
+      </>
     )
 }
 
@@ -91,10 +143,12 @@ export const LoginForm = () => {
 }
 
 export function UserNameInput({ errors, register, defValue }: Props  ) {
+
   return (
     <FormControl
     id="inputText5"
     isInvalid={errors.inputText5 ? true : false}
+    isRequired
     my={5}
     >
       <FormLabel>User Name : ユーザネーム</FormLabel>
@@ -120,13 +174,12 @@ export function CommentInput({ errors, register, defValue }: Props) {
     <FormControl
     id="inputText6"
     isInvalid={errors.inputText6 ? true : false}
-    placeholder="Hy I'm studying Laravel & PHP. I wanna be backend enginner"
     my={5}
     >
       <FormLabel>Comment : コメント</FormLabel>
       <Textarea 
         focusBorderColor='teal.300'
-        placeholder='Here is a sample placeholder'
+        placeholder="Hy I study Python & PHP."
         defaultValue={defValue}
         {...register("inputText6", {
           maxLength: { value: 150, message: "Please make Comment less than 150 words" }
@@ -139,21 +192,22 @@ export function CommentInput({ errors, register, defValue }: Props) {
   )
 }
 
-export function ThumbnailInput ({displayImage, setDisplayImage}: any) {
+export function ThumbnailInput ({displayImage, setDisplayImage, register, setImageChanged}: any) {
   
+  // 画像を選択したら画面に表示する処理
   const ImageSet = (e: any) => {
     const file = e.target.files[0]
-    console.log(file)
     const image = window.URL.createObjectURL(file)
-    console.log(image)
     setDisplayImage(image)
+    setImageChanged(true)
   }
+
   return (
     <FormControl
     id="inputText7"
     my={5}
     >
-      <FormLabel mb={5}>User Photo : ユーザ画像 (Only Jpeg・Png)</FormLabel>
+      <FormLabel mb={5}>User Photo : ユーザ画像 (Jpeg・Png Only)</FormLabel>
         <Box display={"flex"} justifyContent="center" alignItems={"center"} gap={10}>          
           { displayImage 
           ? 
@@ -169,6 +223,7 @@ export function ThumbnailInput ({displayImage, setDisplayImage}: any) {
               </Box>
               <Text color={"gray.500"} mt={2}>Click or Drug & Drop</Text>
             <Input   
+            {...register("inputText7")}
             type={"file"} 
             accept=" .png, .jpeg, .jpg, .svg"
             onChange={ ImageSet }
@@ -298,6 +353,21 @@ export function SubmitButton ({ text = "Submit", formState }:Props) {
       m={5}
       type="submit" 
       disabled={!formState.isValid}
+      isLoading={formState.isSubmitting}
+    >
+      {text}
+    </Button>
+  )
+}
+
+export function SubmitOnlyWhenChangedButton ({ text = "Submit", formState, isDirty, imageChanged }:Props) {
+
+  return (
+    <Button 
+      colorScheme="teal" 
+      m={5}
+      type="submit" 
+      disabled={ !formState.isValid || (!isDirty && !imageChanged ) }
       isLoading={formState.isSubmitting}
     >
       {text}
