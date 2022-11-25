@@ -6,6 +6,8 @@ import { useUserRegister } from "./useMutation";
 
 export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);
+    const { setUserInfo } = useContext(setUserInfoContext);
+
     const { userRegister, error, data, loading } = useUserRegister();
 
     const VarifiedNotifySendEmail = async () => {
@@ -36,6 +38,7 @@ export const useSignUpFunc = () => {
                 console.log(error.message)
             })
             setUserState('isUser')
+            setUserInfo(user)
         }).catch((error) => {
             setUserState('guest')
             console.log(error.message)
