@@ -9,7 +9,7 @@ import ImageThumnail from "../public/thumnailimage.svg";
 import Image from 'next/image';
  
 import { storage } from '../utils/firebase/init';
-import { ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { setUserInfoContext, UserInfoContext } from '../context/auth';
 import { useUserInfoUpdater } from '../utils/hooks/useMutation';
 
@@ -28,40 +28,64 @@ type Props = {
 type DefaultValue = {
   user_name: string | null;
   comment: string | null;
-  photo_url: string | null;
+  photo_path: string | null;
 }
 
-export const AccountForm = ({user_name, comment, photo_url}: DefaultValue) => {
+export const AccountForm = ({user_name, comment, photo_path}: DefaultValue) => {
 
   const { userInfo } = useContext(UserInfoContext);
   const { setUserInfo } = useContext(setUserInfoContext);
-  
-  const [displayImage, setDisplayImage] = useState(photo_url)
+
+  const [displayImage, setDisplayImage] = useState(photo_path)
   const [imageChanged, setImageChanged] = useState(false)
+
   const { userInfoUpdater } = useUserInfoUpdater();
   
   const { register, formState: { errors, isDirty, dirtyFields }, formState } = useForm({mode: "all"});
 
-
   // Form送信イベントでの処理
-  const SubmitChange = async (e: any) => {
+  const SubmitChange = (e: any) => {
     e.preventDefault()
     const target = e.target as any;
     const username = target.inputText5.value as string;
     const comment = target.inputText6.value as string;
-    const photo = target.inputText7.files[0]; 
 
-    // 画像Storage 保存処理
+    const photo = target.inputText7.files[0]; 
+    let thumbnail_url = userInfo?.photo_url;
+
+
+    // 画像Storage 保存処理 + dbへのInsert処理 + state変更処理
     const storageRef = ref(storage, "thumbnail/" + userInfo?.firebase_id);
     if(photo) {
-      uploadBytes(storageRef, photo).then((snapshot) => {
+      uploadBytes(storageRef, photo)
+      .then((snapshot) => {
         console.log('strage Uploaded a blob or file!');
-      }).catch((error) => {
-        console.log(error.message)
-        alert(error.message)
-      });
+
+        getDownloadURL(storageRef)
+        .then((url) => {
+          thumbnail_url = url
+          
+          userInfoUpdater({ 
+            variables: { 
+              updateUserInfoData: {
+                firebase_id: userInfo?.firebase_id,
+                photo_url: thumbnail_url,
+              }
+            }
+          })
+          .then((data: any) => {
+            console.log('db image path insert cleared')
+            setUserInfo(data.data.updateUserInfo)
+          })
+          .catch((error: { message: any; }) => {
+            console.log(error.message)
+          })
+        })
+        .catch((error) => {console.log(error.message)});
+      })
+      .catch((error) => {console.log(error.message)});
     }
-    // ユーザ情報database Insert処理
+    // comment と　user_nme の　dbへのInsert処理 + state変更処理
     if(dirtyFields.inputText5 || dirtyFields.inputText6) {
       userInfoUpdater({ 
         variables: { 
@@ -72,9 +96,8 @@ export const AccountForm = ({user_name, comment, photo_url}: DefaultValue) => {
           }
         }
       })
-      .then((data) => {
+      .then((data: any) => {
           console.log('db insert cleared')
-          console.log(data.data.updateUserInfo)
           setUserInfo(data.data.updateUserInfo)
       }).catch((error: { message: any; }) => {
           console.log(error.message)
@@ -82,7 +105,6 @@ export const AccountForm = ({user_name, comment, photo_url}: DefaultValue) => {
       })
     }
   }
-
   return (
     <>
       {  userInfo ?   
@@ -95,7 +117,7 @@ export const AccountForm = ({user_name, comment, photo_url}: DefaultValue) => {
           <ModalBody pb={6}>
               <UserNameInput defValue={ user_name } errors={ errors } register={ register } />
               <CommentInput defValue={ comment } errors={ errors } register={ register }/>
-              <ThumbnailInput defValue={ photo_url } setDisplayImage={ setDisplayImage } displayImage={ displayImage } register={ register } setImageChanged={setImageChanged}/>
+              <ThumbnailInput defValue={ photo_path } setDisplayImage={ setDisplayImage } displayImage={ displayImage } register={ register } setImageChanged={setImageChanged}/>
               <Flex direction='column'  m={3} align='center' justify='center'>
                   <SubmitOnlyWhenChangedButton formState={ formState } isDirty={ isDirty } imageChanged={imageChanged}/>
               </Flex>

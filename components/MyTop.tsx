@@ -3,10 +3,12 @@ import { AuthContext, UserInfoContext } from '../context/auth';
 
 import { Avatar, Box, Grid, GridItem, Heading, Skeleton, SkeletonCircle, SkeletonText, Text } from '@chakra-ui/react';
 import  styles  from '../styles/components/Top.module.css';
-import { auth } from '../utils/firebase/init';
-import Link from 'next/link';
+
 import { MyModal } from './modals';
-import { AccountForm, LoginForm } from './forms';
+import { AccountForm } from './forms';
+
+import { auth, storage } from '../utils/firebase/init';
+import { getDownloadURL, ref } from 'firebase/storage';
 
 
 const MyTop = () => {
@@ -16,7 +18,7 @@ const MyTop = () => {
     
     const user_name = userInfo?.user_name ? userInfo.user_name : auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
     const comment = userInfo?.comment ? userInfo.comment :  null;
-    const photo_url = userInfo?.photo_url ? userInfo.photo_url : auth.currentUser?.photoURL ? auth.currentUser.photoURL: "https://bit.ly/dan-abramov"
+    const photo_path = userInfo?.photo_url ? userInfo.photo_url : auth.currentUser?.photoURL ? auth.currentUser.photoURL: "https://bit.ly/dan-abramov"
 
     return (
         <>
@@ -30,7 +32,7 @@ const MyTop = () => {
                     {userState == "isUser" ?
                         <>
                             <GridItem rowSpan={3} colSpan={1} m="auto">
-                                <Avatar size='xl' name='Dan Abrahmov' src={ photo_url }/>
+                                <Avatar size='xl' name='Dan Abrahmov' src={ photo_path }/>
                             </GridItem>
                             <GridItem rowSpan={2} colSpan={2} m="auto">
                                 <Heading>{ user_name }</Heading>
@@ -43,7 +45,7 @@ const MyTop = () => {
                             </GridItem>
                             <GridItem rowSpan={1} colSpan={1} mt={2}>
                                 <MyModal title={"Account Setting"}>
-                                    <AccountForm user_name={user_name} comment={comment} photo_url={photo_url}/>
+                                    <AccountForm user_name={user_name} comment={comment} photo_path={photo_path}/>
                                 </MyModal>
                             </GridItem>
                         </>

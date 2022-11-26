@@ -2,9 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../utils/firebase/init";
 
-import { useLazyQuery } from '@apollo/client';
 import { User } from "../types/user";
-import { USER_QUERY } from '../utils/graphql/queries/users.query.schema';
 import { useUserInfoQuery } from "../utils/hooks/useQuery";
 
 
