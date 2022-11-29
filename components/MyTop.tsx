@@ -4,11 +4,9 @@ import { AuthContext, UserInfoContext } from '../context/auth';
 import { Avatar, Box, Grid, GridItem, Heading, Skeleton, SkeletonCircle, SkeletonText, Text } from '@chakra-ui/react';
 import  styles  from '../styles/components/Top.module.css';
 
-import { MyModal } from './modals';
-import { AccountForm } from './forms';
+import { MyInfoModal } from './modals';
 
-import { auth, storage } from '../utils/firebase/init';
-import { getDownloadURL, ref } from 'firebase/storage';
+import { auth } from '../utils/firebase/init';
 
 
 const MyTop = () => {
@@ -44,9 +42,7 @@ const MyTop = () => {
                                 <Text>Comment : { comment}</Text>
                             </GridItem>
                             <GridItem rowSpan={1} colSpan={1} mt={2}>
-                                <MyModal title={"Account Setting"}>
-                                    <AccountForm user_name={user_name} comment={comment} photo_path={photo_path}/>
-                                </MyModal>
+                                <MyInfoModal title={"Account Setting"} user_name={user_name} comment={comment} photo_path={photo_path}/>
                             </GridItem>
                         </>
                     : 
