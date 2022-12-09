@@ -10,92 +10,106 @@ import { CommentInput, SubmitOnlyWhenChangedButton, ThumbnailInput, UserNameInpu
 
 
 export const MyInfoModal = (props: any) => {
+  
+  
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  
+  // form処理
+  const { userInfo } = useContext(UserInfoContext);
+  const { setUserInfo } = useContext(setUserInfoContext);
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    
-    // form処理
-    const { userInfo } = useContext(UserInfoContext);
-    const { setUserInfo } = useContext(setUserInfoContext);
-  
-    const [displayImage, setDisplayImage] = useState(props.photo_path)
-    const [imageChanged, setImageChanged] = useState(false)
-    useEffect(() => setDisplayImage(userInfo?.photo_url), [userInfo]);
-  
-    const { userInfoUpdater } = useUserInfoUpdater();
-    
-    const { register, formState: { errors, isDirty, dirtyFields }, formState } = useForm({mode: "all"});
+  const [image, setImage] = useState(props.photo_path)
+  const [imageFile, setImageFile] = useState(null)
+  const [imageChanged, setImageChanged] = useState(false)
 
+  useEffect(() => setImage(userInfo?.photo_url), [userInfo]);
   
-    // Form送信イベントでの処理
-    const SubmitChange = (e: any) => {
-      e.preventDefault()
-      const target = e.target as any;
-      const username = target.inputText5.value as string;
-      const comment = target.inputText6.value as string;
+  const { userInfoUpdater } = useUserInfoUpdater();
   
-      const photo = target.inputText7.files[0]; 
-      let thumbnail_url = userInfo?.photo_url;
-  
-      // 画像Storage 保存処理 + dbへのInsert処理 + state変更処理
-      const storageRef = ref(storage, "thumbnail/" + userInfo?.firebase_id);
-      if(photo) {
-        uploadBytes(storageRef, photo)
-        .then((snapshot) => {
-          console.log('strage Uploaded a blob or file!');
-  
-          getDownloadURL(storageRef)
-          .then((url) => {
-            thumbnail_url = url
-            
-            userInfoUpdater({ 
-              variables: { 
-                updateUserInfoData: {
-                  firebase_id: userInfo?.firebase_id,
-                  photo_url: thumbnail_url,
-                }
+  const { register, formState: { errors, isDirty, dirtyFields }, formState, reset } = useForm({mode: "all"});
+
+  // Form送信イベントでの処理
+  const SubmitChange = (e: any) => {
+
+    e.preventDefault()
+    const target = e.target as any;
+    const username = target.inputText5.value as string;
+    const comment = target.inputText6.value as string;
+    
+    let thumbnail_url = userInfo?.photo_url;
+    
+    // 画像Storage 保存処理 + dbへのInsert処理 + state変更処理
+    const storageRef = ref(storage, "thumbnail/" + userInfo?.firebase_id);
+    if(imageFile) {
+      uploadBytes(storageRef, imageFile)
+      .then((snapshot) => {
+        console.log('strage Uploaded a blob or file!');
+        setImageFile(null)
+        setImageChanged(false)
+        
+        getDownloadURL(storageRef)
+        .then((url) => {
+          thumbnail_url = url
+          
+          userInfoUpdater({ 
+            variables: { 
+              updateUserInfoData: {
+                firebase_id: userInfo?.firebase_id,
+                photo_url: thumbnail_url,
               }
-            })
-            .then((data: any) => {
-              console.log('db image path insert cleared')
-              setUserInfo(data.data.updateUserInfo)
-            })
-            .catch((error: { message: any; }) => {
-              console.log(error.message)
-            })
+            }
           })
-          .catch((error) => {console.log(error.message)});
+          .then((data: any) => {
+            console.log('db image path insert cleared')
+
+            reset({inputText7: ""})
+
+            setUserInfo(data.data.updateUserInfo)
+          })
+          .catch((error: { message: any; }) => {
+            console.log(error.message)
+          })
         })
         .catch((error) => {console.log(error.message)});
-      }
-      // comment と　user_nme の　dbへのInsert処理 + state変更処理
-      if(dirtyFields.inputText5 || dirtyFields.inputText6) {
-        userInfoUpdater({ 
-          variables: { 
-            updateUserInfoData: {
-              firebase_id: userInfo?.firebase_id,
-              user_name :  username,
-              comment :  comment,
-            }
+      })
+      .catch((error) => {console.log(error.message)});
+    }
+    // comment と　user_name の　dbへのInsert処理 + state変更処理
+    if(dirtyFields.inputText5 || dirtyFields.inputText6) {
+      userInfoUpdater({ 
+        variables: { 
+          updateUserInfoData: {
+            firebase_id: userInfo?.firebase_id,
+            user_name :  username,
+            comment :  comment,
           }
-        })
-        .then((data: any) => {
-            console.log('db insert cleared')
-            setUserInfo(data.data.updateUserInfo)
-        }).catch((error: { message: any; }) => {
-            console.log(error.message)
-            alert(error.message)
-        })
-      }
+        }
+      })
+      .then((data: any) => {
+        console.log('db insert cleared')
+
+        const result = data.data.updateUserInfo
+        console.log("result")
+        console.log(result)
+        reset({inputText5: result.user_name, inputText6: result.comment})
+
+        setUserInfo(data.data.updateUserInfo)
+      }).catch((error: { message: any; }) => {
+        console.log(error.message)
+        alert(error.message)
+      })
     }
 
-    return (
-        <>
-            <Button onClick={onOpen}  colorScheme='orange' bg='orange.300' boxShadow='md' rounded='base' size='sm'>{props.title}</Button>
+  }
+  
+  return (
+    <>
+        <Button onClick={onOpen}  colorScheme='orange' bg='orange.300' boxShadow='md' rounded='base' size='sm'>{props.title}</Button>
 
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
-            >
+                >
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader boxShadow='base'>
@@ -116,7 +130,7 @@ export const MyInfoModal = (props: any) => {
                     <ModalBody pb={6}>
                         <UserNameInput defValue={ props.user_name } errors={ errors } register={ register } />
                         <CommentInput defValue={ props.comment } errors={ errors } register={ register }/>
-                        <ThumbnailInput  setDisplayImage={ setDisplayImage } displayImage={ displayImage } register={ register } setImageChanged={setImageChanged}/>
+                        <ThumbnailInput  setImageFile={ setImageFile } image={ image } setImage={ setImage } register={ register } setImageChanged={setImageChanged}/>
                         <Flex direction='column'  m={3} align='center' justify='center'>
                             <SubmitOnlyWhenChangedButton formState={ formState } isDirty={ isDirty } imageChanged={imageChanged} onClose={onClose}/>
                         </Flex>
@@ -129,9 +143,9 @@ export const MyInfoModal = (props: any) => {
             </Modal>
         </>
     )
-}
-export const MyModal = (props: any) => {
-
+  }
+  export const MyModal = (props: any) => {
+    
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     return (

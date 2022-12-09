@@ -16,7 +16,7 @@ const MyTop = () => {
     
     const user_name = userInfo?.user_name ? userInfo.user_name : auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
     const comment = userInfo?.comment ? userInfo.comment :  null;
-    const photo_path = userInfo?.photo_url ? userInfo.photo_url : auth.currentUser?.photoURL ? auth.currentUser.photoURL: "https://bit.ly/dan-abramov"
+    const photo_path = userInfo?.photo_url ? userInfo.photo_url : auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
 
     return (
         <>
@@ -30,7 +30,7 @@ const MyTop = () => {
                     {userState == "isUser" ?
                         <>
                             <GridItem rowSpan={3} colSpan={1} m="auto">
-                                <Avatar size='xl' name='Dan Abrahmov' src={ photo_path }/>
+                                <Avatar size='xl' name={ user_name } src={ photo_path }/>
                             </GridItem>
                             <GridItem rowSpan={2} colSpan={2} m="auto">
                                 <Heading>{ user_name }</Heading>

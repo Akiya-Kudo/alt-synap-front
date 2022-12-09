@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { setAuthContext, setUserInfoContext } from "../../context/auth";
 import { auth, githubProvider, googleProvider } from '../firebase/init';
 import { useUserRegister } from "./useMutation";
+import { useUserInfoQuery } from "./useQuery";
 
 export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);
@@ -38,7 +39,13 @@ export const useSignUpFunc = () => {
                 console.log(error.message)
             })
             setUserState('isUser')
-            setUserInfo(user)
+            setUserInfo({
+                firebase_id: user.uid,
+                user_name: user.displayName,
+                comment: null,
+                photo_url: user.photoURL,
+                pinterest_user_id: null,
+            })
         }).catch((error) => {
             setUserState('guest')
             console.log(error.message)
@@ -52,13 +59,22 @@ export const useSignUpFunc = () => {
 export const useLogInFunc = () => {
 
     const { setUserState } = useContext(setAuthContext);
+    const { setUserInfo } = useContext(setUserInfoContext);
+
+    const {getUserInfo} = useUserInfoQuery();
 
     const execute = async (email: string, password: string) => {
         setUserState('loading')
         return signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             setUserState('isUser');
-            // const user = userCredential.user;
+            getUserInfo()
+            .then(({data}) => {
+                setUserInfo(data.user)
+            }).catch(({error}) => {
+                alert("query error happend check the console ");
+                console.log(error)
+            })
             console.log("user logged in");
         })
         .catch((error) => {

@@ -76,6 +76,7 @@ export function UserNameInput({ errors, register, defValue }: Props  ) {
         defaultValue={defValue}
 
         {...register("inputText5",  {
+          required: "this is required to fill",
           maxLength: { value: 50, message: 'Please make User Name less than 50 words' },
           minLength: { value: 2, message: "Please make User Name more than 2 words" }
         })}
@@ -110,15 +111,19 @@ export function CommentInput({ errors, register, defValue }: Props) {
   )
 }
 
-export function ThumbnailInput ({displayImage, setDisplayImage, register, setImageChanged}: any) {
-  
+export function ThumbnailInput ({image, setImage, setImageFile, register, setImageChanged}: any) {
+
   // 画像を選択したら画面に表示する処理
   const ImageSet = (e: any) => {
-    const file = e.target.files[0]
-    const image = window.URL.createObjectURL(file)
-    setDisplayImage(image)
-    setImageChanged(true)
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      setImageFile(file)
+      const photo = window.URL.createObjectURL(file)
+      setImage(photo)
+      setImageChanged(true)
+    }
   }
+
 
   return (
     <FormControl
@@ -127,10 +132,10 @@ export function ThumbnailInput ({displayImage, setDisplayImage, register, setIma
     >
       <FormLabel mb={5}>User Photo : ユーザ画像 (Jpeg・Png Only)</FormLabel>
         <Box display={"flex"} justifyContent="center" alignItems={"center"} gap={10}>          
-          { displayImage 
+          { image 
           ? 
             <Box style={{width: 100, height: 100}} borderRadius={10} overflow="hidden"  boxShadow="0px 0px 20px gray">
-              <Image alt="" src={displayImage} width={100} height={100} layout={'responsive'} /> 
+              <Image alt="" src={image} width={100} height={100} layout={'responsive'} /> 
             </Box>
           : 
             null 
