@@ -69,7 +69,7 @@ export function UserNameInput({ errors, register, defValue }: Props  ) {
     isRequired
     my={5}
     >
-      <FormLabel>User Name : ユーザネーム</FormLabel>
+      <FormLabel>User Name</FormLabel>
       <Input
         focusBorderColor='teal.300'
         placeholder="Tipsco"
@@ -95,7 +95,7 @@ export function CommentInput({ errors, register, defValue }: Props) {
     isInvalid={errors.inputText6 ? true : false}
     my={5}
     >
-      <FormLabel>Comment : コメント</FormLabel>
+      <FormLabel>Comment</FormLabel>
       <Textarea 
         focusBorderColor='teal.300'
         placeholder="Hy I study Python & PHP."
@@ -130,7 +130,7 @@ export function ThumbnailInput ({image, setImage, setImageFile, register, setIma
     id="inputText7"
     my={5}
     >
-      <FormLabel mb={5}>User Photo : ユーザ画像 (Jpeg・Png Only)</FormLabel>
+      <FormLabel mb={5}>User Photo (Jpeg・Png Only)</FormLabel>
         <Box display={"flex"} justifyContent="center" alignItems={"center"} gap={10}>          
           { image 
           ? 

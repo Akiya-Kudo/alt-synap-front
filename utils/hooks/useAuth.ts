@@ -9,7 +9,7 @@ export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);
     const { setUserInfo } = useContext(setUserInfoContext);
 
-    const { userRegister, error, data, loading } = useUserRegister();
+    const { userRegister } = useUserRegister();
 
     const VarifiedNotifySendEmail = async () => {
         if(auth.currentUser) {
@@ -20,7 +20,7 @@ export const useSignUpFunc = () => {
         }
     }
 
-    const execute = async (email: string, password: string) => {
+    const execute = async (email: string, password: string, user_name: string) => {
         setUserState('loading')
 
         // Firebase　新規登録処理
@@ -32,21 +32,31 @@ export const useSignUpFunc = () => {
             return user
         }).then((user) => {
             // Firebaseに新規登録後でDatabaseにInsertリクエスト
-            userRegister({ variables: { firebase_id :  user.uid } })
+            userRegister({ 
+                variables:{ 
+                    createUserInfoData: { 
+                        firebase_id :  user.uid,
+                        user_name: user_name,
+                    }
+                }
+            })
             .then(() => {
                 console.log('insert cleared')
-            }).catch((error: { message: any; }) => {
+            })
+            .catch((error: { message: any; }) => {
                 console.log(error.message)
             })
+
             setUserState('isUser')
             setUserInfo({
                 firebase_id: user.uid,
-                user_name: user.displayName,
+                user_name: user_name,
                 comment: null,
-                photo_url: user.photoURL,
+                photo_url: null,
                 pinterest_user_id: null,
             })
-        }).catch((error) => {
+        })
+        .catch((error) => {
             setUserState('guest')
             console.log(error.message)
             alert(error.message)
