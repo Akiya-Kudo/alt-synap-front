@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 
 import { useSignUpFunc } from '../utils/hooks/useAuth';
 import { Header } from '../components/layouts/Header/Header';
-import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton } from '../components/forms';
+import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton, UserNameInput } from '../components/forms';
 import { BoxProps, Divider, Flex, Heading } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";
@@ -28,7 +28,8 @@ const Form = (props : BoxProps) => {
                 const target = await e.target as any;
                 const email = await target.inputText3.value as string;
                 const password = await target.inputText2.value as string;
-                execute(email, password );
+                const user_name = await target.inputText5.value as string;
+                execute(email, password, user_name );
             }}
         >
             {props.children}
@@ -58,6 +59,7 @@ const SignUp: NextPage  = () => {
                     <Heading mb={5}>Sign up</Heading>
                     <Divider />
                     <EmailInput errors={ errors } register={ register } />
+                    <UserNameInput errors={ errors } register={ register }/>
                     <PasswordInput errors={ errors } register={ register }/>
                     <PasswordRemaindInput  errors={ errors } register={ register } password={ getValues("inputText2") }/>
                     <SubmitButton text='Sign up' formState={ formState }/>

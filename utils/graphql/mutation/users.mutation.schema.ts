@@ -1,9 +1,10 @@
 import { gql } from "@apollo/client";
 
 export const USER_MUTATION = gql`
-  mutation ($firebase_id: String!){
-    registerUser(firebase_id: $firebase_id ) {
+  mutation ($createUserInfoData: createUserInfoInput!){
+    registerUser(createUserInfoData: $createUserInfoData ) {
       firebase_id
+      user_name
     }
   }
 `
