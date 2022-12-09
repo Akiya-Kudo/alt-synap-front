@@ -26,7 +26,8 @@ const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="7.5vh" pos=
 const UserMenu = () => {
 
     const { userInfo } = useContext(UserInfoContext);
-    const photo_path = userInfo?.photo_url ? userInfo.photo_url : auth.currentUser?.photoURL ? auth.currentUser.photoURL: "https://bit.ly/dan-abramov"
+    const photo_path = userInfo?.photo_url ? userInfo.photo_url : auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
+    const user_name = userInfo?.user_name ? userInfo.user_name : auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
 
     const {execute} = useLogOutFunc()
     const {executeSendEmail} = usePassChangeSendEmail();
@@ -34,7 +35,7 @@ const UserMenu = () => {
     return (
         <Menu>
             <MenuButton as={Button} colorScheme='orange' bg='orange.200'  boxShadow='md' rounded="3xl" p={0} mt={1}>
-                <Avatar size='sm' name='Dan Abrahmov' src={ photo_path }/>
+                <Avatar size='sm' name={ user_name } src={ photo_path }/>
             </MenuButton>
             <MenuList>
                 <MenuGroup title='- PROFILE -'>

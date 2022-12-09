@@ -32,7 +32,6 @@ export const AuthProvider = (props: any) => {
             console.log('useEffect内レンダリング！！！');
             if (user) {
                 console.log('logging in');
-                console.log(user);
                 setUserState('isUser');
                 
                 getUserInfo()
