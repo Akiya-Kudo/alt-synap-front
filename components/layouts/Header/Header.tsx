@@ -74,36 +74,38 @@ export const Header = () => {
 
     // ソーシャルログイン時のRedirect後Database挿入処理
     useEffect(() => {
+        console.log("social login redirect の useEffect内部 レンダリング")
         getRedirectResult(auth)
         .then((result) => {
-          if(result !== null) {
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential?.accessToken;
-            const user = result.user;
+            if(result !== null) {
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential?.accessToken;
+                const user = result.user;
 
-            getUserInfo()
-            .then(({data}) => {
-                if (!data.user) {
+                getUserInfo()
+                .then(({data}) => {
+                    if (!data.user) {
 
-                    userRegister({ variables: { firebase_id :  user.uid } })
-                    .then(() => {
-                        console.log('insert cleared')
-                    }).catch((error: { message: any; }) => {
-                        console.log(error.message)
-                    })
-                }
-            }).catch(({error}) => {
-                alert("query error happend check the console ");
-                console.log(error)
-            })
-
-          }
-        }).catch((error) => {
-          const {errorCode, errorMessage, email }  = error;
-          //const credential = GoogleAuthProvider.credentialFromError(error);
-        });    
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      },[]);
+                        userRegister({ variables: { firebase_id :  user.uid } })
+                        .then(() => {
+                            console.log('insert cleared')
+                        }).catch((error: { message: any; }) => {
+                            console.log(error.message)
+                        })
+                    }
+                })
+                .catch(({error}) => {
+                    alert("query error happend check the console");
+                    console.log(error)
+                })
+            }
+        })   
+        .catch((error) => {
+            alert("ソーシャルログインに失敗しました。| social login failed")
+            const {errorCode, errorMessage, email }  = error;
+            //const credential = GoogleAuthProvider.credentialFromError(error);
+        })
+    },[]);
     
     return (
         <>
@@ -134,8 +136,12 @@ export const Header = () => {
                         }
 
                         { userState == 'isUser' &&   
-                            <><Button colorScheme='orange' color='orange.300' variant='ghost' fontSize='xl' rounded='3xl' ><AddIcon /></Button>
-                            <UserMenu /></>
+                            <>
+                                <Link href="/post/newpost" passHref>                                    
+                                    <Button mt={1} colorScheme='orange' color='orange.300' variant='ghost' fontSize='xl' rounded='3xl' ><AddIcon /></Button>
+                                </Link>
+                                <UserMenu />
+                            </>
                         }
 
                         { userState == 'loading' &&   
