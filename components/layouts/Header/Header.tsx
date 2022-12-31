@@ -14,7 +14,7 @@ import { getRedirectResult, GoogleAuthProvider } from 'firebase/auth';
 import { useUserRegister } from '../../../utils/hooks/useMutation';
 import { useUserInfoQuery } from '../../../utils/hooks/useQuery';
 import { MyModal } from '../../modals';
-import { LoginForm } from '../../forms';
+import { LoginForm } from '../../Forms/userForms';
 
 const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="7.5vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' bg='white' >{props.children}</Flex>
 
