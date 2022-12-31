@@ -1,9 +1,16 @@
 import { Box, Center, Flex, Text } from '@chakra-ui/react'
 import { NextPage } from 'next'
-import React, { useState } from 'react'
+import { Header } from '../../components/layouts/Header/Header'
+import React, { useContext, useEffect, useState } from 'react'
+
 import { AiOutlinePicture } from 'react-icons/ai'
 import { FaPen } from 'react-icons/fa'
-import { Header } from '../../components/layouts/Header/Header'
+
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css';
+import dynamic from 'next/dynamic'
+import { AuthContext } from '../../context/auth'
+import { useRouter } from 'next/router'
 
 type PostType = "blog" | "slide" | "linkOnly" | null
 type PostProcess = "postTypeSelect" | "contentForm"
@@ -66,14 +73,25 @@ const SetTypeField = ({setPostType, setPostProcess}: any) => {
   )
 }
 
+const BlogFromContainer = dynamic(() => import("../../components/Forms/BlogForm"), { ssr: false });
 const BlogForm = () => {
+
   return (
     <>
+      <Flex className="page" direction="column" justify="center" align="center">
+        <BlogFromContainer/>
+      </Flex>
     </>
   )
 }
 
-const newpost: NextPage  = () => {
+const PostPage = () => {
+
+  // ログアウト時のリダイレクト処理
+  const { userState } = useContext(AuthContext);
+  const router = useRouter()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { if (userState !== 'isUser')  router.replace('/') }, [userState])
 
   const [postProcess, setPostProcess] = useState<PostProcess>("postTypeSelect")
   const [postType, setPostType] = useState<PostType>(null)
@@ -83,9 +101,17 @@ const newpost: NextPage  = () => {
 
   return (
     <>
-      <Header/>
       {postProcess == "postTypeSelect" && <SetTypeField setPostType={setPostType} setPostProcess={setPostProcess}/> }
       {postProcess == "contentForm" && postType == "blog" && <BlogForm/> }
+    </>
+  )
+}
+
+const newpost: NextPage = () => {
+  return (
+    <>
+      <Header/>
+      <PostPage/>
     </>
   )
 }

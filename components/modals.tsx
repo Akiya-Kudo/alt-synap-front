@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { setUserInfoContext, UserInfoContext } from "../context/auth";
 import { auth, storage } from "../utils/firebase/init";
 import { useUserInfoUpdater } from "../utils/hooks/useMutation";
-import { CommentInput, SubmitOnlyWhenChangedButton, ThumbnailInput, UserNameInput } from "./forms";
+import { CommentInput, SubmitOnlyWhenChangedButton, ThumbnailInput, UserNameInput } from "./Forms/userForms";
 
 
 export const MyInfoModal = (props: any) => {
@@ -30,7 +30,6 @@ export const MyInfoModal = (props: any) => {
 
   // Form送信イベントでの処理
   const SubmitChange = (e: any) => {
-
     e.preventDefault()
     const target = e.target as any;
     const username = target.inputText5.value as string;
@@ -99,51 +98,48 @@ export const MyInfoModal = (props: any) => {
         alert(error.message)
       })
     }
-
   }
-  
   return (
     <>
-        <Button onClick={onOpen}  colorScheme='orange' bg='orange.300' boxShadow='md' rounded='base' size='sm'>{props.title}</Button>
-
-            <Modal
-                isOpen={isOpen}
-                onClose={onClose}
-                >
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader boxShadow='base'>
-                        <Flex fontSize={25}>
-                            <Box style={{width: 40, height: 40}} mr={2}>
-                                <Image src='/logo3.svg'  width={300} height={300} layout={'responsive'} alt="logo" priority></Image>
-                            </Box>
-                            {props.title}
-                        </Flex>
-                    </ModalHeader>
-                    <ModalCloseButton />
-                    <Flex
-                    as="form" 
-                    direction="column" 
-                    w="100%" 
-                    onSubmit={ SubmitChange }
-                    >
-                    <ModalBody pb={6}>
-                        <UserNameInput defValue={ props.user_name } errors={ errors } register={ register } />
-                        <CommentInput defValue={ props.comment } errors={ errors } register={ register }/>
-                        <ThumbnailInput  setImageFile={ setImageFile } image={ image } setImage={ setImage } register={ register } setImageChanged={setImageChanged}/>
-                        <Flex direction='column'  m={3} align='center' justify='center'>
-                            <SubmitOnlyWhenChangedButton formState={ formState } isDirty={ isDirty } imageChanged={imageChanged} onClose={onClose}/>
-                        </Flex>
-                    </ModalBody>
-                    </Flex>
-                    <ModalFooter>
-                        <Button onClick={onClose}>Cancel</Button>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
-    )
-  }
+      <Button onClick={onOpen}  colorScheme='orange' bg='orange.300' boxShadow='md' rounded='base' size='sm'>{props.title}</Button>
+      <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader boxShadow='base'>
+            <Flex fontSize={25}>
+              <Box style={{width: 40, height: 40}} mr={2}>
+                <Image src='/logo3.svg'  width={300} height={300} layout={'responsive'} alt="logo" priority></Image>
+              </Box>
+                {props.title}
+            </Flex>
+          </ModalHeader>
+          <ModalCloseButton />
+          <Flex
+          as="form" 
+          direction="column" 
+          w="100%" 
+          onSubmit={ SubmitChange }
+          >
+            <ModalBody pb={6}>
+              <UserNameInput defValue={ props.user_name } errors={ errors } register={ register } />
+              <CommentInput defValue={ props.comment } errors={ errors } register={ register }/>
+              <ThumbnailInput  setImageFile={ setImageFile } image={ image } setImage={ setImage } register={ register } setImageChanged={setImageChanged}/>
+              <Flex direction='column'  m={3} align='center' justify='center'>
+                  <SubmitOnlyWhenChangedButton formState={ formState } isDirty={ isDirty } imageChanged={imageChanged} onClose={onClose}/>
+              </Flex>
+            </ModalBody>
+          </Flex>
+          <ModalFooter>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  )
+}
   export const MyModal = (props: any) => {
     
     const { isOpen, onOpen, onClose } = useDisclosure()
