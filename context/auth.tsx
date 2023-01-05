@@ -17,7 +17,7 @@ export const setUserInfoContext = createContext({} as {setUserInfo : React.Dispa
 
 
 export const AuthProvider = (props: any) => {
-    console.log('Authレンダリング！！！！！');
+    // console.log('Authレンダリング！！！！！');
     const { children } = props;
 
     const [userState, setUserState] = useState<string>('guest');
@@ -29,7 +29,7 @@ export const AuthProvider = (props: any) => {
         // setUserState('loading')
         onAuthStateChanged(auth, (user) => {
             setUserState('loading');
-            console.log('useEffect内レンダリング！！！');
+            // console.log('useEffect内レンダリング！！！');
             if (user) {
                 console.log('logging in');
                 setUserState('isUser');

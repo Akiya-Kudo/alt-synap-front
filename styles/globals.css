@@ -33,6 +33,7 @@ a {
 
 .page {
   min-height: 100vh;
+  padding-top: 7vh;
   width: 100%;
 }
 
