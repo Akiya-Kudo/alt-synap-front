@@ -19,9 +19,6 @@ import { LoginForm } from '../../Forms/userForms';
 const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="7.5vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' bg='white' >{props.children}</Flex>
 
 
-
-
-
 // ログアウトコンポーネント定義
 const UserMenu = () => {
 
@@ -58,12 +55,6 @@ const UserMenu = () => {
 }
 
 
-
-
-
-
-
-
 // ヘッダー
 export const Header = () => {
 
@@ -74,19 +65,25 @@ export const Header = () => {
 
     // ソーシャルログイン時のRedirect後Database挿入処理
     useEffect(() => {
-        console.log("social login redirect の useEffect内部 レンダリング")
         getRedirectResult(auth)
         .then((result) => {
-            if(result !== null) {
+            if(result != null) {
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 const token = credential?.accessToken;
                 const user = result.user;
 
                 getUserInfo()
                 .then(({data}) => {
+                    
                     if (!data.user) {
-
-                        userRegister({ variables: { firebase_id :  user.uid } })
+                        userRegister({ 
+                            variables: {
+                                createUserInfoData: {
+                                    firebase_id: user.uid,
+                                    user_name: user.displayName,
+                                }
+                            }
+                        })
                         .then(() => {
                             console.log('insert cleared')
                         }).catch((error: { message: any; }) => {

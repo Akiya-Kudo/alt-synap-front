@@ -124,7 +124,6 @@ export function ThumbnailInput ({image, setImage, setImageFile, register, setIma
     }
   }
 
-
   return (
     <FormControl
     id="inputText7"
