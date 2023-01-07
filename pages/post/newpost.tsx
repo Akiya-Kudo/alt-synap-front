@@ -1,53 +1,54 @@
-import { Box, Button, Center, Flex, Heading, Progress, Text } from '@chakra-ui/react'
+import { Box, Center, Flex, Heading, Progress, Text } from '@chakra-ui/react'
 import { NextPage } from 'next'
-import { Header } from '../../components/layouts/Header/Header'
 import React, { useContext, useEffect, useState } from 'react'
 
 import { AiOutlinePicture } from 'react-icons/ai'
 import { FaPen } from 'react-icons/fa'
 
-import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
-import dynamic from 'next/dynamic'
 import { AuthContext } from '../../context/auth'
 import { useRouter } from 'next/router'
 import PostTopForm from '../../components/Forms/PostTopForm'
-import { PostProcessType, PostTopInfoType } from '../../types/post'
+import { PostProcessType, PostTopInfoType, PostType } from '../../types/post'
 import BlogForm from '../../components/Forms/BlogForm'
-
-type PostType = "blog" | "slide" | "linkOnly" | null
+import { PageBackButton } from '../../components/Forms/postForms'
+import dynamic from 'next/dynamic'
 
 type TypeSetButtonProptype =  {setType: any, name: string, height: number, children?: any, bg: string, shadow: string, border: string, minW?: number, Mx?: number}
 
-const PageBackButton = ({setProgressValue, setPostProcess, beforePageForm, beforeProcessValue}: { setProgressValue: React.Dispatch<React.SetStateAction<number>>, setPostProcess: React.Dispatch<React.SetStateAction<PostProcessType>>, beforePageForm: PostProcessType, beforeProcessValue: number}) => {
-  const backPage = () => {
-    setPostProcess(beforePageForm)
-    setProgressValue(beforeProcessValue)
-  }
+const newpost: NextPage = () => {
   return (
-    <Button onClick={ backPage } bg="orange.200" color={"white"} mx={5} borderRadius={100} size="sm" >⬅︎</Button>
+    <>
+      <Flex className="page" direction="column" justify="center" align="center">
+        <PostPage/>
+      </Flex>
+    </>
   )
 }
 
-const TypeSetButton = ({setType, name, height, children, bg, shadow, border, minW = 250, Mx = 10}: TypeSetButtonProptype) => {
+export default newpost
+
+const BlogFromContainer = dynamic(() => import("../../components/Forms/BlogForm"), { ssr: false });
+
+const PostPage = () => {
+  // ログアウト時のリダイレクト処理
+  const { userState } = useContext(AuthContext);
+  const router = useRouter()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { if (userState !== 'isUser')  router.replace('/') }, [userState])
+  
+  const [postProcess, setPostProcess] = useState<PostProcessType>("postTopForm")
+  const [progressValue, setProgressValue] = useState(0)
+  const [postType, setPostType] = useState<PostType>(null)
+  const [postTopInfo, setPostTopInfo] = useState<PostTopInfoType>()
+
   return (
-    <Center 
-    onClick={ setType }
-    display="flex"
-    flexDir="column"
-    bg={bg}
-    h={height} w={250} mx={Mx} my={2} minW={minW}
-    boxShadow={shadow} borderRadius={30}
-    border={border}
-    _hover={{ 
-      bg: "yellow.100",
-      filter: "grayscale(0.3)",
-      transition: ".7s",
-    }}
-    >
-      { children ? <Center color="orange.300" mb={10}>{children}</Center> : null } 
-      <Text fontSize="1.3rem">{name}</Text>
-    </Center>
+    <>
+      <Progress mt={5} colorScheme="red" w={300} hasStripe value={progressValue} />
+      {postProcess == "postTopForm" && <PostTopForm progressValue={progressValue} setProgressValue={ setProgressValue } setPostProcess={setPostProcess} setPostTopInfo={ setPostTopInfo } postTopInfo={postTopInfo}/> }
+      {postProcess == "postTypeSelect" && <SetTypeButtonContainer setProgressValue={ setProgressValue } setPostType={setPostType} setPostProcess={setPostProcess}/> }
+      {postProcess == "contentForm" && postType == "blog" && <BlogFromContainer setProgressValue={ setProgressValue } setPostType={setPostType} progressValue={progressValue} setPostProcess={setPostProcess}/>}
+    </>
   )
 }
 
@@ -89,41 +90,24 @@ const SetTypeButtonContainer = ({setPostType, setPostProcess, setProgressValue}:
   )
 }
 
-const PostTopFromContainer = dynamic(() => import("../../components/Forms/PostTopForm"), { ssr: false });
-
-const PostPage = () => {
-  // ログアウト時のリダイレクト処理
-  const { userState } = useContext(AuthContext);
-  const router = useRouter()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { if (userState !== 'isUser')  router.replace('/') }, [userState])
-  
-  const [postProcess, setPostProcess] = useState<PostProcessType>("postTopForm")
-  const [progressValue, setProgressValue] = useState(0)
-  const [postType, setPostType] = useState<PostType>(null)
-  const [postTopInfo, setPostTopInfo] = useState<PostTopInfoType>()
-
+const TypeSetButton = ({setType, name, height, children, bg, shadow, border, minW = 250, Mx = 10}: TypeSetButtonProptype) => {
   return (
-    <>
-      <Progress mt={5} colorScheme="red" w={400} hasStripe value={progressValue} />
-      {postProcess == "postTopForm" && <PostTopFromContainer setProgressValue={ setProgressValue } setPostProcess={setPostProcess} setPostTopInfo={ setPostTopInfo } postTopInfo={postTopInfo}/> }
-      {postProcess == "postTypeSelect" && <SetTypeButtonContainer setProgressValue={ setProgressValue } setPostType={setPostType} setPostProcess={setPostProcess}/> }
-      {postProcess == "contentForm" && postType == "blog" && <BlogForm/>}
-    </>
+    <Center 
+    onClick={ setType }
+    display="flex"
+    flexDir="column"
+    bg={bg}
+    h={height} w={250} mx={Mx} my={2} minW={minW}
+    boxShadow={shadow} borderRadius={30}
+    border={border}
+    _hover={{ 
+      bg: "yellow.100",
+      filter: "grayscale(0.3)",
+      transition: ".7s",
+    }}
+    >
+      { children ? <Center color="orange.300" mb={10}>{children}</Center> : null } 
+      <Text fontSize="1.3rem">{name}</Text>
+    </Center>
   )
 }
-
-
-
-const newpost: NextPage = () => {
-  return (
-    <>
-      <Header/>
-      <Flex className="page" direction="column" justify="center" align="center">
-        <PostPage/>
-      </Flex>
-    </>
-  )
-}
-
-export default newpost

@@ -6,3 +6,4 @@ export type PostTopInfoType = {
     isShowLink: boolean,
     isShowImage: boolean,
 }
+export type PostType = "blog" | "slide" | "linkOnly" | null
