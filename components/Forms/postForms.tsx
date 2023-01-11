@@ -1,7 +1,9 @@
-import { Box, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Switch, Text, useCheckbox } from "@chakra-ui/react"
+import { Alert, AlertDescription, AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertIcon, AlertTitle, Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Switch, Text, useCheckbox, useDisclosure } from "@chakra-ui/react"
 import Image from "next/image";
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ImageThumnail from "../../public/thumnailimage.svg";
+import { PostProcessType } from "../../types/post";
 
 type Props = {
     text?: string;
@@ -13,6 +15,83 @@ type Props = {
     isDirty?: boolean;
     imageChanged?: boolean;
     onClose?: any;
+}
+
+export const PageBackButton = ({setProgressValue, setPostProcess, beforePageForm, beforeProcessValue, progressValue}: { setProgressValue?: React.Dispatch<React.SetStateAction<number>>, setPostProcess?: React.Dispatch<React.SetStateAction<PostProcessType>>, beforePageForm?: PostProcessType, beforeProcessValue?: number, progressValue?: number }) => {
+    
+    const router = useRouter()
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const cancelRef = React.useRef(null)
+    
+    const backPage = () => {
+        if (progressValue == 0) {
+            router.back()
+        } 
+        else if (beforePageForm == "postTypeSelect") {
+            onOpen()
+
+        } else if (!!setProgressValue && !!setPostProcess && !!beforePageForm && beforeProcessValue != undefined && progressValue != 0) {
+            setPostProcess(beforePageForm)
+            setProgressValue(beforeProcessValue)
+        }
+    }
+    return (
+        <>
+            <Button onClick={ backPage } bg="orange.200" color={"white"} mx={5} borderRadius={100} size="xs" >⬅︎</Button>
+            <AlertDialog
+                isOpen={isOpen}
+                onClose={onClose} 
+                leastDestructiveRef={cancelRef}
+                >
+                <AlertDialogOverlay>
+                <AlertDialogContent>
+                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                        Go Back
+                    </AlertDialogHeader>
+
+                    <AlertDialogBody>
+                        <Alert
+                        status='warning'
+                        variant='subtle'
+                        flexDirection='column'
+                        alignItems='center'
+                        justifyContent='center'
+                        textAlign='center'
+                        height='200px'
+                        >
+                            <AlertIcon boxSize='40px' mr={0} />
+                            <AlertTitle mt={4} mb={1} fontSize='lg'>
+                                Contents you create will be deleted !
+                            </AlertTitle>
+                            <AlertDescription maxWidth='sm' fontSize="sm">
+                                Are you sure? Content you created will be deleted ! <br/>
+                                あなたが作成しているコンテンツが削除されてしまいます！ 復元することはできません。
+                            </AlertDescription>
+                        </Alert>
+                    </AlertDialogBody>
+                    <AlertDialogFooter>
+                    <Button ref={cancelRef} onClick={onClose}>
+                        Cancel
+                    </Button>
+                    <Button colorScheme='red' ml={3}
+                    onClick={() => {
+                        if (!!setProgressValue && !!setPostProcess && !!beforePageForm && beforeProcessValue != undefined && progressValue != 0) {
+                            setPostProcess(beforePageForm)
+                            setProgressValue(beforeProcessValue)
+                        }
+                    }}
+                    >
+                        ← Back
+                    </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+                </AlertDialogOverlay>
+            </AlertDialog>
+        </>
+
+        
+    )
 }
 
 const ShowSwitch = ({setIsShow, isShow, id, defIsShow}: {setIsShow: Dispatch<SetStateAction<boolean>>, isShow: boolean, id: string, defIsShow: boolean}) => {

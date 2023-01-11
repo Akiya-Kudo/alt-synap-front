@@ -25,6 +25,8 @@ export const AuthProvider = (props: any) => {
 
     const {getUserInfo,loading, error, data} = useUserInfoQuery();
 
+    console.log("userinfo")
+
     useEffect(() => {
         // setUserState('loading')
         onAuthStateChanged(auth, (user) => {

@@ -1,12 +1,11 @@
 import { Flex, Heading } from '@chakra-ui/react'
-import React, { Dispatch, SetStateAction, useEffect, useLayoutEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import ReactQuill from 'react-quill'
 import { PostProcessType, PostTopInfoType } from '../../types/post'
-import { PostImageInput, PostTitleInput, TopLinkInput } from './postForms'
+import { PageBackButton, PostImageInput, PostTitleInput, TopLinkInput } from './postForms'
 import { SubmitButton } from './userForms'
 
-const PostTopForm = ({setProgressValue, setPostProcess, setPostTopInfo, postTopInfo}: {setProgressValue: Dispatch<SetStateAction<number>>, setPostProcess: Dispatch<SetStateAction<PostProcessType>>, setPostTopInfo: Dispatch<SetStateAction<PostTopInfoType | undefined>>, postTopInfo: PostTopInfoType | undefined}) => {
+const PostTopForm = ({setProgressValue, setPostProcess, setPostTopInfo, postTopInfo, progressValue }: {setProgressValue: Dispatch<SetStateAction<number>>, setPostProcess: Dispatch<SetStateAction<PostProcessType>>, setPostTopInfo: Dispatch<SetStateAction<PostTopInfoType | undefined>>, postTopInfo: PostTopInfoType | undefined, progressValue: number}) => {
     
     const [isShowLink, setIsShowLink] = useState(true)
     const [isShowImage, setIsShowImage] = useState(true)
@@ -23,7 +22,8 @@ const PostTopForm = ({setProgressValue, setPostProcess, setPostTopInfo, postTopI
     }, [])
 
     return (
-        <Flex as="form"
+        <Flex 
+        as="form"
         direction="column" 
         w={400} 
         mt={19}
@@ -44,11 +44,13 @@ const PostTopForm = ({setProgressValue, setPostProcess, setPostTopInfo, postTopI
             setPostProcess("postTypeSelect")
         }}
         >
-            <Heading my={3}>Post Tips</Heading>
+            <Heading mt={7} me={20}>
+                <PageBackButton progressValue={progressValue} />
+                Post Tips
+            </Heading>
             <PostTitleInput errors={ errors } register={ register } defValue={postTopInfo?.title}/>
             <TopLinkInput errors={ errors } register={ register } isShow={isShowLink} setIsShow={setIsShowLink} defValue={postTopInfo?.topLink} defIsShow={postTopInfo?.isShowLink}/>
             <PostImageInput  setImageFile={ setImageFile } image={ image } setImage={ setImage } register={ register } isShow={isShowImage} setIsShow={setIsShowImage} defValue={postTopInfo?.topImage} defIsShow={postTopInfo?.isShowImage}/>
-            {/* <ReactQuill theme="snow" value={value} onChange={ setValue }/> */}
             <SubmitButton text='Next ➡︎' formState={ formState }/>
         </Flex>
     )
