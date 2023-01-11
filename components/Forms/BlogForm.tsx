@@ -7,39 +7,6 @@ import { PageBackButton } from './postForms';
 import styles from '../../styles/components/my-quill.module.css'
 
 const BlogForm = ({setProgressValue, setPostType, progressValue, setPostProcess}: {setProgressValue: Dispatch<SetStateAction<number>>, setPostType: Dispatch<SetStateAction<PostType>>, progressValue: number, setPostProcess: Dispatch<SetStateAction<PostProcessType>>}) => {
-    
-    const [value, setValue] = useState()
-
-    const modules = {
-        toolbar: [
-            [{ 'header': [1, 2, false] }],
-            ['bold', 'italic', 'underline','strike', 'blockquote', 'code-block'],
-            [{ 'color': []}, { 'background': []}],
-            [{'list': 'ordered'}, {'list': 'bullet'}],
-            [{'indent': '-1'}, {'indent': '+1'}, {'align': []}],
-            ['link', 'image', "video"],
-            ['clean']
-        ],
-        history: {
-            delay: 2000,maxStack: 500,userOnly: true
-        }
-    }
-    
-    const formats = [
-        'header',
-        'bold', 'italic', 'underline', 
-        'strike', 'blockquote', 'code-block',
-        'color', 'background',
-        'list', 'bullet', 'indent', 'align',
-        'link', 'image', "video",
-        'history',
-    ]
-
-    let reactQuillRef = useRef<ReactQuill | null>(null)
-
-    const EditorChanged = (e: any) => {
-        setValue(e)
-    }
 
     return (
         <>
@@ -61,7 +28,6 @@ const BlogForm = ({setProgressValue, setPostType, progressValue, setPostProcess}
                 {/* <PublishSwitch/> */}
                 {/* <SaveButton/> */}
                 <div className={styles.quillContainer}>
-                    <ReactQuill ref={ reactQuillRef } theme={"snow"} value={value} modules={modules} formats={formats} placeholder={"Write Your Tips..."} onChange={ EditorChanged } />
                 </div>
 
             </Flex>
