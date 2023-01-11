@@ -1,9 +1,3 @@
-.quillContainer {
-
-}
-.quillContainer :global .quill {
-}
-
 .quillContainer :global .quill .ql-toolbar {
     border-radius: 15px;
     border: 0px;
