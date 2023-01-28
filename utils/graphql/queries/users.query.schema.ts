@@ -8,7 +8,8 @@ export const USER_QUERY = gql`
             user_name
             photo_url
             comment
-            pinterest_user_id
+            followee_num
+            follower_num
         }
     }
 `;

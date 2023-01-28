@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import ImageThumnail from "../../public/thumnailimage.svg";
 import Image from 'next/image';
 
-type Props = {
+type InputProps = {
   text?: string;
   errors?: any;
   formState?: any;
@@ -18,11 +18,6 @@ type Props = {
   isDirty?: boolean;
   imageChanged?: boolean;
   onClose?: any;
-}
-type DefaultValue = {
-  user_name: string | null;
-  comment: string | null;
-  photo_path: string | null;
 }
 
 // ログインフォームコンポーネント定義
@@ -60,7 +55,7 @@ export const LoginForm = () => {
   )
 }
 
-export function UserNameInput({ errors, register, defValue }: Props  ) {
+export function UserNameInput({ errors, register, defValue }: InputProps  ) {
 
   return (
     <FormControl
@@ -88,7 +83,7 @@ export function UserNameInput({ errors, register, defValue }: Props  ) {
   )
 }
 
-export function CommentInput({ errors, register, defValue }: Props) {
+export function CommentInput({ errors, register, defValue }: InputProps) {
   return (
     <FormControl
     id="inputText6"
@@ -156,7 +151,7 @@ export function ThumbnailInput ({image, setImage, setImageFile, register, setIma
   )
 }
 
-export function EmailInput({ errors, register }: Props) {
+export function EmailInput({ errors, register }: InputProps) {
   return (
     <FormControl
       id="inputText3"
@@ -185,7 +180,7 @@ export function EmailInput({ errors, register }: Props) {
 }
 
 
-export function PasswordInput({ errors, register }: Props) {
+export function PasswordInput({ errors, register }: InputProps) {
 
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
@@ -226,7 +221,7 @@ export function PasswordInput({ errors, register }: Props) {
 }
 
 
-export function PasswordRemaindInput({ errors, register, password }: Props) {
+export function PasswordRemaindInput({ errors, register, password }: InputProps) {
 
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
@@ -268,7 +263,7 @@ export function PasswordRemaindInput({ errors, register, password }: Props) {
 }
 
 
-export function SubmitButton ({ text = "Submit", formState }:Props) {
+export function SubmitButton ({ text = "Submit", formState }:InputProps) {
   return (
     <Button 
       colorScheme="teal" 
@@ -282,7 +277,7 @@ export function SubmitButton ({ text = "Submit", formState }:Props) {
   )
 }
 
-export function SubmitOnlyWhenChangedButton ({ text = "Submit", formState, isDirty, imageChanged, onClose }:Props) {
+export function SubmitOnlyWhenChangedButton ({ text = "Submit", formState, isDirty, imageChanged, onClose }:InputProps) {
 
   return (
     <Button 
