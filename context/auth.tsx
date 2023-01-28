@@ -2,7 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../utils/firebase/init";
 
-import { User, UserStateType } from "../types/user";
+import { User } from "../types/user";
 import { useUserInfoQuery } from "../utils/hooks/useQuery";
 
 
@@ -11,7 +11,7 @@ type UserStateStringType = string;
 type UserInfoType = User | null;
 
 export const AuthContext = createContext({} as {userState : UserStateStringType});
-export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<UserStateType>>});
+export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<string>>});
 export const UserInfoContext = createContext({} as {userInfo : UserInfoType});
 export const setUserInfoContext = createContext({} as {setUserInfo : React.Dispatch<React.SetStateAction<any>>});
 
@@ -20,8 +20,8 @@ export const AuthProvider = (props: any) => {
     // console.log('Authレンダリング！！！！！');
     const { children } = props;
 
-    const [userState, setUserState] = useState<UserStateType>('guest');
-    const [userInfo, setUserInfo] = useState< User | null >(null);
+    const [userState, setUserState] = useState<string>('guest');
+    const [userInfo, setUserInfo] = useState<any>(null);
 
     const {getUserInfo,loading, error, data} = useUserInfoQuery();
 

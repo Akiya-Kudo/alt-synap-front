@@ -8,8 +8,7 @@ export type User = {
     user_name: string;
     photo_url: string;
     comment: string;
-    followee_num: number;
-    follower_num: number;
+    pinterest_user_id: string;
 }
 
-export type UserStateType = 'isUser' | 'guest' | 'loading';
+export type userStateType = 'isUser' | 'guest' | 'loading';
