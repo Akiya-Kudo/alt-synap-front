@@ -15,7 +15,8 @@ export const USER_INFO_MUTATION = gql`
       user_name
       comment
       photo_url
-      pinterest_user_id
+      followee_num
+      follower_num
     }
   }
   `
