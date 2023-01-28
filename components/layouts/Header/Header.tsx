@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Loading from '../../Loading';
 
-import { AuthContext, UserInfoContext } from '../../../context/auth';
+import { AuthContext, setUserInfoContext, UserInfoContext } from '../../../context/auth';
 
 import { Avatar, Box, BoxProps, Button, ButtonGroup, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
@@ -59,50 +59,10 @@ const UserMenu = () => {
 export const Header = () => {
 
     const { userState } = useContext(AuthContext);
+    const { setUserInfo } = useContext(setUserInfoContext);
 
     const { userRegister } = useUserRegister();
     const { getUserInfo } = useUserInfoQuery();
-
-    // ソーシャルログイン時のRedirect後Database挿入処理
-    useEffect(() => {
-        getRedirectResult(auth)
-        .then((result) => {
-            if(result != null) {
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential?.accessToken;
-                const user = result.user;
-
-                getUserInfo()
-                .then(({data}) => {
-                    
-                    if (!data.user) {
-                        userRegister({ 
-                            variables: {
-                                createUserInfoData: {
-                                    firebase_id: user.uid,
-                                    user_name: user.displayName,
-                                }
-                            }
-                        })
-                        .then(() => {
-                            console.log('insert cleared')
-                        }).catch((error: { message: any; }) => {
-                            console.log(error.message)
-                        })
-                    }
-                })
-                .catch(({error}) => {
-                    alert("query error happend check the console");
-                    console.log(error)
-                })
-            }
-        })   
-        .catch((error) => {
-            alert("ソーシャルログインに失敗しました。| social login failed")
-            const {errorCode, errorMessage, email }  = error;
-            //const credential = GoogleAuthProvider.credentialFromError(error);
-        })
-    },[]);
     
     return (
         <>

@@ -49,7 +49,6 @@ export const MyInfoModal = (props: any) => {
         getDownloadURL(storageRef)
         .then((url) => {
           thumbnail_url = url
-          
           userInfoUpdater({ 
             variables: { 
               updateUserInfoData: {
@@ -88,8 +87,6 @@ export const MyInfoModal = (props: any) => {
         console.log('db insert cleared')
 
         const result = data.data.updateUserInfo
-        console.log("result")
-        console.log(result)
         reset({inputText5: result.user_name, inputText6: result.comment})
 
         setUserInfo(data.data.updateUserInfo)
