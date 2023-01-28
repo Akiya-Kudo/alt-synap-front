@@ -1,12 +1,24 @@
-import { Alert, Box, Flex, Heading, Input } from '@chakra-ui/react';
-import styled from '@emotion/styled';
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react'
-import ReactQuill from 'react-quill';
+import { Flex, Heading } from '@chakra-ui/react';
+import React, { Dispatch, SetStateAction } from 'react'
 import { PostProcessType, PostType } from '../../types/post';
 import { PageBackButton } from './postForms';
 import styles from '../../styles/components/my-quill.module.css'
 
+import EditorJS from '@editorjs/editorjs';
+import EditorjsHeader from '@editorjs/header'; 
+import EditorjsList from '@editorjs/list'; 
+
+const editor = new EditorJS({
+    // Id of Element that should contain the Editor 
+    holder: 'editorjs', 
+    tools: { 
+    header: EditorjsHeader, 
+    list: EditorjsList 
+    }, 
+});
+
 const BlogForm = ({setProgressValue, setPostType, progressValue, setPostProcess}: {setProgressValue: Dispatch<SetStateAction<number>>, setPostType: Dispatch<SetStateAction<PostType>>, progressValue: number, setPostProcess: Dispatch<SetStateAction<PostProcessType>>}) => {
+
 
     return (
         <>
