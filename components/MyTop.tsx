@@ -36,10 +36,10 @@ const MyTop = () => {
                                 <Heading>{ user_name }</Heading>
                             </GridItem>                    
                             <GridItem rowSpan={1} colSpan={2} m="auto">
-                                <Text>Follower: 10 Followee: 2</Text>
+                                <Text>Follower: { userInfo?.follower_num } Followee: { userInfo?.followee_num }</Text>
                             </GridItem>                    
                             <GridItem rowSpan={2} colSpan={2} mt={2}>
-                                <Text>Comment : { comment}</Text>
+                                <Text>Comment : { comment }</Text>
                             </GridItem>
                             <GridItem rowSpan={1} colSpan={1} mt={2}>
                                 <MyInfoModal title={"Account Setting"} user_name={user_name} comment={comment} photo_path={photo_path}/>

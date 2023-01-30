@@ -59,7 +59,9 @@ export const AuthProvider = (props: any) => {
                             // console.log("authのユーザ情報をDBに登録する関数が起動しています")
                             setUserInfo({
                                 firebase_id: user.uid,
-                                user_name: userName
+                                user_name: userName,
+                                followee_num: 0,
+                                follower_num: 0
                             })
                         }).catch((error: { message: any; }) => {
                             console.log(error.message)
