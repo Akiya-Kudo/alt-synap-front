@@ -10,6 +10,7 @@ export const USER_QUERY = gql`
             comment
             followee_num
             follower_num
+            lang_type
         }
     }
 `;
