@@ -2,7 +2,7 @@ import { getRedirectResult, GoogleAuthProvider, onAuthStateChanged } from "fireb
 import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../utils/firebase/init";
 
-import { User, UserStateType } from "../types/user";
+import { User } from "../types/user";
 import { useUserInfoQuery } from "../utils/hooks/useQuery";
 import { useUserRegister } from "../utils/hooks/useMutation";
 
@@ -12,7 +12,7 @@ type UserStateStringType = string;
 type UserInfoType = User | null;
 
 export const AuthContext = createContext({} as {userState : UserStateStringType});
-export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<UserStateType>>});
+export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<string>>});
 export const UserInfoContext = createContext({} as {userInfo : UserInfoType});
 export const setUserInfoContext = createContext({} as {setUserInfo : React.Dispatch<React.SetStateAction<any>>});
 
