@@ -17,6 +17,7 @@ export const USER_INFO_MUTATION = gql`
       photo_url
       followee_num
       follower_num
+      lang_type
     }
   }
   `

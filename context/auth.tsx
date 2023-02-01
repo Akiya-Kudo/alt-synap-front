@@ -34,6 +34,8 @@ export const AuthProvider = (props: any) => {
         getRedirectResult(auth)
         .then((result) => {
             // console.log("authのリダイレクトの結果取得の関数が起動しています")
+            // console.log(result);
+
             //firebaseリダイレクトが行われていた場合、ユーザ情報を取得する関数を呼び出す
             if(result != null) {
                 const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -43,7 +45,9 @@ export const AuthProvider = (props: any) => {
 
                 getUserInfo()
                 .then(({data}) => {
-                    // console.log("authのユーザ情報をDBから取得する関数が起動しています")
+                    console.log("authのユーザ情報をDBから取得する関数が起動しています")
+                    console.log(userInfo);
+
                     // データベース内にユーザ情報がなかった場合、新しくユーザーを登録する
                     if (!data.user) {
                         userRegister({ 
@@ -88,7 +92,8 @@ export const AuthProvider = (props: any) => {
                 
                 getUserInfo()
                 .then(({data}) => {
-                    setUserInfo(data.user)
+                    setUserInfo(data.user);
+                    console.log(data.user);
                 }).catch(({error}) => {
                     alert("query error happend check the console ");
                     console.log(error)

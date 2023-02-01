@@ -10,6 +10,7 @@ export type User = {
     comment?: string;
     followee_num?: number;
     follower_num?: number;
+    lang_type?: number;
 }
 
 export type UserStateType = 'isUser' | 'guest' | 'loading';
