@@ -45,8 +45,8 @@ export const AuthProvider = (props: any) => {
 
                 getUserInfo()
                 .then(({data}) => {
-                    console.log("authのユーザ情報をDBから取得する関数が起動しています")
-                    console.log(userInfo);
+                    // console.log("authのユーザ情報をDBから取得する関数が起動しています")
+                    // console.log(userInfo);
 
                     // データベース内にユーザ情報がなかった場合、新しくユーザーを登録する
                     if (!data.user) {
@@ -59,8 +59,9 @@ export const AuthProvider = (props: any) => {
                             }
                         })
                         .then(() => {
-                            console.log('insert cleared')
                             // console.log("authのユーザ情報をDBに登録する関数が起動しています")
+                            
+                            console.log('insert cleared')
                             setUserInfo({
                                 firebase_id: user.uid,
                                 user_name: userName,
