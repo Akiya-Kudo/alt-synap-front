@@ -1,6 +1,6 @@
 import { Box, Image } from '@chakra-ui/react'
 import React from 'react'
-import logo from '../styles/components/top_logo.module.css';
+import logo from '../style/components/top_logo.module.css';
 
 const TopBack = () => {
     return (

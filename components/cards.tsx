@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { AiFillLike, AiOutlinePicture } from 'react-icons/ai';
 import { FaLink, FaListUl, FaPen } from 'react-icons/fa';
-import styles from "../styles/components/cards.module.css";
+import styles from "../style/components/cards.module.css";
 
 
 

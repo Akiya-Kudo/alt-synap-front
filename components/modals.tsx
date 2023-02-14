@@ -3,9 +3,9 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { setUserInfoContext, UserInfoContext } from "../context/auth";
-import { auth, storage } from "../utils/firebase/init";
-import { useUserInfoUpdater } from "../utils/hooks/useMutation";
+import { setUserInfoContext, UserInfoContext } from "../util/hooks/auth";
+import { auth, storage } from "../util/firebase/init";
+import { useUserInfoUpdater } from "../util/hooks/useMutation";
 import { CommentInput, SubmitOnlyWhenChangedButton, ThumbnailInput, UserNameInput } from "./Forms/userForms";
 
 
@@ -16,7 +16,7 @@ export const MyInfoModal = (props: any) => {
   
   // form処理
   const { userInfo } = useContext(UserInfoContext);
-  const { setUserInfo } = useContext(setUserInfoContext);
+  const { setUserInfo } = (setUserInfoContext);
 
   const [image, setImage] = useState(props.photo_path)
   const [imageFile, setImageFile] = useState(null)

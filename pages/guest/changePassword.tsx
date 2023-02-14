@@ -5,8 +5,8 @@ import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { EmailInput, SubmitButton } from '../../components/Forms/userForms'
 import { Header } from '../../components/layouts/Header/Header'
-import { AuthContext } from '../../context/auth'
-import { usePassChangeSendEmail } from '../../utils/hooks/useAuth'
+import { AuthContext } from '../../util/hooks/auth'
+import { usePassChangeSendEmail } from '../../util/hooks/useAuth'
 
 
 const Form = (props : BoxProps) => {

@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithRedirect, signOut } from "firebase/auth";
 import { useContext } from "react";
-import { setAuthContext, setUserInfoContext } from "../../context/auth";
+import { setAuthContext, setUserInfoContext } from "./auth";
 import { auth, githubProvider, googleProvider } from '../firebase/init';
 import { useUserRegister } from "./useMutation";
 import { useUserInfoQuery } from "./useQuery";

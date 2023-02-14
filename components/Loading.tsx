@@ -1,6 +1,6 @@
 import { Spinner } from '@chakra-ui/react';
 import React, { useState } from 'react'
-import  styles  from '../styles/components/Loading.module.css';
+import  styles  from '../style/components/Loading.module.css';
 
 const Loading = ({ message }: { message: string }) => {
 

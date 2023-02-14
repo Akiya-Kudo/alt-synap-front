@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import { AuthContext, UserInfoContext } from '../context/auth';
+import { AuthContext, UserInfoContext } from '../util/hooks/auth';
 
 import { Avatar, Box, Grid, GridItem, Heading, Skeleton, SkeletonCircle, SkeletonText, Text } from '@chakra-ui/react';
-import  styles  from '../styles/components/Top.module.css';
+import  styles  from '../style/components/Top.module.css';
 
 import { MyInfoModal } from './modals';
 
-import { auth } from '../utils/firebase/init';
+import { auth } from '../util/firebase/init';
 
 
 const MyTop = () => {

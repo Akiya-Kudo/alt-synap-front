@@ -1,7 +1,7 @@
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import React from 'react'
-import  styles  from '../styles/components/Top.module.css';
-import logo from '../styles/components/top_logo.module.css';
+import  styles  from '../style/components/Top.module.css';
+import logo from '../style/components/top_logo.module.css';
 import TopBack from './TopBack';
 
 

@@ -1,8 +1,8 @@
 import { Flex, Heading } from '@chakra-ui/react';
 import React, { Dispatch, SetStateAction } from 'react'
-import { PostProcessType, PostType } from '../../types/post';
+import { PostProcessType, PostType } from '../../type/post';
 import { PageBackButton } from './postForms';
-import styles from '../../styles/components/my-quill.module.css'
+import styles from '../../style/components/my-quill.module.css'
 
 import EditorJS from '@editorjs/editorjs';
 import EditorjsHeader from '@editorjs/header'; 

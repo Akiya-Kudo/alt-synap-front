@@ -1,7 +1,7 @@
 import { Flex, Heading } from '@chakra-ui/react'
 import React, { Dispatch, SetStateAction, useLayoutEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { PostProcessType, PostTopInfoType } from '../../types/post'
+import { PostProcessType, PostTopInfoType } from '../../type/post'
 import { PageBackButton, PostImageInput, PostTitleInput, TopLinkInput } from './postForms'
 import { SubmitButton } from './userForms'
 

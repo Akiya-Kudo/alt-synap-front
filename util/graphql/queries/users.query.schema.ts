@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-// import { User} from '../../../types/user'
+// import { User} from '../../../type/user'
 
 export const USER_QUERY = gql`
     query ($userId: String!){

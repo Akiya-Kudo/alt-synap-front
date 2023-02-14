@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 
-import { useSignUpFunc } from '../utils/hooks/useAuth';
+import { useSignUpFunc } from '../util/hooks/useAuth';
 import { Header } from '../components/layouts/Header/Header';
 import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton, UserNameInput } from '../components/Forms/userForms';
 import { BoxProps, Divider, Flex, Heading } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";
-import { AuthContext } from '../context/auth';
+import { AuthContext } from '../util/hooks/auth';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 

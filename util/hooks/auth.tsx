@@ -1,10 +1,10 @@
 import { getRedirectResult, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
-import { auth } from "../utils/firebase/init";
+import { auth } from "../firebase/init";
 
-import { User, UserStateType } from "../types/user";
-import { useUserInfoQuery } from "../utils/hooks/useQuery";
-import { useUserRegister } from "../utils/hooks/useMutation";
+import { User, UserStateType } from "../../type/user";
+import { useUserInfoQuery } from "./useQuery";
+import { useUserRegister } from "./useMutation";
 
 
 // type UserStateStringType = 'isUser' | 'guest' | 'loading'; 
@@ -94,7 +94,6 @@ export const AuthProvider = (props: any) => {
                 getUserInfo()
                 .then(({data}) => {
                     setUserInfo(data.user);
-                    console.log(data.user);
                 }).catch(({error}) => {
                     alert("query error happend check the console ");
                     console.log(error)

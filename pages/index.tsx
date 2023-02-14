@@ -1,21 +1,20 @@
-import React from 'react';
-import {Header} from '../components/layouts/Header/Header';
-import CardContainer from '../components/CardContainer';
-import Top from '../components/Top';
+import React, { useContext } from 'react';
 import { NextPage } from 'next';
-import TagHeader from '../components/layouts/Header/TagHeader';
+import { Box } from '@chakra-ui/react';
+import { UserInfoContext } from '../util/hooks/auth';
 
+const index: NextPage  = ({data}: any) => {
 
-const index: NextPage  = () => {
+  const { userInfo } = useContext(UserInfoContext)
 
   return (
     <>
-      <Header/>
-      <TagHeader/>
-      <div className="page">
-        <Top/>
-        <CardContainer/>
-      </div>
+        <Box fontSize={20} color={"tipsy.100"}>tipsy</Box>
+        <Box  color={"tipsy.100"}>tipsy</Box>
+        <Box  color={"tipsy.100"}>{data}</Box>
+        <Box  color={"tipsy.100"}>{userInfo?.firebase_id}</Box>
+        <Box  color={"tipsy.100"}>{userInfo?.user_name}</Box>
+
     </>
   )
 }

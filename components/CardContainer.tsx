@@ -1,7 +1,7 @@
 import { ContentCard, LinkOnlyCard, PictureContentCard, PictureLinkOnlyCard } from './cards'
 import React from 'react'
 
-import styles from '../styles/components/Top.module.css'
+import styles from '../style/components/Top.module.css'
 import { Grid, GridItem, SimpleGrid } from '@chakra-ui/react'
 
 const CardContainer = () => {

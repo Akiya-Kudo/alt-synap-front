@@ -5,17 +5,19 @@ body {
   width: 100%;
   padding: 0;
   margin: 0;
+  /* 基本はremでルートとの相対サイズでフォントを描画させ、親のサイズによって変更したい場合のみemを用いる */
+  font-size: 20px;
   /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
 }
 
 @font-face {
   font-family: 'Ubuntu';
-  src: local('Ubuntu'), url(./Ubuntu/Ubuntu-Medium.ttf) format('truetype');
+  src: local('Ubuntu'), url(./font/Ubuntu/Ubuntu-Medium.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Kiwi_Maru';
-  src: local('Kiwi_Maru'), url(./Kiwi_Maru/KiwiMaru-Medium.ttf) format('truetype');
+  src: local('Kiwi_Maru'), url(./font/Kiwi_Maru/KiwiMaru-Medium.ttf) format('truetype');
 }
 
 .a {
@@ -33,8 +35,11 @@ a {
 
 .page {
   min-height: 100vh;
-  padding-top: 7vh;
   width: 100%;
+}
+
+.home_page {
+  color: #b94d4d;
 }
 
 @media (prefers-color-scheme: dark) {

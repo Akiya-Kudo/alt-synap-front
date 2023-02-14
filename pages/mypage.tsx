@@ -4,9 +4,9 @@ import { NextPage } from 'next'
 import { Header } from '../components/layouts/Header/Header'
 import MyTop from '../components/MyTop'
 
-import  styles  from '../styles/components/Top.module.css';
+import  styles  from '../style/components/Top.module.css';
 import { Box } from '@chakra-ui/react'
-import { UserInfoContext } from '../context/auth';
+import { UserInfoContext } from '../util/hooks/auth';
 
 const Mypage: NextPage  = () => {
     const { userInfo } = useContext(UserInfoContext);

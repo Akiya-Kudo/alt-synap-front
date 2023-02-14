@@ -3,16 +3,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Loading from '../../Loading';
 
-import { AuthContext, setUserInfoContext, UserInfoContext } from '../../../context/auth';
+import { AuthContext, setUserInfoContext, UserInfoContext } from '../../../util/hooks/auth';
 
 import { Avatar, Box, BoxProps, Button, ButtonGroup, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 
-import { useLogOutFunc, usePassChangeSendEmail } from '../../../utils/hooks/useAuth';
-import { auth } from '../../../utils/firebase/init';
+import { useLogOutFunc, usePassChangeSendEmail } from '../../../util/hooks/useAuth';
+import { auth } from '../../../util/firebase/init';
 import { getRedirectResult, GoogleAuthProvider } from 'firebase/auth';
-import { useUserRegister } from '../../../utils/hooks/useMutation';
-import { useUserInfoQuery } from '../../../utils/hooks/useQuery';
+import { useUserRegister } from '../../../util/hooks/useMutation';
+import { useUserInfoQuery } from '../../../util/hooks/useQuery';
 import { MyModal } from '../../modals';
 import { LoginForm } from '../../Forms/userForms';
 

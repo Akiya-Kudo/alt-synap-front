@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ImageThumnail from "../../public/thumnailimage.svg";
-import { PostProcessType } from "../../types/post";
+import { PostProcessType } from "../../type/post";
 
 type Props = {
     text?: string;
