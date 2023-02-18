@@ -15,6 +15,12 @@ export const USER_QUERY = gql`
     }
 `;
 
-// export interface UserData {
-//     user: User[];
-// }
+export const USERS_ALL_QUERY = gql`
+    query {
+        users_all {
+            firebase_id
+            user_name
+            photo_url
+            comment
+        }
+    }`

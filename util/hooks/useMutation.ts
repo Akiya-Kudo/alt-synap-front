@@ -10,3 +10,4 @@ export const useUserInfoUpdater = () => {
     const [userInfoUpdater, { data, loading, error }] = useMutation(USER_INFO_MUTATION);
     return {userInfoUpdater, error, data, loading};
 }
+

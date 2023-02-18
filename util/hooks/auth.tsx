@@ -5,10 +5,11 @@ import { auth } from "../firebase/init";
 import { User, UserStateType } from "../../type/user";
 import { useUserInfoQuery } from "./useQuery";
 import { useUserRegister } from "./useMutation";
+import { FaCommentDollar } from "react-icons/fa";
 
 
 // type UserStateStringType = 'isUser' | 'guest' | 'loading'; 
-type UserStateStringType = string; 
+type UserStateStringType = string ; 
 type UserInfoType = User | null;
 
 export const AuthContext = createContext({} as {userState : UserStateStringType});
@@ -20,30 +21,27 @@ export const setUserInfoContext = createContext({} as {setUserInfo : React.Dispa
 export const AuthProvider = (props: any) => {
     const { children } = props;
 
+    console.log("authが呼び出されました")
+
     const { userRegister } = useUserRegister();
 
-    const [userState, setUserState] = useState<UserStateType>('guest');
+    const [userState, setUserState] = useState<UserStateType>("pendding");
     const [userInfo, setUserInfo] = useState< User | null >(null);
 
-    const {getUserInfo,loading, error, data} = useUserInfoQuery();
+    const {getLoginUserInfo,loading, error, data} = useUserInfoQuery();
 
     useEffect(() => {
-        // console.log('authのuseEffectが呼び出されました');
-        
-        //ソーシャルログインのログインのリダイレクトの結果を取得し、していた場合そのユーザ情報がDB内に存在するか判別し、ない場合登録する処理を行う
+        //firebase auth　snsログイン リダイレクト判定
         getRedirectResult(auth)
         .then((result) => {
-            // console.log("authのリダイレクトの結果取得の関数が起動しています")
-            // console.log(result);
-
-            //firebaseリダイレクトが行われていた場合、ユーザ情報を取得する関数を呼び出す
             if(result != null) {
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 const token = credential?.accessToken;
                 const user = result.user;
                 const userName = user.displayName ? user.displayName : 'Guest';
 
-                getUserInfo()
+                //サーバからログインユーザの情報を取得
+                getLoginUserInfo()
                 .then(({data}) => {
                     // console.log("authのユーザ情報をDBから取得する関数が起動しています")
                     // console.log(userInfo);
@@ -86,12 +84,12 @@ export const AuthProvider = (props: any) => {
         })
 
         onAuthStateChanged(auth, (user) => {
-            setUserState('loading');
+            setUserState('pendding');
             if (user) {
                 console.log('logging in');
                 setUserState('isUser');
                 
-                getUserInfo()
+                getLoginUserInfo()
                 .then(({data}) => {
                     setUserInfo(data.user);
                 }).catch(({error}) => {

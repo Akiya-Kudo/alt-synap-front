@@ -60,9 +60,6 @@ export const Header = () => {
 
     const { userState } = useContext(AuthContext);
     const { setUserInfo } = useContext(setUserInfoContext);
-
-    const { userRegister } = useUserRegister();
-    const { getUserInfo } = useUserInfoQuery();
     
     return (
         <>
