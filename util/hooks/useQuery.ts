@@ -4,10 +4,11 @@ import { USER_QUERY } from "../graphql/queries/users.query.schema";
 
 export const useUserInfoQuery = () => {
     // apollo client query 処理    
-    const [getUserInfo, { loading, error, data }] = useLazyQuery(USER_QUERY, {
+    const [getLoginUserInfo, { loading, error, data }] = useLazyQuery(USER_QUERY, {
         variables: {
             "userId" : auth.currentUser?.uid,
         }
     });
-    return {getUserInfo,loading, error, data};
+    return {getLoginUserInfo,loading, error, data};
 }
+

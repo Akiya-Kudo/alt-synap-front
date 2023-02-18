@@ -16,7 +16,7 @@ export const MyInfoModal = (props: any) => {
   
   // form処理
   const { userInfo } = useContext(UserInfoContext);
-  const { setUserInfo } = (setUserInfoContext);
+  const { setUserInfo } = useContext(setUserInfoContext);
 
   const [image, setImage] = useState(props.photo_path)
   const [imageFile, setImageFile] = useState(null)

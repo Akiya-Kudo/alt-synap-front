@@ -1,15 +1,13 @@
 import '../style/global/globals.css'
 import type { AppProps } from 'next/app'
+import { useEffect, useState } from 'react';
 
 import { AuthProvider } from '../util/hooks/auth';
-
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
-// import { FirebaseApp, getApp } from 'firebase/app';
 import '../util/firebase/init'; //Initialize FirebaseApp
-import { useState } from 'react';
 
 // カラー振り分け 100/バックグラウンド 200/ハイライト 300/シャドー 400/メインフォントカラー 500/メインアクセントカラー 600/サブアクセントカラー1 700/サブアクセントカラー２
 const color_template1 = {
@@ -24,15 +22,24 @@ const color_template1 = {
   900: "#ff0000",
 }
 
+//バックエンドのgraphqlスキーマの定義からIDを設定する
+const apollo_cache_option = {
+  typePolicies: {
+    UserModel: {
+      keyFields: ["firebase_id"],
+    }
+  }
+}
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache(apollo_cache_option),
+  connectToDevTools: true
+})
 
 function MyApp({ Component, pageProps }: AppProps) {
 
   const [color_temp, setColor_temp] = useState(color_template1)
-
-  const client = new ApolloClient({
-    uri: 'http://localhost:4000/graphql',
-    cache: new InMemoryCache(),
-  });
 
   return (
     <ChakraProvider
@@ -46,7 +53,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       }
     })}
     >
-      <ApolloProvider client={client}>
+      <ApolloProvider 
+      client={ client }>
         <AuthProvider >
           <Component {...pageProps} />
         </AuthProvider>

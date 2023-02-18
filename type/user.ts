@@ -13,4 +13,4 @@ export type User = {
     lang_type?: number;
 }
 
-export type UserStateType = 'isUser' | 'guest' | 'loading';
+export type UserStateType = 'isUser' | 'guest' | 'pendding';

@@ -21,7 +21,7 @@ export const useSignUpFunc = () => {
     }
 
     const execute = async (email: string, password: string, user_name: string) => {
-        setUserState('loading')
+        setUserState('pendding')
 
         // Firebase　新規登録処理
         return createUserWithEmailAndPassword(auth, email, password)
@@ -71,14 +71,14 @@ export const useLogInFunc = () => {
     const { setUserState } = useContext(setAuthContext);
     const { setUserInfo } = useContext(setUserInfoContext);
 
-    const {getUserInfo} = useUserInfoQuery();
+    const {getLoginUserInfo} = useUserInfoQuery();
 
     const execute = async (email: string, password: string) => {
-        setUserState('loading')
+        setUserState('pendding')
         return signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             setUserState('isUser');
-            getUserInfo()
+            getLoginUserInfo()
             .then(({data}) => {
                 setUserInfo(data.user)
             }).catch(({error}) => {
@@ -101,7 +101,7 @@ export const useLogOutFunc = () => {
     const { setUserInfo } = useContext(setUserInfoContext);
 
     const execute = async () => {
-        setUserState('loading')
+        setUserState('pendding')
         return signOut (auth)
         .then(() => {
             setUserInfo(null);
