@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { AuthContext, UserInfoContext } from '../util/hooks/auth';
+import { AuthContext, UserInfoContext } from '../util/hook/authContext';
 
 import { Avatar, Box, Grid, GridItem, Heading, Skeleton, SkeletonCircle, SkeletonText, Text } from '@chakra-ui/react';
 import  styles  from '../style/components/Top.module.css';

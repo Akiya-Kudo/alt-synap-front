@@ -12,6 +12,7 @@
     "@apollo/client": "^3.7.1",
     "@chakra-ui/icons": "^2.0.10",
     "@chakra-ui/react": "^2.3.4",
+    "@chakra-ui/theme-tools": "^2.0.16",
     "@editorjs/editorjs": "^2.26.4",
     "@editorjs/header": "^2.7.0",
     "@editorjs/list": "^1.8.0",
