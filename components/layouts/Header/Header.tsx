@@ -1,22 +1,19 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Loading from '../../Loading';
 
-import { AuthContext, setUserInfoContext, UserInfoContext } from '../../../util/hooks/auth';
+import { AuthContext, UserInfoContext } from '../../../util/hook/authContext';
 
-import { Avatar, Box, BoxProps, Button, ButtonGroup, Flex, Heading, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer } from '@chakra-ui/react';
+import { Avatar, Box, BoxProps, Button, ButtonGroup, Flex, Heading, Input, Menu, MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList, Spacer, useColorMode, useColorModeValue } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 
-import { useLogOutFunc, usePassChangeSendEmail } from '../../../util/hooks/useAuth';
+import { useLogOutFunc, usePassChangeSendEmail } from '../../../util/hook/useAuth';
 import { auth } from '../../../util/firebase/init';
-import { getRedirectResult, GoogleAuthProvider } from 'firebase/auth';
-import { useUserRegister } from '../../../util/hooks/useMutation';
-import { useUserInfoQuery } from '../../../util/hooks/useQuery';
 import { MyModal } from '../../modals';
 import { LoginForm } from '../../Forms/userForms';
 
-const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="7.5vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' bg='white' >{props.children}</Flex>
+const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="10vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' >{props.children}</Flex>
 
 
 // ログアウトコンポーネント定義
@@ -58,8 +55,12 @@ const UserMenu = () => {
 // ヘッダー
 export const Header = () => {
 
+    const { toggleColorMode } = useColorMode()
+
+    const bg = useColorModeValue('blue.100', 'gray.800')
+    const color = useColorModeValue('gray.600', 'white.800')
+
     const { userState } = useContext(AuthContext);
-    const { setUserInfo } = useContext(setUserInfoContext);
     
     return (
         <>
@@ -78,6 +79,8 @@ export const Header = () => {
                         </Link>
                     </Flex>
                     <Spacer />
+                    <Button onClick={toggleColorMode}>color change</Button>
+                    <Input placeholder='検索'/>
                     <ButtonGroup gap='2' mx='3'>
                         { userState == 'guest' &&
                             <>

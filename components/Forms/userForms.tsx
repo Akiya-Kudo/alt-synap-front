@@ -1,6 +1,6 @@
 import { Box, BoxProps, Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link, ModalBody, Text, Textarea } from '@chakra-ui/react'
 import React from 'react'
-import { useLogInFunc, useSocialLoginFunc } from '../../util/hooks/useAuth';
+import { useLogInFunc, useSocialLoginFunc } from '../../util/hook/useAuth';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import NextLink from "next/link"
 import { useForm } from 'react-hook-form';

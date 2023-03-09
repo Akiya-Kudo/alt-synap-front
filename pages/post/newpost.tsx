@@ -6,7 +6,7 @@ import { AiOutlinePicture } from 'react-icons/ai'
 import { FaPen } from 'react-icons/fa'
 
 import 'react-quill/dist/quill.snow.css';
-import { AuthContext } from '../../util/hooks/auth'
+import { AuthContext } from '../../util/hook/authContext'
 import { useRouter } from 'next/router'
 import PostTopForm from '../../components/Forms/PostTopForm'
 import { PostProcessType, PostTopInfoType, PostType } from '../../type/post'

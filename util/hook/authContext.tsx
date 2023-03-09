@@ -21,7 +21,7 @@ export const setUserInfoContext = createContext({} as {setUserInfo : React.Dispa
 export const AuthProvider = (props: any) => {
     const { children } = props;
 
-    console.log("authが呼び出されました")
+    console.log("auth Contextが呼び出されました")
 
     const { userRegister } = useUserRegister();
 
@@ -83,6 +83,7 @@ export const AuthProvider = (props: any) => {
             //const credential = GoogleAuthProvider.credentialFromError(error);
         })
 
+        ///リロード時firebase auth　ログイン判定
         onAuthStateChanged(auth, (user) => {
             setUserState('pendding');
             if (user) {

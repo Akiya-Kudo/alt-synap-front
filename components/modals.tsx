@@ -3,9 +3,9 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { setUserInfoContext, UserInfoContext } from "../util/hooks/auth";
+import { setUserInfoContext, UserInfoContext } from "../util/hook/authContext";
 import { auth, storage } from "../util/firebase/init";
-import { useUserInfoUpdater } from "../util/hooks/useMutation";
+import { useUserInfoUpdater } from "../util/hook/useMutation";
 import { CommentInput, SubmitOnlyWhenChangedButton, ThumbnailInput, UserNameInput } from "./Forms/userForms";
 
 
