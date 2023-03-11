@@ -1,10 +1,38 @@
 import { extendTheme } from "@chakra-ui/react"
 import { mode } from '@chakra-ui/theme-tools'
+import { tipsy_dark, tipsy_light } from "./color_theme"
 
 export const theme = extendTheme({
     // カラーモード設定項目  https://chakra-ui.com/docs/styled-system/color-mode
     initialColorMode: 'system',
     useSystemColorMode: false,
+    breakpoints: {
+        sm: '30em',
+        md: '48em',
+        lg: '62em',
+        xl: '90em',
+        '2xl': '120em',
+    },
+    semanticTokens: {
+        colors: {
+            text_normal: {
+                default: "tipsy_light.400",
+                _dark: "tipsy_dark.400",
+            },
+            text_light: {
+                default: "tipsy_light.500",
+                _dark: "tipsy_dark.500",
+            },
+            text_very_light: {
+                default: "tipsy_light.600",
+                _dark: "tipsy_dark.600",
+            }
+        }
+    },
+    colors: {
+        tipsy_light: tipsy_light,
+        tipsy_dark: tipsy_dark,
+    },
     fonts: {
         // body: "'Ubuntu', 'M PLUS Rounded 1c', 'Kiwi_Maru', sans-serif;",
         body: "'Ubuntu', 'M PLUS Rounded 1c', sans-serif;",
@@ -16,33 +44,15 @@ export const theme = extendTheme({
         medium: 500,
         bold: 700,
     },
-    colors: {
-        tipsy_light: {
-            // カラー振り分け 　
-            //100/バックグラウンド  　200/ハイライト 　　300/シャドー　　 400/テキストカラー　　   500/subtleテキストカラー
-            //600/アクセントカラー(orange) 　　700/アクセントカラー(pink) 　　800/アクセントカラー(green) 900/アクセントカラー(blue)
-            50: "#ffffff",
-            100: "#ebeff1",
-            // 200: "#rgba(255,255,255, 0.5)",
-            200: "#rgb(255,255,255)",
-            300: "rgba(178,191,208, 0.5)",
-            400: "#47494a",
-            500: "#7f8da0",
-            600: "#F6AD55",
-            700: "#F687B3",
-            800: "#68D391",
-            900: "#63B3ED",
-        }
-    },
     styles: {
         global: (props: any) => ({
             'html, body': {
                 //基本はremでルートとの相対サイズでフォントを描画させ、親のサイズによって変更したい場合(一つの構成が完結しているlayout)のみemを用いる
                 fontSize: '20px',
                 // color: props.colorMode === 'dark' ? 'white' : 'gray.800',
-                color: mode('tipsy_light.400', 'whiteAlpha.900')(props),
+                color: mode('tipsy_light.400', 'tipsy_dark.400')(props),
                 // backgroundColor: props.colorMode === 'dark' ? 'gray.800' : 'tipsy_light.100',
-                backgroundColor: mode('tipsy_light.100', 'red.800')(props),
+                backgroundColor: mode('tipsy_light.100', 'tipsy_dark.100')(props),
                 margin: 0,
                 padding: 0,
                 minHeight: '100vh',

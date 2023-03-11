@@ -3,7 +3,7 @@ import styles from "../../style/atom/design.module.css";
 import { ButtonProps } from "../../type/atom";
 
 
-export const ClickButtonStyle = ({ children, color = "#686868", h, w, borderR = 50, fontSize = "1em", m = 0, p = 0, bg = "rgba(237, 237, 237, 0)", hovCol = "#f58627", onClick = () => null }: ButtonProps) => {
+export const ClickButtonStyle = ({ children, color = "#686868", h, w, borderR = 50, fontSize = "1em", m = 0, p = 0, bg = "transparent", hovCol = "#f58627", onClick = () => null }: ButtonProps) => {
     return (
         <>
             <Box 
@@ -17,6 +17,7 @@ export const ClickButtonStyle = ({ children, color = "#686868", h, w, borderR = 
             _hover={{ color: hovCol }}
             borderRadius={borderR}
             color={color}
+            fontWeight={"bold"}
             display="flex" justifyContent="center" alignItems="center" 
             >
                 { children }
