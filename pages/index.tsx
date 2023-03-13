@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 
 import { auth } from '../util/firebase/init';
-import { Box, Button, Heading, Highlight, HStack, Input, Stack } from '@chakra-ui/react';
+import { Box, Button, Heading, Highlight, HStack, Input, Radio, Stack, Text, useColorModeValue, useTheme } from '@chakra-ui/react';
 import { useApolloClient, useMutation } from '@apollo/client';
 
 import { USERS_ALL_QUERY, USER_QUERY } from '../util/graphql/queries/users.query.schema';
@@ -10,8 +10,8 @@ import { USER_INFO_MUTATION } from '../util/graphql/mutation/users.mutation.sche
 
 import { Header } from '../components/layouts/Header/Header';
 import { AuthContext } from '../util/hook/authContext';
-import { ClickButtonStyle } from '../component/atom/buttons';
-import { WelcomTipsyBord } from '../component/standalone/bords';
+import { ClickButton, SwitchButton } from '../component/atom/buttons';
+import { RadioSelecter, RadioSwitch } from '../component/atom/radios';
 
 const UserNameUpdataForm = () => {
 
@@ -66,22 +66,14 @@ const Index: NextPage  = () => {
   return (
     <>
       <Header></Header>
-      <Box color={"tipsy_light.600"} mt={200} fontSize={"3rem"} fontWeight={"bold"}>Hello</Box>
-      <Box color={"tipsy_light.700"} fontSize={"3rem"} fontWeight={"bold"}>Hello</Box>
-      <Box color={"tipsy_light.800"} fontSize={"3rem"} fontWeight={"bold"}>Hello</Box>
-      <Box color={"tipsy_light.900"} fontSize={"3rem"} fontWeight={"bold"}>Hello</Box>
-      <Box 
-      bgClip={'text'} 
-      sx={{ 
-        '--color-orage': 'tipsy_light.600',
-        '--color-pink': 'tipsy_light.700',
-        '--color-green': 'tipsy_light.800',
-        '--color-blue': 'tipsy_light.900',
-      }} 
-      bgGradient={`linear(to-l, tipsy_light.600, tipsy_light.700, tipsy_light.800, tipsy_light.900)`}
-      fontSize={"3rem"} fontWeight={"bold"}
-      >
-        Tipsy
+      <SwitchButton h={100} w={200} m={100}>Switch</SwitchButton>
+      <ClickButton>hello</ClickButton>
+      <Box>
+        <RadioSelecter disabled value="1" size='sm'>number:1</RadioSelecter>
+        <RadioSelecter value="2" m={"0 30px"}>number:2</RadioSelecter>
+        <RadioSelecter value="2" m={"0 30px"} size="md" color="orange_switch">number:2</RadioSelecter>
+        <RadioSelecter value="2" m={"0 30px"} size="lg" color="teal_switch">number:2</RadioSelecter>
+        
       </Box>
     </>
   )
