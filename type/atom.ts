@@ -1,25 +1,39 @@
 import { MouseEventHandler, ReactNode } from "react"
 
+type ObjectArrayProps = 
+Array<string | number> | 
+{
+    base?: string | number,
+    sm?: string | number,
+    md?: string | number,
+    lg?: string | number,
+    xl?: string | number,
+    "2xl"?: string | number,
+}
+
 export interface StyleProps {
-    h: string | number,
-    w: string | number,
-    minH?: string | number,
-    minW?: string | number,
-    maxH?: string | number,
-    maxW?: string | number,
-    m?: string | number,
-    p?: string | number,
+    h?: string | number | ObjectArrayProps,
+    w?: string | number | ObjectArrayProps,
+    minH?: string | number | ObjectArrayProps,
+    minW?: string | number | ObjectArrayProps,
+    maxH?: string | number | ObjectArrayProps,
+    maxW?: string | number | ObjectArrayProps,
+    m?: string | number | ObjectArrayProps,
+    p?: string | number | ObjectArrayProps,
     bg?: string, 
+    bgg?: string, //gackgroundGradient
     color?: string,
-    fontSize?: string | number, 
-    borderR?: string | number, 
+    Hcolor?: string, //_hover{color}
+    Acolor?: string, // _active{color}
+    fs?: string | number | ObjectArrayProps, //fontSize
+    fw?: string | number | ObjectArrayProps, //fontWeight
+    br?: string | number | ObjectArrayProps,  //borderRadius
     children?: string | ReactNode,
     
 }
 
 export interface ButtonProps extends StyleProps {
-    onClick?: MouseEventHandler<HTMLDivElement>,
-    hovCol?: string
+    onClick?: MouseEventHandler<HTMLButtonElement>,
 }
 
 export interface TextProps extends StyleProps {
@@ -28,4 +42,10 @@ export interface TextProps extends StyleProps {
 
 export interface BordProps extends StyleProps {
 
+}
+
+export interface RadioProps extends StyleProps {
+    value: string | undefined,
+    disabled?: boolean,
+    size?: "sm" | "md" | "lg",
 }

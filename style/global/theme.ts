@@ -14,6 +14,7 @@ export const theme = extendTheme({
         '2xl': '120em',
     },
     semanticTokens: {
+        //themeでの使用限定  ・　　　それを参照するものすべてがその擬似クラスの影響を受けるため「
         colors: {
             text_normal: {
                 default: "tipsy_light.400",
@@ -26,6 +27,18 @@ export const theme = extendTheme({
             text_very_light: {
                 default: "tipsy_light.600",
                 _dark: "tipsy_dark.600",
+            },
+            red_switch: {
+                default: "red.400",
+                _dark: "red.300",
+            },
+            orange_switch: {
+                default: "orange.400",
+                _dark: "orange.300"
+            },
+            teal_switch: {
+                default: "teal.400",
+                _dark: "teal.300"
             }
         }
     },
@@ -39,9 +52,7 @@ export const theme = extendTheme({
     },
     //font-weight 300/light   400/normal   500/medium   700/bold  // font-style  italic
     fontWeight: {
-        light: 300,
         normal: 400,
-        medium: 500,
         bold: 700,
     },
     styles: {
