@@ -64,7 +64,7 @@ export const RadioSelecter = ({children, value, disabled, size,  m=0, color="red
 
 
 
-export const RadioSwitch = ({children, value, disabled, size,  m=0, color="red_switch" }: RadioProps) => {
+export const RadioSwitch = ({children, value, disabled, size,  m="1rem 1rem", color="red_switch" }: RadioProps) => {
     const highlight = useColorModeValue("var(--chakra-colors-tipsy_light-200)", "var(--chakra-colors-tipsy_dark-200)")
     const shadow = useColorModeValue("var(--chakra-colors-tipsy_light-300)", "var(--chakra-colors-tipsy_dark-300)")
     const [ch, setCh] = useState(false)

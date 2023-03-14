@@ -34,8 +34,8 @@ export const SwitchButton = ({onClick = () => null, children, fs="1rem", fw="nor
     const [active, setActive] = useState(false);
     const highlight = useColorModeValue("var(--chakra-colors-tipsy_light-200)", "var(--chakra-colors-tipsy_dark-200)")
     const shadow = useColorModeValue("var(--chakra-colors-tipsy_light-300)", "var(--chakra-colors-tipsy_dark-300)")
-    const switch_shadow = active ? `15px 15px 30px ${shadow},-15px -15px 30px ${highlight};` : `inset 5px 5px 15px -3px ${shadow}, inset -5px -5px 15px -3px ${highlight},15px 15px 30px ${shadow},-15px -15px 30px ${highlight};`
-    const switch_hover_shadow = active ? `5px 5px 15px ${shadow},-5px -5px 15px ${highlight};` : `inset 10px 10px 20px -3px ${shadow}, inset -10px -10px 20px -3px ${highlight},5px 5px 15px ${shadow},-5px -5px 15px ${highlight};`
+    const switch_shadow = active ? `inset 5px 5px 15px -3px ${shadow}, inset -5px -5px 15px -3px ${highlight},15px 15px 30px ${shadow},-15px -15px 30px ${highlight};` :  `15px 15px 30px ${shadow},-15px -15px 30px ${highlight};`;
+    const switch_hover_shadow = active ? `inset 10px 10px 20px -3px ${shadow}, inset -10px -10px 20px -3px ${highlight},5px 5px 15px ${shadow},-5px -5px 15px ${highlight};` : `5px 5px 15px ${shadow},-5px -5px 15px ${highlight};`;
     const handleClick = (e: any) => {
         setActive(!active)
         onClick(e)
