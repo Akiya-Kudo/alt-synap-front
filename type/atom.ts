@@ -1,6 +1,6 @@
 import { MouseEventHandler, ReactNode } from "react"
 
-type ObjectArrayProps = 
+export type ObjectArrayProps = 
 Array<string | number> | 
 {
     base?: string | number,

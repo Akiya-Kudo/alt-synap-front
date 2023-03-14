@@ -12,6 +12,8 @@ import { Header } from '../components/layouts/Header/Header';
 import { AuthContext } from '../util/hook/authContext';
 import { ClickButton, SwitchButton } from '../component/atom/buttons';
 import { RadioSelecter, RadioSwitch } from '../component/atom/radios';
+import { RadioSelecterGroup } from '../component/helper/RadioGroup';
+import { useColorRandomPick } from '../util/hook/useColor';
 
 const UserNameUpdataForm = () => {
 
@@ -60,20 +62,12 @@ const UserNameUpdataForm = () => {
 
 const Index: NextPage  = () => {
   const { userState } = useContext(AuthContext);
-  const handleClick = () => {
-    // console.log(userState)
-  }
+  const [radio, setRadio] = useState("スパゲッティ")
   return (
     <>
       <Header></Header>
       <SwitchButton h={100} w={200} m={100}>Switch</SwitchButton>
-      <ClickButton>hello</ClickButton>
       <Box>
-        <RadioSelecter disabled value="1" size='sm'>number:1</RadioSelecter>
-        <RadioSelecter value="2" m={"0 30px"}>number:2</RadioSelecter>
-        <RadioSelecter value="2" m={"0 30px"} size="md" color="orange_switch">number:2</RadioSelecter>
-        <RadioSelecter value="2" m={"0 30px"} size="lg" color="teal_switch">number:2</RadioSelecter>
-        
       </Box>
     </>
   )
