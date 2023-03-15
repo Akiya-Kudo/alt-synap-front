@@ -10,10 +10,8 @@ import { USER_INFO_MUTATION } from '../util/graphql/mutation/users.mutation.sche
 
 import { Header } from '../components/layouts/Header/Header';
 import { AuthContext } from '../util/hook/authContext';
-import { ClickButton, SwitchButton } from '../component/atom/buttons';
-import { RadioSelecter, RadioSwitch } from '../component/atom/radios';
-import { RadioSelecterGroup } from '../component/helper/RadioGroup';
-import { useColorRandomPick } from '../util/hook/useColor';
+import { ClickButton, SwitchButton, SwitchButton_type2 } from '../component/atom/buttons';
+import { TextFlat } from '../component/atom/texts';
 
 const UserNameUpdataForm = () => {
 
@@ -62,13 +60,14 @@ const UserNameUpdataForm = () => {
 
 const Index: NextPage  = () => {
   const { userState } = useContext(AuthContext);
-  const [radio, setRadio] = useState("スパゲッティ")
   return (
     <>
       <Header></Header>
+      <ClickButton h={100} w={200} fs={30}>heloo</ClickButton>
       <SwitchButton h={100} w={200} m={100}>Switch</SwitchButton>
-      <Box>
-      </Box>
+      <SwitchButton_type2  h={100} w={200} m={100}>だよ</SwitchButton_type2>
+      <TextFlat fs={200} m={50} color="bg_switch">Tipsy</TextFlat>
+      <TextFlat fs={300} neumH="tall" m={50} color="bg_switch">Tipsy</TextFlat>
     </>
   )
 }

@@ -23,25 +23,27 @@ export interface StyleProps {
     bg?: string, 
     bgg?: string, //gackgroundGradient
     color?: string,
-    Hcolor?: string, //_hover{color}
-    Acolor?: string, // _active{color}
     fs?: string | number | ObjectArrayProps, //fontSize
     fw?: string | number | ObjectArrayProps, //fontWeight
     br?: string | number | ObjectArrayProps,  //borderRadius
     children?: string | ReactNode,
-    
 }
 
 export interface ButtonProps extends StyleProps {
     onClick?: MouseEventHandler<HTMLButtonElement>,
+    Hcolor?: string, //_hover{color}
+    Acolor?: string, // _active{color}
+    fs?: number,
 }
 
 export interface TextProps extends StyleProps {
     letterSpacing?: string,
+    neumH?: "shallow" | "tall"
 }
 
 export interface BordProps extends StyleProps {
-
+    display?: "center" | "custom" | "column",
+    neumH?: "shallow" | "tall"
 }
 
 export interface RadioProps extends StyleProps {

@@ -1,48 +1,67 @@
-import { Box } from "@chakra-ui/react"
+import { Box, useColorModeValue } from "@chakra-ui/react"
 import styles from "../../style/atom/design.module.css";
 import { BordProps } from "../../type/atom";
+import { useNeumorphismColorMode } from "../../util/hook/useColor";
 
+export const FlatBord = ({
+    display="center", neumH="shallow", h=150,w=300, minH,minW,maxH,maxW,m,p,bg="transparent",
+    bgg,color="text_normal",fs="1rem",fw="normal",br="20",children
+}: BordProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
+    const neumHeight = neumH=="shallow" ? `5px 5px 15px ${shadow}, -5px -5px 15px ${highlight};` : `15px 15px 30px ${shadow}, -15px -15px 30px ${highlight};`
 
-
-export const BordFlatStyle = ({children, color = "#686868", h = 50, w = 100, borderR = 50, fontSize = "1rem", m = 0, p = 0, bg = "rgba(237, 237, 237, 0)"}: BordProps) => {
-
+    const isFlex = display=="center" || display=="column" ? "flex" : "block"
+    const direction = display=="column" ? "column" : "row"
     return (
-        <>
-            <Box
-            className={ styles.bordFlat } 
-            bg={bg} 
-            m={m} 
-            p={p}
-            w={w} 
-            h={h} 
-            fontSize={ fontSize } 
-            color={color}
-            borderRadius={borderR}
-            display="flex" justifyContent="center" alignItems="center"
-            >
-                { children }
-            </Box>
-        </>
+        <Box
+        h={h} w={w} minH={minH} minW={minW} maxH={maxH} maxW={maxW} m={m} p={p} borderRadius={br}
+        bg={bg} bgGradient={bgg} color={color} fontSize={fs} fontWeight={fw}
+        display={isFlex} justifyContent={"center"} alignItems={"center"} flexDirection={direction}
+        boxShadow={neumHeight}
+        >
+            {children}
+        </Box>
     )
 }
 
-export const BordConvexStyle = ({children, color = "#686868", h, w, borderR = 50, fontSize = "1rem", m = 0, p = 0, bg = "rgba(237, 237, 237, 0)"}: BordProps) => {
+export const FullfyBord = ({
+    display="center", neumH="shallow", h=150,w=300, minH,minW,maxH,maxW,m,p,bg="transparent",
+    bgg,color="text_normal",fs="1rem",fw="normal",br="50",children
+}: BordProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
+    const neumHeight = neumH=="shallow" ? `5px 5px 15px ${shadow}, -5px -5px 15px  ${highlight}, inset -5px -5px 15px -3px ${shadow}, inset 5px 5px 15px -3px  ${highlight};` : `15px 15px 30px ${shadow}, -15px -15px 30px  ${highlight}, inset -15px -15px 30px -10px ${shadow}, inset 15px 15px 30px -10px  ${highlight};`
+    
+    const isFlex = display=="center" || display=="column" ? "flex" : "block"
+    const direction = display=="column" ? "column" : "row"
     return (
-        <>
-            <Box
-            className={ styles.bordConvex } 
-            bg={bg} 
-            m={m} 
-            p={p}
-            w={w} 
-            h={h} 
-            fontSize={ fontSize } 
-            color={color}
-            borderRadius={borderR}
-            display="flex" justifyContent="center" alignItems="center"
-            >
-                { children }
-            </Box>
-        </>
+        <Box
+        h={h} w={w} minH={minH} minW={minW} maxH={maxH} maxW={maxW} m={m} p={p} borderRadius={br}
+        bg={bg} bgGradient={bgg} color={color} fontSize={fs} fontWeight={fw}
+        display={isFlex} justifyContent={"center"} alignItems={"center"} flexDirection={direction}
+        boxShadow={neumHeight}
+        >
+            {children}
+        </Box>
+    )
+}
+
+export const DentBord = ({
+    display="center", neumH="shallow", h=150,w=300, minH,minW,maxH,maxW,m,p,bg="transparent",
+    bgg,color="text_normal",fs="1rem",fw="normal",br="50",children
+}: BordProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
+    const neumHeight = neumH=="shallow" ? `inset -5px -5px 15px -3px ${highlight}, inset 5px 5px 15px -3px  ${shadow};` : `inset -15px -15px 30px -10px ${highlight}, inset 15px 15px 30px -10px  ${shadow};`
+
+    const isFlex = display=="center" || display=="column" ? "flex" : "block"
+    const direction = display=="column" ? "column" : "row"
+    return (
+        <Box
+        h={h} w={w} minH={minH} minW={minW} maxH={maxH} maxW={maxW} m={m} p={p} borderRadius={br}
+        bg={bg} bgGradient={bgg} color={color} fontSize={fs} fontWeight={fw}
+        display={isFlex} justifyContent={"center"} alignItems={"center"} flexDirection={direction}
+        boxShadow={neumHeight}
+        >
+            {children}
+        </Box>
     )
 }
