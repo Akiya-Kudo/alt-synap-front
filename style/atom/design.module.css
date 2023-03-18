@@ -30,3 +30,7 @@
         inset -15px -15px 30px -10px rgba(105, 128, 154, 0.5),
         inset 15px 15px 30px -10px #ffffff;
 }
+
+a {
+    background-color: rgba(20, 22, 23, 0.5);
+}

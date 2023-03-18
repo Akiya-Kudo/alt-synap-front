@@ -48,5 +48,7 @@ export const useColorOrderPick = (array: string[] | undefined, num: number | und
 export const useNeumorphismColorMode = () => {
     const highlight = useColorModeValue("var(--chakra-colors-tipsy_light-200)", "var(--chakra-colors-tipsy_dark-200)")
     const shadow = useColorModeValue("var(--chakra-colors-tipsy_light-300)", "var(--chakra-colors-tipsy_dark-300)")
-    return {highlight, shadow}
+    const highlight_transparent = useColorModeValue("var(--chakra-colors-tipsy_light-700)", "var(--chakra-colors-tipsy_dark-700)")
+    const shadow_transparent = useColorModeValue("var(--chakra-colors-tipsy_light-800)", "var(--chakra-colors-tipsy_dark-800)")
+    return {highlight, shadow, highlight_transparent, shadow_transparent}
 }

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 
 import { auth } from '../util/firebase/init';
-import { Box, Button, Heading, Highlight, HStack, Input, Radio, Stack, Text, useColorModeValue, useTheme } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Heading, Highlight, HStack, Input, Radio, Stack, Switch, Text, useColorModeValue, useTheme } from '@chakra-ui/react';
 import { useApolloClient, useMutation } from '@apollo/client';
 
 import { USERS_ALL_QUERY, USER_QUERY } from '../util/graphql/queries/users.query.schema';
@@ -10,8 +10,11 @@ import { USER_INFO_MUTATION } from '../util/graphql/mutation/users.mutation.sche
 
 import { Header } from '../components/layouts/Header/Header';
 import { AuthContext } from '../util/hook/authContext';
-import { ClickButton, SwitchButton, SwitchButton_type2 } from '../component/atom/buttons';
-import { TextFlat } from '../component/atom/texts';
+import { ClickButton, SwitchButton, SwitchButtonConcave } from '../component/atom/buttons';
+import { BasicSwitch } from '../component/atom/switchs';
+import { RadioSelecterGroup } from '../component/helper/RadioGroup';
+import { FlatBord, TabBord } from '../component/atom/bords';
+import { TabRadioGroup } from '../component/helper/TabRadioGroup';
 
 const UserNameUpdataForm = () => {
 
@@ -60,15 +63,17 @@ const UserNameUpdataForm = () => {
 
 const Index: NextPage  = () => {
   const { userState } = useContext(AuthContext);
+  const handleTabGroup = (e:any) => {
+    console.log(e, "が選択されましした")
+  }
   return (
-    <>
+    <Box >
       <Header></Header>
-      <ClickButton h={100} w={200} fs={30}>heloo</ClickButton>
-      <SwitchButton h={100} w={200} m={100}>Switch</SwitchButton>
-      <SwitchButton_type2  h={100} w={200} m={100}>だよ</SwitchButton_type2>
-      <TextFlat fs={200} m={50} color="bg_switch">Tipsy</TextFlat>
-      <TextFlat fs={300} neumH="tall" m={50} color="bg_switch">Tipsy</TextFlat>
-    </>
+      <Box h={500}></Box>
+      <TabRadioGroup getValue={ handleTabGroup} options={["TIpsyの投稿", "人気順", "新着順"]}  defValue='人気順' Acolor={"blue.600"} Hcolor={"blue_switch"} fs={16}></TabRadioGroup>
+      <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>hello</TabBord>
+
+    </Box>
   )
 }
 

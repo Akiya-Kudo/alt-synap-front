@@ -4,7 +4,9 @@ export const tipsy_light = {
     300: "rgba(105, 128, 154, 0.5)",
     400: "#686868",
     500: "#808080",
-    600: "rgb(174, 174, 174)"
+    600: "rgb(174, 174, 174)",
+    700: "rgba(255,255,255,0.5)",
+    800: "rgba(105, 128, 154, 0.5)"
 }
 
 export const tipsy_dark = {
@@ -14,6 +16,9 @@ export const tipsy_dark = {
     400: "#dddddd",
     500: "#b0b0b3",
     600: "#65696e",
+    // 700: "rgba(49, 50, 55, 0.5)",
+    700: "rgba(62, 64, 69, 0.3)",
+    800: "rgba(20, 22, 23, 0.5)",
 }
 
 //それを参照するものすべてがその擬似クラスの影響を受けるため themeでの使用限定
@@ -22,7 +27,6 @@ export const color_switchs =  {
 
     text_normal: {default: "tipsy_light.400", _dark: "tipsy_dark.400",},
     text_reverse: {default: "tipsy_dark.400", _dark: "tipsy_light.400"},
-    text_normal_reverse: {default: "tipsy_.400", _dark: "tipsy_light.400",},
     text_light: {default: "tipsy_light.500", _dark: "tipsy_dark.500",},
     text_very_light: {default: "tipsy_light.600", _dark: "tipsy_dark.600",},
     
@@ -35,4 +39,5 @@ export const color_switchs =  {
     cyan_switch: {default: "cyan.400", _dark: "cyan.300"},
     purple_switch: {default: "purple.400", _dark: "purple.300"},
     pink_switch: {default: "pink.400", _dark: "pink.300"},
+    lime: {default: "#54C0A0"} 
 }
