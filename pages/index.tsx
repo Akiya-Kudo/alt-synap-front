@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 
 import { auth } from '../util/firebase/init';
-import { Box, Button, Heading, Highlight, HStack, Input, Radio, Stack, Text, useColorModeValue, useTheme } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Heading, Highlight, HStack, Input, Radio, Stack, Switch, Text, useColorModeValue, useTheme } from '@chakra-ui/react';
 import { useApolloClient, useMutation } from '@apollo/client';
 
 import { USERS_ALL_QUERY, USER_QUERY } from '../util/graphql/queries/users.query.schema';
@@ -10,10 +10,11 @@ import { USER_INFO_MUTATION } from '../util/graphql/mutation/users.mutation.sche
 
 import { Header } from '../components/layouts/Header/Header';
 import { AuthContext } from '../util/hook/authContext';
-import { ClickButton, SwitchButton } from '../component/atom/buttons';
-import { RadioSelecter, RadioSwitch } from '../component/atom/radios';
+import { ClickButton, SwitchButton, SwitchButtonConcave } from '../component/atom/buttons';
+import { BasicSwitch } from '../component/atom/switchs';
 import { RadioSelecterGroup } from '../component/helper/RadioGroup';
-import { useColorRandomPick } from '../util/hook/useColor';
+import { FlatBord, TabBord } from '../component/atom/bords';
+import { TabRadioGroup } from '../component/helper/TabRadioGroup';
 
 const UserNameUpdataForm = () => {
 
@@ -62,14 +63,17 @@ const UserNameUpdataForm = () => {
 
 const Index: NextPage  = () => {
   const { userState } = useContext(AuthContext);
-  const [radio, setRadio] = useState("スパゲッティ")
+  const handleTabGroup = (e:any) => {
+    console.log(e, "が選択されましした")
+  }
   return (
-    <>
+    <Box >
       <Header></Header>
-      <SwitchButton h={100} w={200} m={100}>Switch</SwitchButton>
-      <Box>
-      </Box>
-    </>
+      <Box h={500}></Box>
+      <TabRadioGroup getValue={ handleTabGroup} options={["TIpsyの投稿", "人気順", "新着順"]}  defValue='人気順' Acolor={"blue.600"} Hcolor={"blue_switch"} fs={16}></TabRadioGroup>
+      <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>hello</TabBord>
+
+    </Box>
   )
 }
 

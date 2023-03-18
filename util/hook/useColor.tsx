@@ -1,3 +1,5 @@
+import { useColorModeValue } from "@chakra-ui/react"
+
 //第一引数に戻り値で欲しいカラー個数を入力（ない場合はdefの9 or 配列の個数分が出力される）・第二引数でランダムで選択する色の文字列を入力(ない場合はchakra defaultの9種から)
 export const useColorRandomPick= ( array: string[] | undefined, num: number | undefined ) => {
     let sorted_array = []
@@ -41,4 +43,12 @@ export const useColorOrderPick = (array: string[] | undefined, num: number | und
         i++
     }
     return array
+}
+
+export const useNeumorphismColorMode = () => {
+    const highlight = useColorModeValue("var(--chakra-colors-tipsy_light-200)", "var(--chakra-colors-tipsy_dark-200)")
+    const shadow = useColorModeValue("var(--chakra-colors-tipsy_light-300)", "var(--chakra-colors-tipsy_dark-300)")
+    const highlight_transparent = useColorModeValue("var(--chakra-colors-tipsy_light-700)", "var(--chakra-colors-tipsy_dark-700)")
+    const shadow_transparent = useColorModeValue("var(--chakra-colors-tipsy_light-800)", "var(--chakra-colors-tipsy_dark-800)")
+    return {highlight, shadow, highlight_transparent, shadow_transparent}
 }

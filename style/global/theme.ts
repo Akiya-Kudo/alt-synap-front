@@ -32,7 +32,7 @@ export const theme = extendTheme({
             'html, body': {
                 //基本はremでルートとの相対サイズでフォントを描画させ、親のサイズによって変更したい場合(一つの構成が完結しているlayout)のみemを用いる
                 fontSize: '20px',
-                color: mode('tipsy_light.400', 'tipsy_dark.400')(props),
+                color: mode('tipsy_light.400', "tipsy_dark.400")(props),
                 backgroundColor: mode('tipsy_light.100', 'tipsy_dark.100')(props),
                 margin: 0,
                 padding: 0,
@@ -45,7 +45,6 @@ export const theme = extendTheme({
             },
             '*': {
                 boxSiing: 'border-box',
-                color: 'tipsy_light.400',
             },
         }),
     },

@@ -31,14 +31,6 @@
         inset 15px 15px 30px -10px #ffffff;
 }
 
-.textFlat {
-    text-shadow:
-    5px 5px 5px rgba(105, 128, 154, 0.5),
-    -5px -5px 5px #ffffff;
-}
-
-.textFlatHigh {
-    text-shadow:
-    7px 7px 10px rgba(105, 128, 154, 0.5),
-    -7px -7px 10px #ffffff;
+a {
+    background-color: rgba(20, 22, 23, 0.5);
 }

@@ -1,10 +1,10 @@
 import { RadioGroup, Radio, useColorModeValue, Box } from "@chakra-ui/react"
 import { useState } from "react"
 import { RadioProps } from "../../type/atom"
+import { useNeumorphismColorMode } from "../../util/hook/useColor"
 
-export const RadioSelecter = ({children, value, disabled, size,  m=0, color="red_switch" }: RadioProps) => {
-    const highlight = useColorModeValue("var(--chakra-colors-tipsy_light-200)", "var(--chakra-colors-tipsy_dark-200)")
-    const shadow = useColorModeValue("var(--chakra-colors-tipsy_light-300)", "var(--chakra-colors-tipsy_dark-300)")
+export const BasicRadio = ({children, value, disabled, size,  m=0, color="red_switch" }: RadioProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <Radio 
         value={ value }
@@ -64,9 +64,8 @@ export const RadioSelecter = ({children, value, disabled, size,  m=0, color="red
 
 
 
-export const RadioSwitch = ({children, value, disabled, size,  m="1rem 1rem", color="red_switch" }: RadioProps) => {
-    const highlight = useColorModeValue("var(--chakra-colors-tipsy_light-200)", "var(--chakra-colors-tipsy_dark-200)")
-    const shadow = useColorModeValue("var(--chakra-colors-tipsy_light-300)", "var(--chakra-colors-tipsy_dark-300)")
+export const SwitchRadio = ({children, value, disabled, size,  m="1rem 1rem", color="red_switch" }: RadioProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
     const [ch, setCh] = useState(false)
     const handle = () => setCh(!ch)
     return (
@@ -85,6 +84,7 @@ export const RadioSwitch = ({children, value, disabled, size,  m="1rem 1rem", co
             "input ~ &": {
                 boxShadow: `4px 4px 8px ${shadow},-4px -4px 8px ${highlight}, inset 2px 2px 10px -3px ${shadow}, inset -2px -2px 10px -3px ${highlight}`,
             },
+            // 内部マーク未選択時
             "input ~ &::before": {
                 content: '""',
                 position: 'absolute',
@@ -94,6 +94,7 @@ export const RadioSwitch = ({children, value, disabled, size,  m="1rem 1rem", co
                 borderRadius: "10px",
                 boxShadow: `2px 2px 4px ${shadow},-2px -2px 4px ${highlight}`,
             },
+            //外部背景マーク選択時
             "input:checked ~ &": {
                 bg: "transparent",
                 color: color,
@@ -102,13 +103,16 @@ export const RadioSwitch = ({children, value, disabled, size,  m="1rem 1rem", co
                     bg: "transparent"
                 }
             },
+            //内部背景マーク選択時
             "input:checked ~ &::before": {
                 boxShadow: "none"
             },
+            //外部マーク非表示時
             "input:disabled ~ &::before": {
                 boxShadow: `none`,
                 bg: "transparent"
             },
+            //内部マーク非表示時
             "input:disabled ~ &": {
                 boxShadow: `inset 2px 2px 5px -3px ${shadow}, inset -2px -2px 5px -3px ${highlight}`,
                 bg: "transparent",
