@@ -10,11 +10,11 @@ import { USER_INFO_MUTATION } from '../util/graphql/mutation/users.mutation.sche
 
 import { Header } from '../components/layouts/Header/Header';
 import { AuthContext } from '../util/hook/authContext';
-import { ClickButton, SwitchButton, SwitchButtonConcave } from '../component/atom/buttons';
 import { BasicSwitch } from '../component/atom/switchs';
-import { RadioSelecterGroup } from '../component/helper/RadioGroup';
-import { FlatBord, TabBord } from '../component/atom/bords';
+import { TabBord } from '../component/atom/bords';
 import { TabRadioGroup } from '../component/helper/TabRadioGroup';
+import { BasicRadio } from '../component/atom/radios';
+import { BasicHeader } from '../component/standalone/Header';
 
 const UserNameUpdataForm = () => {
 
@@ -69,8 +69,11 @@ const Index: NextPage  = () => {
   return (
     <Box >
       <Header></Header>
-      <Box h={500}></Box>
-      <TabRadioGroup getValue={ handleTabGroup} options={["TIpsyの投稿", "人気順", "新着順"]}  defValue='人気順' Acolor={"blue.600"} Hcolor={"blue_switch"} fs={16}></TabRadioGroup>
+      <BasicHeader></BasicHeader>
+      <Box h={100}></Box>
+      <BasicRadio Rcolor={"purple_switch"} value="こんにち">こんにちは</BasicRadio>
+      <BasicSwitch id="greeting" Scolor='purple_switch'>greeting</BasicSwitch>
+      <TabRadioGroup getValue={ handleTabGroup} options={["TIpsyの投稿", "人気順", "新着順"]}  defValue='人気順' Acolor={"purple.600"} Hcolor={"purple_switch"} fs={16}></TabRadioGroup>
       <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>hello</TabBord>
 
     </Box>
