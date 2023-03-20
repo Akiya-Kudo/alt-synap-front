@@ -3,7 +3,7 @@ import { useState } from "react"
 import { RadioProps } from "../../type/atom"
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
 
-export const BasicRadio = ({children, value, disabled, size,  m=0, color="red_switch" }: RadioProps) => {
+export const BasicRadio = ({children, value, disabled, size,  m=0, Rcolor="red_switch", color="text_normal" }: RadioProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <Radio 
@@ -29,7 +29,7 @@ export const BasicRadio = ({children, value, disabled, size,  m=0, color="red_sw
             },
             "input:checked ~ &": {
                 bg: "transparent",
-                color: color,
+                color: Rcolor,
                 boxShadow: `4px 4px 8px ${shadow},-4px -4px 8px ${highlight};`,
                 _hover: {
                     bg: "transparent"
@@ -52,7 +52,7 @@ export const BasicRadio = ({children, value, disabled, size,  m=0, color="red_sw
             {/* labelのスタイリング */}
             <Box
             sx={{ 
-                color: disabled ? "text_very_light" : "text_normal", 
+                color: disabled ? "text_very_light" : color, 
                 fontWeight: 'normal'
             }}
             >
@@ -64,7 +64,7 @@ export const BasicRadio = ({children, value, disabled, size,  m=0, color="red_sw
 
 
 
-export const SwitchRadio = ({children, value, disabled, size,  m="1rem 1rem", color="red_switch" }: RadioProps) => {
+export const SwitchRadio = ({children, value, disabled, size,  m="1rem 1rem", Rcolor="red_switch", color="text_normal" }: RadioProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const [ch, setCh] = useState(false)
     const handle = () => setCh(!ch)
@@ -97,7 +97,7 @@ export const SwitchRadio = ({children, value, disabled, size,  m="1rem 1rem", co
             //外部背景マーク選択時
             "input:checked ~ &": {
                 bg: "transparent",
-                color: color,
+                color: Rcolor,
                 boxShadow: `4px 4px 8px ${shadow},-4px -4px 8px ${highlight};`,
                 _hover: {
                     bg: "transparent"
@@ -124,7 +124,7 @@ export const SwitchRadio = ({children, value, disabled, size,  m="1rem 1rem", co
             <Box
             onClick={handle}
             sx={{ 
-                color: disabled ? "text_very_light" : "text_normal", 
+                color: disabled ? "text_very_light" : color, 
                 fontWeight: 'normal'
             }}
             >

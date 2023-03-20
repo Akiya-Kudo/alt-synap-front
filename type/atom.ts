@@ -52,6 +52,7 @@ export interface RadioProps extends StyleProps {
     value: string | undefined,
     disabled?: boolean,
     size?: "sm" | "md" | "lg",
+    Rcolor?: string,
 }
 
 export interface SwitchProps extends StyleProps {
