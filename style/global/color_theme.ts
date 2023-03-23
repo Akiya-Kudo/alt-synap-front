@@ -39,5 +39,9 @@ export const color_switchs =  {
     cyan_switch: {default: "cyan.400", _dark: "cyan.300"},
     purple_switch: {default: "purple.400", _dark: "purple.300"},
     pink_switch: {default: "pink.400", _dark: "pink.300"},
-    lime: {default: "#54C0A0"} 
+
+    //experimental
+    tipsy_gradient_1: {default: "yellow.400", _dark: "blue.300"},
+    tipsy_gradient_2: {default: "green.400", _dark: "purple.300"},
+    tipsy_gradient_3: {default: "teal.400", _dark: "pink.300"},
 }

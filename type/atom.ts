@@ -1,76 +1,82 @@
-import { MouseEventHandler, ReactNode } from "react"
+import { BoxProps, ButtonProps, FlexProps, InputProps, LinkBoxProps, RadioProps, SwitchProps } from "@chakra-ui/react"
+import { MouseEvent, MouseEventHandler, ReactNode } from "react"
 
-export type ObjectArrayProps = 
-Array<string | number> | 
-{
-    base?: string | number,
-    sm?: string | number,
-    md?: string | number,
-    lg?: string | number,
-    xl?: string | number,
-    "2xl"?: string | number,
+
+
+
+export interface NeumButtonProps extends ButtonProps {
+    Hcolor?: string, //hover{color}
+    Acolor?: string, //active{color}
+    fontSize?: number,
 }
-
-export interface StyleProps {
-    h?: string | number | ObjectArrayProps,
-    w?: string | number | ObjectArrayProps,
-    minH?: string | number | ObjectArrayProps,
-    minW?: string | number | ObjectArrayProps,
-    maxH?: string | number | ObjectArrayProps,
-    maxW?: string | number | ObjectArrayProps,
-    m?: string | number | ObjectArrayProps,
-    p?: string | number | ObjectArrayProps,
-    bg?: string, 
-    bgg?: string, //gackgroundGradient
-    color?: string,
-    fs?: string | number | ObjectArrayProps, //fontSize
-    fw?: string | number | ObjectArrayProps, //fontWeight
-    br?: string | number | ObjectArrayProps,  //borderRadius
-    children?: string | ReactNode,
-}
-
-export interface ButtonProps extends StyleProps {
-    onClick?: MouseEventHandler<HTMLButtonElement>,
-    Hcolor?: string, //_hover{color}
-    Acolor?: string, // _active{color}
-    fs?: number,
-    children?: string,
+export interface NeumSwitchButtonTabProps extends NeumButtonProps {
+    children: string,
+    id: string,
     selectedValue?: string,
 }
-
-export interface TextProps extends StyleProps {
-    letterSpacing?: string,
-    neumH?: "shallow" | "tall"
+export interface NeumColorModeButtonProps extends NeumButtonProps {
+    onClick?: undefined,
 }
 
-export interface BordProps extends StyleProps {
-    display?: "center" | "custom" | "column",
-    neumH?: "shallow" | "tall"
+
+
+
+export interface NeumTextProps extends BoxProps {
+    neumH?: "shallow" | "tall",
 }
 
-export interface RadioProps extends StyleProps {
-    value: string | undefined,
-    disabled?: boolean,
-    size?: "sm" | "md" | "lg",
+
+
+
+
+
+export interface NeumBordProps extends BoxProps {
+    neumH?: "shallow" | "tall",
+    boxShadow?: undefined,
+}
+
+
+
+
+
+
+export interface NeumRadioProps extends RadioProps {
+    value: string,
+    children: string,
     Rcolor?: string,
 }
+export interface NeumSwitchRadioProps extends NeumRadioProps {
+    getValueState: (state: boolean, value: string) => any
+}
 
-export interface SwitchProps extends StyleProps {
+
+
+
+
+
+export interface NeumSwitchProps extends SwitchProps {
     id: string,
-    children?: string,
-    disabled?: boolean,
-    checked?: boolean,
-    required?: boolean,
-    size?: "sm" | "md" | "lg",
     Scolor?: string,
-    direction?: "row" | "row-reverse",
-    spacing?: string | number | ObjectArrayProps,
+    swM?: string | number,
+    swP?: string | number,
+    lbM?: string | number,
+    lbP?: string | number,
 }
 
-export interface InputProps extends StyleProps {
-    getValue: (e:any) => any,
-    placeholder?: string,
+
+
+
+
+
+export interface NeumInputProps extends InputProps {
+    PHcolor?: string,
+    fontSize?: number,
     neumH?: "flat" | "dent",
-    Pcolor?: string,
-    fs?: number,
 }
+
+
+
+
+
+
+export interface GlassContainerProps extends FlexProps{}

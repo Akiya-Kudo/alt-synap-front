@@ -48,4 +48,11 @@ export const theme = extendTheme({
             },
         }),
     },
+    layerStyles: {
+        glass_menu_item: {
+            backgroundColor: "transparent",
+            // backdropFilter: "blur(5px)",
+            _hover: {backgroundColor: "rgba(130,130,130, 0.25)"},
+        }
+    },
 })
