@@ -1,31 +1,35 @@
-import { ObjectArrayProps } from "./atom";
+import { BoxProps, MenuProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
 
-export interface HelperProps {
+export interface GlassMenuProps extends MenuProps {
+    user_name?: string,
+    itemFontSize?: string | number,
+}
+
+export interface MyRadioSelectGroupProps extends RadioGroupProps {
     options: string[],
-    defValue: string,
-    getValue: (args: any) => any,
-    m?: string | number | ObjectArrayProps,
-    w?: string | number | ObjectArrayProps,
-    h?: string | number | ObjectArrayProps,
-    p?: string | number | ObjectArrayProps,
-    fs?: string | number | ObjectArrayProps,
-}
-
-export interface RadioGroupProps extends HelperProps {
-    direction?: "column" | "row",
-    colorScheme?: string[],
+    children: string, // タイトル
+    titleSize?: string | number,
+    titleM?: string | number,
+    titleP?: string | number,
+    colorPicks?: string[],
     colorRandom?: boolean,
-    space?: number | string,
-    size?: "sm" | "md" | "lg",
+    direction?: "column" | "row",
+    spacing?: string | number | string[] | number[],
 }
 
-export interface TabGroupProps extends HelperProps {
+export interface MyTabGroupProps extends BoxProps {
+    options: string[],
+    defaultValue: string,
+    onChange: (value:any)=>any,
+    display?: ResponsiveValue<any>,
+    justifyContent?: ResponsiveValue<any>,
+    alignItems?: ResponsiveValue<any>,
+    fontSize?: number,
     Hcolor?: string, 
-    Acolor?: string, 
-    fs?: number,
-    br?: string | number,
-    brCh?: string | number,
-    wCh?: string | number | ObjectArrayProps,
-    hCh?: string | number | ObjectArrayProps,
-    space?: number | string,
+    Acolor?: string,
+    chBorderRadius?: string | number,
+    chW?: string | number,
+    chH?: string | number,
+    chP?: string | number,
+    chM?: string | number,
 }

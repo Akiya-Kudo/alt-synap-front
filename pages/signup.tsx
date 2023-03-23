@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from '../util/hook/authContext';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { BasicHeader } from '../component/standalone/Header';
 
 
 // コンポーネント定義
@@ -54,6 +55,7 @@ const SignUp: NextPage  = () => {
     return (
         <>
             <Header/>
+            <BasicHeader></BasicHeader>
             <Flex className="page" direction="column" justify="center" align="center">  
                 <Form>
                     <Heading mb={5}>Sign up</Heading>

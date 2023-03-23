@@ -1,18 +1,22 @@
-import { RadioGroup, Radio, useColorModeValue, Box } from "@chakra-ui/react"
-import { useState } from "react"
-import { RadioProps } from "../../type/atom"
+import { Radio, Box } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
+import { NeumRadioProps, NeumSwitchRadioProps } from "../../type/atom"
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
 
-export const BasicRadio = ({children, value, disabled, size,  m=0, Rcolor="red_switch", color="text_normal" }: RadioProps) => {
+export const BasicRadio = ({
+    children, value, isDisabled,  
+    color="text_normal", border="none",
+    Rcolor="red_switch",
+    ...props
+}: NeumRadioProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <Radio 
+        {...props}
         value={ value }
-        isDisabled={disabled}
-        m={m}
-        size={size}
+        isDisabled={isDisabled}
+        border={border}
         boxShadow={`4px 4px 8px ${shadow},-4px -4px 8px ${highlight};`}
-        border={"none"}
         sx={{
             //"input ~ &"はradio-buttonのスタイリング(::beforeはその中の未選択時のマークの作成 & 選択時のスタイル削除)
             "input ~ &": {
@@ -52,7 +56,7 @@ export const BasicRadio = ({children, value, disabled, size,  m=0, Rcolor="red_s
             {/* labelのスタイリング */}
             <Box
             sx={{ 
-                color: disabled ? "text_very_light" : color, 
+                color: isDisabled ? "text_very_light" : color, 
                 fontWeight: 'normal'
             }}
             >
@@ -64,21 +68,28 @@ export const BasicRadio = ({children, value, disabled, size,  m=0, Rcolor="red_s
 
 
 
-export const SwitchRadio = ({children, value, disabled, size,  m="1rem 1rem", Rcolor="red_switch", color="text_normal" }: RadioProps) => {
+export const SwitchRadio = ({
+    children, value, isDisabled, getValueState, isChecked,
+    Rcolor="red_switch", color="text_normal", border="none",
+    ...props
+}: NeumSwitchRadioProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const [ch, setCh] = useState(false)
-    const handle = () => setCh(!ch)
-    return (
-        <Radio 
-        value={ value }
-        isDisabled={disabled}
-        isChecked={ch}
-        onClick={handle}
-        m={m}
-        size={size}
 
+    const handleClick = (e:any) => {
+        setCh(!ch)
+        getValueState(ch, value)
+    }
+    
+    useEffect(()=> {if (isChecked) setCh(true)},[])
+
+    return (
+        <Radio
+        {...props}
+        value={ value }
+        onClick={handleClick} isDisabled={isDisabled} isChecked={ch}
+        border={border}
         boxShadow={`4px 4px 8px ${shadow},-4px -4px 8px ${highlight};`}
-        border={"none"}
         sx={{
             //"input ~ &"はradio-buttonのスタイリング(::beforeはその中の未選択時のマークの作成 & 選択時のスタイル削除)
             "input ~ &": {
@@ -122,9 +133,9 @@ export const SwitchRadio = ({children, value, disabled, size,  m="1rem 1rem", Rc
         >
             {/* labelのスタイリング */}
             <Box
-            onClick={handle}
+            onClick={handleClick}
             sx={{ 
-                color: disabled ? "text_very_light" : color, 
+                color: isDisabled ? "text_very_light" : color, 
                 fontWeight: 'normal'
             }}
             >

@@ -13,7 +13,7 @@ import { auth } from '../../../util/firebase/init';
 import { MyModal } from '../../modals';
 import { LoginForm } from '../../Forms/userForms';
 
-const Container = (props: BoxProps) => <Flex zIndex={15} w="100%" h="10vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' >{props.children}</Flex>
+const Container = (props: BoxProps) => <Flex mt={100} zIndex={15} w="100%" h="10vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' >{props.children}</Flex>
 
 
 // ログアウトコンポーネント定義
@@ -56,9 +56,6 @@ const UserMenu = () => {
 export const Header = () => {
 
     const { toggleColorMode } = useColorMode()
-
-    const bg = useColorModeValue('blue.100', 'gray.800')
-    const color = useColorModeValue('gray.600', 'white.800')
 
     const { userState } = useContext(AuthContext);
     

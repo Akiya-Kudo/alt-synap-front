@@ -1,31 +1,39 @@
 import { Box } from "@chakra-ui/react"
 import { useState } from "react"
-import { TabGroupProps } from "../../type/helper"
+import { MyTabGroupProps } from "../../type/helper"
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
 import { SwitchButtonTab } from "../atom/buttons"
 
-export const TabRadioGroup = ({options, getValue, defValue, space, Hcolor, Acolor, fs, br=20, w, h, m=5, p, brCh=10, wCh=200, hCh}: TabGroupProps) => {
-    const [selected, setSelected] = useState(defValue)
+export const TabButtonSelectGroup = ({
+    options, onChange, defaultValue, 
+    borderRadius=20, 
+    display="flex", justifyContent="center", alignItems="center",
+    Hcolor="red_switch", Acolor="red.600", 
+    chBorderRadius=10, chW=200, chH, chP="0 3px", chM=1, fontSize=15, 
+    ...props
+}: MyTabGroupProps) => {
+    const [selected, setSelected] = useState(defaultValue)
     const handleClick = (e: any) => {
-        const value = e.target.id
-        setSelected(value)
-        getValue(value)
+        setSelected(e.target.id)
+        onChange(e.target.id)
     }
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <Box
-        m={m} p={p} w={w} h={h}
-        borderRadius={br}
-        display="flex" justifyContent={"center"} alignItems={"center"}
+        {...props}
+        borderRadius={borderRadius}
+        display={display} justifyContent={justifyContent} alignItems={alignItems}
         boxShadow={`5px 5px 15px ${shadow}, -5px -5px 15px ${highlight};`}
         >
             { options.map((name: string) => {
                 return (
-                    <SwitchButtonTab 
-                    selectedValue={selected} 
-                    onClick={handleClick} 
-                    Hcolor={Hcolor} Acolor={Acolor} fs={fs}
-                    br={brCh} w={wCh} h={hCh} p={"0 3px"} m={1} >
+                    <SwitchButtonTab
+                    id={name}
+                    selectedValue={selected} onClick={handleClick} 
+                    Hcolor={Hcolor} Acolor={Acolor} 
+                    borderRadius={chBorderRadius} w={chW} h={chH} fontSize={fontSize}
+                    p={chP} m={chM}
+                    >
                         {name}
                     </SwitchButtonTab>
                 )

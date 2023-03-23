@@ -52,3 +52,8 @@ export const useNeumorphismColorMode = () => {
     const shadow_transparent = useColorModeValue("var(--chakra-colors-tipsy_light-800)", "var(--chakra-colors-tipsy_dark-800)")
     return {highlight, shadow, highlight_transparent, shadow_transparent}
 }
+
+export const useFormColorMode = () => {
+    const border_switch = useColorModeValue("green.400", "blue.300")
+    return {border_switch}
+}

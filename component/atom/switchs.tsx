@@ -1,21 +1,26 @@
 import { Box, FormControl, FormLabel, Switch } from "@chakra-ui/react"
-import { SwitchProps } from "../../type/atom"
+import { NeumSwitchProps } from "../../type/atom"
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
 
-export const BasicSwitch = ({id, children, size, Scolor="blue_switch", color, m, p, disabled, checked, required, direction, spacing=1}: SwitchProps) => {
+export const BasicSwitch = ({
+    id, children,
+    Scolor="blue_switch", 
+    swM, swP, lbM, lbP, m, p,
+    display="flex", alignItems="center", flexDirection="row",
+    ...props
+}: NeumSwitchProps) => {
     const { highlight, shadow, highlight_transparent, shadow_transparent } = useNeumorphismColorMode()
-    const flxgrw = direction=="row-reverse" ? 1 : 0;
+    const flexGrow = flexDirection=="row-reverse" ? 1 : 0;
     return (
-        <FormControl display='flex' alignItems={"center"} flexDirection={direction} m={m} p={p}>
-            <Box flexGrow={flxgrw}></Box>
-            <FormLabel htmlFor={id} mb={0} color={color}>
+        <FormControl display={display} alignItems={alignItems} flexDirection={flexDirection} m={m} p={p}>
+            <Box flexGrow={flexGrow}></Box>
+            <FormLabel htmlFor={id} mb={0} m={lbM} p={lbP}>
                 { children }
             </FormLabel>
-            <Box w={spacing}></Box>
             <Switch
+            {...props}
             id={id}
-            size={size}
-            isDisabled={disabled} isChecked={checked} isRequired={required}
+            m={swM} p={swP}
             sx={{
                 //スイッチ内部の白いスイッチ
                 ".chakra-switch__thumb": {
