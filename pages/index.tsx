@@ -10,7 +10,7 @@ import { USER_INFO_MUTATION } from '../util/graphql/mutation/users.mutation.sche
 
 import { TabBord } from '../component/atom/bords';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
-import { BasicHeader } from '../component/standalone/Header';
+import { BasicHeader } from '../component/layout/Header';
 
 const UserNameUpdataForm = () => {
 

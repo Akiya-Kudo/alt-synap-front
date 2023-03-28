@@ -1,5 +1,4 @@
 import { Box } from "@chakra-ui/react"
-import Link from "next/link";
 import { NeumTextProps } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
 
@@ -17,24 +16,5 @@ export const FlatText = ({
         textShadow={neumHeight} 
         color={color} bg={bg}
         />
-    )
-}
-
-export const TitleText = ({
-    children="Tipsy",
-    bgClip="text", bgGradient="linear(to-tl, tipsy_gradient_1, tipsy_gradient_2, tipsy_gradient_3)",
-    letterSpacing=5, fontWeight="bold",
-    ...props
-}: NeumTextProps) => {
-    return (
-        <Link href="/" passHref>
-            <Box 
-            {...props}
-            bgGradient={bgGradient} bgClip={bgClip}
-            letterSpacing={letterSpacing} fontWeight={fontWeight}
-            >
-                {children}
-            </Box>
-        </Link>
     )
 }

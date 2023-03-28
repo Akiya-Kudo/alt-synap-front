@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from '../util/hook/authContext';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { BasicHeader } from '../component/standalone/Header';
+import { BasicHeader } from '../component/layout/Header';
 
 
 // コンポーネント定義

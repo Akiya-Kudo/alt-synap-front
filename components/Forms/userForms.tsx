@@ -1,9 +1,8 @@
-import { Box, BoxProps, Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link, ModalBody, Text, Textarea } from '@chakra-ui/react'
+import { Box, BoxProps, Button, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Link, ModalBody, Text, Textarea } from '@chakra-ui/react'
 import React from 'react'
-import { useLogInFunc, useSocialLoginFunc } from '../../util/hook/useAuth';
+import { useSocialLoginFunc } from '../../util/hook/useAuth';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import NextLink from "next/link"
-import { useForm } from 'react-hook-form';
 
 import ImageThumnail from "../../public/thumnailimage.svg";
 import Image from 'next/image';
@@ -18,41 +17,6 @@ type InputProps = {
   isDirty?: boolean;
   imageChanged?: boolean;
   onClose?: any;
-}
-
-// ログインフォームコンポーネント定義
-export const LoginForm = () => {
-
-  const { register, formState: { errors }, formState } = useForm({mode: "all"});
-
-  const {execute} = useLogInFunc()
-
-  const SubmitChange = (e: any) => {
-    e.preventDefault()
-    const target = e.target as any;
-    const email = target.inputText3.value as string;
-    const password = target.inputText2.value as string;
-    execute(email, password);
-  }
-  return (
-      <Flex
-          as="form" 
-          direction="column" 
-          w="100%" 
-          onSubmit={ SubmitChange }
-      >
-        <ModalBody pb={6}>
-            <EmailInput  errors={ errors } register={ register }/>
-            <PasswordInput  errors={ errors } register={ register }/>
-            <Flex direction='column'  m={3} align='center' justify='center'>
-                <SubmitButton text='Log in' formState={ formState }/>
-                <FotgetPassLink/>
-            <Divider/>
-            </Flex>
-            <SocialLoginButtons/>
-        </ModalBody>
-      </Flex>
-  )
 }
 
 export function UserNameInput({ errors, register, defValue }: InputProps  ) {

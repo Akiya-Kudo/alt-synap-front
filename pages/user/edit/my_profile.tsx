@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { NextPage } from "next";
-import { BasicHeader } from "../../../component/standalone/Header";
+import { BasicHeader } from "../../../component/layout/Header";
 
 const MyProfile: NextPage  = () => {
     return (
