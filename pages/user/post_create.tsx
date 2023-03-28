@@ -13,7 +13,7 @@ import { PostProcessType, PostTopInfoType, PostType } from '../../type/post'
 import BlogForm from '../../components/Forms/BlogForm'
 import { PageBackButton } from '../../components/Forms/postForms'
 import dynamic from 'next/dynamic'
-import { BasicHeader } from '../../component/standalone/Header'
+import { BasicHeader } from '../../component/layout/Header'
 
 type TypeSetButtonProptype =  {setType: any, name: string, height: number, children?: any, bg: string, shadow: string, border: string, minW?: number, Mx?: number}
 

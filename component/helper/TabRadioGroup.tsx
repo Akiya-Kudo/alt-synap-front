@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react"
 import { useState } from "react"
 import { MyTabGroupProps } from "../../type/helper"
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
-import { SwitchButtonTab } from "../atom/buttons"
+import { SwitchButton_tab } from "../atom/buttons"
 
 export const TabButtonSelectGroup = ({
     options, onChange, defaultValue, 
@@ -27,7 +27,7 @@ export const TabButtonSelectGroup = ({
         >
             { options.map((name: string) => {
                 return (
-                    <SwitchButtonTab
+                    <SwitchButton_tab
                     id={name}
                     selectedValue={selected} onClick={handleClick} 
                     Hcolor={Hcolor} Acolor={Acolor} 
@@ -35,7 +35,7 @@ export const TabButtonSelectGroup = ({
                     p={chP} m={chM}
                     >
                         {name}
-                    </SwitchButtonTab>
+                    </SwitchButton_tab>
                 )
             }) }
         </Box>

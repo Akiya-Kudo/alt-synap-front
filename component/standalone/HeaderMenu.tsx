@@ -24,7 +24,7 @@ export const HeaderMenu = ({
             />
             <MenuList 
             fontSize={itemFontSize}
-            backdropFilter={"blur(5px)"}
+            backdropFilter={"blur(6px)"}
             backgroundColor={"rgba(130,130,130, 0.15)"}
             >
                 <MenuGroup title={"- " + user_name + " -"}>

@@ -14,7 +14,7 @@ export const HeaderStyleContainer = ({children}: GlassContainerProps) => {
         gap={5}
         p={10}
 
-        backdropFilter={"blur(5px)"}
+        backdropFilter={"blur(6px)"}
         backgroundColor={"rgba(130,130,130, 0.15)"}
         
         borderBottom={"0.3px solid rgba(200,200,200, 0.7)"}

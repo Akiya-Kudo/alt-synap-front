@@ -1,6 +1,6 @@
-import { Button, useColorMode } from "@chakra-ui/react";
+import { BoxProps, Button, filter, Flex, useColorMode } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { NeumButtonProps, NeumColorModeButtonProps, NeumSwitchButtonTabProps } from "../../type/atom";
+import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
 import { CiSun, CiCloudMoon } from 'react-icons/ci';
 
@@ -99,7 +99,7 @@ export const SwitchButtonConcave = ({
 }
 
 // TabGroupで使用するボタン・親コンポーネントのstateを選択できる
-export const SwitchButtonTab = ({
+export const SwitchButton_tab = ({
     onClick=()=>undefined, 
     selectedValue, 
     children, id,
@@ -144,22 +144,37 @@ export const SwitchButtonTab = ({
 }
 
 export const GlassButton = ({
-    fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
+    fontSize=20, color="text_normal", borderRadius="full", bg="transparent", bgGradient,
     ...props
-}: NeumButtonProps) => {
+}: GlassButtonProps) => {
     return (
         <Button
         {...props}
-        fontSize={fontSize} color={color} bg={bg} borderRadius={borderRadius}
+        fontSize={fontSize} color={color} bg={bg} borderRadius={borderRadius} bgGradient={bgGradient}
         />
     )
 }
 
+
+export const GlassButton_submit = ({ 
+    fontSize=20, color="text_reverse", borderRadius="full", bg="transparent", bgGradient,
+    ...props
+}: GlassButtonProps) => {
+    return (
+        <Button 
+        type="submit"
+        {...props}
+        bg={bg} borderRadius={borderRadius} color={color} fontSize={fontSize} bgGradient={bgGradient}
+        />
+    )
+}
+
+
 export const ColorModeButton = ({
-    fontSize=20, color="tipsy_gradient_3", 
+    fontSize=20, color="tipsy_color_3", 
     borderRadius="full", bg="transparent", p=0,
     ...props
-}: NeumColorModeButtonProps) => {
+}: GlassColorModeButtonProps) => {
     const { toggleColorMode, colorMode } = useColorMode()
     return (
         <Button

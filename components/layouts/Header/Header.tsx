@@ -11,7 +11,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import { useLogOutFunc, usePassChangeSendEmail } from '../../../util/hook/useAuth';
 import { auth } from '../../../util/firebase/init';
 import { MyModal } from '../../modals';
-import { LoginForm } from '../../Forms/userForms';
+import { LoginForm } from '../../../component/standalone/LoginModal';
 
 const Container = (props: BoxProps) => <Flex mt={100} zIndex={15} w="100%" h="10vh" pos="fixed" top="0" boxShadow='sm' alignItems='center' >{props.children}</Flex>
 

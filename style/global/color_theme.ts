@@ -24,6 +24,9 @@ export const tipsy_dark = {
 //それを参照するものすべてがその擬似クラスの影響を受けるため themeでの使用限定
 export const color_switchs =  {
     bg_switch: {default: "tipsy_light.100", _dark: "tipsy_dark.100"},
+    bg_transparent: {default: "whiteAlpha.500", _dark: "blackAlpha.500"},
+    bg_transparent_reverse: {default: "blackAlpha.300", _dark: "whiteAlpha.300"},
+    bg_transparent_reverse_deep: {default: "rgba(180,180,180,0.7)", _dark: "rgba(155,155,155,0.7)"},
 
     text_normal: {default: "tipsy_light.400", _dark: "tipsy_dark.400",},
     text_reverse: {default: "tipsy_dark.400", _dark: "tipsy_light.400"},
@@ -41,7 +44,10 @@ export const color_switchs =  {
     pink_switch: {default: "pink.400", _dark: "pink.300"},
 
     //experimental
-    tipsy_gradient_1: {default: "yellow.400", _dark: "blue.300"},
-    tipsy_gradient_2: {default: "green.400", _dark: "purple.300"},
-    tipsy_gradient_3: {default: "teal.400", _dark: "pink.300"},
+    tipsy_color_1: {default: "yellow.400", _dark: "blue.300"},
+    tipsy_color_2: {default: "green.400", _dark: "purple.300"},
+    tipsy_color_3: {default: "teal.400", _dark: "pink.300"},
+    tipsy_color_active_1: {default: "yellow.500", _dark: "blue.200"},
+    tipsy_color_active_2: {default: "green.500", _dark: "purple.200"},
+    tipsy_color_active_3: {default: "teal.500", _dark: "pink.200"},
 }

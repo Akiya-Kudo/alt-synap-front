@@ -6,7 +6,7 @@ import MyTop from '../../components/MyTop'
 
 import  styles  from '../../style/components/Top.module.css';
 import { Box } from '@chakra-ui/react'
-import { BasicHeader } from '../../component/standalone/Header';
+import { BasicHeader } from '../../component/layout/Header';
 
 const Mypage: NextPage  = () => {
     // レンダリング時にuser情報をfirebaseから取得し直す処理（（SSG時にはnullになっている？）

@@ -144,7 +144,6 @@ export const MyInfoModal = (props: any) => {
     return (
         <>
             <Button onClick={onOpen}  colorScheme='orange' bg='orange.300' boxShadow='md' rounded='base' size='sm'>{props.title}</Button>
-
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
