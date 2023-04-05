@@ -25,12 +25,14 @@ export interface NeumButtonProps extends ButtonProps {
     Hbg?: string,
     HbgGradient?: string,
     fontSize?: number,
+    formState?: any,
 }
 export interface GlassButtonProps extends ButtonProps {
     Hcolor?: string, //hover{color}
     Acolor?: string, //active{color}
     Hbg?: string,
     HbgGradient?: string,
+    formState?: any,
 }
 export interface NeumSwitchButtonTabProps extends NeumButtonProps {
     children: string,
@@ -63,9 +65,18 @@ export interface NeumSwitchProps extends SwitchProps {
 
 //インプット
 export interface NeumInputProps extends InputProps {
+    id: string,
+    errors: any,
+    formState?: any,
+    register: any,
+    labelName?: string,
+    validation: any,
     PHcolor?: string,
+    relementBorderRadius?: string | number,
+    size?: "sm" | "md" | "lg",
     fontSize?: number,
     neumH?: "flat" | "dent",
+    password?: string,
 }
 export interface GlassInputProps extends InputProps {
     id: string,
@@ -77,17 +88,6 @@ export interface GlassInputProps extends InputProps {
     relementBorderRadius?: string | number,
     size?: "sm" | "md" | "lg",
     PHcolor?: string,
-}
-export type HookFormInputProps = InputGroupProps & InputProps & FormLabelProps & {
-    text?: string;
-    errors?: any;
-    formState?: any;
-    register?: any;
-    password?: string;
-    defaultValue?: string | null;
-    isDirty?: boolean;
-    imageChanged?: boolean;
-    onClose?: any;
 }
 
 //コンテイナー

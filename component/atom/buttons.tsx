@@ -6,7 +6,7 @@ import { CiSun, CiCloudMoon } from 'react-icons/ci';
 
 export const ClickButton = ({
     fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
-    Hcolor="red_switch",Acolor="red.600", 
+    Hcolor="red_switch",Acolor="red.600", isDisabled,
     ...props
 }: NeumButtonProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
@@ -23,6 +23,39 @@ export const ClickButton = ({
         _active={{
             boxShadow: `5px 5px 15px ${shadow},-5px -5px 15px ${highlight}, inset 5px 5px 15px -3px ${shadow}, inset -5px -5px 15px -3px ${highlight};`,
             color: Acolor,
+        }}
+        _disabled={{
+            color: "text_very_light"
+        }}
+        />
+    )
+}
+
+export const ClickButton_submit = ({
+    fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
+    Hcolor="red_switch",Acolor="red.600", formState,
+    ...props
+}: NeumButtonProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
+    return (
+        <Button
+        {...props}
+        disabled={!formState.isValid}
+        isLoading={formState.isSubmitting}
+        borderRadius={borderRadius} color={color} bg={bg} fontSize={fontSize} 
+        boxShadow={`15px 15px 30px ${shadow},-15px -15px 30px ${highlight};`}
+        _hover={{
+            boxShadow: `5px 5px 15px ${shadow},-5px -5px 15px ${highlight};`, 
+            color: Hcolor,
+            fontSize: fontSize / 1.02,
+        }}
+        _active={{
+            boxShadow: `5px 5px 15px ${shadow},-5px -5px 15px ${highlight}, inset 5px 5px 15px -3px ${shadow}, inset -5px -5px 15px -3px ${highlight};`,
+            color: Acolor,
+        }}
+        _disabled={{
+            boxShadow: `5px 5px 15px ${shadow},-5px -5px 15px ${highlight};`, 
+            color: "text_very_light",
         }}
         />
     )
@@ -157,13 +190,15 @@ export const GlassButton = ({
 
 
 export const GlassButton_submit = ({ 
-    fontSize=20, color="text_reverse", borderRadius="full", bg="transparent", bgGradient,
+    fontSize=20, color="text_reverse", borderRadius="full", bg="transparent", bgGradient, formState,
     ...props
 }: GlassButtonProps) => {
     return (
         <Button 
         type="submit"
         {...props}
+        disabled={!formState.isValid}
+        isLoading={formState.isSubmitting}
         bg={bg} borderRadius={borderRadius} color={color} fontSize={fontSize} bgGradient={bgGradient}
         />
     )
