@@ -186,16 +186,15 @@ export function PasswordInput({ errors, register }: InputProps) {
 
 
 export function PasswordRemaindInput({ errors, register, password }: InputProps) {
-
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
 
   return (
     <FormControl
-      id="inputText4"
-      isRequired
-      isInvalid={errors.inputText4 ? true : false}
-      m={2}
+    id="inputText4"
+    isRequired
+    isInvalid={errors.inputText4 ? true : false}
+    m={2}
     >
       <FormLabel>Password Again</FormLabel>
       <InputGroup size='md'>

@@ -6,6 +6,7 @@ import { BasicLink } from "../atom/links"
 import { GlassInput, GlassInput_password } from "../atom/inputs"
 import { Validation_email, Validation_password } from "../../util/form/validation"
 import { FaGithub, FaGoogle } from "react-icons/fa"
+import { GlassSocialLoginButtons } from "../helper/SocialLoginButtons"
 
 // ログインフォームコンポーネント定義
 export const LoginForm = () => {
@@ -32,7 +33,7 @@ export const LoginForm = () => {
             <ModalBody pb={6}>
                 <GlassInput 
                 id="input_email" 
-                labelName="Email" 
+                labelName="メールアドレス" 
                 placeholder="sample.com"
                 validation={Validation_email} 
                 errors={ errors } register={ register } 
@@ -41,7 +42,7 @@ export const LoginForm = () => {
                 />
                 <GlassInput_password
                 id="input_password" 
-                labelName="Password" 
+                labelName="パスワード" 
                 placeholder={"Password00"}
                 validation={Validation_password} 
                 errors={ errors } register={ register } 
@@ -50,38 +51,16 @@ export const LoginForm = () => {
                 />
                 <Flex direction='column'  my={5} align='center' justify='center'>
                     <GlassButton_submit 
-                    disabled={!formState.isValid}
-                    isLoading={formState.isSubmitting}
+                    formState={formState}
                     bg={"text_light"}
                     px={10} fontSize={"0.8rem"} w={200} mt={5}
                     bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} color="bg_switch"
                     _hover={{bgGradient: "linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}}
                     >
-                        Log in
+                        ログイン
                     </GlassButton_submit>
                     <BasicLink color="tipsy_color_2" href="/guest/changePassword" my={3}>パスワードを忘れた場合</BasicLink>
-                    <Flex 
-                    direction={{ base: "column", sm: "row"}} 
-                    align='center' justify='center' 
-                    gap={{ base: 5, sm: 10}} my={5}
-                    >
-                        <Button 
-                        onClick={ () => executeGithub() } rightIcon={<FaGithub />} 
-                        variant="outline" colorScheme="purple" borderRadius="full"
-                        _hover={{bgGradient: "linear(to-tl, purple_switch, yellow_switch)", color: "bg_switch"}}
-                        w={200}
-                        >
-                            Github
-                        </Button>
-                        <Button 
-                        onClick={ () => executeGoogle() } rightIcon={<FaGoogle/>}
-                        variant='outline' colorScheme="red" borderRadius="full"
-                        _hover={{bgGradient: "linear(to-tl, red_switch, orange_switch)", color: "bg_switch"}}
-                        w={200}
-                        >
-                            GMail
-                        </Button>
-                    </Flex>
+                    <GlassSocialLoginButtons/>
                 </Flex>
             </ModalBody>
         </Flex>
@@ -111,7 +90,7 @@ export const LoginModal = ({
                 bg="bg_transparent_reverse"
                 />
                 <ModalContent
-                backdropFilter={"blur(6px)"}
+                backdropFilter={"blur(10px)"}
                 bg="bg_transparent"
                 borderRadius={40}
                 p={5}
