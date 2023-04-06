@@ -40,7 +40,7 @@ export const theme = extendTheme({
                 width: '100%',
             },
             '.page': {
-                minHeihgt: '100vh',
+                minHeight: '100vh',
                 width: '100%',
             },
             '*': {

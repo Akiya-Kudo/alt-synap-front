@@ -15,7 +15,8 @@ export const ChangePassword: NextPage = () => {
     return (
         <>
             <BasicHeader/>
-            <Flex 
+            <Flex
+            className="page"
             direction="column" 
             justify="center" 
             align="center" 

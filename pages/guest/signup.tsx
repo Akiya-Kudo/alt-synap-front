@@ -1,57 +1,22 @@
 import React, { useContext, useEffect } from 'react'
 
-import { useSignUpFunc, useSocialLoginFunc } from '../util/hook/useAuth';
-import { Header } from '../components/layouts/Header/Header';
-import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton, UserNameInput } from '../components/Forms/userForms';
+import { useSignUpFunc, useSocialLoginFunc } from '../../util/hook/useAuth';
+import { Header } from '../../components/layouts/Header/Header';
+import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton, UserNameInput } from '../../components/Forms/userForms';
 import { BoxProps, Button, Center, Divider, Flex, Grid, GridItem, Heading, HStack } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";
-import { AuthContext } from '../util/hook/authContext';
+import { AuthContext } from '../../util/hook/authContext';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { BasicHeader } from '../component/layout/Header';
-import { SignupForm } from '../component/standalone/SignupForm';
+import { BasicHeader } from '../../component/layout/Header';
+import { SignupForm } from '../../component/standalone/SignupForm';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
-import { NeumSocialLoginButtons } from '../component/helper/SocialLoginButtons';
+import { NeumSocialLoginButtons } from '../../component/helper/SocialLoginButtons';
 
-
-// コンポーネント定義
-const Form = (props : BoxProps) => {
-    const {execute} = useSignUpFunc()
-
-    return (
-        <Flex
-            as="form" 
-            direction="column" 
-            w={400} 
-            m={3}
-            justify="center" 
-            align="center" 
-            onSubmit={async e => {
-                e.preventDefault()
-                const target = await e.target as any;
-                const email = await target.inputText3.value as string;
-                const password = await target.inputText2.value as string;
-                const user_name = await target.inputText5.value as string;
-                execute(email, password, user_name );
-            }}
-        >
-            {props.children}
-        </Flex>
-    )
-}
-
-
-
-
-
-// ページコンポーネント定義
 const SignUp: NextPage  = () => {
 
     const { userState } = useContext(AuthContext);
-
-    const {executeGoogle, executeGithub} = useSocialLoginFunc();
-
     const router = useRouter()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
@@ -59,9 +24,7 @@ const SignUp: NextPage  = () => {
         <>
             <BasicHeader/>
             <Grid
-            // templateAreas={`"header header header"
-            //                 "title title title"
-            //                 "signup signup sns"`}
+            className="page"
             gridTemplateRows={'100px 100px 1fr'}
             gridTemplateColumns={'100px 1fr 1fr 100px'}
             h='100vh'
