@@ -64,13 +64,15 @@ const Index: NextPage  = () => {
   return (
     <>
       <BasicHeader/>
-      <TabButtonSelectGroup 
-      onChange={ handleTabGroup} 
-      options={["TIpsyの投稿", "人気順", "新着順"]}  
-      defaultValue='人気順' 
-      m={"300px 1% 0 1%"}
-      />
-      <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>hello</TabBord>
+      <Box className="page">
+        <TabButtonSelectGroup 
+        onChange={ handleTabGroup} 
+        options={["TIpsyの投稿", "人気順", "新着順"]}  
+        defaultValue='人気順' 
+        mt={"100px"}
+        />
+        <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>hello</TabBord>
+      </Box>
     </>
   )
 }

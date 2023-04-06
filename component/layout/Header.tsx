@@ -40,7 +40,7 @@ export const BasicHeader = () => {
             }
             { userState == 'guest' &&
                 <>
-                    <Link href="/signup" passHref>
+                    <Link href="/guest/signup" passHref>
                         <GlassButton 
                         fontSize={15} 
                         color="bg_switch" 

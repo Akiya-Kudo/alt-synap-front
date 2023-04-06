@@ -104,7 +104,7 @@ const TypeSetButton = ({setType, name, height, children, bg, shadow, border, min
 const postCreate: NextPage = () => {
   return (
     <>
-      <BasicHeader></BasicHeader>
+      <BasicHeader/>
       <Flex className="page" direction="column" justify="center" align="center">
         <PostPage/>
       </Flex>
