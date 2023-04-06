@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react"
-import { FaGithub, FaGoogle } from "react-icons/fa"
 
-import { FormProvider, useForm } from "react-hook-form"
-import { Box, Button, Flex } from "@chakra-ui/react"
+import { useForm } from "react-hook-form"
+import { Flex } from "@chakra-ui/react"
 
 import { Validation_email, Validation_password, Validation_password_re, Validation_username } from "../../util/form/validation"
-import { useSignUpFunc, useSocialLoginFunc } from "../../util/hook/useAuth"
-import { ClickButton, ClickButton_submit } from "../atom/buttons"
-import { BasicInput, NeumInput, NeumInput_password } from "../atom/inputs"
+import { useSignUpFunc } from "../../util/hook/useAuth"
+import { ClickButton_submit } from "../atom/buttons"
+import { NeumInput, NeumInput_password } from "../atom/inputs"
 
 export const SignupForm = () => {
     const {execute} = useSignUpFunc()
-    const  { register, formState: { errors }, formState, getValues, trigger } = useForm({mode: "all"});
+    const  { register, formState: { errors }, formState, getValues, trigger } = useForm({mode: "all" ,reValidateMode: "onChange"});
     const handleSubmit = async (e:any) => {
             e.preventDefault()
             const target = await e.target as any;
             const email = await target.input_email.value as string;
             const user_name = await target.input_username.value as string;
-            const password = await target.inputText2.value as string;
+            const password = await target.input_password.value as string;
             execute(email, password, user_name );
     }
+    //このuseStateをinputのonChangeで呼び出さないとパスワード確認のバリデーションがinput_passwordのonBlur時に起動しない
     const [pass, setPass] = useState("")
-    // useEffect(() => {
-        // console.log(getValues("input_password") == getValues("input_password_re"))
-    // })
     return (
         <Flex
         as="form" 
@@ -59,8 +56,13 @@ export const SignupForm = () => {
             errors={errors} register={register} 
             isRequired
             my={1}
+            // onChengeがないとonBlurでの確認時のvalueが１入力にゅうりょく前になる
             onChange={ (e:any) => {setPass(e.target.value)} }
-            onBlur={ () => trigger("input_password_re", { shouldFocus: true }) }
+            onBlur={ () => {
+                const a = trigger("input_password_re", { shouldFocus: true }) 
+                console.log("🚀 ~ file: SignupForm.tsx:64 ~ SignupForm ~ a:", a)
+                
+            }}
             />
             <NeumInput_password
             id={"input_password_re"} 
@@ -70,7 +72,6 @@ export const SignupForm = () => {
             errors={errors} register={register}
             isRequired
             my={1}
-            onChange={(e:any)=>console.log(e.target.value)}
             />
             {/* <PasswordRemaindInput  errors={ errors } register={ register } password={getValues("inputText2")}/> */}
             <ClickButton_submit

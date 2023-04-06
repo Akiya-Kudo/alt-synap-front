@@ -38,6 +38,7 @@ export const NeumInput = ({
     focusBorderColor, fontSize=20, color="text_normal",
     ...props
 }: NeumInputProps ) => {
+    console.log(id)
     const { highlight, shadow } = useNeumorphismColorMode()
     const neumHeight = neumH=="dent" ? `inset -5px -5px 15px -3px ${highlight}, inset 5px 5px 15px -3px  ${shadow};` : `15px 15px 30px ${shadow}, -15px -15px 30px  ${highlight};`
     return (
@@ -83,6 +84,7 @@ export const NeumInput_password = ({
     relementBorderRadius="full",
     ...props
 }: NeumInputProps) => {
+    console.log(id)
     const { highlight, shadow } = useNeumorphismColorMode()
     const neumHeight = neumH=="dent" ? `inset -5px -5px 15px -3px ${highlight}, inset 5px 5px 15px -3px  ${shadow};` : `15px 15px 30px ${shadow}, -15px -15px 30px  ${highlight};`
 
