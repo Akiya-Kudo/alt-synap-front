@@ -1,4 +1,4 @@
-import { Button, Menu, MenuButton, IconButton, MenuProps, MenuGroup, MenuList, MenuItem, MenuItemOption, MenuDivider } from "@chakra-ui/react";
+import { Button, Menu, MenuButton, IconButton, MenuProps, MenuGroup, MenuList, MenuItem, MenuItemOption, MenuDivider, Box, Divider } from "@chakra-ui/react";
 import { useLogOutFunc, usePassChangeSendEmail } from "../../util/hook/useAuth";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { auth } from "../../util/firebase/init";
@@ -24,8 +24,11 @@ export const HeaderMenu = ({
             />
             <MenuList 
             fontSize={itemFontSize}
-            backdropFilter={"blur(6px)"}
-            backgroundColor={"rgba(130,130,130, 0.15)"}
+            borderRadius={15}
+            backgroundColor={"bg_switch"}
+            // backdropFilter={"blur(6px)"}
+            // sx={{"-webkit-backdrop-filter": "blur(10px)"}}
+            // backgroundColor={"rgba(230,230,230, 0.8)"}
             >
                 <MenuGroup title={"- " + user_name + " -"}>
                     <Link href="/mypage" passHref>
@@ -34,7 +37,6 @@ export const HeaderMenu = ({
                         _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
                         >プロフィール編集</MenuItem>
                     </Link>
-                    
                     <MenuItem 
                     onClick={ () => {execute();}}
                     backgroundColor={"transparent"}
@@ -54,14 +56,18 @@ export const HeaderMenu = ({
                 </MenuGroup>
                 <MenuDivider />
                 <MenuGroup title='- その他 -'>
-                <MenuItem
-                backgroundColor={"transparent"}
-                _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
-                >ヘルパー</MenuItem>
-                <MenuItem
-                backgroundColor={"transparent"}
-                _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
-                >お問い合わせ</MenuItem>
+                    <MenuItem
+                    backgroundColor={"transparent"}
+                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
+                    >
+                        ヘルパー
+                    </MenuItem>
+                    <MenuItem
+                    backgroundColor={"transparent"}
+                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
+                    >
+                        お問い合わせ
+                    </MenuItem>
                 </MenuGroup>
             </MenuList>
         </Menu>

@@ -63,7 +63,7 @@ const Index: NextPage  = () => {
   }
   return (
     <>
-      <BasicHeader></BasicHeader>
+      <BasicHeader/>
       <TabButtonSelectGroup 
       onChange={ handleTabGroup} 
       options={["TIpsyの投稿", "人気順", "新着順"]}  
