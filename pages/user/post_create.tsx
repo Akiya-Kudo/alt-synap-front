@@ -1,6 +1,6 @@
-import { Box, Center, Flex, Heading, Progress, Text } from '@chakra-ui/react'
+import { Box, Center, Flex, Heading, IconButton, Progress, Text } from '@chakra-ui/react'
 import { NextPage } from 'next'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { AiOutlinePicture } from 'react-icons/ai'
 import { FaPen } from 'react-icons/fa'
@@ -13,18 +13,60 @@ import { PostProcessType, PostTopInfoType, PostType } from '../../type/post'
 import BlogForm from '../../components/Forms/BlogForm'
 import { PageBackButton } from '../../components/Forms/postForms'
 import dynamic from 'next/dynamic'
-import { BasicHeader } from '../../component/layout/Header'
+import { ClickButton_icon } from '../../component/atom/buttons'
+import { ArrowBackIcon } from '@chakra-ui/icons'
+
+const postCreate: NextPage = () => {
+  // ログアウト時のリダイレクト処理
+  // const { userState } = useContext(AuthContext);
+  const router = useRouter()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // useEffect(() => { if (userState !== 'isUser')  router.replace('/') }, [userState])
+
+  return (
+    <>
+      <Flex 
+      className="page" 
+      direction="column" 
+      justify="center" 
+      align="center"
+      >
+        <Heading 
+        size="lg"
+        mb={1} mt={10} 
+        position="relative"
+        >
+          <ClickButton_icon 
+          icon={<ArrowBackIcon/>}
+          aria-label='ページを戻る'
+          size={"sm"}
+          position="absolute" left="-60px" top="3px"
+          onClick={() => {router.back()}}
+          >
+            こんにちは
+          </ClickButton_icon>
+        {/* <PageBackButton beforePageForm={"postTopForm"} beforeProcessValue={0} /> */}
+          Tipsを記録
+        </Heading>
+        <Center
+        fontSize='sm'  
+        color={"text_light"}
+        m={1}
+        >
+          何を記録しますか？
+        </Center>
+        {/* <FloatingPHInput/> */}
+        {/* <PostPage/> */}
+      </Flex>
+    </>
+  )
+}
+export default postCreate
 
 type TypeSetButtonProptype =  {setType: any, name: string, height: number, children?: any, bg: string, shadow: string, border: string, minW?: number, Mx?: number}
-
 const BlogFromContainer = dynamic(() => import("../../components/Forms/BlogForm"), { ssr: false });
 
 const PostPage = () => {
-  // ログアウト時のリダイレクト処理
-  const { userState } = useContext(AuthContext);
-  const router = useRouter()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { if (userState !== 'isUser')  router.replace('/') }, [userState])
   
   const [postProcess, setPostProcess] = useState<PostProcessType>("postTopForm")
   const [progressValue, setProgressValue] = useState(0)
@@ -100,16 +142,3 @@ const TypeSetButton = ({setType, name, height, children, bg, shadow, border, min
     </Center>
   )
 }
-
-const postCreate: NextPage = () => {
-  return (
-    <>
-      <BasicHeader/>
-      <Flex className="page" direction="column" justify="center" align="center">
-        <PostPage/>
-      </Flex>
-    </>
-  )
-}
-
-export default postCreate

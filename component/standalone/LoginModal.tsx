@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { useLogInFunc, useSocialLoginFunc } from "../../util/hook/useAuth"
 import { GlassButton, GlassButton_submit } from "../atom/buttons"
 import { BasicLink } from "../atom/links"
-import { GlassInput, GlassInput_password } from "../atom/inputs"
+import { GlassFloatFormInput, GlassFloatFormInput_password, GlassFormInput, GlassFormInput_password, GlassInputDefault } from "../atom/inputs"
 import { Validation_email, Validation_password } from "../../util/form/validation"
 import { FaGithub, FaGoogle } from "react-icons/fa"
 import { GlassSocialLoginButtons } from "../helper/SocialLoginButtons"
@@ -31,7 +31,15 @@ export const LoginForm = () => {
             onSubmit={ SubmitChange }
         >
             <ModalBody pb={6}>
-                <GlassInput 
+                <GlassFloatFormInput
+                id="input_email"
+                labelName="メールアドレス"
+                validation={Validation_email}
+                errors={errors} register={ register }
+                isRequired
+                my={3}
+                />
+                {/* <GlassFormInput 
                 id="input_email" 
                 labelName="メールアドレス" 
                 placeholder="sample.com"
@@ -39,8 +47,8 @@ export const LoginForm = () => {
                 errors={ errors } register={ register } 
                 isRequired
                 my={3}
-                />
-                <GlassInput_password
+                /> */}
+                <GlassFloatFormInput_password
                 id="input_password" 
                 labelName="パスワード" 
                 placeholder={"Password00"}
@@ -49,6 +57,15 @@ export const LoginForm = () => {
                 isRequired
                 my={3}
                 />
+                {/* <GlassFormInput_password
+                id="input_password" 
+                labelName="パスワード" 
+                placeholder={"Password00"}
+                validation={Validation_password} 
+                errors={ errors } register={ register } 
+                isRequired
+                my={3}
+                /> */}
                 <Flex direction='column'  my={5} align='center' justify='center'>
                     <GlassButton_submit 
                     formState={formState}

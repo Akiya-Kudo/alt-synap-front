@@ -1,4 +1,5 @@
-import { BoxProps, ButtonProps, FlexProps, FormLabelProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SwitchProps } from "@chakra-ui/react"
+import { BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SwitchProps } from "@chakra-ui/react"
+import { UseFormRegisterReturn } from "react-hook-form"
 
 //テキスト
 export interface NeumTextProps extends BoxProps {
@@ -27,6 +28,7 @@ export interface NeumButtonProps extends ButtonProps {
     fontSize?: number,
     formState?: any,
 }
+export interface NeumIconButtonProps extends IconButtonProps {}
 export interface GlassButtonProps extends ButtonProps {
     Hcolor?: string, //hover{color}
     Acolor?: string, //active{color}
@@ -65,29 +67,32 @@ export interface NeumSwitchProps extends SwitchProps {
 
 //インプット
 export interface NeumInputProps extends InputProps {
-    id: string,
-    errors: any,
-    formState?: any,
-    register: any,
-    labelName?: string,
-    validation: any,
     PHcolor?: string,
-    relementBorderRadius?: string | number,
-    size?: "sm" | "md" | "lg",
     fontSize?: number,
-    neumH?: "flat" | "dent",
+    register?:  UseFormRegisterReturn,
+}
+export interface NeumFormInputProps extends NeumInputProps {
+    id: string,
+    labelName?: string,
+    register: any,
+    formState?: any,
+    errors: any,
+    validation: any,
+}
+export interface NeumFormInputProps_password extends NeumFormInputProps {
     password?: string,
 }
 export interface GlassInputProps extends InputProps {
+    PHcolor?: string,
+    register?:  UseFormRegisterReturn,
+}
+export interface GlassFormInputProps extends GlassInputProps {
     id: string,
     errors: any,
     formState?: any,
     register: any,
     labelName?: string,
     validation: any,
-    relementBorderRadius?: string | number,
-    size?: "sm" | "md" | "lg",
-    PHcolor?: string,
 }
 
 //コンテイナー

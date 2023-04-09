@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Validation_email } from "../../util/form/validation";
 import { usePassChangeSendEmail } from "../../util/hook/useAuth";
 import { ClickButton_submit } from "../atom/buttons";
-import { NeumInput } from "../atom/inputs";
+import { NeumFloatFormInput, NeumFormInput } from "../atom/inputs";
 
 export const PasswordChangeForm = () => {
     const {executeSendEmail} = usePassChangeSendEmail()
@@ -23,7 +23,7 @@ export const PasswordChangeForm = () => {
             align="center" 
             onSubmit={handleSubmit}
         >
-            <NeumInput 
+            <NeumFloatFormInput
             id={"input_email"} 
             labelName={"メールアドレス"} 
             placeholder="sample.com"
