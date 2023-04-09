@@ -1,21 +1,28 @@
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
-import { Button, FormControl, FormErrorMessage, FormLabel, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, useColorMode } from '@chakra-ui/react'
-import { useEffect, useState } from 'react';
+import { FormControl, FormErrorMessage, FormLabel, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, useColorMode } from '@chakra-ui/react'
+import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { GlassInputProps, NeumInputProps } from "../../type/atom";
-import { Validation_password, Validation_username } from '../../util/form/validation';
-import { useFormColorMode, useNeumorphismColorMode } from '../../util/hook/useColor';
+import { GlassFormInputProps, GlassInputProps, NeumFormInputProps, NeumFormInputProps_password, NeumInputProps } from "../../type/atom";
+import { useFormColorMode } from '../../util/hook/useColor';
 import { useOneSizeSmaller } from '../../util/hook/useSize';
+import { useNeumStyle } from '../../util/hook/useTheme';
+import { NeumIconButton } from './buttons';
 
 
 
-export const BasicInput = ({
-    neumH="dent", PHcolor="text_very_light", placeholder='📝', 
-    fontSize=20, bg="transparent", color="text_normal", borderRadius="full", border="none",
+export const NeumInputDefault = ({
+    //PHcolor: 制限拡張可 : boxShadow 固定 : fontSize 数値のみ : register hook用
+    bg="transparent", 
+    borderRadius="full", 
+    border="none",
+    color="text_normal", 
+    fontSize=20, 
+    placeholder='📝',
+    PHcolor="text_very_light",
+    register,
     ...props
 }: NeumInputProps ) => {
-    const { highlight, shadow } = useNeumorphismColorMode()
-    const neumHeight = neumH=="dent" ? `inset -5px -5px 15px -3px ${highlight}, inset 5px 5px 15px -3px  ${shadow};` : `15px 15px 30px ${shadow}, -15px -15px 30px  ${highlight};`
+    const { dent, flat } = useNeumStyle()
     return (
         <Input
         {...props}
@@ -23,70 +30,54 @@ export const BasicInput = ({
         _placeholder={{ color: PHcolor }}
         border={border}
         _focus={{
-            boxShadow: `15px 15px 30px ${shadow}, -15px -15px 30px  ${highlight};`,
+            boxShadow: flat,
             fontSize: fontSize / 0.95,
         }}
         borderRadius={borderRadius} bg={bg} color={color} fontSize={fontSize}
-        boxShadow={neumHeight}
+        boxShadow={dent}
+        {...register}
         />
     )
 }
-export const NeumInput = ({
-    id="input", labelName="Input", PHcolor="text_very_light", placeholder="入力してください", size="md",
-    errors, register, defaultValue, validation, 
-    neumH="dent", bg="transparent", borderRadius="full", border="none",
-    focusBorderColor, fontSize=20, color="text_normal",
+export const NeumFormInput = ({
+    id="input", 
+    labelName="Input",
+    errors, 
+    register, 
+    validation, 
+    defaultValue, 
+    bg, border, borderRadius, color,
+    fontSize, placeholder, PHcolor,
     ...props
-}: NeumInputProps ) => {
-    console.log(id)
-    const { highlight, shadow } = useNeumorphismColorMode()
-    const neumHeight = neumH=="dent" ? `inset -5px -5px 15px -3px ${highlight}, inset 5px 5px 15px -3px  ${shadow};` : `15px 15px 30px ${shadow}, -15px -15px 30px  ${highlight};`
+}: NeumFormInputProps ) => {
     return (
         <FormControl
         {...props}
         isInvalid={errors[id] ? true : false}
         >
             <FormLabel ms={3}>{labelName}</FormLabel>
-            <Input
-            {...register(id , validation)}
-            // autoComplete="off"
+            <NeumInputDefault
+            bg={bg} border={border} borderRadius={borderRadius} color={color} 
+            fontSize={fontSize} placeholder={placeholder} PHcolor={PHcolor}
+
+            register={register(id , validation)}
             defaultValue={defaultValue}
-            
-            size={size}
-            boxShadow={neumHeight}
-            color={color}
-            bg={bg}
-            border={border}
-            borderRadius={borderRadius}
-            fontSize={fontSize}
-            placeholder={placeholder}
-            _placeholder={{ opacity: 1, color: PHcolor }}
-            _focus={{
-                boxShadow: `15px 15px 30px ${shadow}, -15px -15px 30px  ${highlight};`,
-                fontSize: fontSize / 0.95,
-            }}
-            my={3}
             />
             <FormErrorMessage ms={5}>
-                {/* {errors.inputText3 && errors.inputText3?.message} */}
                 {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
             </FormErrorMessage>
     </FormControl>
     )
 }
 
-export const NeumInput_password = ({
-    id="input", labelName="Input",
-    PHcolor="text_very_light", placeholder="入力してください", size="md",
-    errors, register, defaultValue, validation, 
-    neumH="dent", bg="transparent", borderRadius="full", border="none",
-    focusBorderColor, fontSize=20, color="text_normal",
-    relementBorderRadius="full",
+export const NeumFormInput_password = ({
+    size="md",
+    id="input", labelName="Input", errors, 
+    register, validation, defaultValue, 
+    bg, border, borderRadius, color,
+    fontSize, placeholder, PHcolor,
     ...props
-}: NeumInputProps) => {
-    console.log(id)
-    const { highlight, shadow } = useNeumorphismColorMode()
-    const neumHeight = neumH=="dent" ? `inset -5px -5px 15px -3px ${highlight}, inset 5px 5px 15px -3px  ${shadow};` : `15px 15px 30px ${shadow}, -15px -15px 30px  ${highlight};`
+}: NeumFormInputProps_password) => {
 
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
@@ -98,42 +89,21 @@ export const NeumInput_password = ({
         >
             <FormLabel ms={5}>{labelName}</FormLabel>
             <InputGroup
-            size={size}
-            my={5}
             >
-                <Input
-                {...register(id , validation)}
-                autoComplete="off"
-                defaultValue={defaultValue}
+                <NeumInputDefault
+                register={register(id , validation)} defaultValue={defaultValue}
+                bg={bg} border={border} borderRadius={borderRadius} color={color} 
+                fontSize={fontSize} placeholder={placeholder} PHcolor={PHcolor}
                 type={show ? 'text' : 'password'}
                 
                 size={size}
-                boxShadow={neumHeight}
-                color={color}
-                bg={bg}
-                border={border}
-                borderRadius={borderRadius}
-                fontSize={fontSize}
-                placeholder={placeholder}
-                _placeholder={{ opacity: 1, color: PHcolor }}
-                _focus={{
-                    boxShadow: `15px 15px 30px ${shadow}, -15px -15px 30px  ${highlight};`,
-                    fontSize: fontSize / 0.95,
-                }}
                 />
                 <InputRightElement mx={2}>
-                    <IconButton
+                    <NeumIconButton
                     aria-label="パスワード表示切り替え"
                     icon={show ? <FaEyeSlash/> : <FaEye/>}
                     onClick={handleClick} 
                     size={relementSize} 
-
-                    fontWeight={"normal"} 
-                    color="text_normal" 
-                    borderRadius={relementBorderRadius}
-                    boxShadow={`3px 3px 6px ${shadow}, -3px -3px 6px  ${highlight}, inset 2px 2px 10px -5px ${shadow}, inset -2px -2px 10px -5px  ${highlight};`}
-                    _hover={{boxShadow: `1px 1px 3px ${shadow}, -1px -1px 3px  ${highlight}, inset 2px 2px 10px -5px ${shadow}, inset -2px -2px 10px -5px  ${highlight};`}}
-                    _active={{boxShadow: `inset 3px 3px 6px -2px ${shadow}, inset -3px -3px 6px -2px  ${highlight};`}}
                     />
                 </InputRightElement>
             </InputGroup>
@@ -144,37 +114,50 @@ export const NeumInput_password = ({
     )
 }
 
-export const GlassInput = ({
-    id="input", labelName="Input", PHcolor="text_very_light", placeholder="入力してください", size="md",
-    errors, register, defaultValue, validation, 
-    bg="bg_transparent_reverse_deep", borderRadius="full", border="0.5px solid", borderColor="text_light", focusBorderColor,
+export const NeumFloatFormInput = ({
+    id="input",  labelName="Input",
+    errors, register, validation, defaultValue, 
+    bg, border, borderRadius, color,
+    onChange, onBlur, onFocus,
     ...props
-}: GlassInputProps) => {
-    const { border_switch, glass_text_switch } = useFormColorMode();
-    const focusBC = focusBorderColor ? focusBorderColor : border_switch
+}: NeumFormInputProps ) => {
+    const [isFloat, setIsFloat] = useState(false)
+    const handleChange = (e:any) => {
+        if (onChange) onChange
+        setIsFloat(true)
+    }
+    const handleBlur = (e:any) => {
+        if (onBlur) onBlur(e)
+        if (!e.target.value) setIsFloat(false)
+    }
+    const handleFocus = (e:any) => {
+        if (onFocus) onFocus(e)
+        setIsFloat(true)
+    } 
     return (
         <FormControl
         {...props}
         isInvalid={errors[id] ? true : false}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        position="relative"
         >
-            <FormLabel>{labelName}</FormLabel>
-            <Input
-            {...register(id , validation)}
-            autoComplete="off"
-            defaultValue={defaultValue}
-            size={size}
+            <FormLabel 
+            position="absolute" transition={".25s"}
+            color={isFloat ? "tipsy_color_2" : "text_normal"}
+            top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
+            fontSize={isFloat ? "0.7rem" : undefined}
+            >
+                {labelName}
+            </FormLabel>
+            <NeumInputDefault
+            register={register(id , validation)} defaultValue={defaultValue}
+            bg={bg} border={border} borderRadius={borderRadius} color={color} 
 
-            color={glass_text_switch}
-            bg={bg}
-            focusBorderColor={focusBC}
-            borderColor={borderColor}
-            border={border}
-            borderRadius={borderRadius}
-            placeholder={placeholder}
-            _placeholder={{ opacity: 1, color: PHcolor }}
+            placeholder="" h="70px" ps={"33px"} my={2}
             />
-            <FormErrorMessage>
-                {/* {errors.inputText3 && errors.inputText3?.message} */}
+            <FormErrorMessage ms={5}>
                 {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
             </FormErrorMessage>
     </FormControl>
@@ -182,13 +165,145 @@ export const GlassInput = ({
 }
 
 
-export const GlassInput_password = ({
-    id="input", labelName="Input", PHcolor="text_very_light", placeholder="入力してください", size="md",
-    errors, register, defaultValue, validation,
-    bg="bg_transparent_reverse_deep", borderRadius="full", border="0.5px solid", borderColor="text_light", focusBorderColor, 
-    relementBorderRadius="full",
+export const NeumFloatFormInput_password = ({
+    size="md",
+    id="input", labelName="Input", errors, 
+    register, validation, defaultValue, 
+    bg, border, borderRadius, color,
+    onChange, onBlur, onFocus,
     ...props
-}: GlassInputProps) => {
+}: NeumFormInputProps_password) => {
+    const [show, setShow] = useState(false)
+    const handleClick = () => setShow(!show)
+    const relementSize = useOneSizeSmaller(size)
+
+    const [isFloat, setIsFloat] = useState(false)
+    const handleChange = (e:any) => {
+        if (onChange) onChange
+        setIsFloat(true)
+    }
+    const handleBlur = (e:any)=> {
+        if (onBlur) onBlur(e)
+        if (e.target.type!="button" && !e.target.value) setIsFloat(false)
+        }
+    const handleFocus = (e:any) => {
+        if (onFocus) onFocus(e)
+        setIsFloat(true)
+    }
+    return (
+        <FormControl
+        {...props}
+        isInvalid={errors[id] ? true : false}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        position="relative"
+        >
+            <FormLabel 
+            position="absolute" transition={".25s"}
+            color={isFloat ? "tipsy_color_2" : "text_normal"}
+            top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
+            fontSize={isFloat ? "0.7rem" : undefined}
+            >{labelName}</FormLabel>
+            <InputGroup>
+                <NeumInputDefault
+                register={register(id , validation)} defaultValue={defaultValue}
+                bg={bg} border={border} borderRadius={borderRadius} color={color} 
+
+                placeholder="" h="70px" my={2}
+                type={show ? 'text' : 'password'}
+                />
+                <InputRightElement 
+                mx={2}
+                position="absolute"
+                >
+                        <NeumIconButton
+                    aria-label="パスワード表示切り替え"
+                    icon={show ? <FaEyeSlash/> : <FaEye/>}
+                    onClick={handleClick} 
+                    size={relementSize} 
+                    top={4}
+                    />
+                </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage ms={5}>
+                {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
+            </FormErrorMessage>
+        </FormControl>
+    )
+}
+
+export const GlassInputDefault = ({
+    //PHcolor: 制限拡張可 ： register hook用
+    bg="bg_transparent_reverse_deep", 
+    border="0.5px solid",
+    borderRadius="full", 
+    borderColor="text_light",
+    focusBorderColor,
+    color="text_normal", 
+    placeholder='📝',
+    PHcolor="text_very_light",
+    register,
+    ...props
+}: GlassInputProps ) => {
+    const { border_switch } = useFormColorMode();
+    const focusBC = focusBorderColor ? focusBorderColor : border_switch
+    return (
+        <Input
+        {...props}
+        placeholder={placeholder}
+        _placeholder={{ color: PHcolor }}
+        border={border}
+        borderRadius={borderRadius} 
+        focusBorderColor={focusBC}
+        bg={bg} color={color}
+        {...register}
+        />
+    )
+}
+
+export const GlassFormInput = ({
+    id="input", 
+    labelName="Input",
+    errors, 
+    register, 
+    validation, 
+    defaultValue, 
+    bg, border, borderRadius, focusBorderColor, 
+    color, placeholder, PHcolor,
+    ...props
+}: GlassFormInputProps) => {
+    const { border_switch } = useFormColorMode();
+    const focusBC = focusBorderColor ? focusBorderColor : border_switch
+    return (
+        <FormControl
+        {...props}
+        isInvalid={errors[id] ? true : false}
+        >
+            <FormLabel>{labelName}</FormLabel>
+            <GlassInputDefault
+            bg={bg} border={border} borderRadius={borderRadius} color={color} 
+            placeholder={placeholder} PHcolor={PHcolor} focusBorderColor={focusBC}
+
+            register={register(id , validation)}
+            defaultValue={defaultValue}
+            />
+            <FormErrorMessage>
+                {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
+            </FormErrorMessage>
+    </FormControl>
+    )
+}
+
+export const GlassFormInput_password = ({
+    size="md",
+    id="input",  labelName="Input", errors, register, validation, defaultValue, 
+    bg, border, borderRadius, focusBorderColor, 
+    color, placeholder, PHcolor,
+
+    borderColor="text_light",
+    ...props
+}: GlassFormInputProps) => {
 
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
@@ -205,19 +320,12 @@ export const GlassInput_password = ({
             <InputGroup
             size={size}
             >
-                <Input
-                {...register(id , Validation_password)}
-                placeholder={placeholder}
-                defaultValue={defaultValue}
+                <GlassInputDefault
                 type={show ? 'text' : 'password'}
+                register={register(id , validation)} defaultValue={defaultValue}
 
-                bg={bg}
-                color={glass_text_switch}
-                border={border}
-                borderColor={borderColor}
-                borderRadius={borderRadius}
-                focusBorderColor={focusBC}
-                _placeholder={{ opacity: 1, color: PHcolor }}
+                bg={bg} border={border} borderRadius={borderRadius} color={color} 
+                placeholder={placeholder} PHcolor={PHcolor} focusBorderColor={focusBC}
                 />
                 <InputRightElement>
                     <IconButton
@@ -231,7 +339,7 @@ export const GlassInput_password = ({
                     color="text_normal" 
                     borderColor="text_light" 
                     border="1.5px solid" 
-                    borderRadius={relementBorderRadius} 
+                    borderRadius={"full"} 
                     _hover={{
                         bg: "bg_transparent_reverse_deep",
                     }}
@@ -279,5 +387,145 @@ export const GlassInput_search = ({
             children={<CloseIcon/>} 
             />
         </InputGroup>
+    )
+}
+
+export const GlassFloatFormInput = ({
+    id="input",  labelName="Input",
+    errors, register, validation, defaultValue, 
+    bg, border, borderRadius, color, focusBorderColor,
+    onChange, onBlur, onFocus,
+    ...props
+}: GlassFormInputProps ) => {
+    const { border_switch, glass_text_switch } = useFormColorMode();
+    const focusBC = focusBorderColor ? focusBorderColor : border_switch
+
+    const [isFloat, setIsFloat] = useState(false)
+    const handleChange = (e:any) => {
+        if (onChange) onChange
+        setIsFloat(true)
+    }
+    const handleBlur = (e:any) => {
+        if (onBlur) onBlur(e)
+        if (!e.target.value) setIsFloat(false)
+    }
+    const handleFocus = (e:any) => {
+        if (onFocus) onFocus(e)
+        setIsFloat(true)
+    } 
+    return (
+        <FormControl
+        {...props}
+        isInvalid={errors[id] ? true : false}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        position="relative"
+        >
+            <FormLabel 
+            position="absolute" transition={".25s"}
+            color={isFloat ? "tipsy_color_2" : "text_normal"}
+            top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
+            fontSize={isFloat ? "0.7rem" : undefined}
+            zIndex={10}
+            >
+                {labelName}
+            </FormLabel>
+            <GlassInputDefault
+            register={register(id , validation)} defaultValue={defaultValue}
+            focusBorderColor={focusBC}            
+            bg={bg} border={border} borderRadius={borderRadius} color={color} 
+
+            placeholder="" h="70px" ps={"33px"} my={2}
+            />
+            <FormErrorMessage ms={5}>
+                {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
+            </FormErrorMessage>
+    </FormControl>
+    )
+}
+
+export const GlassFloatFormInput_password = ({
+    size="md",
+    id="input",  labelName="Input",
+    errors, register, validation, defaultValue, 
+    bg, border, borderRadius, color, focusBorderColor,
+    onChange, onBlur, onFocus,
+    ...props
+}: GlassFormInputProps ) => {
+    const [show, setShow] = useState(false)
+    const handleClick = () => setShow(!show)
+    const relementSize = useOneSizeSmaller(size)
+    const { border_switch, glass_text_switch } = useFormColorMode();
+    const focusBC = focusBorderColor ? focusBorderColor : border_switch
+
+    const [isFloat, setIsFloat] = useState(false)
+    const handleChange = (e:any) => {
+        if (onChange) onChange
+        setIsFloat(true)
+    }
+    const handleBlur = (e:any) => {
+        if (onBlur) onBlur(e)
+        if (!e.target.value) setIsFloat(false)
+    }
+    const handleFocus = (e:any) => {
+        if (onFocus) onFocus(e)
+        setIsFloat(true)
+    } 
+    return (
+        <FormControl
+        {...props}
+        isInvalid={errors[id] ? true : false}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        position="relative"
+        size={size}
+        >
+            <FormLabel 
+            position="absolute" transition={".25s"}
+            color={isFloat ? "tipsy_color_2" : "text_normal"}
+            top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
+            fontSize={isFloat ? "0.7rem" : undefined}
+            zIndex={10}
+            >
+                {labelName}
+            </FormLabel>
+            <InputGroup
+            >
+                < GlassInputDefault
+                register={register(id , validation)} defaultValue={defaultValue}
+                bg={bg} border={border} borderRadius={borderRadius} color={color} 
+
+                placeholder="" h="70px" my={2}
+                type={show ? 'text' : 'password'}
+                />
+                <InputRightElement 
+                mx={2}
+                position="absolute"
+                >
+                    <IconButton
+                    aria-label="パスワード表示切り替え"
+                    icon={show ? <FaEyeSlash/> : <FaEye/>}
+                    onClick={handleClick} 
+                    size={relementSize} 
+
+                    top={4}
+                    fontWeight={"normal"} 
+                    variant='outline' 
+                    color="text_normal" 
+                    borderColor="text_light" 
+                    border="1.5px solid" 
+                    borderRadius={"full"} 
+                    _hover={{
+                        bg: "bg_transparent_reverse_deep",
+                    }}
+                    />
+                </InputRightElement>
+            </InputGroup>
+            <FormErrorMessage ms={5}>
+                {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
+            </FormErrorMessage>
+    </FormControl>
     )
 }

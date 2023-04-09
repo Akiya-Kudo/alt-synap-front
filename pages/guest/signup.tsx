@@ -30,8 +30,10 @@ const SignUp: NextPage  = () => {
             h='100vh'
             >
                 <GridItem colSpan={4}/>
-                <GridItem mt={2} colSpan={4} >
-                    <Center fontSize={"2rem"} fontWeight={"bold"}>新規登録</Center>
+                <GridItem mt={1} colSpan={4} >
+                    <Center>
+                        <Heading size="lg">新規登録</Heading>
+                    </Center>
                 </GridItem>
                 <GridItem colSpan={1}/>
                 <GridItem colSpan={1}>
@@ -40,7 +42,7 @@ const SignUp: NextPage  = () => {
                     justify="center" 
                     align="center"
                     >
-                        <Heading fontSize="1.3rem">メールアドレスでログイン</Heading>
+                        <Heading size="md">メールアドレスでログイン</Heading>
                         <Center
                         fontSize='sm'  
                         color={"text_light"}
@@ -56,7 +58,7 @@ const SignUp: NextPage  = () => {
                     direction="column"
                     align='center' justify='center' 
                     >
-                        <Heading fontSize="1.3rem">他のアカウントでログイン</Heading>
+                        <Heading size="md">他のアカウントでログイン</Heading>
                         <Center
                         fontSize='sm'  
                         color={"text_light"}

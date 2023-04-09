@@ -22,7 +22,7 @@ export const ChangePassword: NextPage = () => {
             align="center" 
             mt={"100px"}
             >
-                <Heading m={5}>パスワード変更</Heading>
+                <Heading m={5} size="lg">パスワード変更</Heading>
                 <Center
                 fontSize='sm'  
                 color={"text_light"}
