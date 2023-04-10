@@ -2,7 +2,7 @@ import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
 import { FormControl, FormErrorMessage, FormLabel, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, useColorMode } from '@chakra-ui/react'
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { GlassFormInputProps, GlassInputProps, NeumFormInputProps, NeumFormInputProps_password, NeumInputProps } from "../../type/atom";
+import { GlassFormInputProps, GlassInputProps, NeumFormInputProps, NeumInputProps } from "../../type/atom";
 import { useFormColorMode } from '../../util/hook/useColor';
 import { useOneSizeSmaller } from '../../util/hook/useSize';
 import { useNeumStyle } from '../../util/hook/useTheme';
@@ -77,7 +77,7 @@ export const NeumFormInput_password = ({
     bg, border, borderRadius, color,
     fontSize, placeholder, PHcolor,
     ...props
-}: NeumFormInputProps_password) => {
+}: NeumFormInputProps) => {
 
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
@@ -115,7 +115,7 @@ export const NeumFormInput_password = ({
 }
 
 export const NeumFloatFormInput = ({
-    id="input",  labelName="Input",
+    id="input",  labelName="Input", focusColor="tipsy_color_2",
     errors, register, validation, defaultValue, 
     bg, border, borderRadius, color,
     onChange, onBlur, onFocus,
@@ -145,7 +145,7 @@ export const NeumFloatFormInput = ({
         >
             <FormLabel 
             position="absolute" transition={".25s"}
-            color={isFloat ? "tipsy_color_2" : "text_normal"}
+            color={isFloat ? focusColor : "text_normal"}
             top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
             fontSize={isFloat ? "0.7rem" : undefined}
             >
@@ -166,13 +166,13 @@ export const NeumFloatFormInput = ({
 
 
 export const NeumFloatFormInput_password = ({
-    size="md",
+    size="md", focusColor="tipsy_color_2",
     id="input", labelName="Input", errors, 
     register, validation, defaultValue, 
     bg, border, borderRadius, color,
     onChange, onBlur, onFocus,
     ...props
-}: NeumFormInputProps_password) => {
+}: NeumFormInputProps) => {
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
     const relementSize = useOneSizeSmaller(size)
@@ -201,7 +201,7 @@ export const NeumFloatFormInput_password = ({
         >
             <FormLabel 
             position="absolute" transition={".25s"}
-            color={isFloat ? "tipsy_color_2" : "text_normal"}
+            color={isFloat ? focusColor : "text_normal"}
             top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
             fontSize={isFloat ? "0.7rem" : undefined}
             >{labelName}</FormLabel>
@@ -391,7 +391,7 @@ export const GlassInput_search = ({
 }
 
 export const GlassFloatFormInput = ({
-    id="input",  labelName="Input",
+    id="input",  labelName="Input", focusColor="tipsy_color_2",
     errors, register, validation, defaultValue, 
     bg, border, borderRadius, color, focusBorderColor,
     onChange, onBlur, onFocus,
@@ -424,7 +424,7 @@ export const GlassFloatFormInput = ({
         >
             <FormLabel 
             position="absolute" transition={".25s"}
-            color={isFloat ? "tipsy_color_2" : "text_normal"}
+            color={isFloat ? focusColor : "text_normal"}
             top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
             fontSize={isFloat ? "0.7rem" : undefined}
             zIndex={10}
@@ -446,7 +446,7 @@ export const GlassFloatFormInput = ({
 }
 
 export const GlassFloatFormInput_password = ({
-    size="md",
+    size="md", focusColor="tipsy_color_2",
     id="input",  labelName="Input",
     errors, register, validation, defaultValue, 
     bg, border, borderRadius, color, focusBorderColor,
@@ -484,7 +484,7 @@ export const GlassFloatFormInput_password = ({
         >
             <FormLabel 
             position="absolute" transition={".25s"}
-            color={isFloat ? "tipsy_color_2" : "text_normal"}
+            color={isFloat ? focusColor : "text_normal"}
             top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
             fontSize={isFloat ? "0.7rem" : undefined}
             zIndex={10}
@@ -496,6 +496,7 @@ export const GlassFloatFormInput_password = ({
                 < GlassInputDefault
                 register={register(id , validation)} defaultValue={defaultValue}
                 bg={bg} border={border} borderRadius={borderRadius} color={color} 
+                focusBorderColor={focusBC}
 
                 placeholder="" h="70px" my={2}
                 type={show ? 'text' : 'password'}
