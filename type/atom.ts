@@ -78,9 +78,7 @@ export interface NeumFormInputProps extends NeumInputProps {
     formState?: any,
     errors: any,
     validation: any,
-}
-export interface NeumFormInputProps_password extends NeumFormInputProps {
-    password?: string,
+    focusColor?: string,
 }
 export interface GlassInputProps extends InputProps {
     PHcolor?: string,
@@ -93,6 +91,7 @@ export interface GlassFormInputProps extends GlassInputProps {
     register: any,
     labelName?: string,
     validation: any,
+    focusColor?: string,
 }
 
 //コンテイナー
