@@ -13,8 +13,13 @@ import { PostProcessType, PostTopInfoType, PostType } from '../../type/post'
 import BlogForm from '../../components/Forms/BlogForm'
 import { PageBackButton } from '../../components/Forms/postForms'
 import dynamic from 'next/dynamic'
-import { ClickButton_icon } from '../../component/atom/buttons'
 import { ArrowBackIcon } from '@chakra-ui/icons'
+import { DentBord, FlatBord } from '../../component/atom/bords'
+import { PostHeader } from '../../component/layout/Header'
+import { GlassButton, GlassSwitchButton, NeumIconButton } from '../../component/atom/buttons'
+import { NeumFloatFormInput } from '../../component/atom/inputs'
+import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
+import { GlassSwitch } from '../../component/atom/switchs'
 
 const postCreate: NextPage = () => {
   // ログアウト時のリダイレクト処理
@@ -23,39 +28,40 @@ const postCreate: NextPage = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // useEffect(() => { if (userState !== 'isUser')  router.replace('/') }, [userState])
 
+
+  const handlePublish = (e: any) => {
+    console.log(e.target.checked)
+  }
+
   return (
     <>
+      <PostHeader title={"文章で記録"}>
+        <GlassSwitchButton
+        variant={"outline"} fontSize={".9rem"} 
+        >
+          公開中
+        </GlassSwitchButton>
+        <GlassButton 
+        _hover={{
+          bgGradient: "linear(to-l, tipsy_color_1, tipsy_color_2)",
+          color: "bg_switch",
+          border: "none"
+        }}
+        fontSize=".9rem"
+        variant="outline"
+        color={"tipsy_color_2"}
+        >
+          保存
+        </GlassButton>
+      </PostHeader>
       <Flex 
-      className="page" 
+      className="page"
       direction="column" 
       justify="center" 
       align="center"
+      pt={"100px"}
       >
-        <Heading 
-        size="lg"
-        mb={1} mt={10} 
-        position="relative"
-        >
-          <ClickButton_icon 
-          icon={<ArrowBackIcon/>}
-          aria-label='ページを戻る'
-          size={"sm"}
-          position="absolute" left="-60px" top="3px"
-          onClick={() => {router.back()}}
-          >
-            こんにちは
-          </ClickButton_icon>
-        {/* <PageBackButton beforePageForm={"postTopForm"} beforeProcessValue={0} /> */}
-          Tipsを記録
-        </Heading>
-        <Center
-        fontSize='sm'  
-        color={"text_light"}
-        m={1}
-        >
-          何を記録しますか？
-        </Center>
-        {/* <FloatingPHInput/> */}
+        <ArticlePostForm/>
         {/* <PostPage/> */}
       </Flex>
     </>
@@ -85,7 +91,6 @@ const PostPage = () => {
 
 const SetTypeButtonContainer = ({setPostType, setPostProcess, setProgressValue}: any) => {
 
-  const FaPenIcon = () => <FaPen size={45}/>
   const setTypeToBlog = () => {
     setPostType("blog")
     setPostProcess("contentForm")

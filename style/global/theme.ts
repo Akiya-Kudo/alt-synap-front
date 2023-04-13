@@ -44,7 +44,7 @@ export const theme = extendTheme({
                 width: '100%',
             },
             '*': {
-                boxSiing: 'border-box',
+                boxSizing: 'border-box',
             },
         }),
     },

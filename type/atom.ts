@@ -29,6 +29,11 @@ export interface NeumButtonProps extends ButtonProps {
     formState?: any,
 }
 export interface NeumIconButtonProps extends IconButtonProps {}
+export interface NeumSwitchButtonTabProps extends NeumButtonProps {
+    children: string,
+    id: string,
+    selectedValue?: string,
+}
 export interface GlassButtonProps extends ButtonProps {
     Hcolor?: string, //hover{color}
     Acolor?: string, //active{color}
@@ -36,11 +41,10 @@ export interface GlassButtonProps extends ButtonProps {
     HbgGradient?: string,
     formState?: any,
 }
-export interface NeumSwitchButtonTabProps extends NeumButtonProps {
-    children: string,
-    id: string,
-    selectedValue?: string,
+export interface GlassSwitchButtonProps extends GlassButtonProps {
+    isChecked?: (e:any)=>any
 }
+export interface GlassIconButtonProps extends IconButtonProps {}
 export interface GlassColorModeButtonProps extends GlassButtonProps {
     onClick?: undefined,
 }
@@ -63,6 +67,17 @@ export interface NeumSwitchProps extends SwitchProps {
     swP?: string | number,
     lbM?: string | number,
     lbP?: string | number,
+}
+export interface GlassSwitchProps extends SwitchProps {
+    id: string,
+    Scolor?: string,
+    SbgGradient?: string,
+    swM?: string | number,
+    swP?: string | number,
+    lbM?: string | number,
+    lbP?: string | number,
+    lbFontSize?: string | number,
+    lbFontWeight?: string | number,
 }
 
 //インプット

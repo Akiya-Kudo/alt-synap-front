@@ -30,7 +30,7 @@ const SignUp: NextPage  = () => {
             h='100vh'
             >
                 <GridItem colSpan={4}/>
-                <GridItem mt={1} colSpan={4} >
+                <GridItem mt={3} colSpan={4} >
                     <Center>
                         <Heading size="lg">新規登録</Heading>
                     </Center>
