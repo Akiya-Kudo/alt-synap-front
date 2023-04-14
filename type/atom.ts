@@ -1,4 +1,5 @@
 import { BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SwitchProps } from "@chakra-ui/react"
+import { ReactComponentElement } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
 //テキスト
@@ -42,7 +43,12 @@ export interface GlassButtonProps extends ButtonProps {
     formState?: any,
 }
 export interface GlassSwitchButtonProps extends GlassButtonProps {
-    isChecked?: (e:any)=>any
+    isChecked?: (e:any)=>any,
+    SBgGradient?: string,
+    Scolor?: string,
+    getState?: (e:any)=>any,
+    defStateValue?: boolean,
+    Schildren?: string | ReactComponentElement<any>,
 }
 export interface GlassIconButtonProps extends IconButtonProps {}
 export interface GlassColorModeButtonProps extends GlassButtonProps {
