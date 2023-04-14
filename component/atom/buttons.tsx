@@ -1,6 +1,6 @@
 import { BoxProps, Button, filter, Flex, IconButton, useColorMode } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps, NeumIconButtonProps } from "../../type/atom";
+import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps, NeumIconButtonProps, GlassIconButtonProps, GlassSwitchButtonProps } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
 import { CiSun, CiCloudMoon } from 'react-icons/ci';
 import { useNeumStyle, useNeumStyle_curve } from "../../util/hook/useTheme";
@@ -77,23 +77,6 @@ export const ClickButton_submit = ({
             boxShadow: `5px 5px 15px ${shadow},-5px -5px 15px ${highlight};`, 
             color: "text_very_light",
         }}
-        />
-    )
-}
-
-export const ClickButton_icon = ({
-    color="text_normal", borderRadius="full",
-    ...props
-}: NeumIconButtonProps) => {
-    const { highlight, shadow } = useNeumorphismColorMode()
-    return (
-        <IconButton
-        {...props}
-        color={color}
-        borderRadius={borderRadius}
-        boxShadow={`3px 3px 6px ${shadow}, -3px -3px 6px  ${highlight}, inset 5px 5px 10px -5px ${shadow}, inset -5px -5px 10px -5px  ${highlight};`}
-        _hover={{boxShadow: `1px 1px 3px ${shadow}, -1px -1px 3px  ${highlight}, inset 5px 5px 10px -3px ${shadow}, inset -5px -5px 10px -3px  ${highlight};`}}
-        _active={{boxShadow: `inset 3px 3px 6px -2px ${shadow}, inset -3px -3px 6px -2px  ${highlight};`}}
         />
     )
 }
@@ -225,6 +208,47 @@ export const GlassButton = ({
     )
 }
 
+export const GlassSwitchButton = ({
+    onClick=()=>undefined,
+    color="text_normal", borderRadius="full", bg="transparent",
+    Hcolor="red_switch", 
+    Acolor="red.600",
+    ...props
+}: GlassSwitchButtonProps) => {
+    const [active, setActive] = useState(false);
+
+    const handleClick = (e: any) => {
+        setActive(!active)
+        onClick(e)
+    }
+    return (
+        <Button
+        {...props}
+        onClick={handleClick}
+        color={color} bg={bg} borderRadius={borderRadius}
+        _hover={{
+            color: Hcolor,
+        }}
+        _active={{
+            color: Acolor,
+        }}
+        />
+    )
+}
+
+export const GlassIconButton = ({
+    color="text_normal", borderRadius="full",
+    ...props
+}: GlassIconButtonProps) => {
+    return (
+        <IconButton
+        {...props}
+        color={color}
+        borderRadius={borderRadius}
+        />
+    )
+}
+
 
 export const GlassButton_submit = ({ 
     fontSize=20, color="text_reverse", borderRadius="full", bg="transparent", bgGradient, formState,
@@ -244,7 +268,7 @@ export const GlassButton_submit = ({
 
 export const ColorModeButton = ({
     fontSize=20, color="tipsy_color_3", 
-    borderRadius="full", bg="transparent", p=0,
+    borderRadius="full", bg="transparent", p=0,variant='outline',
     ...props
 }: GlassColorModeButtonProps) => {
     const { toggleColorMode, colorMode } = useColorMode()
@@ -252,7 +276,7 @@ export const ColorModeButton = ({
         <Button
         {...props}
         onClick={toggleColorMode}
-        fontSize={fontSize} color={color} bg={bg} borderRadius={borderRadius} 
+        fontSize={fontSize} color={color} bg={bg} borderRadius={borderRadius} variant={variant}
         p={0}
         >
             {colorMode=="light" ? <CiCloudMoon size={"1.5rem"}/> : <CiSun size={"1.5rem"}/>}

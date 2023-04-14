@@ -148,6 +148,7 @@ export const NeumFloatFormInput = ({
             color={isFloat ? focusColor : "text_normal"}
             top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
             fontSize={isFloat ? "0.7rem" : undefined}
+            fontWeight={"bold"}
             >
                 {labelName}
             </FormLabel>

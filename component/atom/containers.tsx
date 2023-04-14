@@ -1,18 +1,16 @@
-import { Flex } from "@chakra-ui/react"
+import { Box, Center, Flex, Grid, GridItem, HStack, WrapItem } from "@chakra-ui/react"
 import { GlassContainerProps } from "../../type/atom"
 
-export const HeaderStyleContainer = ({children}: GlassContainerProps) => {
+export const BasicHeaderStyleContainer = ({children}: GlassContainerProps) => {
     return (
-        <Flex
+        <Box
         zIndex={10} 
         w="100%" 
         h="100px" 
         position={"fixed" }
-        top="0"
         boxShadow='xl'
-        alignItems='center' 
-        gap={5}
-        p={10}
+        top={0}
+        p={5}
 
         backdropFilter={"blur(6px)"}
         backgroundColor={"rgba(130,130,130, 0.15)"}
@@ -22,6 +20,6 @@ export const HeaderStyleContainer = ({children}: GlassContainerProps) => {
         borderBottomStartRadius={30}
         >
             {children}
-        </Flex>
+        </Box>
     )
 }

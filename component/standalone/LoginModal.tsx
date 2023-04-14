@@ -39,15 +39,6 @@ export const LoginForm = () => {
                 isRequired
                 my={3}
                 />
-                {/* <GlassFormInput 
-                id="input_email" 
-                labelName="メールアドレス" 
-                placeholder="sample.com"
-                validation={Validation_email} 
-                errors={ errors } register={ register } 
-                isRequired
-                my={3}
-                /> */}
                 <GlassFloatFormInput_password
                 id="input_password" 
                 labelName="パスワード" 
@@ -57,15 +48,6 @@ export const LoginForm = () => {
                 isRequired
                 my={3}
                 />
-                {/* <GlassFormInput_password
-                id="input_password" 
-                labelName="パスワード" 
-                placeholder={"Password00"}
-                validation={Validation_password} 
-                errors={ errors } register={ register } 
-                isRequired
-                my={3}
-                /> */}
                 <Flex direction='column'  my={5} align='center' justify='center'>
                     <GlassButton_submit 
                     formState={formState}
@@ -115,10 +97,7 @@ export const LoginModal = ({
                     <ModalHeader 
                     borderTopRadius={40}
                     >
-                        <Flex 
-                        fontSize="1.2rem"
-                        >
-                            {/* <Box style={{width: 40, height: 40}} mr={2}><Image src='/logo3.svg'  width={300} height={300} layout={'responsive'} alt="logo" priority></Image></Box> */}
+                        <Flex fontSize="1.2rem">
                             <Box>ログインする</Box>
                         </Flex>
                         <ModalCloseButton color={"text_light"}/>
