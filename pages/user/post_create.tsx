@@ -16,7 +16,7 @@ import dynamic from 'next/dynamic'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { DentBord, FlatBord } from '../../component/atom/bords'
 import { PostHeader } from '../../component/layout/Header'
-import { GlassButton, GlassSwitchButton, NeumIconButton } from '../../component/atom/buttons'
+import { GlassButton, GlassSwitchButton, NeumIconButton, SwitchButton } from '../../component/atom/buttons'
 import { NeumFloatFormInput } from '../../component/atom/inputs'
 import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
 import { GlassSwitch } from '../../component/atom/switchs'
@@ -28,22 +28,25 @@ const postCreate: NextPage = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // useEffect(() => { if (userState !== 'isUser')  router.replace('/') }, [userState])
 
-
-  const handlePublish = (e: any) => {
-    console.log(e.target.checked)
+  const handlePublish = (value: boolean) => {
+    return value
   }
 
   return (
     <>
       <PostHeader title={"文章で記録"}>
         <GlassSwitchButton
+        getState={handlePublish} defStateValue={true}
         variant={"outline"} fontSize={".9rem"} 
+        SBgGradient={"linear(to-tl, tipsy_color_2, tipsy_color_3)"}
+        Scolor={"bg_switch"} Acolor={"tipsy_color_active_3"} Hcolor={"tipsy_color_3"}
+        Schildren={"公開中"}
         >
-          公開中
+          公開する
         </GlassSwitchButton>
         <GlassButton 
         _hover={{
-          bgGradient: "linear(to-l, tipsy_color_1, tipsy_color_2)",
+          bgGradient: "linear(to-bl, tipsy_color_1, tipsy_color_2)",
           color: "bg_switch",
           border: "none"
         }}
@@ -54,6 +57,7 @@ const postCreate: NextPage = () => {
           保存
         </GlassButton>
       </PostHeader>
+
       <Flex 
       className="page"
       direction="column" 

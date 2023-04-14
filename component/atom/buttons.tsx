@@ -209,30 +209,36 @@ export const GlassButton = ({
 }
 
 export const GlassSwitchButton = ({
+    getState=()=>undefined, defStateValue,
     onClick=()=>undefined,
-    color="text_normal", borderRadius="full", bg="transparent",
+    color="text_normal", borderRadius="full", bg="transparent", bgGradient, children,
     Hcolor="red_switch", 
-    Acolor="red.600",
+    Acolor="red.600", SBgGradient, Scolor, Schildren,
     ...props
 }: GlassSwitchButtonProps) => {
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState(defStateValue);
 
     const handleClick = (e: any) => {
         setActive(!active)
         onClick(e)
+        getState(!active)
     }
+
+    const bgGradientSwitch = active ? SBgGradient : bgGradient
+    const colorSwitch = active ? Scolor : color
+    const childrenSwitch = active && Schildren ? Schildren : children
     return (
         <Button
         {...props}
         onClick={handleClick}
-        color={color} bg={bg} borderRadius={borderRadius}
+        color={colorSwitch} bg={bg} borderRadius={borderRadius} bgGradient={bgGradientSwitch}
         _hover={{
             color: Hcolor,
         }}
         _active={{
             color: Acolor,
         }}
-        />
+        >{childrenSwitch}</Button>
     )
 }
 
