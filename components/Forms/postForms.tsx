@@ -185,13 +185,13 @@ export const PostImageInput = ({image, setImage, setImageFile, register, isShow,
         setImage(photo)
         }
     }
-    useEffect(() => {
-        if (defValue) {
-            setImageFile(defValue)
-            const photo = window.URL.createObjectURL(defValue)
-            setImage(photo)
-        }
-    },[])
+    // useEffect(() => {
+    //     if (defValue) {
+    //         setImageFile(defValue)
+    //         const photo = window.URL.createObjectURL(defValue)
+    //         setImage(photo)
+    //     }
+    // },[])
     return (
         <FormControl
         id="inputText12"
