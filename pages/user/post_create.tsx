@@ -21,7 +21,7 @@ import { NeumFloatFormInput } from '../../component/atom/inputs'
 import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
 import { GlassSwitch } from '../../component/atom/switchs'
 
-const postCreate: NextPage = () => {
+const PostCreate: NextPage = () => {
   // ログアウト時のリダイレクト処理
   // const { userState } = useContext(AuthContext);
   const router = useRouter()
@@ -71,7 +71,7 @@ const postCreate: NextPage = () => {
     </>
   )
 }
-export default postCreate
+export default PostCreate
 
 type TypeSetButtonProptype =  {setType: any, name: string, height: number, children?: any, bg: string, shadow: string, border: string, minW?: number, Mx?: number}
 const BlogFromContainer = dynamic(() => import("../../components/Forms/BlogForm"), { ssr: false });

@@ -16,10 +16,10 @@ const PostTopForm = ({setProgressValue, setPostProcess, setPostTopInfo, postTopI
     const { register, formState: { errors }, formState, getValues } = useForm({mode: "all"});
 
     // ちらつきをなくすためuseLayoutEffectを使用(同期処理になるためパフォーマンスが低下する可能性あり)
-    useLayoutEffect(() => {
-        if (postTopInfo?.isShowLink == false) setIsShowLink(false)
-        if (postTopInfo?.isShowImage == false) setIsShowImage(false)
-    }, [])
+    // useLayoutEffect(() => {
+    //     if (postTopInfo?.isShowLink == false) setIsShowLink(false)
+    //     if (postTopInfo?.isShowImage == false) setIsShowImage(false)
+    // }, [])
 
     return (
         <Flex 
