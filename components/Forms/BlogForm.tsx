@@ -18,8 +18,6 @@ const editor = new EditorJS({
 });
 
 const BlogForm = ({setProgressValue, setPostType, progressValue, setPostProcess}: {setProgressValue: Dispatch<SetStateAction<number>>, setPostType: Dispatch<SetStateAction<PostType>>, progressValue: number, setPostProcess: Dispatch<SetStateAction<PostProcessType>>}) => {
-
-
     return (
         <>
             <Flex 

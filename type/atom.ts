@@ -2,6 +2,8 @@ import { BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, Inpu
 import { ReactComponentElement } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
+import { API, OutputData } from "@editorjs/editorjs";
+
 //テキスト
 export interface NeumTextProps extends BoxProps {
     neumH?: "shallow" | "tall",
@@ -117,3 +119,13 @@ export interface GlassFormInputProps extends GlassInputProps {
 
 //コンテイナー
 export interface GlassContainerProps extends FlexProps{}
+
+//エディター
+export interface ArticleEditorProps {
+    defaultValue?: OutputData;
+    placeholder?: string;
+    readOnly?: boolean;
+    onReady: () => void;
+    onSave: (data: OutputData) => void;
+    onChange: (api: API, event: CustomEvent) => void;
+};

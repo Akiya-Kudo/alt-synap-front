@@ -117,7 +117,7 @@ export const NeumFormInput_password = ({
 export const NeumFloatFormInput = ({
     id="input",  labelName="Input", focusColor="tipsy_color_2",
     errors, register, validation, defaultValue, 
-    bg, border, borderRadius, color,
+    bg, border, borderRadius, color, fontWeight="normal",
     onChange, onBlur, onFocus,
     ...props
 }: NeumFormInputProps ) => {
@@ -147,14 +147,14 @@ export const NeumFloatFormInput = ({
             position="absolute" transition={".25s"}
             color={isFloat ? focusColor : "text_normal"}
             top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
-            fontSize={isFloat ? "0.7rem" : undefined}
+            fontSize={isFloat ? "0.7rem" : undefined} fontWeight={fontWeight}
             >
                 {labelName}
             </FormLabel>
             <NeumInputDefault
             register={register(id , validation)} defaultValue={defaultValue}
             bg={bg} border={border} borderRadius={borderRadius} color={color} 
-
+            fontWeight={fontWeight}
             placeholder="" h="70px" ps={"33px"} my={2}
             />
             <FormErrorMessage ms={5}>

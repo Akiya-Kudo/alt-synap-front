@@ -2,7 +2,7 @@ import React from 'react';
 import { NextPage } from 'next';
 
 import { auth } from '../util/firebase/init';
-import { Box, Button, Input } from '@chakra-ui/react';
+import { Box, Button, Heading, Input } from '@chakra-ui/react';
 import { useApolloClient, useMutation } from '@apollo/client';
 
 import { USER_QUERY } from '../util/graphql/queries/users.query.schema';
@@ -69,7 +69,7 @@ const Index: NextPage  = () => {
         onChange={ handleTabGroup} 
         options={["TIpsyの投稿", "人気順", "新着順"]}  
         defaultValue='人気順' 
-        mt={"100px"}
+        m={"20px"}
         />
         <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>hello</TabBord>
       </Box>

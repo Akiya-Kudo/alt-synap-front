@@ -41,7 +41,8 @@ export const theme = extendTheme({
             },
             '.page': {
                 minHeight: '100vh',
-                width: '100%',
+                width: '100vw',
+                pt: "100px",
             },
             '*': {
                 boxSizing: 'border-box',
