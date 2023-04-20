@@ -40,7 +40,7 @@ export const SignupForm = () => {
             <NeumFloatFormInput
             id={"input_username"} 
             labelName={"ユーザネーム"} 
-            validation={Validation_username}
+            validation={Validation_username} maxLength={50}
             errors={errors} register={register} 
             isRequired
             my={1}

@@ -2,8 +2,8 @@ import { useFormContext } from "react-hook-form";
 
 export const Validation_username = {
     required: "ユーザネームは必須です | User Name is required",
-    maxLength: { value: 50, message: 'Please make User Name less than 50 words' },
-    minLength: { value: 2, message: "Please make User Name more than 2 words" }
+    maxLength: { value: 50, message: '50文字以下で入力してください | Please make User Name less than 50 words' },
+    minLength: { value: 2, message: "2文字以上で入力してください | Please make User Name more than 2 words" }
 }
 
 export const Validation_email = {
@@ -34,4 +34,10 @@ export const Validation_password_re = (password: string) => {
             }
         }
     )
+}
+
+export const Validation_post_title = {
+    required: "タイトルは必須です | Title is required",
+    maxLength: { value: 60, message: '60文字以下で入力してください | Please make User Name less than 60 words' },
+    minLength: { value: 2, message: "2文字以上で入力してください | Please make User Name more than 2 words" },
 }
