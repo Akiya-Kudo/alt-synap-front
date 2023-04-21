@@ -18,7 +18,7 @@ export const NeumSocialLoginButtons = () => {
                 Github
             </ClickButton>
             <ClickButton
-            onClick={ () => executeGoogle() } rightIcon={<FaGithub />} 
+            onClick={ () => executeGoogle() } rightIcon={<FaGoogle/>} 
             color={"red_switch"}
             Hcolor={"red.600"}
             Acolor={"red.800"}

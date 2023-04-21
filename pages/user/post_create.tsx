@@ -1,43 +1,43 @@
 import { Box, Center, Flex, Heading, IconButton, Progress, Text } from '@chakra-ui/react'
 import { NextPage } from 'next'
-import React, { useState } from 'react'
-
-import { AiOutlinePicture } from 'react-icons/ai'
-import { FaPen } from 'react-icons/fa'
-
-import 'react-quill/dist/quill.snow.css';
-import { AuthContext } from '../../util/hook/authContext'
+import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
-import PostTopForm from '../../components/Forms/PostTopForm'
-import { PostProcessType, PostTopInfoType, PostType } from '../../type/post'
-import BlogForm from '../../components/Forms/BlogForm'
-import { PageBackButton } from '../../components/Forms/postForms'
-import dynamic from 'next/dynamic'
-import { ArrowBackIcon } from '@chakra-ui/icons'
-import { DentBord, FlatBord } from '../../component/atom/bords'
 import { PostHeader } from '../../component/layout/Header'
-import { GlassButton, GlassSwitchButton, NeumIconButton, SwitchButton } from '../../component/atom/buttons'
-import { NeumFloatFormInput } from '../../component/atom/inputs'
+import { GlassButton, GlassSwitchButton } from '../../component/atom/buttons'
 import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
-import { GlassSwitch } from '../../component/atom/switchs'
+import { ArticlePostData } from '../../type/page'
+import { useForm } from 'react-hook-form'
 
 const PostCreate: NextPage = () => {
   // ログアウト時のリダイレクト処理
   // const { userState } = useContext(AuthContext);
   const router = useRouter()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // useEffect(() => { if (userState !== 'isUser')  router.replace('/') }, [userState])
 
-  const handlePublish = (value: boolean) => {
-    console.log(value)
-    return value
+  //投稿stateの管理
+  const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
+  const childFormRef = useRef<HTMLFormElement>(null)
+  const [currentArticlePost, setCurrentArticlePost] = useState<ArticlePostData>({
+    uid: undefined,
+    title: undefined,
+    top_image: undefined,
+    top_link: undefined,
+    content_type: undefined,
+    publish: false,
+    deleted: false,
+    content: undefined,
+  })
+  // setCurrentArticlePost((preV)=>({...preV, title: childFormRef.current?.input_article_title.value}))
+  const handleChange_title = (e:any) => setCurrentArticlePost((preV)=>({...preV, title: e.target.value}))
+  const handleClick_publish = (value: boolean) => setCurrentArticlePost((preV)=>({...preV, publish: !preV.publish}))
+  const handleClick_save = async (e:any) => {
+    console.log("apiをたったきます!")
+    console.log(currentArticlePost)
   }
-
   return (
     <>
       <PostHeader title={"文章で記録"}>
         <GlassSwitchButton
-        getState={handlePublish} defStateValue={false}
+        getState={handleClick_publish} defStateValue={false}
         variant={"outline"} fontSize={".9rem"} 
         SBgGradient={"linear(to-tl, tipsy_color_2, tipsy_color_3)"}
         Scolor={"bg_switch"} Acolor={"tipsy_color_active_3"} Hcolor={"tipsy_color_3"}
@@ -45,7 +45,9 @@ const PostCreate: NextPage = () => {
         >
           公開する
         </GlassSwitchButton>
-        <GlassButton 
+        <GlassButton
+        disabled={!formState.isValid}
+        onClick={handleClick_save}
         _hover={{
           bgGradient: "linear(to-bl, tipsy_color_1, tipsy_color_2)",
           color: "bg_switch",
@@ -65,7 +67,7 @@ const PostCreate: NextPage = () => {
       justify="center" 
       align="center"
       >
-        <ArticlePostForm/>
+        <ArticlePostForm register={register} errors={errors} childFormRef={childFormRef} handleChange_title={handleChange_title}/>
         {/* <PostPage/> */}
       </Flex>
     </>

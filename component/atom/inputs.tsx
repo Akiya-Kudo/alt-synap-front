@@ -46,6 +46,7 @@ export const NeumFormInput = ({
     register, 
     validation, 
     defaultValue, 
+    maxLength,
     bg, border, borderRadius, color,
     fontSize, placeholder, PHcolor,
     ...props
@@ -62,6 +63,7 @@ export const NeumFormInput = ({
 
             register={register(id , validation)}
             defaultValue={defaultValue}
+            maxLength={maxLength}
             />
             <FormErrorMessage ms={5}>
                 {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
@@ -71,7 +73,7 @@ export const NeumFormInput = ({
 }
 
 export const NeumFormInput_password = ({
-    size="md",
+    size="md", maxLength,
     id="input", labelName="Input", errors, 
     register, validation, defaultValue, 
     bg, border, borderRadius, color,
@@ -95,7 +97,7 @@ export const NeumFormInput_password = ({
                 bg={bg} border={border} borderRadius={borderRadius} color={color} 
                 fontSize={fontSize} placeholder={placeholder} PHcolor={PHcolor}
                 type={show ? 'text' : 'password'}
-                
+                maxLength={maxLength}
                 size={size}
                 />
                 <InputRightElement mx={2}>
@@ -115,7 +117,7 @@ export const NeumFormInput_password = ({
 }
 
 export const NeumFloatFormInput = ({
-    id="input",  labelName="Input", focusColor="tipsy_color_2",
+    id="input",  labelName="Input", focusColor="tipsy_color_2", maxLength,
     errors, register, validation, defaultValue, 
     bg, border, borderRadius, color, fontWeight="normal",
     onChange, onBlur, onFocus,
@@ -123,7 +125,7 @@ export const NeumFloatFormInput = ({
 }: NeumFormInputProps ) => {
     const [isFloat, setIsFloat] = useState(false)
     const handleChange = (e:any) => {
-        if (onChange) onChange
+        if (onChange) onChange(e)
         setIsFloat(true)
     }
     const handleBlur = (e:any) => {
@@ -156,6 +158,7 @@ export const NeumFloatFormInput = ({
             bg={bg} border={border} borderRadius={borderRadius} color={color} 
             fontWeight={fontWeight}
             placeholder="" h="70px" ps={"33px"} my={2}
+            maxLength={maxLength}
             />
             <FormErrorMessage ms={5}>
                 {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
@@ -166,7 +169,7 @@ export const NeumFloatFormInput = ({
 
 
 export const NeumFloatFormInput_password = ({
-    size="md", focusColor="tipsy_color_2",
+    size="md", focusColor="tipsy_color_2", maxLength,
     id="input", labelName="Input", errors, 
     register, validation, defaultValue, 
     bg, border, borderRadius, color,
@@ -179,7 +182,7 @@ export const NeumFloatFormInput_password = ({
 
     const [isFloat, setIsFloat] = useState(false)
     const handleChange = (e:any) => {
-        if (onChange) onChange
+        if (onChange) onChange(e)
         setIsFloat(true)
     }
     const handleBlur = (e:any)=> {
@@ -207,7 +210,7 @@ export const NeumFloatFormInput_password = ({
             >{labelName}</FormLabel>
             <InputGroup>
                 <NeumInputDefault
-                register={register(id , validation)} defaultValue={defaultValue}
+                register={register(id , validation)} defaultValue={defaultValue} maxLength={maxLength}
                 bg={bg} border={border} borderRadius={borderRadius} color={color} 
 
                 placeholder="" h="70px" my={2}
@@ -269,6 +272,7 @@ export const GlassFormInput = ({
     register, 
     validation, 
     defaultValue, 
+    maxLength,
     bg, border, borderRadius, focusBorderColor, 
     color, placeholder, PHcolor,
     ...props
@@ -287,6 +291,7 @@ export const GlassFormInput = ({
 
             register={register(id , validation)}
             defaultValue={defaultValue}
+            maxLength={maxLength}
             />
             <FormErrorMessage>
                 {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
@@ -296,7 +301,7 @@ export const GlassFormInput = ({
 }
 
 export const GlassFormInput_password = ({
-    size="md",
+    size="md", maxLength,
     id="input",  labelName="Input", errors, register, validation, defaultValue, 
     bg, border, borderRadius, focusBorderColor, 
     color, placeholder, PHcolor,
@@ -322,7 +327,7 @@ export const GlassFormInput_password = ({
             >
                 <GlassInputDefault
                 type={show ? 'text' : 'password'}
-                register={register(id , validation)} defaultValue={defaultValue}
+                register={register(id , validation)} defaultValue={defaultValue} maxLength={maxLength}
 
                 bg={bg} border={border} borderRadius={borderRadius} color={color} 
                 placeholder={placeholder} PHcolor={PHcolor} focusBorderColor={focusBC}
