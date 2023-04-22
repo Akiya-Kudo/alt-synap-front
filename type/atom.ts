@@ -14,6 +14,7 @@ export interface NeumBordProps extends BoxProps {
     neumH?: "shallow" | "tall",
     boxShadow?: undefined,
 }
+export interface GlassBordProps extends BoxProps {}
 
 //リンク
 export interface BasicLinkProps extends LinkProps {
