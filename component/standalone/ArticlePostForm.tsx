@@ -1,27 +1,27 @@
 // import dynamic from "next/dynamic";
-import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Tooltip, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { FlatBord } from "../atom/bords";
-import { NeumFloatFormInput } from "../atom/inputs"
+import { DentBord, FlatBord } from "../atom/bords";
+import { GlassFormInput, NeumFloatFormInput } from "../atom/inputs"
 import { NeumIconButton } from "../atom/buttons"
 // import { useEffect, useState } from "react";
 
 import dynamic from "next/dynamic";
 import { SwitchButton } from "../atom/buttons";
-import { FaImage, FaLink, FaTags } from "react-icons/fa";
-import { useState } from "react";
+import { FaImage, FaLink, FaQuestion, FaTags } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { ArticlePostData } from "../../type/page";
 import { ArticlePostFormProps } from "../../type/standalone";
-import { Validation_post_title } from "../../util/form/validation";
+import { Validation_post_title, Validation_url } from "../../util/form/validation";
+import { PostReferencePopover } from "../helper/PostReferencePopover";
 
 const ArticleEditor = dynamic(
     () => import("../atom/ArticleEditor"),
     { ssr: false }
 );
 
-
-export const ArticlePostForm = ({register, errors, childFormRef, handleChange_title}:ArticlePostFormProps) => {
-    //投稿stateの管理はheaderでの処理があるためpageコンポーネントで行う
+// 投稿stateの管理はheaderでの処理があるためpageコンポーネントで行う
+export const ArticlePostForm = ({register, errors, formState, childFormRef, handleChange_title, handleChange_top_link, stateValue}:ArticlePostFormProps) => {
     return (
         <>
         <Grid
@@ -59,24 +59,30 @@ export const ArticlePostForm = ({register, errors, childFormRef, handleChange_ti
                 </FlatBord>
             </GridItem>
             <GridItem colSpan={1} display="flex" flexDirection="column" gap={3}>
-                <NeumIconButton 
-                aria-label="top-link-modal-button" 
-                icon={<FaLink/>} 
-                size={"md"}
-                onClick={()=>{}}
-                />
-                <NeumIconButton 
-                aria-label="top-image-modal-button" 
-                icon={<FaImage/>}
-                size={"md"}
-                onClick={()=>{}}
-                />
-                <NeumIconButton 
-                aria-label="tag-selector-modal-button" 
-                icon={<FaTags/>}
-                size={"md"}
-                onClick={()=>{}}
-                />
+                <VStack gap={1}>
+                    <PostReferencePopover
+                    errors={errors} register={register} formState={formState}
+                    onChange={handleChange_top_link} value={stateValue.top_link}
+                    />
+                    <NeumIconButton 
+                    aria-label="top-image-modal-button" 
+                    icon={<FaImage/>}
+                    size={"md"}
+                    neumH="shallow"
+                    />
+                    <NeumIconButton 
+                    aria-label="tag-selector-modal-button" 
+                    icon={<FaTags/>}
+                    size={"md"}
+                    neumH="tall"
+                    />
+                    <DentBord
+                    h={"30px"}
+                    w={"30px"}
+                    >
+                        <FaQuestion fontSize={".6rem"} color="orange" />
+                    </DentBord>
+                </VStack>
             </GridItem>
         </Grid>
     </>

@@ -1,4 +1,4 @@
-import { BoxProps, MenuProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
+import { BoxProps, MenuProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
 
 export interface GlassMenuProps extends MenuProps {
     user_name?: string,
@@ -32,4 +32,13 @@ export interface MyTabGroupProps extends BoxProps {
     chH?: string | number,
     chP?: string | number,
     chM?: string | number,
+}
+
+export interface PostPopoverProps extends PopoverProps {
+    register?: any, 
+    errors?: any,
+    formState?: any,
+    onChange?: any,
+    Icolor?: string,
+    value?: string,
 }

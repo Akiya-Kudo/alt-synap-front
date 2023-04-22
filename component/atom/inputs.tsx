@@ -1,11 +1,11 @@
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
-import { FormControl, FormErrorMessage, FormLabel, IconButton, Input, InputGroup, InputLeftElement, InputRightElement, useColorMode } from '@chakra-ui/react'
-import { useState } from 'react';
+import { Button, ButtonProps, ChakraComponent, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, useColorMode } from '@chakra-ui/react'
+import React, { useImperativeHandle, useRef, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { GlassFormInputProps, GlassInputProps, NeumFormInputProps, NeumInputProps } from "../../type/atom";
 import { useFormColorMode } from '../../util/hook/useColor';
 import { useOneSizeSmaller } from '../../util/hook/useSize';
-import { useNeumStyle } from '../../util/hook/useTheme';
+import { useNeumStyle_dent, useNeumStyle_flat } from '../../util/hook/useTheme';
 import { NeumIconButton } from './buttons';
 
 
@@ -22,7 +22,8 @@ export const NeumInputDefault = ({
     register,
     ...props
 }: NeumInputProps ) => {
-    const { dent, flat } = useNeumStyle()
+    const { dent } = useNeumStyle_dent()
+    const {flat_tall} = useNeumStyle_flat()
     return (
         <Input
         {...props}
@@ -30,7 +31,7 @@ export const NeumInputDefault = ({
         _placeholder={{ color: PHcolor }}
         border={border}
         _focus={{
-            boxShadow: flat,
+            boxShadow: flat_tall,
             fontSize: fontSize / 0.95,
         }}
         borderRadius={borderRadius} bg={bg} color={color} fontSize={fontSize}
@@ -236,7 +237,7 @@ export const NeumFloatFormInput_password = ({
     )
 }
 
-export const GlassInputDefault = ({
+export const GlassInputDefault =({
     //PHcolor: 制限拡張可 ： register hook用
     bg="bg_transparent_reverse_deep", 
     border="0.5px solid",
@@ -248,12 +249,12 @@ export const GlassInputDefault = ({
     PHcolor="text_very_light",
     register,
     ...props
-}: GlassInputProps ) => {
+}: GlassInputProps
+) => { 
     const { border_switch } = useFormColorMode();
     const focusBC = focusBorderColor ? focusBorderColor : border_switch
-    return (
-        <Input
-        {...props}
+    return <Input
+        {...props} 
         placeholder={placeholder}
         _placeholder={{ color: PHcolor }}
         border={border}
@@ -262,7 +263,6 @@ export const GlassInputDefault = ({
         bg={bg} color={color}
         {...register}
         />
-    )
 }
 
 export const GlassFormInput = ({
@@ -535,3 +535,78 @@ export const GlassFloatFormInput_password = ({
     </FormControl>
     )
 }
+
+export const GlassFormInput_nolabel = ({
+    id="input", 
+    errors, 
+    register, 
+    validation, 
+    defaultValue, 
+    maxLength,
+    bg, border, borderRadius, focusBorderColor, 
+    color, placeholder, PHcolor, h, w, fontSize,
+    ...props
+}: GlassFormInputProps) => {
+    const { border_switch, border_light_switch } = useFormColorMode();
+    let focusBC = focusBorderColor ? focusBorderColor : border_switch
+    focusBC = focusBorderColor=="border_light_switch" ? border_light_switch : focusBC
+    return (
+        <FormControl
+        {...props}
+        isInvalid={errors[id] ? true : false}
+        >
+            <GlassInputDefault
+            bg={bg} border={border} borderRadius={borderRadius} color={color} 
+            placeholder={placeholder} PHcolor={PHcolor} focusBorderColor={focusBC}
+
+            register={register(id , validation)}
+            defaultValue={defaultValue}
+            maxLength={maxLength}
+            h={h} w={w} fontSize={fontSize}
+            />
+            <FormErrorMessage fontSize={fontSize}>
+                {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
+            </FormErrorMessage>
+    </FormControl>
+    )
+}
+
+// post form のリンクpopover開発時にinitialFocusを導入するため定義。chakra のinitialFocusはrefを使用するため、forwardRefによる定義が必要だった。
+// さらに、react hook formのvalidationを適用しとうとしたが、それにはforwardRefよりも先に、refを取得してregisterによる登録が必要だったがその実装が失敗、(useImpelementHandleを使用)
+// export const GlassFormInput_ref = forwardRef<GlassFormInputProps, "input">(
+//     function GlassFormInput_ref({
+//     //PHcolor: 制限拡張可 ： register hook用
+//     bg="bg_transparent_reverse_deep", h,w,
+//     border="0.5px solid",
+//     borderRadius="full", 
+//     borderColor="text_light",
+//     focusBorderColor,
+//     color="text_normal", 
+//     placeholder='📝',
+//     PHcolor="text_very_light",
+//     id,
+//     errors,
+//     register,
+//     validation,
+//     ...props
+// }, ref
+// ) { 
+//     const { border_switch } = useFormColorMode();
+//     const focusBC = focusBorderColor ? focusBorderColor : border_switch
+//     return (
+//         <FormControl {...props} isInvalid={errors[id] ? true : false}>
+//             <Input
+//             placeholder={placeholder}
+//             _placeholder={{ color: PHcolor }}
+//             border={border}
+//             borderRadius={borderRadius} 
+//             focusBorderColor={focusBC}
+//             bg={bg} color={color} h={h} w={w}
+//             {...register(id, validation)}
+//             ref={ref}
+//             />
+//             <FormErrorMessage>
+//                 {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
+//             </FormErrorMessage>
+//         </FormControl>
+// )})

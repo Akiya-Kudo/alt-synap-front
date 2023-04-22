@@ -41,3 +41,11 @@ export const Validation_post_title = {
     maxLength: { value: 60, message: '60文字以下で入力してください | Please make User Name less than 60 words' },
     minLength: { value: 2, message: "2文字以上で入力してください | Please make User Name more than 2 words" },
 }
+
+export const Validation_url = {
+    pattern: {
+        value: /https?:\/\/[\w!?/+\-_~;.,*&@#$%()'\[\]]+/,
+        message: "有効なURLの形式に一致しません"
+
+    }
+}
