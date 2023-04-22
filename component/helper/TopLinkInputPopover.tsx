@@ -1,9 +1,10 @@
-import { Box, Button, ButtonProps, Center, Flex, Heading, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text } from "@chakra-ui/react"
-import React, { useEffect } from "react"
+import { Box, Button, ButtonProps, Center, Flex, Heading, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text, useDisclosure, Fade, Collapse } from "@chakra-ui/react"
+import React, { useEffect, useState } from "react"
 import { FaLink } from "react-icons/fa"
 import { PostPopoverProps } from "../../type/helper"
 import { Validation_url } from "../../util/form/validation"
 import { useGlassColorMode } from "../../util/hook/useColor"
+import { GlassBord_foggy } from "../atom/bords"
 import { NeumIconButton } from "../atom/buttons"
 import { GlassFormInput_nolabel } from "../atom/inputs"
 
@@ -14,9 +15,14 @@ export const PostReferencePopover = ({
     onChange,
     Icolor,
     value,
+    id,
+    title,
+    icon,
+    tooltipContent,
     ...props
 }: PostPopoverProps) => {
-    const id = "input_top_link"
+    const { isOpen, onClose, onToggle } = useDisclosure()
+    const { isOpen: T_isOpen, onOpen: T_onOpen, onClose: T_onClose } = useDisclosure()
 
     const {glass_bg_switch} = useGlassColorMode()
     return (
@@ -24,14 +30,35 @@ export const PostReferencePopover = ({
         {...props}
         placement="left"
         returnFocusOnClose={false} 
+        isOpen={isOpen} onClose={onClose}
         >
             <PopoverTrigger>
-                <NeumIconButton
-                icon={<FaLink/>} 
-                aria-label="link_popover_trigger"
-                neumH={value!="" ? "shallow" : "tall"}
-                color={value!="" ? !errors[id] ? "tipsy_color_2": "red_switch" : undefined}
-                />
+                <Box 
+                className="tooltip_hover_trigger" position={"relative"} onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
+                >
+                    <NeumIconButton
+                    icon={icon} 
+                    aria-label="link_popover_trigger"
+                    neumH={value!="" ? "shallow" : "tall"}
+                    color={value!="" ? !errors[id] ? "tipsy_color_2": "red_switch" : undefined}
+                    onClick={onToggle}
+                    />
+                    <Collapse in={T_isOpen}>
+                        <GlassBord_foggy
+                        className="tooltip_top_link"
+                        position={"absolute"} top={0} right={70}
+                        minW={"350px"} p={"20px 30px"} 
+                        fontSize={".7rem"}
+                        flexDirection="column"
+                        gap={3}
+                        >
+                            <Heading  size={"sm"} color={"tipsy_color_2"}>
+                                <Center>{title}</Center>
+                            </Heading>
+                            {tooltipContent}
+                        </GlassBord_foggy>
+                    </Collapse>
+                </Box>
             </PopoverTrigger>
             <PopoverContent
             sx={{"-webkit-backdrop-filter": "blur(10px)"}}
@@ -45,9 +72,7 @@ export const PostReferencePopover = ({
                 <PopoverCloseButton />
                 <PopoverHeader>
                     <Heading  size={"sm"} color={"tipsy_color_2"}>
-                        <Center>
-                            WEBブックマーク
-                        </Center>
+                        <Center>{title}</Center>
                     </Heading>
                 </PopoverHeader>
                 <PopoverBody>

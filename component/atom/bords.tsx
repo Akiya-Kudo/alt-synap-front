@@ -1,6 +1,6 @@
 import { Box, forwardRef } from "@chakra-ui/react"
-import { NeumBordProps } from "../../type/atom";
-import { useNeumorphismColorMode } from "../../util/hook/useColor";
+import { GlassBordProps, NeumBordProps } from "../../type/atom";
+import { useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useColor";
 
 export const FlatBord = ({
     neumH="shallow",
@@ -73,6 +73,24 @@ export const TabBord = ({
         {...props}
         boxShadow={neumHeight}
         borderRadius={borderRadius} bg={bg} color={color}
+        display={display} flexDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
+        />
+    )
+}
+
+export const GlassBord_foggy = ({
+    color="text_normal", borderRadius="20",
+    display="flex", flexDirection="row", justifyContent="center", alignItems="center", 
+    ...props
+}: GlassBordProps) => {
+    const {glass_bg_switch} = useGlassColorMode()
+    return (
+        <Box
+        {...props}
+        backdropFilter={"blur(10px)"} 
+        sx={{"-webkit-backdrop-filter": "blur(10px)"}}
+        backgroundColor={glass_bg_switch}
+        borderRadius={borderRadius} color={color}
         display={display} flexDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
         />
     )

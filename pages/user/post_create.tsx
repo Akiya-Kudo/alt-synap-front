@@ -20,7 +20,7 @@ const PostCreate: NextPage = () => {
     uid: undefined,
     title: "",
     top_image: "",
-    top_link: undefined,
+    top_link: "",
     content_type: undefined,
     publish: false,
     deleted: false,

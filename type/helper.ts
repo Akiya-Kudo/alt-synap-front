@@ -41,4 +41,8 @@ export interface PostPopoverProps extends PopoverProps {
     onChange?: any,
     Icolor?: string,
     value?: string,
+    id: string,
+    title: string,
+    icon?: React.ReactElement<any, string | React.JSXElementConstructor<any>>,
+    tooltipContent: any,
 }

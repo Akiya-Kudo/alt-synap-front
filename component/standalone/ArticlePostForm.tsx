@@ -1,5 +1,5 @@
 // import dynamic from "next/dynamic";
-import { Box, Flex, Grid, GridItem, Tooltip, VStack } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Text, Tooltip, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { DentBord, FlatBord } from "../atom/bords";
 import { GlassFormInput, NeumFloatFormInput } from "../atom/inputs"
@@ -7,13 +7,10 @@ import { NeumIconButton } from "../atom/buttons"
 // import { useEffect, useState } from "react";
 
 import dynamic from "next/dynamic";
-import { SwitchButton } from "../atom/buttons";
 import { FaImage, FaLink, FaQuestion, FaTags } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { ArticlePostData } from "../../type/page";
 import { ArticlePostFormProps } from "../../type/standalone";
-import { Validation_post_title, Validation_url } from "../../util/form/validation";
-import { PostReferencePopover } from "../helper/PostReferencePopover";
+import { Validation_post_title } from "../../util/form/validation";
+import { PostReferencePopover } from "../helper/TopLinkInputPopover";
 
 const ArticleEditor = dynamic(
     () => import("../atom/ArticleEditor"),
@@ -63,6 +60,9 @@ export const ArticlePostForm = ({register, errors, formState, childFormRef, hand
                     <PostReferencePopover
                     errors={errors} register={register} formState={formState}
                     onChange={handleChange_top_link} value={stateValue.top_link}
+                    
+                    id={"input_top_link"} title="WEBブックマーク" icon={<FaLink/>}
+                    tooltipContent={<Text fontSize={".6.5rem"} pb={2}>WEBブックマークを付けると、投稿を開かずにリンクに飛ぶことができます。すぐ確認し直したい時に便利です！</Text>}
                     />
                     <NeumIconButton 
                     aria-label="top-image-modal-button" 

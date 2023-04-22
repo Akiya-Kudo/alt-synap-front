@@ -44,7 +44,7 @@ export const Validation_post_title = {
 
 export const Validation_url = {
     pattern: {
-        value: /https?:\/\/[\w!?/+\-_~;.,*&@#$%()'\[\]]+/,
+        value: /^https?:\/\/[\w!?/+\-_~;.,*&@#$%()'\[\]]+/,
         message: "有効なURLの形式に一致しません"
 
     }
