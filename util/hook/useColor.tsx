@@ -55,6 +55,12 @@ export const useNeumorphismColorMode = () => {
 
 export const useFormColorMode = () => {
     const border_switch = useColorModeValue("green.400", "blue.300")
+    const border_light_switch = useColorModeValue("green.300", "blue.400")
     const glass_text_switch = useColorModeValue("tipsy_light.400", "tipsy_dark.400")
-    return {border_switch, glass_text_switch}
+    return {border_switch, border_light_switch, glass_text_switch}
+}
+
+export const useGlassColorMode = () => {
+    const glass_bg_switch = useColorModeValue("rgba(130,130,130, 0.2)", "rgba(130,130,130, 0.8)")
+    return {glass_bg_switch}
 }

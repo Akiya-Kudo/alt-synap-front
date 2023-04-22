@@ -18,8 +18,8 @@ const PostCreate: NextPage = () => {
   const childFormRef = useRef<HTMLFormElement>(null)
   const [currentArticlePost, setCurrentArticlePost] = useState<ArticlePostData>({
     uid: undefined,
-    title: undefined,
-    top_image: undefined,
+    title: "",
+    top_image: "",
     top_link: undefined,
     content_type: undefined,
     publish: false,
@@ -28,10 +28,12 @@ const PostCreate: NextPage = () => {
   })
   // setCurrentArticlePost((preV)=>({...preV, title: childFormRef.current?.input_article_title.value}))
   const handleChange_title = (e:any) => setCurrentArticlePost((preV)=>({...preV, title: e.target.value}))
+  const handleChange_top_link = (e:any) => {setCurrentArticlePost((preV)=>({...preV, top_link: e.target.value}))}
   const handleClick_publish = (value: boolean) => setCurrentArticlePost((preV)=>({...preV, publish: !preV.publish}))
   const handleClick_save = async (e:any) => {
     console.log("apiをたったきます!")
     console.log(currentArticlePost)
+    console.log(formState.errors)
   }
   return (
     <>
@@ -57,7 +59,7 @@ const PostCreate: NextPage = () => {
         variant="outline"
         color={"tipsy_color_2"}
         >
-          保存
+          { currentArticlePost.publish ? "変更を保存" : "下書き保存" }
         </GlassButton>
       </PostHeader>
 
@@ -67,7 +69,15 @@ const PostCreate: NextPage = () => {
       justify="center" 
       align="center"
       >
-        <ArticlePostForm register={register} errors={errors} childFormRef={childFormRef} handleChange_title={handleChange_title}/>
+        <ArticlePostForm 
+        register={register} 
+        errors={errors} 
+        formState={formState}
+        childFormRef={childFormRef} 
+        handleChange_title={handleChange_title}
+        handleChange_top_link={handleChange_top_link}
+        stateValue={currentArticlePost}
+        />
         {/* <PostPage/> */}
       </Flex>
     </>

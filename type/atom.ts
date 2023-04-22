@@ -31,7 +31,9 @@ export interface NeumButtonProps extends ButtonProps {
     fontSize?: number,
     formState?: any,
 }
-export interface NeumIconButtonProps extends IconButtonProps {}
+export interface NeumIconButtonProps extends IconButtonProps {
+    neumH?: "shallow" | "tall",
+}
 export interface NeumSwitchButtonTabProps extends NeumButtonProps {
     children: string,
     id: string,
