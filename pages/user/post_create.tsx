@@ -15,7 +15,6 @@ const PostCreate: NextPage = () => {
 
   //投稿stateの管理
   const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
-  const childFormRef = useRef<HTMLFormElement>(null)
   const [currentArticlePost, setCurrentArticlePost] = useState<ArticlePostData>({
     uid: undefined,
     title: "",
@@ -26,9 +25,14 @@ const PostCreate: NextPage = () => {
     deleted: false,
     content: undefined,
   })
+  // const childFormRef = useRef<HTMLFormElement>(null)
   // setCurrentArticlePost((preV)=>({...preV, title: childFormRef.current?.input_article_title.value}))
   const handleChange_title = (e:any) => setCurrentArticlePost((preV)=>({...preV, title: e.target.value}))
   const handleChange_top_link = (e:any) => {setCurrentArticlePost((preV)=>({...preV, top_link: e.target.value}))}
+  const handleChange_top_image = (e:any) => {
+    setCurrentArticlePost((preV)=>({...preV, top_image: e.target.value}))
+    console.log(e.target.value)
+  }
   const handleClick_publish = (value: boolean) => setCurrentArticlePost((preV)=>({...preV, publish: !preV.publish}))
   const handleClick_save = async (e:any) => {
     console.log("apiをたったきます!")
@@ -41,7 +45,7 @@ const PostCreate: NextPage = () => {
         <GlassSwitchButton
         getState={handleClick_publish} defStateValue={false}
         variant={"outline"} fontSize={".9rem"} 
-        SBgGradient={"linear(to-tl, tipsy_color_2, tipsy_color_3)"}
+        SBgGradient={"linear(to-tl, tipsy_color_2, tipsy_color_3)"} SHBgGradient={"linear(to-tl, tipsy_color_active_2, tipsy_color_active_3)"}
         Scolor={"bg_switch"} Acolor={"tipsy_color_active_3"} Hcolor={"tipsy_color_3"}
         Schildren={"公開中"}
         >
@@ -73,10 +77,10 @@ const PostCreate: NextPage = () => {
         register={register} 
         errors={errors} 
         formState={formState}
-        childFormRef={childFormRef} 
+        stateValue={currentArticlePost}
         handleChange_title={handleChange_title}
         handleChange_top_link={handleChange_top_link}
-        stateValue={currentArticlePost}
+        handleChange_top_image={handleChange_top_image}
         />
         {/* <PostPage/> */}
       </Flex>

@@ -52,4 +52,5 @@ export const color_switchs =  {
     tipsy_color_active_1: {default: "yellow.500", _dark: "blue.200"},
     tipsy_color_active_2: {default: "green.500", _dark: "purple.200"},
     tipsy_color_active_3: {default: "teal.500", _dark: "pink.200"},
+    // tipsy_color_border: {default: "orange.300", _dark: "purple.300"},
 }

@@ -50,7 +50,9 @@ export interface GlassButtonProps extends ButtonProps {
 export interface GlassSwitchButtonProps extends GlassButtonProps {
     isChecked?: (e:any)=>any,
     SBgGradient?: string,
+    SHBgGradient?: string,
     Scolor?: string,
+    SHcolor?: string,
     getState?: (e:any)=>any,
     defStateValue?: boolean,
     Schildren?: string | ReactComponentElement<any>,
@@ -118,6 +120,13 @@ export interface GlassFormInputProps extends GlassInputProps {
     labelName?: string,
     validation: any,
     focusColor?: string,
+}
+export interface GlassFormImageInputProps extends GlassInputProps {
+    register: any,
+    image?: string,
+    setImage: React.Dispatch<React.SetStateAction<string>>,
+    imageFile?: any,
+    setImageFile: React.Dispatch<React.SetStateAction<any>>,
 }
 
 //コンテイナー

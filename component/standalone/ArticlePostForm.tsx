@@ -10,7 +10,8 @@ import dynamic from "next/dynamic";
 import { FaImage, FaLink, FaQuestion, FaTags } from "react-icons/fa";
 import { ArticlePostFormProps } from "../../type/standalone";
 import { Validation_post_title } from "../../util/form/validation";
-import { PostReferencePopover } from "../helper/TopLinkInputPopover";
+import { TopLinkInputPopover } from "../helper/TopLinkInputPopover";
+import { TopImageInputPopover } from "../helper/TopImageInputPopover";
 
 const ArticleEditor = dynamic(
     () => import("../atom/ArticleEditor"),
@@ -18,7 +19,7 @@ const ArticleEditor = dynamic(
 );
 
 // 投稿stateの管理はheaderでの処理があるためpageコンポーネントで行う
-export const ArticlePostForm = ({register, errors, formState, childFormRef, handleChange_title, handleChange_top_link, stateValue}:ArticlePostFormProps) => {
+export const ArticlePostForm = ({register, errors, formState, stateValue, handleChange_title, handleChange_top_link, handleChange_top_image}:ArticlePostFormProps) => {
     return (
         <>
         <Grid
@@ -27,7 +28,6 @@ export const ArticlePostForm = ({register, errors, formState, childFormRef, hand
         w="90%" h="100%" maxWidth="1100px" ms={"70px"}
         gap={4}
         as="form"
-        ref={childFormRef}
         >
             <GridItem colSpan={1}>
                 <NeumFloatFormInput
@@ -57,18 +57,19 @@ export const ArticlePostForm = ({register, errors, formState, childFormRef, hand
             </GridItem>
             <GridItem colSpan={1} display="flex" flexDirection="column" gap={3}>
                 <VStack gap={1}>
-                    <PostReferencePopover
+                    <TopLinkInputPopover
                     errors={errors} register={register} formState={formState}
                     onChange={handleChange_top_link} value={stateValue.top_link}
                     
                     id={"input_top_link"} title="WEBブックマーク" icon={<FaLink/>}
                     tooltipContent={<Text fontSize={".6.5rem"} pb={2}>WEBブックマークを付けると、投稿を開かずにリンクに飛ぶことができます。すぐ確認し直したい時に便利です！</Text>}
                     />
-                    <NeumIconButton 
-                    aria-label="top-image-modal-button" 
-                    icon={<FaImage/>}
-                    size={"md"}
-                    neumH="shallow"
+                    <TopImageInputPopover
+                    errors={errors} register={register} formState={formState}
+                    onChange={handleChange_top_image} value={stateValue.top_image}
+
+                    id="input_top_image" title="サムネイル" icon={<FaImage/>}
+                    tooltipContent={<Text fontSize={".6.5rem"} pb={2}>投稿のトップに画像を追加できます。投稿の内容に沿った画像を表示することで、わかりやすい投稿になります。</Text>}
                     />
                     <NeumIconButton 
                     aria-label="tag-selector-modal-button" 
@@ -76,10 +77,7 @@ export const ArticlePostForm = ({register, errors, formState, childFormRef, hand
                     size={"md"}
                     neumH="tall"
                     />
-                    <DentBord
-                    h={"30px"}
-                    w={"30px"}
-                    >
+                    <DentBord h={"30px"} w={"30px"} >
                         <FaQuestion fontSize={".6rem"} color="orange" />
                     </DentBord>
                 </VStack>
