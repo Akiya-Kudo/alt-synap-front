@@ -1,14 +1,13 @@
-import { Box, Button, ButtonProps, Center, Flex, Heading, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text, useDisclosure, Fade, Collapse, Divider } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
-import { FaLink } from "react-icons/fa"
+import NextImage from 'next/image';
+import { Box, Button, ButtonProps, Center, Flex, Heading, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text, useDisclosure, Fade, Collapse, Divider } from "@chakra-ui/react"
 import { PostPopoverProps } from "../../type/helper"
-import { Validation_url } from "../../util/form/validation"
 import { useGlassColorMode } from "../../util/hook/useColor"
 import { GlassBord_foggy } from "../atom/bords"
 import { NeumIconButton } from "../atom/buttons"
-import { GlassFormInput_nolabel } from "../atom/inputs"
+import { GlassFormInput_nolabel, PostImageInput } from "../atom/inputs"
 
-export const TopLinkInputPopover = ({
+export const TopImageInputPopover = ({
     errors, 
     register,
     formState,
@@ -25,6 +24,9 @@ export const TopLinkInputPopover = ({
     const { isOpen: T_isOpen, onOpen: T_onOpen, onClose: T_onClose } = useDisclosure()
 
     const {glass_bg_switch} = useGlassColorMode()
+
+    const [image, setImage] = useState<string>("")
+    const [imageFile, setImageFile] = useState<any>()
     return (
         <Popover
         {...props}
@@ -39,8 +41,8 @@ export const TopLinkInputPopover = ({
                     <NeumIconButton
                     icon={icon} 
                     aria-label="link_popover_trigger"
-                    neumH={value!="" ? "shallow" : "tall"}
-                    color={value!="" ? !errors[id] ? "tipsy_color_2": "red_switch" : undefined}
+                    neumH={value ? "shallow" : "tall"}
+                    color={value ? "tipsy_color_2" : undefined}
                     onClick={onToggle}
                     />
                     <Collapse in={T_isOpen}>
@@ -52,11 +54,14 @@ export const TopLinkInputPopover = ({
                         flexDirection="column"
                         gap={3}
                         >
-                            <Heading  size={"sm"} color={"tipsy_color_2"}>
+                            <Heading  size={"sm"} color={"tipsy_color_3"}>
                                 <Center>{title}</Center>
                             </Heading>
                             <Divider />
-                            {tooltipContent}
+                            { image 
+                            ? <Box width='60%' height='auto' position='relative' bottom={1}><NextImage src={image} layout='responsive' objectFit='cover' alt='top_image' width={50} height={50} style={{ borderRadius: '20px' }} /></Box> 
+                            : tooltipContent
+                            }
                         </GlassBord_foggy>
                     </Collapse>
                 </Box>
@@ -72,7 +77,7 @@ export const TopLinkInputPopover = ({
                 />
                 <PopoverCloseButton />
                 <PopoverHeader>
-                    <Heading  size={"sm"} color={"tipsy_color_2"}>
+                    <Heading  size={"sm"} color={"tipsy_color_3"}>
                         <Center>{title}</Center>
                     </Heading>
                 </PopoverHeader>
@@ -82,17 +87,15 @@ export const TopLinkInputPopover = ({
                     >
                         <Box>
                             <Text fontSize={".75rem"} pb={2}>
-                                内容を参照したwebページのURLを入力
+                                投稿のトップページに表示する画像を追加する
                             </Text>
-                            <GlassFormInput_nolabel
-                            type="url"
+                            <PostImageInput
                             id={id}
-                            validation={Validation_url}
-                            errors={errors} register={register} 
+                            setImageFile={ setImageFile } 
+                            image={ image } 
+                            setImage={ setImage } 
+                            register={ register } 
                             onChange={onChange} defaultValue={value}
-
-                            h="30px" w={"300px"} fontSize={"0.8rem"}
-                            placeholder={"https://"} PHcolor={"text_light"} focusBorderColor={"border_light_switch"}
                             />
                         </Box>
                     </Center>

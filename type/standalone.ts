@@ -5,8 +5,8 @@ export interface ArticlePostFormProps {
     register: any,
     errors: any,
     formState?: any,
-    childFormRef:  React.RefObject<any>, 
+    stateValue: ArticlePostData,
     handleChange_title: any,
     handleChange_top_link: any,
-    stateValue: ArticlePostData,
+    handleChange_top_image: any,
 }

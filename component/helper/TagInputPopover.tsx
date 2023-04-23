@@ -8,7 +8,7 @@ import { GlassBord_foggy } from "../atom/bords"
 import { NeumIconButton } from "../atom/buttons"
 import { GlassFormInput_nolabel } from "../atom/inputs"
 
-export const TopLinkInputPopover = ({
+export const TagInputPopover = ({
     errors, 
     register,
     formState,

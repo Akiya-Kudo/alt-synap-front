@@ -1,12 +1,14 @@
+import React, { ChangeEvent, Dispatch, SetStateAction, useImperativeHandle, useRef, useState } from 'react';
+import NextImage from 'next/image';
+import { Box, Button, ButtonProps, ChakraComponent, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, useCheckbox, useColorMode } from '@chakra-ui/react'
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
-import { Button, ButtonProps, ChakraComponent, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, useColorMode } from '@chakra-ui/react'
-import React, { useImperativeHandle, useRef, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { GlassFormInputProps, GlassInputProps, NeumFormInputProps, NeumInputProps } from "../../type/atom";
+import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, NeumFormInputProps, NeumInputProps } from "../../type/atom";
 import { useFormColorMode } from '../../util/hook/useColor';
 import { useOneSizeSmaller } from '../../util/hook/useSize';
 import { useNeumStyle_dent, useNeumStyle_flat } from '../../util/hook/useTheme';
 import { NeumIconButton } from './buttons';
+import ImageThumnail from "../../public/thumnailimage.svg";
 
 
 
@@ -570,6 +572,74 @@ export const GlassFormInput_nolabel = ({
     </FormControl>
     )
 }
+
+export const PostImageInput = ({
+    id,
+    image, 
+    setImage, 
+    setImageFile, 
+    register,
+    defaultValue,
+    ...props
+}: GlassFormImageInputProps) => {
+
+    // 画像を選択したら画面に表示する処理
+    const ImageSet = (e: any) => {
+        if (e.target.files[0]) {
+        const file = e.target.files[0];
+        setImageFile(file)
+        const photo = window.URL.createObjectURL(file)
+        setImage(photo)
+        } else {
+            setImage("")
+            setImageFile(undefined)
+        }
+    }
+    const {border_switch} = useFormColorMode()
+    return (
+        <FormControl
+        id={id}
+        {...props}
+        >
+            <Box display={"flex"} justifyContent="center" alignItems={"center"} m={2}>          
+                <Box 
+                pos="relative" display={"flex"} flexDirection="column" alignItems={"center"} justifyContent="center" 
+                textAlign={"center"}
+                borderRadius={15} 
+                backgroundColor={"rgba(150,150,150, 0.25)"}
+                transition={"0.2s"}
+                _hover={{
+                    border: "2px solid",
+                    borderColor: border_switch,
+                    color: border_switch,
+                }}
+                >
+                    { image ? 
+                    // <Box w={200} h={200} borderRadius={10} m={4} overflow="hidden" pos="relative"> <NextImage alt="" src={image} objectFit={"cover"} layout={'fill'} /> </Box>
+                    <Box width='100%' height='auto' position='relative' bottom={1} px={6} pt={6}>
+                        <NextImage src={image} layout='responsive' objectFit='cover' alt='top_image' width={100} height={100} style={{ borderRadius: '20px' }} />
+                    </Box>
+                    : 
+                    <Box w={150} h={150} borderRadius={10} overflow="hidden" mt={4}>
+                        <NextImage alt="" src={ ImageThumnail } width={100} height={100} layout={'responsive'} />
+                    </Box>
+                    }
+                    <Text m={2} mx={20}>{image ? "画像を変更する" : "画像を追加する" }</Text>
+                    <Input   
+                    {...register(id)}
+                    type={"file"} 
+                    accept=" .png, .jpeg, .jpg, .svg"
+                    onChange={ ImageSet }
+                    defaultValue={defaultValue}
+                    cursor={"pointer"} w="100%" h="100%" pos={"absolute"} left={0} right={0} opacity={0} 
+                    />
+                </Box>
+            </Box>
+        </FormControl>
+    )
+}
+
+
 
 // post form のリンクpopover開発時にinitialFocusを導入するため定義。chakra のinitialFocusはrefを使用するため、forwardRefによる定義が必要だった。
 // さらに、react hook formのvalidationを適用しとうとしたが、それにはforwardRefよりも先に、refを取得してregisterによる登録が必要だったがその実装が失敗、(useImpelementHandleを使用)
