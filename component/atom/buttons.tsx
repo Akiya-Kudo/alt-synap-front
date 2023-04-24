@@ -187,7 +187,8 @@ export const NeumIconButton = forwardRef<NeumIconButtonProps, "button">(
     }, ref) {
         const { curve_sm, curve_sm_shallow, curve_sm_tall } = useNeumStyle_curve()
         const {dent_sm} = useNeumStyle_dent()
-        const neumBS = neumH=="shallow" ? curve_sm : curve_sm_tall 
+        const {flat_sm } = useNeumStyle_flat()
+        const neumBS = neumH=="shallow" ? curve_sm : flat_sm 
         return (
             <IconButton
             {...props}
