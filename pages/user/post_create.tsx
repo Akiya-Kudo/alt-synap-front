@@ -7,6 +7,7 @@ import { GlassButton, GlassSwitchButton } from '../../component/atom/buttons'
 import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
 import { ArticlePostData } from '../../type/page'
 import { useForm } from 'react-hook-form'
+import { GlassBord_foggy } from '../../component/atom/bords'
 
 const PostCreate: NextPage = () => {
   // ログアウト時のリダイレクト処理

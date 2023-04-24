@@ -1,21 +1,36 @@
 import { Box, Center, Flex, Grid, GridItem, HStack, WrapItem } from "@chakra-ui/react"
 import { GlassContainerProps } from "../../type/atom"
+import { useGlassColorMode } from "../../util/hook/useColor"
 
 export const BasicHeaderStyleContainer = ({children}: GlassContainerProps) => {
+    const {glass_bg_switch_natural} = useGlassColorMode()
     return (
         <Box
-        zIndex={10} 
+        zIndex={1100} 
         w="100%" 
         h="100px" 
         position={"fixed" }
-        boxShadow='xl'
         top={0}
         p={5}
 
-        backdropFilter={"blur(6px)"}
-        backgroundColor={"rgba(130,130,130, 0.15)"}
-        
-        borderBottom={"0.3px solid rgba(200,200,200, 0.7)"}
+        backgroundColor={glass_bg_switch_natural}
+        sx={{
+            "&::before": {
+                content: '""',
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                backdropFilter: "blur(7px)",
+                "-webkit-backdrop-filter": "blur(7px)",
+                top: 0,
+                left:0,
+                zIndex: -10,
+                borderBottom: "0.3px solid rgba(200,200,200, 0.7)",
+                borderBottomEndRadius: 30,
+                borderBottomStartRadius: 30,
+                boxShadow:'xl',
+            }
+        }}
         borderBottomEndRadius={30}
         borderBottomStartRadius={30}
         >

@@ -23,12 +23,13 @@ export const HeaderMenu = ({
             borderRadius="full"
             />
             <MenuList 
+            pos={"relative"}
             fontSize={itemFontSize}
             borderRadius={15}
-            backgroundColor={"bg_switch"}
-            // backdropFilter={"blur(6px)"}
-            // sx={{"-webkit-backdrop-filter": "blur(10px)"}}
-            // backgroundColor={"rgba(230,230,230, 0.8)"}
+            // backgroundColor={"bg_switch"}
+            backdropFilter={"blur(7px)"}
+            sx={{"-webkit-backdrop-filter": "blur(7px)"}}
+            backgroundColor={"rgba(230,230,230, 0.1)"}
             >
                 <MenuGroup title={"- " + user_name + " -"}>
                     <Link href="/mypage" passHref>

@@ -12,6 +12,7 @@ import { ArticlePostFormProps } from "../../type/standalone";
 import { Validation_post_title } from "../../util/form/validation";
 import { TopLinkInputPopover } from "../helper/TopLinkInputPopover";
 import { TopImageInputPopover } from "../helper/TopImageInputPopover";
+import { TagInputPopover } from "../helper/TagInputPopover";
 
 const ArticleEditor = dynamic(
     () => import("../atom/ArticleEditor"),
@@ -71,11 +72,12 @@ export const ArticlePostForm = ({register, errors, formState, stateValue, handle
                     id="input_top_image" title="サムネイル" icon={<FaImage/>}
                     tooltipContent={<Text fontSize={".6.5rem"} pb={2}>投稿のトップに画像を追加できます。投稿の内容に沿った画像を表示することで、わかりやすい投稿になります。</Text>}
                     />
-                    <NeumIconButton 
-                    aria-label="tag-selector-modal-button" 
-                    icon={<FaTags/>}
-                    size={"md"}
-                    neumH="tall"
+                    <TagInputPopover 
+                    errors={errors} register={register} formState={formState}
+                    onChange={handleChange_top_image} value={stateValue.top_image}
+
+                    id="input_tag" title="サムネイル" icon={<FaTags/>}
+                    tooltipContent={<Text fontSize={".6.5rem"} pb={2}>投稿のトップに画像を追加できます。投稿の内容に沿った画像を表示することで、わかりやすい投稿になります。</Text>}
                     />
                     <DentBord h={"30px"} w={"30px"} >
                         <FaQuestion fontSize={".6rem"} color="orange" />

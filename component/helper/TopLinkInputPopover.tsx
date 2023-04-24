@@ -4,7 +4,6 @@ import { FaLink } from "react-icons/fa"
 import { PostPopoverProps } from "../../type/helper"
 import { Validation_url } from "../../util/form/validation"
 import { useGlassColorMode } from "../../util/hook/useColor"
-import { GlassBord_foggy } from "../atom/bords"
 import { NeumIconButton } from "../atom/buttons"
 import { GlassFormInput_nolabel } from "../atom/inputs"
 
@@ -24,7 +23,7 @@ export const TopLinkInputPopover = ({
     const { isOpen, onClose, onToggle } = useDisclosure()
     const { isOpen: T_isOpen, onOpen: T_onOpen, onClose: T_onClose } = useDisclosure()
 
-    const {glass_bg_switch} = useGlassColorMode()
+    const {glass_bg_switch, mock_bg_switch} = useGlassColorMode()
     return (
         <Popover
         {...props}
@@ -34,7 +33,9 @@ export const TopLinkInputPopover = ({
         >
             <PopoverTrigger>
                 <Box 
-                className="tooltip_hover_trigger" position={"relative"} onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
+                className="tooltip_hover_trigger" position={"relative"} 
+                onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
+                zIndex={5}
                 >
                     <NeumIconButton
                     icon={icon} 
@@ -43,32 +44,33 @@ export const TopLinkInputPopover = ({
                     color={value!="" ? !errors[id] ? "tipsy_color_2": "red_switch" : undefined}
                     onClick={onToggle}
                     />
-                    <Collapse in={T_isOpen}>
-                        <GlassBord_foggy
+                    <Collapse in={T_isOpen} >
+                        <Box
                         className="tooltip_top_link"
                         position={"absolute"} top={-50} right={70}
                         minW={"350px"} p={"20px 30px"} 
                         fontSize={".7rem"}
                         flexDirection="column"
-                        gap={3}
+                        borderRadius={15}
+                        backgroundColor={mock_bg_switch}
                         >
-                            <Heading  size={"sm"} color={"tipsy_color_2"}>
+                            <Heading  size={"sm"} color={"tipsy_color_2"} >
                                 <Center>{title}</Center>
                             </Heading>
-                            <Divider />
+                            <Divider my={2}/>
                             {tooltipContent}
-                        </GlassBord_foggy>
+                        </Box>
                     </Collapse>
                 </Box>
             </PopoverTrigger>
             <PopoverContent
-            sx={{"-webkit-backdrop-filter": "blur(10px)"}}
-            backdropFilter={"blur(10px)"}
+            sx={{"-webkit-backdrop-filter": "blur(7px)"}}
+            backdropFilter={"blur(7px)"}
             backgroundColor={glass_bg_switch}
             borderRadius={"15px"}
             >
                 <PopoverArrow 
-                sx={{"-webkit-backdrop-filter": "blur(10px)"}} backdropFilter={"blur(10px)"} backgroundColor={glass_bg_switch}
+                backgroundColor={glass_bg_switch}
                 />
                 <PopoverCloseButton />
                 <PopoverHeader>

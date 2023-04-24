@@ -89,7 +89,7 @@ export const LoginModal = ({
                 bg="bg_transparent_reverse"
                 />
                 <ModalContent
-                backdropFilter={"blur(10px)"}
+                backdropFilter={"blur(7px)"}
                 bg="bg_transparent"
                 borderRadius={40}
                 p={5}

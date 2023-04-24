@@ -62,6 +62,8 @@ export const useFormColorMode = () => {
 }
 
 export const useGlassColorMode = () => {
-    const glass_bg_switch = useColorModeValue("rgba(130,130,130, 0.2)", "rgba(130,130,130, 0.8)")
-    return {glass_bg_switch}
+    const glass_bg_switch = useColorModeValue("rgba(220,220,220, 0.8)", "rgba(100,100,100, 0.7)")
+    const glass_bg_switch_natural = useColorModeValue("rgba(200,200,200, 0.6)", "rgba(60,60,60, 0.6)")
+    const mock_bg_switch = useColorModeValue("rgb(224,224,224)", "rgb(88,89,90)")
+    return {glass_bg_switch, glass_bg_switch_natural, mock_bg_switch}
 }
