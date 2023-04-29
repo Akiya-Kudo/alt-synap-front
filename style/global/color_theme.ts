@@ -47,6 +47,7 @@ export const color_switchs =  {
 
     //experimental
     tipsy_color_1: {default: "yellow.400", _dark: "blue.300"},
+    tipsy_color_1v2: {default: "yellow.500", _dark: "blue.300"},
     tipsy_color_2: {default: "green.400", _dark: "purple.300"},
     tipsy_color_3: {default: "teal.400", _dark: "pink.300"},
     tipsy_color_active_1: {default: "yellow.500", _dark: "blue.200"},

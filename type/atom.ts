@@ -1,5 +1,5 @@
 import { BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SwitchProps } from "@chakra-ui/react"
-import { ReactComponentElement } from "react"
+import { MouseEventHandler, ReactComponentElement } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
 import { API, OutputData } from "@editorjs/editorjs";
@@ -131,6 +131,13 @@ export interface GlassFormImageInputProps extends GlassInputProps {
 
 //コンテイナー
 export interface GlassContainerProps extends FlexProps{}
+
+//タグ
+export interface GlassTagProps extends BoxProps{
+    id: string,
+    Tcolor?: string,
+    onClick: (e:any)=>void,
+}
 
 //エディター
 export interface ArticleEditorProps {

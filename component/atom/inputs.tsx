@@ -360,43 +360,6 @@ export const GlassFormInput_password = ({
     )
 }
 
-export const GlassInput_search = ({
-    placeholder="検索"
-}: GlassInputProps) => {
-    const [value, setValue] = useState("")
-    const handleChange = (e: any) => setValue(e.target.value)
-    const handleClear = () => setValue("")
-
-    const {border_switch} = useFormColorMode()
-    return (
-        <InputGroup
-        // maxW={"60rem"}
-        >
-            <InputLeftElement
-            pointerEvents='none'
-            color='text_light'
-            fontSize={"0.85rem"}
-            children={<Search2Icon/>}
-            />
-            <Input 
-            onChange={handleChange}
-            value={value}
-            placeholder={placeholder}
-            _placeholder={{ opacity: 1, color: 'text_light' }}
-            backgroundColor={"rgba(150,150,150, 0.25)"}
-            focusBorderColor={border_switch}
-            borderRadius={"full"}
-            />
-            <InputRightElement 
-            onClick={handleClear}
-            color='text_light'
-            fontSize={"0.85rem"}
-            children={<CloseIcon/>} 
-            />
-        </InputGroup>
-    )
-}
-
 export const GlassFloatFormInput = ({
     id="input",  labelName="Input", focusColor="tipsy_color_2",
     errors, register, validation, defaultValue, 
@@ -573,6 +536,43 @@ export const GlassFormInput_nolabel = ({
     )
 }
 
+export const GlassInput_search = ({
+    placeholder="検索"
+}: GlassInputProps) => {
+    const [value, setValue] = useState("")
+    const handleChange = (e: any) => setValue(e.target.value)
+    const handleClear = () => setValue("")
+
+    const {border_switch} = useFormColorMode()
+    return (
+        <InputGroup
+        // maxW={"60rem"}
+        >
+            <InputLeftElement
+            pointerEvents='none'
+            color='text_light'
+            fontSize={"0.85rem"}
+            children={<Search2Icon/>}
+            />
+            <Input 
+            onChange={handleChange}
+            value={value}
+            placeholder={placeholder}
+            _placeholder={{ opacity: 1, color: 'text_light' }}
+            backgroundColor={"rgba(150,150,150, 0.25)"}
+            focusBorderColor={border_switch}
+            borderRadius={"full"}
+            />
+            <InputRightElement 
+            onClick={handleClear}
+            color='text_light'
+            fontSize={"0.85rem"}
+            children={<CloseIcon/>} 
+            />
+        </InputGroup>
+    )
+}
+
 export const PostImageInput = ({
     id,
     image, 
@@ -638,8 +638,6 @@ export const PostImageInput = ({
         </FormControl>
     )
 }
-
-
 
 // post form のリンクpopover開発時にinitialFocusを導入するため定義。chakra のinitialFocusはrefを使用するため、forwardRefによる定義が必要だった。
 // さらに、react hook formのvalidationを適用しとうとしたが、それにはforwardRefよりも先に、refを取得してregisterによる登録が必要だったがその実装が失敗、(useImpelementHandleを使用)

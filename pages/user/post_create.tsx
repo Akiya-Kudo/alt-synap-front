@@ -7,7 +7,6 @@ import { GlassButton, GlassSwitchButton } from '../../component/atom/buttons'
 import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
 import { ArticlePostData } from '../../type/page'
 import { useForm } from 'react-hook-form'
-import { GlassBord_foggy } from '../../component/atom/bords'
 
 const PostCreate: NextPage = () => {
   // ログアウト時のリダイレクト処理
@@ -25,20 +24,12 @@ const PostCreate: NextPage = () => {
     publish: false,
     deleted: false,
     content: undefined,
+    tags: [],
   })
-  // const childFormRef = useRef<HTMLFormElement>(null)
-  // setCurrentArticlePost((preV)=>({...preV, title: childFormRef.current?.input_article_title.value}))
-  const handleChange_title = (e:any) => setCurrentArticlePost((preV)=>({...preV, title: e.target.value}))
-  const handleChange_top_link = (e:any) => {setCurrentArticlePost((preV)=>({...preV, top_link: e.target.value}))}
-  const handleChange_top_image = (e:any) => {
-    setCurrentArticlePost((preV)=>({...preV, top_image: e.target.value}))
-    console.log(e.target.value)
-  }
-  const handleClick_publish = (value: boolean) => setCurrentArticlePost((preV)=>({...preV, publish: !preV.publish}))
+  const handleClick_publish = () => setCurrentArticlePost((preV)=>({...preV, publish: !preV.publish}))
   const handleClick_save = async (e:any) => {
     console.log("apiをたったきます!")
     console.log(currentArticlePost)
-    console.log(formState.errors)
   }
   return (
     <>
@@ -53,7 +44,7 @@ const PostCreate: NextPage = () => {
           公開する
         </GlassSwitchButton>
         <GlassButton
-        disabled={!formState.isValid}
+        disabled={!(!formState.errors.input_article_title && currentArticlePost.title && currentArticlePost.title.length!=0 && !formState.errors.input_top_link)}
         onClick={handleClick_save}
         _hover={{
           bgGradient: "linear(to-bl, tipsy_color_1, tipsy_color_2)",
@@ -79,9 +70,7 @@ const PostCreate: NextPage = () => {
         errors={errors} 
         formState={formState}
         stateValue={currentArticlePost}
-        handleChange_title={handleChange_title}
-        handleChange_top_link={handleChange_top_link}
-        handleChange_top_image={handleChange_top_image}
+        setStateValue={setCurrentArticlePost}
         />
         {/* <PostPage/> */}
       </Flex>

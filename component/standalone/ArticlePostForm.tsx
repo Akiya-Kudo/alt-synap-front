@@ -20,7 +20,24 @@ const ArticleEditor = dynamic(
 );
 
 // 投稿stateの管理はheaderでの処理があるためpageコンポーネントで行う
-export const ArticlePostForm = ({register, errors, formState, stateValue, handleChange_title, handleChange_top_link, handleChange_top_image}:ArticlePostFormProps) => {
+export const ArticlePostForm = ({
+    register, errors, formState, 
+    stateValue, setStateValue, 
+}:ArticlePostFormProps) => {
+    const handleTitle_onchange = (e:any) => setStateValue((preV)=>({...preV, title: e.target.value}))
+    const handleTopLink = (e:any) => setStateValue((preV)=>({...preV, top_link: e.target.value}))
+    const handleTopImage = (e:any) => setStateValue((preV)=>({...preV, top_image: e.target.value}))
+    const handleTagsAdd = (e:any) => {
+        const newTag = e.target.value;
+        const tags = [...stateValue.tags, newTag]
+        setStateValue((preV)=>({...preV, tags: tags}))
+    }
+    const handleTagDelete = (id:number) => {
+        const Array = stateValue.tags
+        const newArray = [...Array]
+        newArray.splice(id,1)
+        setStateValue((preV)=>({...preV, tags: newArray}))
+    }
     return (
         <>
         <Grid
@@ -34,12 +51,12 @@ export const ArticlePostForm = ({register, errors, formState, stateValue, handle
                 <NeumFloatFormInput
                 id="input_article_title"
                 labelName={"タイトル"} 
-                validation={Validation_post_title} maxLength={60}
+                validation={Validation_post_title}
                 errors={errors} register={register} 
                 isRequired
                 borderRadius="15px"
                 fontWeight={"bold"}
-                onChange={handleChange_title}
+                onChange={handleTitle_onchange}
                 />
             </GridItem>
             <GridItem colSpan={1}/>
@@ -59,25 +76,19 @@ export const ArticlePostForm = ({register, errors, formState, stateValue, handle
             <GridItem colSpan={1} display="flex" flexDirection="column" gap={3}>
                 <VStack gap={1}>
                     <TopLinkInputPopover
-                    errors={errors} register={register} formState={formState}
-                    onChange={handleChange_top_link} value={stateValue.top_link}
-                    
-                    id={"input_top_link"} title="WEBブックマーク" icon={<FaLink/>}
+                    id={"input_top_link"} title="WEBブックマーク" icon={<FaLink/>} setValue={handleTopLink} value={stateValue.top_link}
                     tooltipContent={<Text fontSize={".6.5rem"} pb={2}>WEBブックマークを付けると、投稿を開かずにリンクに飛ぶことができます。すぐ確認し直したい時に便利です！</Text>}
+                    errors={errors} register={register} formState={formState}
                     />
                     <TopImageInputPopover
-                    errors={errors} register={register} formState={formState}
-                    onChange={handleChange_top_image} value={stateValue.top_image}
-
-                    id="input_top_image" title="サムネイル" icon={<FaImage/>}
+                    id="input_top_image" title="サムネイル" icon={<FaImage/>} setValue={handleTopImage} value={stateValue.top_image}
                     tooltipContent={<Text fontSize={".6.5rem"} pb={2}>投稿のトップに画像を追加できます。投稿の内容に沿った画像を表示することで、わかりやすい投稿になります。</Text>}
+                    errors={errors} register={register} formState={formState}
                     />
                     <TagInputPopover 
+                    id="input_tags" title="タグ" icon={<FaTags/>} setValue={handleTagsAdd} value={stateValue.tags} onDeleteClick={handleTagDelete}
+                    tooltipContent={<Box fontSize={".6.5rem"} pb={2}>投稿にタグを最大で５つまで指定することができます。関連する名前のタグを追加すると検索で探しやすくなります。</Box>}
                     errors={errors} register={register} formState={formState}
-                    onChange={handleChange_top_image} value={stateValue.top_image}
-
-                    id="input_tag" title="サムネイル" icon={<FaTags/>}
-                    tooltipContent={<Text fontSize={".6.5rem"} pb={2}>投稿のトップに画像を追加できます。投稿の内容に沿った画像を表示することで、わかりやすい投稿になります。</Text>}
                     />
                     <DentBord h={"30px"} w={"30px"} >
                         <FaQuestion fontSize={".6rem"} color="orange" />

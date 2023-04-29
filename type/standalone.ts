@@ -6,7 +6,5 @@ export interface ArticlePostFormProps {
     errors: any,
     formState?: any,
     stateValue: ArticlePostData,
-    handleChange_title: any,
-    handleChange_top_link: any,
-    handleChange_top_image: any,
+    setStateValue: React.Dispatch<React.SetStateAction<ArticlePostData>>, 
 }

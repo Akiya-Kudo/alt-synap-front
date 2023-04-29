@@ -19,6 +19,7 @@
     "@editorjs/paragraph": "^2.9.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "dotenv": "^16.0.3",
     "firebase": "^9.10.0",
     "framer-motion": "^7.3.6",
     "graphql": "^16.6.0",

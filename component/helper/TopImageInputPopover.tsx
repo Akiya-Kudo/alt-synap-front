@@ -10,8 +10,7 @@ export const TopImageInputPopover = ({
     errors, 
     register,
     formState,
-    onChange,
-    Icolor,
+    setValue,
     value,
     id,
     title,
@@ -26,6 +25,9 @@ export const TopImageInputPopover = ({
 
     const [image, setImage] = useState<string>("")
     const [imageFile, setImageFile] = useState<any>()
+    const handleChange = (e:any) => {
+        setValue(e)
+    }
     return (
         <Popover
         {...props}
@@ -41,7 +43,7 @@ export const TopImageInputPopover = ({
                 >
                     <NeumIconButton
                     icon={icon} 
-                    aria-label="link_popover_trigger"
+                    aria-label="image_popover_trigger"
                     neumH={value ? "shallow" : "tall"}
                     color={value ? "tipsy_color_3" : undefined}
                     onClick={onToggle}
@@ -49,7 +51,7 @@ export const TopImageInputPopover = ({
                     <Collapse in={T_isOpen}>
                         <Box
                         className="tooltip_top_link"
-                        position={"absolute"} top={-150} right={70}
+                        position={"absolute"} top={-50} right={70}
                         minW={"350px"} p={"20px 30px"} 
                         fontSize={".7rem"}
                         flexDirection="column"
@@ -97,7 +99,7 @@ export const TopImageInputPopover = ({
                             image={ image } 
                             setImage={ setImage } 
                             register={ register } 
-                            onChange={onChange} defaultValue={value}
+                            onChange={handleChange} defaultValue={value}
                             />
                         </Box>
                     </Center>

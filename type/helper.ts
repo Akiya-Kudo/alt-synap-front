@@ -1,4 +1,4 @@
-import { BoxProps, MenuProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
+import { BoxProps, FlexProps, MenuProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
 
 export interface GlassMenuProps extends MenuProps {
     user_name?: string,
@@ -38,11 +38,26 @@ export interface PostPopoverProps extends PopoverProps {
     register?: any, 
     errors?: any,
     formState?: any,
-    onChange?: any,
-    Icolor?: string,
-    value?: string,
+    setValue: (e:any) => void,
+    value?: string | Array<string>,
     id: string,
     title: string,
     icon?: React.ReactElement<any, string | React.JSXElementConstructor<any>>,
     tooltipContent: any,
+}
+export interface TopLinkPopoverProps extends PostPopoverProps {
+    value: string,
+}
+export interface TopImagePopoverProps extends PostPopoverProps {
+    value: string,
+}
+export interface TagPopoverProps extends PostPopoverProps {
+    value: Array<string>,
+    onDeleteClick: (e:any) => void,
+}
+
+export interface TagListProps extends FlexProps {
+    tags: Array<string>,
+    colors?: Array<string>,
+    onDeleteClick: (e:any) => void
 }
