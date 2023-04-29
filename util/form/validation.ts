@@ -49,3 +49,30 @@ export const Validation_url = {
 
     }
 }
+
+export const Validation_word = (tags: Array<string>) => {
+    return (
+        {
+            pattern: {
+                value: /^[a-zA-Z0-9\u3040-\u309F\u30A0-\u30FF\uAC00-\uD7A3\u4E00-\u9FFF.]+$/,
+                message: "記号・空白・全角数字は入力できません。二語以上からなる単語は続けて入力してください"
+            },
+            maxLength: { value: 30, message: '30文字以下で入力してください | Please make User Name less than 30 words' },
+            minLength: { value: 2, message: "2文字以上で入力してください | Please make User Name more than 2 words" },
+            validate: (value: string) => {
+                return (
+                    tags.includes(value) && "既に追加済みのタグは登録できません"
+                );
+            },
+        }
+    )
+}
+
+// export const Validation_word = {
+//     pattern: {
+//         value: /^[a-zA-Z0-9\u3040-\u309F\u30A0-\u30FF\uAC00-\uD7A3\u4E00-\u9FFF.]+$/,
+//         message: "記号・空白・全角数字は入力できません。二語以上からなる単語は続けて入力してください"
+//     },
+//     maxLength: { value: 30, message: '30文字以下で入力してください | Please make User Name less than 30 words' },
+//     minLength: { value: 2, message: "2文字以上で入力してください | Please make User Name more than 2 words" },
+// }

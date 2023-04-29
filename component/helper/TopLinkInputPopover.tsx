@@ -11,8 +11,7 @@ export const TopLinkInputPopover = ({
     errors, 
     register,
     formState,
-    onChange,
-    Icolor,
+    setValue,
     value,
     id,
     title,
@@ -22,8 +21,11 @@ export const TopLinkInputPopover = ({
 }: PostPopoverProps) => {
     const { isOpen, onClose, onToggle } = useDisclosure()
     const { isOpen: T_isOpen, onOpen: T_onOpen, onClose: T_onClose } = useDisclosure()
-
     const {glass_bg_switch, mock_bg_switch} = useGlassColorMode()
+
+    const handleChange = (e:any) => {
+        setValue(e)
+    }
     return (
         <Popover
         {...props}
@@ -58,7 +60,12 @@ export const TopLinkInputPopover = ({
                                 <Center>{title}</Center>
                             </Heading>
                             <Divider my={2}/>
-                            {tooltipContent}
+                            { value
+                                ? !errors[id]
+                                    ? <Text>{value}</Text>
+                                    : <Box role="alert" color="red_switch">有効なURLを入力してください</Box>
+                                : <Box >{tooltipContent}</Box>
+                            }
                         </Box>
                     </Collapse>
                 </Box>
@@ -91,9 +98,9 @@ export const TopLinkInputPopover = ({
                             id={id}
                             validation={Validation_url}
                             errors={errors} register={register} 
-                            onChange={onChange} defaultValue={value}
+                            onChange={handleChange} defaultValue={value}
 
-                            h="30px" w={"300px"} fontSize={"0.8rem"}
+                            h="35px" w={"300px"} fontSize={"0.8rem"}
                             placeholder={"https://"} PHcolor={"text_light"} focusBorderColor={"border_light_switch"}
                             />
                         </Box>

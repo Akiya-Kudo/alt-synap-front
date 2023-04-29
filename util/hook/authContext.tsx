@@ -7,6 +7,7 @@ import { useUserInfoQuery } from "./useQuery";
 import { useUserRegister } from "./useMutation";
 import { FaCommentDollar } from "react-icons/fa";
 
+// require('dotenv').config({ path: '.env.development' });
 
 // type UserStateStringType = 'isUser' | 'guest' | 'loading'; 
 type UserStateStringType = string ; 
@@ -87,6 +88,7 @@ export const AuthProvider = (props: any) => {
         onAuthStateChanged(auth, (user) => {
             setUserState('pendding');
             if (user) {
+                console.log(auth)
                 console.log('logging in');
                 setUserState('isUser');
                 
