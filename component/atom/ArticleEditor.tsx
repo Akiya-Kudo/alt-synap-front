@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import EditorJS, { API, OutputData } from "@editorjs/editorjs";
 import { ArticleEditorProps } from "../../type/atom";
+import { Box } from "@chakra-ui/react";
+import EditorJS, { API, OutputData } from "@editorjs/editorjs";
+import { EditorTools, i18n } from "../../util/form/editorjs_tools";
 // import { EditorTools, i18n } from "@constants/EditorTools";
 
 const ArticleEditor = ({
     defaultValue,
-    placeholder="aaaaaa",
+    placeholder="文章を書きはじめる",
     readOnly=false,
     onReady,
     onChange,
     onSave,
 }: ArticleEditorProps) => {
-    const id = "editorjs-article-editor"
+    const id = "article-editorjs"
     const editorJS = useRef<EditorJS | null>(null);
     const [currentArticle, setCurrentArticle] = useState<OutputData | null>(null);
     useEffect(() => {
@@ -31,16 +33,18 @@ const ArticleEditor = ({
                 onReady() {
                     onReady();
                 },
-                // i18n,
-                // tools: EditorTools,
+                i18n: i18n,
+                tools: EditorTools,
+                autofocus: true,
             });
         }
     }, []);
     useEffect(() => {
-        console.log("currentArticleが行きます")
+        console.log("currentArticle")
         console.log(currentArticle);
     }, [currentArticle]);
-    return <div id={id}/>;
+    return <Box id={id} minHeight={"65vh"} w={"100%"} maxWidth={"1100px"}/>;
+    // return <div id={id}/>;
 };
 
 export default ArticleEditor;

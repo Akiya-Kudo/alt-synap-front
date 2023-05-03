@@ -29,6 +29,10 @@ export const color_switchs =  {
     bg_transparent: {default: "whiteAlpha.500", _dark: "blackAlpha.500"},
     bg_transparent_reverse: {default: "blackAlpha.300", _dark: "whiteAlpha.300"},
     bg_transparent_reverse_deep: {default: "rgba(180,180,180,0.7)", _dark: "rgba(155,155,155,0.7)"},
+    bg_transparent_reverse_light: {default: "rgba(170,170,170, 0.25)", _dark: "rgba(150,150,150, 0.25)"},
+    mock_glass_bg_switch: {default: "rgb(224,224,224)", _dark: "rgb(88,89,90)"},
+    bg_selection: {default:"rgba(146, 211, 255, 0.4)", _dark: "rgba(180, 201, 255, 0.4)"},
+    bg_marked: {default:"rgba(245,235,111,0.29)", _dark: "rgba(255, 141, 191, 0.49)"},
 
     text_normal: {default: "tipsy_light.400", _dark: "tipsy_dark.400",},
     text_reverse: {default: "tipsy_dark.400", _dark: "tipsy_light.400"},

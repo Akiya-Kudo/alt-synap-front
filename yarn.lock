@@ -879,6 +879,11 @@
   resolved "https://registry.npmjs.org/@codexteam/icons/-/icons-0.1.0.tgz"
   integrity sha512-jW1fWnwtWzcP4FBGsaodbJY3s1ZaRU+IJy1pvJ7ygNQxkQinybJcwXoyt0a5mWwu/4w30A42EWhCrZn8lp4fdw==
 
+"@codexteam/icons@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@codexteam/icons/-/icons-0.0.2.tgz#9183996a38b75a93506890373a015e3a2a369264"
+  integrity sha512-KdeKj3TwaTHqM3IXd5YjeJP39PBUZTb+dtHjGlf5+b0VgsxYD4qzsZkb11lzopZbAuDsHaZJmAYQ8LFligIT6Q==
+
 "@codexteam/icons@^0.0.4":
   version "0.0.4"
   resolved "https://registry.npmjs.org/@codexteam/icons/-/icons-0.0.4.tgz"
@@ -888,6 +893,30 @@
   version "0.0.5"
   resolved "https://registry.npmjs.org/@codexteam/icons/-/icons-0.0.5.tgz"
   integrity sha512-s6H2KXhLz2rgbMZSkRm8dsMJvyUNZsEjxobBEg9ztdrb1B2H3pEzY6iTwI4XUPJWJ3c3qRKwV4TrO3J5jUdoQA==
+
+"@codexteam/icons@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@codexteam/icons/-/icons-0.0.6.tgz#5553ada48dddf5940851ccc142cfe17835c36ad3"
+  integrity sha512-L7Q5PET8PjKcBT5wp7VR+FCjwCi5PUp7rd/XjsgQ0CI5FJz0DphyHGRILMuDUdCW2MQT9NHbVr4QP31vwAkS/A==
+
+"@codexteam/shortcuts@^1.1.1":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@codexteam/shortcuts/-/shortcuts-1.2.0.tgz#b8dd7396962b0bd845a5c8f8f19bc6119b520e19"
+  integrity sha512-Udb8lkwhXEiPoLm7krtUv2f8jYQTutHxsLecmsMvMbOxMJ49LA/EUUzn8Fo32mxOFrI7qozOovspLhHb+y60nQ==
+
+"@editorjs/code@^2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/code/-/code-2.8.0.tgz#d31fdd947b9c763daae2cd2eabdf8dc37c0c6f5a"
+  integrity sha512-qlv1OqSEPKnLv/ZQgNFmVgqsMbGDkh/qgTEnbVWsS+yujo1nlwgVkqCB8tOkQGVsrpmAYLiWRlA413nKxxCN5w==
+  dependencies:
+    "@codexteam/icons" "^0.0.5"
+
+"@editorjs/delimiter@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/delimiter/-/delimiter-1.3.0.tgz#abc4c5b1e512c09ec6cd0c57f41e36434fbd4da4"
+  integrity sha512-/qz+3yRSPmx6dJpBcwnDfgKtCjOrCsQRoDhXR+wLWirGOchOifhYwQ/6JZyTvcgmY84UEoYY29/dgdWOGVPEEQ==
+  dependencies:
+    "@codexteam/icons" "^0.0.5"
 
 "@editorjs/editorjs@^2.26.5":
   version "2.26.5"
@@ -900,10 +929,37 @@
     html-janitor "^2.0.4"
     nanoid "^3.1.22"
 
+"@editorjs/embed@^2.5.3":
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/@editorjs/embed/-/embed-2.5.3.tgz#83a9e2fa74f065ba90863b34e1dcc21389cb83da"
+  integrity sha512-+X0xX2tiwQjU/B2rPDv8DOwg0suiqrt2h/o9frjR308YuY1VTpqjLRF1lIV4TmelQyVr9cXkZruaa4Ty1wvfJg==
+
+"@editorjs/footnotes@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/footnotes/-/footnotes-1.1.0.tgz#c68e0df09d2d3c20a7f74e3a29013f805983a138"
+  integrity sha512-paNLmL7e/Sy8jrjoAe4PzDbFZAYPrzOR+B++JhGcBRIrD28Jqzludlp122D8noFHY74VyVXNuZUj5RBgzBMnTA==
+  dependencies:
+    "@codexteam/shortcuts" "^1.1.1"
+    nanoid "^3.1.25"
+
 "@editorjs/header@^2.7.0":
   version "2.7.0"
   resolved "https://registry.npmjs.org/@editorjs/header/-/header-2.7.0.tgz"
   integrity sha512-4fGKGe2ZYblVqR/P/iw5ieG00uXInFgNMftBMqJRYcB2hUPD30kuu7Sn6eJDcLXoKUMOeqi8Z2AlUxYAmvw7zQ==
+  dependencies:
+    "@codexteam/icons" "^0.0.5"
+
+"@editorjs/image@^2.8.1":
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.8.1.tgz#f78dd5ba52356d9fb2f61ff7498ea6c1510a80e4"
+  integrity sha512-4WscDAoi6OO0F6L7N1mkQymADwj8hHgH/ICk5wGRPdkesUZW1TgldX8XvSmy+f5VylsEi3F/gUggaZsrYxu2sA==
+  dependencies:
+    "@codexteam/icons" "^0.0.6"
+
+"@editorjs/inline-code@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/inline-code/-/inline-code-1.4.0.tgz#25e9728bc6c73b7af2a009689679b4950e744417"
+  integrity sha512-nJJx2eBgQyml7U8MdMdJNFY2RgZCOuvvXHEW73xsdu36ZXCd44eAo7vq1S5Jz9l8bC676SvNbRfeH/nojXK37A==
   dependencies:
     "@codexteam/icons" "^0.0.5"
 
@@ -922,10 +978,50 @@
   dependencies:
     "@codexteam/icons" "^0.0.4"
 
+"@editorjs/marker@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/marker/-/marker-1.3.0.tgz#425358a52aa6ff0133bdf0f063c958a02f00e1e3"
+  integrity sha512-RYWYDnFPjNBJgR7KIGjB9gPnUwGvn2aIoRevAm422Wx1mg5eT4gcvwc0T5V76pYPSoD2Z0T2GPkzl9d1hl398w==
+  dependencies:
+    "@codexteam/icons" "^0.0.5"
+
+"@editorjs/nested-list@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/nested-list/-/nested-list-1.3.0.tgz#07945544c8cdb06b6317fef229284475dafd8707"
+  integrity sha512-diRsa64YjR4Xnf5jbSxnRn9kfFc0ZOQBqp0dx3ZwHkm5wxN9D46KI7qXdIyOoUNzAFyK+/Q5c29PcoBJLOp01w==
+  dependencies:
+    "@codexteam/icons" "^0.0.2"
+
 "@editorjs/paragraph@^2.9.0":
   version "2.9.0"
   resolved "https://registry.npmjs.org/@editorjs/paragraph/-/paragraph-2.9.0.tgz"
   integrity sha512-lI6x1eiqFx2X3KmMak6gBlimFqXhG35fQpXMxzrjIphNLr4uPsXhVbyMPimPoLUnS9rM6Q00vptXmP2QNDd0zg==
+  dependencies:
+    "@codexteam/icons" "^0.0.4"
+
+"@editorjs/quote@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/quote/-/quote-2.5.0.tgz#a4a4e7513b8194db405825bb9b3ea02757a12a5a"
+  integrity sha512-24Mu8cESaj34a0kg1Enj7qiZ3yiCOsZI59+8xpfXLO/NkO7hBYWNForVcBy5yIWs/VLlEZK11FP37f/mHrKugQ==
+  dependencies:
+    "@codexteam/icons" "^0.0.5"
+
+"@editorjs/table@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/table/-/table-2.2.1.tgz#10302ec89bf7f2134b982de900013b0ae4b6a6aa"
+  integrity sha512-6RJKF0DfPh7YuBVPmT5mHXjjhil2IJ8ytZpw2hTHAuduqoRlu6OJbaGzH2NTCdg7cgD4H4BbX0RB9kcVxRtB2w==
+  dependencies:
+    "@codexteam/icons" "^0.0.6"
+
+"@editorjs/text-variant-tune@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/text-variant-tune/-/text-variant-tune-1.0.1.tgz#1fc90bbef473576ae8033d4f5ad597584dbdff4a"
+  integrity sha512-uVRbiMeJ14XjlP4cLqHxgQpdqbQnuQgUhlMQUFDLi7yanbEqWmb0gguZjmbdl6gnBYeUYRv9IbyOva3Iaif6ZQ==
+
+"@editorjs/warning@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/warning/-/warning-1.3.0.tgz#3dad5bd48bca878c2fbd6fcc8d46d72ed7324027"
+  integrity sha512-b03oXNTxeqLXEH8Sqtzy0OXY3+Bbx6jpl2UnfFw9bN4KxTgrx3sIf5YtkavZmhZRmOFRFYdrl7bHxvr6KstO9Q==
   dependencies:
     "@codexteam/icons" "^0.0.4"
 
@@ -4208,6 +4304,11 @@ nanoid@^3.1.22, nanoid@^3.3.4:
   version "3.3.4"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.4.tgz"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
+
+nanoid@^3.1.25:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
+  integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
 
 napi-build-utils@^1.0.1:
   version "1.0.2"

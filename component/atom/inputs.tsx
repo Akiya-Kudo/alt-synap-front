@@ -241,7 +241,8 @@ export const NeumFloatFormInput_password = ({
 
 export const GlassInputDefault =({
     //PHcolor: 制限拡張可 ： register hook用
-    bg="bg_transparent_reverse_deep", 
+    // bg="bg_transparent_reverse", 
+    bg="rgba(150,150,150, 0.25)", 
     border="0.5px solid",
     borderRadius="full", 
     borderColor="text_light",

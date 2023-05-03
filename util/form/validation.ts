@@ -61,7 +61,7 @@ export const Validation_word = (tags: Array<string>) => {
             minLength: { value: 2, message: "2文字以上で入力してください | Please make User Name more than 2 words" },
             validate: (value: string) => {
                 return (
-                    tags.includes(value) && "既に追加済みのタグは登録できません"
+                    !tags.includes(value) || "既に追加済みのタグは登録できません"
                 );
             },
         }

@@ -37,7 +37,6 @@ export const TopLinkInputPopover = ({
                 <Box 
                 className="tooltip_hover_trigger" position={"relative"} 
                 onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
-                zIndex={5}
                 >
                     <NeumIconButton
                     icon={icon} 

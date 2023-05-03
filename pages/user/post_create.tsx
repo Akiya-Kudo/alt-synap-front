@@ -64,6 +64,8 @@ const PostCreate: NextPage = () => {
       direction="column" 
       justify="center" 
       align="center"
+      my={2}
+
       >
         <ArticlePostForm 
         register={register} 
