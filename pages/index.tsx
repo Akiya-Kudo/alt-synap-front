@@ -72,7 +72,9 @@ const Index: NextPage  = () => {
         defaultValue='人気順' 
         m={"20px"}
         />
-        <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>hello</TabBord>
+        <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>
+          <h1>hello </h1>
+        </TabBord>
       </Box>
     </>
   )

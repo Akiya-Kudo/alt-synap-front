@@ -24,7 +24,7 @@ export const ArticlePostForm = ({
     register, errors, formState, 
     stateValue, setStateValue, 
 }:ArticlePostFormProps) => {
-    const handleTitle_onchange = (e:any) => setStateValue((preV)=>({...preV, title: e.target.value}))
+    const handleTitle = (e:any) => setStateValue((preV)=>({...preV, title: e.target.value}))
     const handleTopLink = (e:any) => setStateValue((preV)=>({...preV, top_link: e.target.value}))
     const handleTopImage = (e:any) => setStateValue((preV)=>({...preV, top_image: e.target.value}))
     const handleTagsAdd = (e:any) => {
@@ -56,20 +56,21 @@ export const ArticlePostForm = ({
                 isRequired
                 borderRadius="15px"
                 fontWeight={"bold"}
-                onChange={handleTitle_onchange}
+                onChange={handleTitle}
                 />
             </GridItem>
             <GridItem colSpan={1}/>
             <GridItem colSpan={1}>
                 <FlatBord
-                h={"65vh"}
+                minH={"65vh"} //editorの基準の高さ( 調整する場合は他のスタイルも同様に変更する必要あり )
                 w={"100%"}
+                maxWidth={"1100px"} //editorの基準の幅( 調整する場合は他のスタイルも同様に変更する必要あり )
                 >
                     <ArticleEditor
                     defaultValue={undefined}
                     onChange={(api:any, event:any) =>{}}
-                    onReady={() => console.log("ready")}
-                    onSave={() => console.log("saved")}
+                    onReady={() => console.log("editor ready")}
+                    onSave={() => console.log("editor saved")}
                     />
                 </FlatBord>
             </GridItem>

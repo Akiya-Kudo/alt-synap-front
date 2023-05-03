@@ -33,7 +33,7 @@ export const TagInputPopover = ({
     const handleKeyDown = (e:any) => {
         if (
             e.key === 'Enter' 
-            && !errors.input_tags.message
+            && !errors.input_tags?.message
             && !composing 
             && e.target.value!="" 
             && !value.includes(e.target.value)
@@ -54,7 +54,6 @@ export const TagInputPopover = ({
                 <Box 
                 className="tooltip_hover_trigger" position={"relative"} 
                 onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
-                zIndex={5}
                 >
                     <NeumIconButton
                     icon={icon} 

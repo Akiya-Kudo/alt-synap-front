@@ -1,5 +1,6 @@
 import { extendTheme } from "@chakra-ui/react"
 import { mode } from '@chakra-ui/theme-tools'
+import { editorjs_styles } from "./editorjs_style"
 import { color_switchs, tipsy_dark, tipsy_light } from "./color_theme"
 
 export const theme = extendTheme({
@@ -47,6 +48,24 @@ export const theme = extendTheme({
             '*': {
                 boxSizing: 'border-box',
             },
+            "a": {color: "text_light"},
+            "mark": {
+                bg: "bg_marked",
+                color: "text_normal"
+            },
+            "::selection": {
+                bg: "bg_selection",
+                color: "text_switch",
+            },
+
+            "h1, h2, h3, h4, h5, h6": {fontWeight: "bold",},
+            "h1": {fontSize: "3rem",},
+            "h2": {fontSize: "2.5rem"},
+            "h3": {fontSize: "2rem"},
+            "h4": {fontSize: "1.7rem"},
+            "h5": {fontSize: "1.2rem"},
+            "h6": {fontSize: "1rem"},
+            ...editorjs_styles,
         }),
     },
     // layerStyles: {
