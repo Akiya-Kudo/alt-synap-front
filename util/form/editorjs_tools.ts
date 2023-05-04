@@ -1,9 +1,10 @@
 import Header from "@editorjs/header";
-import List from "@editorjs/list";
 import Quote from "@editorjs/quote";
 import Delimiter from "@editorjs/delimiter";
 import Table from "@editorjs/table";
 import Marker from "@editorjs/marker";
+import List from "@editorjs/list";
+// import NestedList from '@editorjs/nested-list';
 // import Embed from "@editorjs/embed";
 // import LinkTool from "@editorjs/link";
 // import Link from "@editorjs/link";
@@ -35,6 +36,14 @@ export const EditorTools = {
         },
         shortcut: "CMD+SHIFT+L",
     },
+    // list: {
+    //     class: List,
+    //     inlineToolbar: true,
+    //     config: {
+    //         defaultStyle: 'unordered'
+    //     },
+    //     shortcut: "CMD+SHIFT+L",
+    // },
     quote: {
         class: Quote,
         inlineToolbar: true,
