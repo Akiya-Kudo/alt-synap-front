@@ -67,7 +67,22 @@ export const ArticlePostForm = ({
                 maxWidth={"1100px"} //editorの基準の幅( 調整する場合は他のスタイルも同様に変更する必要あり )
                 >
                     <ArticleEditor
-                    defaultValue={undefined}
+                    defaultValue={
+                        // {
+                        // time: 1552744582955,
+                        // blocks: [
+                        //     {
+                        //         "type" : "warning",
+                        //         "data" : {
+                        //             "title" : "Note:",
+                        //             "message" : "Avoid using this method just for lulz. It can be very dangerous opposite your daily fun stuff."
+                        //         }
+                        //     }
+                        // ],
+                        // version: "2.11.10"
+                        // }
+                        undefined
+                    }
                     onChange={(api:any, event:any) =>{}}
                     onReady={() => console.log("editor ready")}
                     onSave={() => console.log("editor saved")}

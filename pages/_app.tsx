@@ -9,6 +9,8 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import '../util/firebase/init'; //Initialize FirebaseApp
 
+// import '../style/atom/my-simple-image.css'
+
 //バックエンドのgraphqlスキーマの定義からIDを設定する
 const apollo_cache_option = {
   typePolicies: {
