@@ -6,7 +6,8 @@ import { EditorTools, i18n } from "../../util/form/editorjs_tools";
 // import { EditorTools, i18n } from "@constants/EditorTools";
 
 const ArticleEditor = ({
-    defaultValue,
+    value,
+    setValue,
     placeholder="文章を書きはじめる",
     readOnly=false,
     onReady,
@@ -20,12 +21,12 @@ const ArticleEditor = ({
         if (editorJS.current === null) {
             editorJS.current = new EditorJS({
                 placeholder,
-                readOnly: false,
+                readOnly,
                 holder: id,
-                data: defaultValue,
+                data: value,
                 onChange(api: API, event: CustomEvent) {
                     editorJS.current?.save().then((res) => {
-                        setCurrentArticle(res);
+                        setValue(res);
                         onSave(res);
                     });
                     onChange(api, event);

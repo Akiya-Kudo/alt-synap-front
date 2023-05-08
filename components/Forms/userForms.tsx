@@ -78,10 +78,15 @@ export function ThumbnailInput ({image, setImage, setImageFile, register, setIma
       const file = e.target.files[0];
       setImageFile(file)
       const photo = window.URL.createObjectURL(file)
+      console.log("image");
+      console.log(image);
+      console.log("photo");
+      console.log(photo);
       setImage(photo)
       setImageChanged(true)
     }
   }
+  
 
   return (
     <FormControl

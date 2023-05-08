@@ -15,7 +15,7 @@ const PostCreate: NextPage = () => {
 
   //投稿stateの管理
   const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
-  const [currentArticlePost, setCurrentArticlePost] = useState<ArticlePostData>({
+  const [currentPost, setCurrentPost] = useState<ArticlePostData>({
     uid: undefined,
     title: "",
     top_image: "",
@@ -23,13 +23,17 @@ const PostCreate: NextPage = () => {
     content_type: undefined,
     publish: false,
     deleted: false,
-    content: undefined,
+    content: {
+      blocks:[],
+      time: undefined,
+      version: "2.26.5",
+    },
     tags: [],
   })
-  const handleClick_publish = () => setCurrentArticlePost((preV)=>({...preV, publish: !preV.publish}))
+  const handleClick_publish = () => setCurrentPost((preV)=>({...preV, publish: !preV.publish}))
   const handleClick_save = async (e:any) => {
     console.log("apiをたったきます!")
-    console.log(currentArticlePost)
+    console.log(currentPost)
   }
   return (
     <>
@@ -44,7 +48,7 @@ const PostCreate: NextPage = () => {
           公開する
         </GlassSwitchButton>
         <GlassButton
-        disabled={!(!formState.errors.input_article_title && currentArticlePost.title && currentArticlePost.title.length!=0 && !formState.errors.input_top_link)}
+        disabled={!(!formState.errors.input_article_title && currentPost.title && currentPost.title.length!=0 && !formState.errors.input_top_link)}
         onClick={handleClick_save}
         _hover={{
           bgGradient: "linear(to-bl, tipsy_color_1, tipsy_color_2)",
@@ -55,7 +59,7 @@ const PostCreate: NextPage = () => {
         variant="outline"
         color={"tipsy_color_2"}
         >
-          { currentArticlePost.publish ? "変更を保存" : "下書き保存" }
+          { currentPost.publish ? "変更を保存" : "下書き保存" }
         </GlassButton>
       </PostHeader>
 
@@ -71,8 +75,8 @@ const PostCreate: NextPage = () => {
         register={register} 
         errors={errors} 
         formState={formState}
-        stateValue={currentArticlePost}
-        setStateValue={setCurrentArticlePost}
+        stateValue={currentPost}
+        setStateValue={setCurrentPost}
         />
         {/* <PostPage/> */}
       </Flex>
