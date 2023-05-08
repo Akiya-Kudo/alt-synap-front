@@ -20,7 +20,7 @@ const ArticleEditor = ({
         if (editorJS.current === null) {
             editorJS.current = new EditorJS({
                 placeholder,
-                readOnly,
+                readOnly: false,
                 holder: id,
                 data: defaultValue,
                 onChange(api: API, event: CustomEvent) {

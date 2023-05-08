@@ -33,6 +33,7 @@ export const color_switchs =  {
     mock_glass_bg_switch: {default: "rgb(224,224,224)", _dark: "rgb(88,89,90)"},
     bg_selection: {default:"rgba(146, 211, 255, 0.4)", _dark: "rgba(180, 201, 255, 0.4)"},
     bg_marked: {default:"rgba(245,235,111,0.29)", _dark: "rgba(255, 141, 191, 0.49)"},
+    bg_editorjs_menu_hover: {default:"rgba(255,255,255,0.49)", _dark: "rgba(132,132,135,0.49)"},
 
     text_normal: {default: "tipsy_light.400", _dark: "tipsy_dark.400",},
     text_reverse: {default: "tipsy_dark.400", _dark: "tipsy_light.400"},

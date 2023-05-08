@@ -2,8 +2,12 @@ import Header from "@editorjs/header";
 import Quote from "@editorjs/quote";
 import Delimiter from "@editorjs/delimiter";
 import Table from "@editorjs/table";
-import Marker from "@editorjs/marker";
 import List from "@editorjs/list";
+import Code from "@editorjs/code";
+import Warning from "@editorjs/warning"
+import inlineCode from "@editorjs/inline-code"
+import Marker from '@editorjs/marker'
+// import { SimpleImage } from "./my-simple-image/my-simple-image.jsx"
 // import NestedList from '@editorjs/nested-list';
 // import Embed from "@editorjs/embed";
 // import LinkTool from "@editorjs/link";
@@ -36,14 +40,6 @@ export const EditorTools = {
         },
         shortcut: "CMD+SHIFT+L",
     },
-    // list: {
-    //     class: List,
-    //     inlineToolbar: true,
-    //     config: {
-    //         defaultStyle: 'unordered'
-    //     },
-    //     shortcut: "CMD+SHIFT+L",
-    // },
     quote: {
         class: Quote,
         inlineToolbar: true,
@@ -66,10 +62,32 @@ export const EditorTools = {
             cols: 3,
         },
     },
+    code: {
+        class: Code,
+        placeholder: "code",
+        shortcut: "CMD+SHIFT+U"
+    },
+    warning: {
+        class: Warning,
+        inlineToolbar: true,
+        shortcut: 'CMD+SHIFT+W',
+        config: {
+            titlePlaceholder: '注釈タイトル',
+            messagePlaceholder: '説明',
+        },
+
+    },
+    inlineCode: {
+        class: inlineCode,
+        shortcut: 'CMD+U',
+    },
     marker: {
         class: Marker,
-        shortcut: "CMD+SHIFT+M",
+        shortcut: "CMD+M",
     },
+    // image: {
+    //     class: SimpleImage,
+    // }
 //   linkTool: {
 //     class: LinkTool,
 //     config: {
@@ -139,6 +157,9 @@ export const i18n = {
             Quote: "引用",
             Delimiter: "区切り",
             Table: "テーブル",
+            Code: "コード",
+            Warning: "注釈",
+            InlineCode: "インライン・コード",
             Italic: "斜体",
             Bold: "太字",
             Marker: "マーカー",
