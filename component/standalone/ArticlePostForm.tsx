@@ -24,6 +24,9 @@ export const ArticlePostForm = ({
     register, errors, formState, 
     stateValue, setStateValue, 
 }:ArticlePostFormProps) => {
+    const handleContent = (e:any) => {setStateValue((preV)=>({...preV, content:e}))
+    
+    }
     const handleTitle = (e:any) => setStateValue((preV)=>({...preV, title: e.target.value}))
     const handleTopLink = (e:any) => setStateValue((preV)=>({...preV, top_link: e.target.value}))
     const handleTopImage = (e:any) => setStateValue((preV)=>({...preV, top_image: e.target.value}))
@@ -41,7 +44,6 @@ export const ArticlePostForm = ({
     return (
         <>
         <Grid
-        // gridTemplateRows={'90px 1fr'} //105pxはinputのheight + margin
         gridTemplateColumns={'1fr 50px'}
         w="90%" h="100%" maxWidth="1100px" ms={"70px"}
         gap={4}
@@ -67,22 +69,8 @@ export const ArticlePostForm = ({
                 maxWidth={"1100px"} //editorの基準の幅( 調整する場合は他のスタイルも同様に変更する必要あり )
                 >
                     <ArticleEditor
-                    defaultValue={
-                        // {
-                        // time: 1552744582955,
-                        // blocks: [
-                        //     {
-                        //         "type" : "warning",
-                        //         "data" : {
-                        //             "title" : "Note:",
-                        //             "message" : "Avoid using this method just for lulz. It can be very dangerous opposite your daily fun stuff."
-                        //         }
-                        //     }
-                        // ],
-                        // version: "2.11.10"
-                        // }
-                        undefined
-                    }
+                    setValue={handleContent} value={stateValue.content}
+                        // { time: 1552744582955,blocks: [{"type" : "warning","data" : {"title" : "Note:","message" : "Avoid using this method just for lulz. It can be very dangerous opposite your daily fun stuff."}}], version: "2.11.10"}
                     onChange={(api:any, event:any) =>{}}
                     onReady={() => console.log("editor ready")}
                     onSave={() => console.log("editor saved")}

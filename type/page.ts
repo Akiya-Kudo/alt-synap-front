@@ -15,5 +15,5 @@ export interface PostData {
 }
 
 export interface ArticlePostData extends PostData{
-    content?: OutputData | string | {},
+    content: OutputData,
 }

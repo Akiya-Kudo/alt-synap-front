@@ -141,7 +141,8 @@ export interface GlassTagProps extends BoxProps{
 
 //エディター
 export interface ArticleEditorProps {
-    defaultValue?: OutputData;
+    value: OutputData,
+    setValue: (e:any) => void,
     placeholder?: string;
     readOnly?: boolean;
     onReady: () => void;
