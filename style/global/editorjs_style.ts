@@ -140,15 +140,31 @@ export const editorjs_styles = {
     ".ce-toolbar__actions": {},
     ".ce-toolbar__plus": {
         color: "text_light",
+        "@media screen and (max-width: 650px)": {
+            bg: "bg_editorjs_button",
+            color: "text_normal",
+            border: "0px",
+        }
     },
     ".ce-toolbar__plus:hover": {
-        bg: "bg_transparent_reverse_light"
+        bg: "bg_transparent_reverse_light",
+        "@media screen and (max-width: 650px)": {
+            bg: "mock_glass_bg_switch",
+        }
     },
     ".ce-toolbar__settings-btn": {
-        color: "text_light"
+        color: "text_light",
+        "@media screen and (max-width: 650px)": {
+            bg: "bg_editorjs_button",
+            color: "text_normal",
+            border: "0px",
+        }
     },
     ".ce-toolbar__settings-btn:hover": {
-        bg: "bg_transparent_reverse_light"
+        bg: "bg_transparent_reverse_light",
+        "@media screen and (max-width: 650px)": {
+            bg: "mock_glass_bg_switch",
+        }
     },
     //toolbar popover
     ".ce-popover": {
