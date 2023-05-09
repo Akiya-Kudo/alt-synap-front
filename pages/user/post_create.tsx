@@ -1,26 +1,29 @@
 import { Box, Center, Flex, Heading, IconButton, Progress, Text } from '@chakra-ui/react'
 import { NextPage } from 'next'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import { PostHeader } from '../../component/layout/Header'
 import { GlassButton, GlassSwitchButton } from '../../component/atom/buttons'
 import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
 import { ArticlePostData } from '../../type/page'
 import { useForm } from 'react-hook-form'
+import { AuthContext, UserInfoContext } from '../../util/hook/authContext'
 
 const PostCreate: NextPage = () => {
   // ログアウト時のリダイレクト処理
   // const { userState } = useContext(AuthContext);
   const router = useRouter()
 
+  const { userInfo } = useContext(UserInfoContext);
+
   //投稿stateの管理
   const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
   const [currentPost, setCurrentPost] = useState<ArticlePostData>({
-    uid: undefined,
+    uid: userInfo?.firebase_id,
     title: "",
     top_image: "",
     top_link: "",
-    content_type: undefined,
+    content_type: 0,
     publish: false,
     deleted: false,
     content: {
@@ -35,6 +38,7 @@ const PostCreate: NextPage = () => {
     console.log("apiをたったきます!")
     console.log(currentPost)
   }
+  useEffect(()=>{ setCurrentPost((preV)=>({...preV, uid: userInfo?.firebase_id})) },[userInfo])
   return (
     <>
       <PostHeader title={"文章で記録"}>
