@@ -1,10 +1,10 @@
 import { OutputData } from "@editorjs/editorjs";
-export interface PostData {
+export interface EditingPostType {
     pid?: number,
     pid_uuid?: string,
     uid?: string,
     title?: string,
-    top_image?: string,
+    top_image_file?: any,
     top_link?: string,
     content_type?: number,
     likes_num?: number,
@@ -14,6 +14,6 @@ export interface PostData {
     tags: Array<string>,
 }
 
-export interface ArticlePostData extends PostData{
+export interface ArticlePostData extends EditingPostType{
     content: OutputData,
 }

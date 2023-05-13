@@ -94,7 +94,7 @@ export const TopImageInputPopover = ({
                             </Text>
                             <PostImageInput
                             id={id}
-                            setImageFile={ setImageFile } 
+                            setImageFile={ setImageFile }
                             image={ image } 
                             setImage={ setImage } 
                             register={ register } 
