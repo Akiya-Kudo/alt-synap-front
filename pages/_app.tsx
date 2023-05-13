@@ -8,6 +8,7 @@ import { theme } from '../style/global/theme';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import '../util/firebase/init'; //Initialize FirebaseApp
+import { useEffect } from 'react';
 
 // import '../style/atom/my-simple-image.css'
 
@@ -27,7 +28,6 @@ const client = new ApolloClient({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
-
   return (
     <ChakraProvider
     theme={theme}

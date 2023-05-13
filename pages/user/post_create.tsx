@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Heading, IconButton, Progress, Text } from '@chakra-ui/react'
+import { Box, Center, Flex, Heading, IconButton, Progress, Text, Toast, useToast } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -8,6 +8,8 @@ import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
 import { ArticlePostData } from '../../type/page'
 import { useForm } from 'react-hook-form'
 import { AuthContext, UserInfoContext } from '../../util/hook/authContext'
+import { usePostCreate } from '../../util/hook/usePost'
+import {v4 as uuid_v4} from 'uuid'
 
 const PostCreate: NextPage = () => {
   // ログアウト時のリダイレクト処理
@@ -15,13 +17,16 @@ const PostCreate: NextPage = () => {
   const router = useRouter()
 
   const { userInfo } = useContext(UserInfoContext);
+  const { createArticlePost } = usePostCreate();
+  const toast = useToast()
 
   //投稿stateの管理
   const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
   const [currentPost, setCurrentPost] = useState<ArticlePostData>({
     uid: userInfo?.firebase_id,
+    pid_uuid: uuid_v4(),
     title: "",
-    top_image: "",
+    top_image_file: undefined,
     top_link: "",
     content_type: 0,
     publish: false,
@@ -35,8 +40,19 @@ const PostCreate: NextPage = () => {
   })
   const handleClick_publish = () => setCurrentPost((preV)=>({...preV, publish: !preV.publish}))
   const handleClick_save = async (e:any) => {
-    console.log("apiをたったきます!")
-    console.log(currentPost)
+    createArticlePost(currentPost).catch((error) => {
+      toast({
+        position: "bottom-right",
+        render: () => (
+          <Box fontSize={"0.8rem"}>
+            <Toast title="ERROR : 保存に失敗しました" description={"ネットワーク環境や投稿の内容を確認してください"} status='error'
+            variant={"subtle"} duration={5000} isClosable />
+          </Box>
+        ),
+      })
+    })
+    console.log(currentPost);
+    
   }
   useEffect(()=>{ setCurrentPost((preV)=>({...preV, uid: userInfo?.firebase_id})) },[userInfo])
   return (

@@ -1,11 +1,11 @@
-import { Box, Button, IconButton, Text } from "@chakra-ui/react"
+import { Box, Button, IconButton, Tag, TagCloseButton, TagLabel, Text } from "@chakra-ui/react"
 import { useState } from "react"
 import { IoMdClose } from "react-icons/io"
 import { GlassTagProps } from "../../type/atom"
 
 export const GlassTag_edit = ({
-    children, id, onClick,
-    bg="transparent", Tcolor="orange_switch", borderRadius="full", border="1.5px solid", fontSize=".7rem",
+    children, id, onClick, size="md", variant="subtle", colorScheme="orange",
+    borderRadius="full", border="1.5px solid", fontSize=".7rem",
     display="inline-flex", flexDirection="row", justifyContent="center", alignItems="center",
     m=1,
     ...props
@@ -14,20 +14,21 @@ export const GlassTag_edit = ({
         onClick(parseInt(id))
     }
     return (
-        <Box
+        <Tag
         {...props}
-        id={id} 
-        border={border} borderRadius={borderRadius} borderColor={Tcolor} bg={bg} color={Tcolor} fontSize={fontSize}
-        m={m} h={6} w={"fit-content"} px={2}
+        id={id}
+        size={size}
+        key={id}
+        variant={variant}
+        colorScheme={colorScheme}
+        m={m} 
+        border={border} borderRadius={borderRadius} fontSize={fontSize}
         display={display} flexDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
         >
-            {children}
-            <IconButton 
+            <TagLabel>{children}</TagLabel>
+            <TagCloseButton 
             onClick={handleDeleteClick}
-            icon={<IoMdClose/>} aria-label="delete-icon" 
-            borderRadius="full" bg={"transparent"} border="1.5px solid" borderColor={"text_light"} color={"text_light"}
-            h={4} w={4} ms={2} minW={0}
             />
-        </Box>
+        </Tag>
     )
 }

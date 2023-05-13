@@ -29,7 +29,7 @@ export const ArticlePostForm = ({
     }
     const handleTitle = (e:any) => setStateValue((preV)=>({...preV, title: e.target.value}))
     const handleTopLink = (e:any) => setStateValue((preV)=>({...preV, top_link: e.target.value}))
-    const handleTopImage = (e:any) => setStateValue((preV)=>({...preV, top_image: e.target.value}))
+    const handleTopImage = (e:any) => setStateValue((preV)=>({...preV, top_image_file: e.target.files[0]}))
     const handleTagsAdd = (e:any) => {
         const newTag = e.target.value;
         const tags = [...stateValue.tags, newTag]
@@ -85,7 +85,7 @@ export const ArticlePostForm = ({
                     errors={errors} register={register} formState={formState}
                     />
                     <TopImageInputPopover
-                    id="input_top_image" title="サムネイル" icon={<FaImage/>} setValue={handleTopImage} value={stateValue.top_image}
+                    id="input_top_image" title="サムネイル" icon={<FaImage/>} setValue={handleTopImage} value={stateValue.top_image_file}
                     tooltipContent={<Text fontSize={".6.5rem"} pb={2}>投稿のトップに画像を追加できます。投稿の内容に沿った画像を表示することで、わかりやすい投稿になります。</Text>}
                     errors={errors} register={register} formState={formState}
                     />

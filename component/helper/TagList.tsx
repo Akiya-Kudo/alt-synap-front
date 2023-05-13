@@ -23,15 +23,19 @@ export const TagList = ({
         flexWrap={flexWrap}
         justify="center"
         >
-            {tags.map((name, index)=> (
-                <GlassTag_edit 
-                key={index} id={index.toString()}
-                Tcolor={colorList[index]} 
-                onClick={handleClick_delete}
-                >
-                    {name}
-                </GlassTag_edit>
-            ))}
+            {tags.map((name, index)=> {
+                let color_theme = colorList[index].split("_")[0]
+                return (
+                    <GlassTag_edit 
+                    key={index} id={index.toString()}
+                    border="none"
+                    colorScheme={color_theme}
+                    onClick={handleClick_delete}
+                    >
+                        {name}
+                    </GlassTag_edit>
+                )
+            })}
         </Flex>
     )
 }

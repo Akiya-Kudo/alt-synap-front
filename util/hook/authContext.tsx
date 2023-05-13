@@ -6,6 +6,7 @@ import { User, UserStateType } from "../../type/user";
 import { useUserInfoQuery } from "./useQuery";
 import { useUserRegister } from "./useMutation";
 import { FaCommentDollar } from "react-icons/fa";
+import { Box, Toast, useToast } from "@chakra-ui/react";
 
 // require('dotenv').config({ path: '.env.development' });
 
@@ -20,9 +21,35 @@ export const setUserInfoContext = createContext({} as {setUserInfo : React.Dispa
 
 
 export const AuthProvider = (props: any) => {
-    const { children } = props;
-
     console.log("auth Contextが呼び出されました")
+
+    //ネットワーク監視処理(トースト表示)
+    const toast = useToast()
+    const [isOnline, setIsOnline] = useState<boolean>(true)
+    useEffect(() => {
+        setIsOnline(navigator.onLine)
+        window.addEventListener('offline', ()=>setIsOnline(false));
+        window.addEventListener('online', ()=>setIsOnline(true));
+        // cleanup if we unmount
+        return () => {
+        window.removeEventListener('offline', ()=>setIsOnline(false));
+        window.removeEventListener('online', ()=>setIsOnline(true));
+        }
+    }, []);
+    useEffect(()=>{
+        !isOnline && toast({
+            position: "bottom-left",
+            duration:null,
+            render: () => (
+                <Box fontSize={"0.8rem"}>
+                    <Toast title="ネットワークが接続されていません" status='error' variant={"subtle"} />
+                </Box>
+            ),
+        })
+    isOnline && toast.closeAll()
+    },[isOnline])
+
+
 
     const { userRegister } = useUserRegister();
 
@@ -113,7 +140,7 @@ export const AuthProvider = (props: any) => {
             <setAuthContext.Provider value={{setUserState}}>
                 <UserInfoContext.Provider value={{userInfo}}>
                     <setUserInfoContext.Provider value={{setUserInfo}}>
-                        {children}
+                        {props.children}
                     </setUserInfoContext.Provider>    
                 </UserInfoContext.Provider>
             </setAuthContext.Provider>
