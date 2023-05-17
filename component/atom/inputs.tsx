@@ -593,7 +593,7 @@ export const PostImageInput = ({
         setImage(photo)
         } else {
             setImage("")
-            setImageFile(undefined)
+            setImageFile(null)
         }
     }
     const {border_switch} = useFormColorMode()

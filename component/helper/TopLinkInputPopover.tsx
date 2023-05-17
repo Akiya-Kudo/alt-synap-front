@@ -97,7 +97,7 @@ export const TopLinkInputPopover = ({
                             id={id}
                             validation={Validation_url}
                             errors={errors} register={register} 
-                            onChange={handleChange} defaultValue={value}
+                            onChange={handleChange} defaultValue={value!=null ? value : undefined}
 
                             h="35px" w={"300px"} fontSize={"0.8rem"}
                             placeholder={"https://"} PHcolor={"text_light"} focusBorderColor={"border_light_switch"}
