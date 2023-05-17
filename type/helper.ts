@@ -39,7 +39,7 @@ export interface PostPopoverProps extends PopoverProps {
     errors?: any,
     formState?: any,
     setValue: (e:any) => void,
-    value?: string | Array<string>,
+    value?: null | string | Array<string>,
     id: string,
     title: string,
     icon?: React.ReactElement<any, string | React.JSXElementConstructor<any>>,

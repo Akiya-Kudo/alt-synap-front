@@ -1,4 +1,4 @@
-import { getRedirectResult, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { getRedirectResult, GoogleAuthProvider, onAuthStateChanged, updateProfile } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/init";
 

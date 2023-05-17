@@ -32,11 +32,11 @@ export const ArticlePostForm = ({
     const handleTopImage = (e:any) => setStateValue((preV)=>({...preV, top_image_file: e.target.files[0]}))
     const handleTagsAdd = (e:any) => {
         const newTag = e.target.value;
-        const tags = [...stateValue.tags, newTag]
+        const tags = [...stateValue.tag_names, newTag]
         setStateValue((preV)=>({...preV, tags: tags}))
     }
     const handleTagDelete = (id:number) => {
-        const Array = stateValue.tags
+        const Array = stateValue.tag_names
         const newArray = [...Array]
         newArray.splice(id,1)
         setStateValue((preV)=>({...preV, tags: newArray}))
@@ -90,7 +90,7 @@ export const ArticlePostForm = ({
                     errors={errors} register={register} formState={formState}
                     />
                     <TagInputPopover 
-                    id="input_tags" title="タグ" icon={<FaTags/>} setValue={handleTagsAdd} value={stateValue.tags} onDeleteClick={handleTagDelete}
+                    id="input_tags" title="タグ" icon={<FaTags/>} setValue={handleTagsAdd} value={stateValue.tag_names} onDeleteClick={handleTagDelete}
                     tooltipContent={<Box fontSize={".6.5rem"} pb={2}>投稿にタグを最大で５つまで指定することができます。関連する名前のタグを追加すると検索で探しやすくなります。</Box>}
                     errors={errors} register={register} formState={formState}
                     />

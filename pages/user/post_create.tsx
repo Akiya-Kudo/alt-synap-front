@@ -8,7 +8,7 @@ import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
 import { ArticlePostData } from '../../type/page'
 import { useForm } from 'react-hook-form'
 import { AuthContext, UserInfoContext } from '../../util/hook/authContext'
-import { usePostCreate } from '../../util/hook/usePost'
+import { usePost } from '../../util/hook/usePost'
 import {v4 as uuid_v4} from 'uuid'
 
 const PostCreate: NextPage = () => {
@@ -17,7 +17,7 @@ const PostCreate: NextPage = () => {
   const router = useRouter()
 
   const { userInfo } = useContext(UserInfoContext);
-  const { createArticlePost } = usePostCreate();
+  const { upsertArticlePost } = usePost();
   const toast = useToast()
 
   //投稿stateの管理
@@ -26,9 +26,9 @@ const PostCreate: NextPage = () => {
     uid: userInfo?.firebase_id,
     pid_uuid: uuid_v4(),
     title: "",
-    top_image_file: undefined,
+    top_image_file: null,
     top_link: "",
-    content_type: 0,
+    content_type: 1,
     publish: false,
     deleted: false,
     content: {
@@ -36,11 +36,25 @@ const PostCreate: NextPage = () => {
       time: undefined,
       version: "2.26.5",
     },
-    tags: [],
+    tag_names: [],
   })
   const handleClick_publish = () => setCurrentPost((preV)=>({...preV, publish: !preV.publish}))
   const handleClick_save = async (e:any) => {
-    createArticlePost(currentPost).catch((error) => {
+    upsertArticlePost(currentPost)
+    .then((data)=>{
+      console.log(data);
+      toast({
+        position: "bottom-right",
+        render: () => (
+          <Box fontSize={"0.8rem"}>
+            <Toast title="投稿を正常に保存しました" status="success" 
+            variant={"subtle"} duration={5000} isClosable />
+          </Box>
+        ),
+      })
+    })
+    .catch((error) => {
+      console.log(error);
       toast({
         position: "bottom-right",
         render: () => (
@@ -50,11 +64,10 @@ const PostCreate: NextPage = () => {
           </Box>
         ),
       })
+      console.log(currentPost);
     })
-    console.log(currentPost);
-    
   }
-  useEffect(()=>{ setCurrentPost((preV)=>({...preV, uid: userInfo?.firebase_id})) },[userInfo])
+
   return (
     <>
       <PostHeader title={"文章で記録"}>

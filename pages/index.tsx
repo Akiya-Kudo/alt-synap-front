@@ -6,7 +6,7 @@ import { background, Box, Button, Heading, Input, Text } from '@chakra-ui/react'
 import { useApolloClient, useMutation } from '@apollo/client';
 
 import { USER_QUERY } from '../util/graphql/queries/users.query.schema';
-import { USER_INFO_MUTATION } from '../util/graphql/mutation/users.mutation.schema';
+import { USER_INFO_MUTATION } from '../util/graphql/mutation/users.mutation.scheme';
 
 import { TabBord } from '../component/atom/bords';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
