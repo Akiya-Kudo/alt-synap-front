@@ -57,7 +57,7 @@ export interface TagPopoverProps extends PostPopoverProps {
 }
 
 export interface TagListProps extends FlexProps {
-    tags: Array<string>,
+    tag_names: Array<string>,
     colors?: Array<string>,
     onDeleteClick: (e:any) => void
 }

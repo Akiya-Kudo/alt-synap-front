@@ -64,7 +64,7 @@ export const TagInputPopover = ({
                     />
                     <Collapse in={T_isOpen}>
                         <Box
-                        className="tooltip_top_link"
+                        className="tooltip_tags"
                         position={"absolute"} top={-50} right={70}
                         minW={"350px"} p={"20px 30px"} 
                         fontSize={".7rem"}
@@ -115,7 +115,7 @@ export const TagInputPopover = ({
                             />
                         </Box>
                         <TagList 
-                        tags={value}
+                        tag_names={value}
                         colors={[
                             "red_switch","orange_switch","green_switch","teal_switch",
                             "blue_switch","cyan_switch","purple_switch","pink_switch"

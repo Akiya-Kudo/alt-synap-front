@@ -49,7 +49,7 @@ export const TopImageInputPopover = ({
                     />
                     <Collapse in={T_isOpen}>
                         <Box
-                        className="tooltip_top_link"
+                        className="tooltip_top_image"
                         position={"absolute"} top={-50} right={70}
                         minW={"350px"} p={"20px 30px"} 
                         fontSize={".7rem"}
@@ -98,7 +98,7 @@ export const TopImageInputPopover = ({
                             image={ image } 
                             setImage={ setImage } 
                             register={ register } 
-                            onChange={handleChange} defaultValue={value}
+                            onChange={handleChange} defaultValue={value==null ? undefined : value}
                             />
                         </Box>
                     </Center>

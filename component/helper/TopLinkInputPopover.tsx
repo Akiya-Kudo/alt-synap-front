@@ -41,8 +41,8 @@ export const TopLinkInputPopover = ({
                     <NeumIconButton
                     icon={icon} 
                     aria-label="link_popover_trigger"
-                    neumH={value!="" ? "shallow" : "tall"}
-                    color={value!="" ? !errors[id] ? "tipsy_color_2": "red_switch" : undefined}
+                    neumH={value!="" && value!=null ? "shallow" : "tall"}
+                    color={value!="" && value!=null ? !errors[id] ? "tipsy_color_2": "red_switch" : undefined}
                     onClick={onToggle}
                     />
                     <Collapse in={T_isOpen} >

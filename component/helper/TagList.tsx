@@ -5,7 +5,7 @@ import { useColorRandomPick } from "../../util/hook/useColor"
 import { GlassTag_edit } from "../atom/tags"
 
 export const TagList = ({
-    tags,
+    tag_names,
     colors,
     flexWrap="wrap",
     onDeleteClick,
@@ -23,7 +23,7 @@ export const TagList = ({
         flexWrap={flexWrap}
         justify="center"
         >
-            {tags.map((name, index)=> {
+            {tag_names.map((name, index)=> {
                 let color_theme = colorList[index].split("_")[0]
                 return (
                     <GlassTag_edit 
