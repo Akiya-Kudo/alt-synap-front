@@ -32,14 +32,14 @@ export const ArticlePostForm = ({
     const handleTopImage = (e:any) => setStateValue((preV)=>({...preV, top_image_file: e.target.files[0]}))
     const handleTagsAdd = (e:any) => {
         const newTag = e.target.value;
-        const tags = [...stateValue.tag_names, newTag]
-        setStateValue((preV)=>({...preV, tags: tags}))
+        const tag_names = [...stateValue.tag_names, newTag]
+        setStateValue((preV)=>({...preV, tag_names: tag_names}))
     }
     const handleTagDelete = (id:number) => {
         const Array = stateValue.tag_names
         const newArray = [...Array]
         newArray.splice(id,1)
-        setStateValue((preV)=>({...preV, tags: newArray}))
+        setStateValue((preV)=>({...preV, tag_names: newArray}))
     }
     return (
         <>
