@@ -1,12 +1,11 @@
 import { useContext } from "react"
 import Link from "next/link"
-import { AuthContext, UserInfoContext } from "../../util/hook/authContext"
+import { AuthContext } from "../../util/hook/authContext"
 
 import { auth } from "../../util/firebase/init"
 import { Avatar, Box, Button, Flex, Heading, SimpleGrid, Wrap, WrapItem } from "@chakra-ui/react"
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons"
 
-import { Header } from "../../components/layouts/Header/Header"
 import { ColorModeButton, GlassButton, GlassIconButton } from "../atom/buttons"
 import { BasicHeaderStyleContainer } from "../atom/containers"
 import { GlassInput_search } from "../atom/inputs"
@@ -17,15 +16,16 @@ import { useForm } from "react-hook-form"
 import { PostHeaderProps } from "../../type/layout"
 import { useRouter } from "next/router"
 import { GlassSwitch } from "../atom/switchs"
+import { useLoading } from "../../util/hook/useAuth"
 
 export const BasicHeader = () => {
 
     const { userState } = useContext(AuthContext);
-    const { userInfo } = useContext(UserInfoContext);
-    const photo_path = userInfo?.photo_url ? userInfo.photo_url : auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
-    const user_name = userInfo?.user_name ? userInfo.user_name : auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
+    const photo_path = auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
+    const user_name = auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
     return (
         <BasicHeaderStyleContainer>
+            {userState=="loading" && useLoading()}
             <Flex
             alignItems='center' 
             gap={5}
@@ -62,9 +62,6 @@ export const BasicHeader = () => {
                         <LoginModal/>
                     </>
                 }
-                {/* { userState == 'loading' &&   
-                    <><Loading message="User Info Loading"/></>
-                } */}
             </Flex>
         </BasicHeaderStyleContainer>
     )
@@ -74,8 +71,10 @@ export const PostHeader = ({
     children, title
 }: PostHeaderProps) => {
     const router = useRouter()
+    const { userState } = useContext(AuthContext);
     return (
         <BasicHeaderStyleContainer>
+            {userState=="loading" && useLoading()}
             <Flex
             alignItems='center' 
             gap={5}

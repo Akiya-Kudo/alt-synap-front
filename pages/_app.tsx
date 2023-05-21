@@ -15,8 +15,8 @@ import { useEffect } from 'react';
 //バックエンドのgraphqlスキーマの定義からIDを設定する
 const apollo_cache_option = {
   typePolicies: {
-    UserModel: {
-      keyFields: ["firebase_id"],
+    User: {
+      keyFields: ["uid"],
     }
   }
 }

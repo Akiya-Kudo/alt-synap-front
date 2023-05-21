@@ -2,11 +2,10 @@ import { gql } from '@apollo/client';
 // import { User} from '../../../type/user'
 
 export const USER_QUERY = gql`
-    query ($userId: String!){
-        user(firebase_id: $userId) {
-            firebase_id
-            user_name
-            photo_url
+    query($uid: String!) {
+        user(uid: $uid) {
+            uid
+            uuid_uid
             comment
             followee_num
             follower_num
@@ -15,12 +14,3 @@ export const USER_QUERY = gql`
     }
 `;
 
-export const USERS_ALL_QUERY = gql`
-    query {
-        users_all {
-            firebase_id
-            user_name
-            photo_url
-            comment
-        }
-    }`
