@@ -21,7 +21,7 @@ export const BasicHeaderStyleContainer = ({children}: GlassContainerProps) => {
                 width: "100%",
                 height: "100%",
                 backdropFilter: "blur(7px)",
-                "-webkit-backdrop-filter": "blur(7px)",
+                WebkitBackdropFilter: "blur(7px)",
                 top: 0,
                 left:0,
                 zIndex: -10,

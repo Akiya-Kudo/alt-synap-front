@@ -14,7 +14,6 @@ export const LoginForm = () => {
     const { register, formState: { errors }, formState } = useForm({mode: "all"});
 
     const {execute} = useLogInFunc()
-    const {executeGoogle, executeGithub} = useSocialLoginFunc();
 
     const SubmitChange = (e: any) => {
         e.preventDefault()

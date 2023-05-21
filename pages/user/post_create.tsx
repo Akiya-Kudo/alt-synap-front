@@ -1,30 +1,39 @@
-import { Box, Center, Flex, Heading, IconButton, Progress, Text, Toast, useToast } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { NextPage } from 'next'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { PostHeader } from '../../component/layout/Header'
 import { GlassButton, GlassSwitchButton } from '../../component/atom/buttons'
 import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
-import { ArticlePostData } from '../../type/page'
+import { ArticlePostData } from '../../type/global'
 import { useForm } from 'react-hook-form'
-import { AuthContext, UserInfoContext } from '../../util/hook/authContext'
+import { AuthContext } from '../../util/hook/authContext'
 import { usePost } from '../../util/hook/usePost'
 import {v4 as uuid_v4} from 'uuid'
+import { auth } from '../../util/firebase/init'
+import { client } from '../_app'
+import { READ_USER_UUID } from '../../util/graphql/queries/users.query.schema'
+import { useCustomToast } from '../../util/hook/useCustomToast'
 
 const PostCreate: NextPage = () => {
   // ログアウト時のリダイレクト処理
-  // const { userState } = useContext(AuthContext);
+  const { userState } = useContext(AuthContext);
   const router = useRouter()
+  useEffect(() => { if (userState == 'guest')  router.replace('/') }, [userState])
+  console.log("userState");
+  console.log(userState);
+  
 
-  const { userInfo } = useContext(UserInfoContext);
   const { upsertArticlePost } = usePost();
-  const toast = useToast()
-
-  //投稿stateの管理
+  const {toastPostSuccess, toastPostError} = useCustomToast()
   const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
+
+  //save button loading処理 (uuid_uid処理中 + save処理中)
+  const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(true) 
+  //article post 投稿初期値設定 
   const [currentPost, setCurrentPost] = useState<ArticlePostData>({
-    uid: userInfo?.firebase_id,
-    pid_uuid: uuid_v4(),
+    uuid_pid: uuid_v4(),
+    uuid_uid: "",
     title: "",
     top_image_file: null,
     top_link: "",
@@ -38,34 +47,38 @@ const PostCreate: NextPage = () => {
     },
     tag_names: [],
   })
+
+  // uuid_uid 設定 + isSaveButtonLoading　解除
+  useEffect(()=>{
+    if (userState=="isUser") {
+      const data = client.readQuery({
+        query: READ_USER_UUID,
+        variables: { uid: auth.currentUser?.uid },
+      });
+      if (data) {
+        setCurrentPost((preV)=>({...preV, uuid_uid: data.user.uuid_uid}))
+        setIsSaveButtonLoading(false)
+      }
+    }
+    
+  },[userState])
+
   const handleClick_publish = () => setCurrentPost((preV)=>({...preV, publish: !preV.publish}))
   const handleClick_save = async (e:any) => {
+    console.log(currentPost)
+    
+    setIsSaveButtonLoading(true)
+    //currentPostをサーバに保存
     upsertArticlePost(currentPost)
     .then((data)=>{
+      toastPostSuccess()
       console.log(data);
-      toast({
-        position: "bottom-right",
-        render: () => (
-          <Box fontSize={"0.8rem"}>
-            <Toast title="投稿を正常に保存しました" status="success" 
-            variant={"subtle"} duration={5000} isClosable />
-          </Box>
-        ),
-      })
     })
     .catch((error) => {
+      toastPostError()
       console.log(error);
-      toast({
-        position: "bottom-right",
-        render: () => (
-          <Box fontSize={"0.8rem"}>
-            <Toast title="ERROR : 保存に失敗しました" description={"ネットワーク環境や投稿の内容を確認してください"} status='error'
-            variant={"subtle"} duration={5000} isClosable />
-          </Box>
-        ),
-      })
-      console.log(currentPost);
     })
+    setIsSaveButtonLoading(false)
   }
 
   return (
@@ -81,7 +94,8 @@ const PostCreate: NextPage = () => {
           公開する
         </GlassSwitchButton>
         <GlassButton
-        disabled={!(!formState.errors.input_article_title && currentPost.title && currentPost.title.length!=0 && !formState.errors.input_top_link)}
+        isLoading={isSaveButtonLoading}
+        disabled={ isSaveButtonLoading || !(!formState.errors.input_article_title && currentPost.title && currentPost.title.length!=0 && !formState.errors.input_top_link)}
         onClick={handleClick_save}
         _hover={{
           bgGradient: "linear(to-bl, tipsy_color_1, tipsy_color_2)",
@@ -111,88 +125,8 @@ const PostCreate: NextPage = () => {
         stateValue={currentPost}
         setStateValue={setCurrentPost}
         />
-        {/* <PostPage/> */}
       </Flex>
     </>
   )
 }
 export default PostCreate
-
-// type TypeSetButtonProptype =  {setType: any, name: string, height: number, children?: any, bg: string, shadow: string, border: string, minW?: number, Mx?: number}
-// const BlogFromContainer = dynamic(() => import("../../components/Forms/BlogForm"), { ssr: false });
-
-// const PostPage = () => {
-  
-//   const [postProcess, setPostProcess] = useState<PostProcessType>("postTopForm")
-//   const [progressValue, setProgressValue] = useState(0)
-//   const [postType, setPostType] = useState<PostType>(null)
-//   const [postTopInfo, setPostTopInfo] = useState<PostTopInfoType>()
-
-//   return (
-//     <>
-//       <Progress mt={5} colorScheme="red" w={300} hasStripe value={progressValue} />
-//       {postProcess == "postTopForm" && <PostTopForm progressValue={progressValue} setProgressValue={ setProgressValue } setPostProcess={setPostProcess} setPostTopInfo={ setPostTopInfo } postTopInfo={postTopInfo}/> }
-//       {postProcess == "postTypeSelect" && <SetTypeButtonContainer setProgressValue={ setProgressValue } setPostType={setPostType} setPostProcess={setPostProcess}/> }
-//       {postProcess == "contentForm" && postType == "blog" && <BlogFromContainer setProgressValue={ setProgressValue } setPostType={setPostType} progressValue={progressValue} setPostProcess={setPostProcess}/>}
-//     </>
-//   )
-// }
-
-// const SetTypeButtonContainer = ({setPostType, setPostProcess, setProgressValue}: any) => {
-
-//   const setTypeToBlog = () => {
-//     setPostType("blog")
-//     setPostProcess("contentForm")
-//     setProgressValue(50)
-//   }
-//   const setTypeToSlide = () => {
-//     setPostType("slide")
-//     setPostProcess("contentForm")
-//     setProgressValue(60)
-//   }
-//   const setTypeToLinkOnly = () => {
-//     setPostType("linkOnly")
-//     setPostProcess("contentForm")
-//     setProgressValue(90)
-//   }
-
-//   return (
-//     <>
-//       <Heading mt={7} me={20}>
-//         <PageBackButton beforePageForm={"postTopForm"} beforeProcessValue={0} setProgressValue={ setProgressValue } setPostProcess={setPostProcess} />
-//         Post Tips
-//       </Heading>     
-//       <Flex mt={3} h="90vh" w="100vw" justify="center" align="center" flexWrap="wrap"> 
-//         <TypeSetButton setType={setTypeToBlog} name={"blog"} height={250} bg={"gray.50"} shadow={"inner"} border={"0px"}><FaPen size={45}/></TypeSetButton>
-//         <TypeSetButton setType={setTypeToSlide} name={"Slides & Movies"} height={250} bg={"white"} shadow={"xl"} border={"1px solid #eaeaea"}><AiOutlinePicture size={70} /></TypeSetButton>
-//         <TypeSetButton setType={setTypeToLinkOnly} name={"Link only"} height={75} bg={"white"} shadow={"xl"} border={"1px solid #eaeaea"} minW={250} Mx={10000}/>
-//         {/* 余白調整の空タグ */}
-//         <Box w="100%"></Box>
-//         <Box w="100%"></Box>
-//         <Box w="100%"></Box>
-//       </Flex>
-//     </>
-//   )
-// }
-
-// const TypeSetButton = ({setType, name, height, children, bg, shadow, border, minW = 250, Mx = 10}: TypeSetButtonProptype) => {
-//   return (
-//     <Center 
-//     onClick={ setType }
-//     display="flex"
-//     flexDir="column"
-//     bg={bg}
-//     h={height} w={250} mx={Mx} my={2} minW={minW}
-//     boxShadow={shadow} borderRadius={30}
-//     border={border}
-//     _hover={{ 
-//       bg: "yellow.100",
-//       filter: "grayscale(0.3)",
-//       transition: ".7s",
-//     }}
-//     >
-//       { children ? <Center color="orange.300" mb={10}>{children}</Center> : null } 
-//       <Text fontSize="1.3rem">{name}</Text>
-//     </Center>
-//   )
-// }

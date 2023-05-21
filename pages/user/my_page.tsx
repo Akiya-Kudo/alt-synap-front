@@ -1,10 +1,6 @@
 import React from 'react'
 import { NextPage } from 'next'
 
-import { Header } from '../../components/layouts/Header/Header'
-import MyTop from '../../components/MyTop'
-
-import  styles  from '../../style/components/Top.module.css';
 import { Box } from '@chakra-ui/react'
 import { BasicHeader } from '../../component/layout/Header';
 
@@ -14,10 +10,6 @@ const Mypage: NextPage  = () => {
     <>
         <BasicHeader></BasicHeader>
         <Box className="page"  >
-            <MyTop/>
-            <div className={ styles.container }>
-                
-            </div>
         </Box>
     </>
     )

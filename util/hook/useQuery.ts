@@ -6,7 +6,7 @@ export const useUserInfoQuery = () => {
     // apollo client query 処理    
     const [getLoginUserInfo, { loading, error, data }] = useLazyQuery(USER_QUERY, {
         variables: {
-            "userId" : auth.currentUser?.uid,
+            "uid" : auth.currentUser?.uid,
         }
     });
     return {getLoginUserInfo,loading, error, data};

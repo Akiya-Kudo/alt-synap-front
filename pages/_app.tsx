@@ -15,13 +15,13 @@ import { useEffect } from 'react';
 //バックエンドのgraphqlスキーマの定義からIDを設定する
 const apollo_cache_option = {
   typePolicies: {
-    UserModel: {
-      keyFields: ["firebase_id"],
+    User: {
+      keyFields: ["uid"],
     }
   }
 }
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache(apollo_cache_option),
   connectToDevTools: true

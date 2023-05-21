@@ -15,7 +15,7 @@ export const FlatBord = ({
         {...props}
         boxShadow={neumHeight}
         borderRadius={borderRadius} bg={bg} color={color}
-        display={display} flaxDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
+        display={display} flexDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
         />
     )
 }

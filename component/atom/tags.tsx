@@ -7,7 +7,7 @@ export const GlassTag_edit = ({
     children, id, onClick, size="md", variant="subtle", colorScheme="orange",
     borderRadius="full", border="1.5px solid", fontSize=".7rem",
     display="inline-flex", flexDirection="row", justifyContent="center", alignItems="center",
-    m=1,
+    m=1, key,
     ...props
 }: GlassTagProps) => {
     const handleDeleteClick=()=>{
@@ -16,9 +16,8 @@ export const GlassTag_edit = ({
     return (
         <Tag
         {...props}
-        id={id}
+        id={id} key={key}
         size={size}
-        key={id}
         variant={variant}
         colorScheme={colorScheme}
         m={m} 

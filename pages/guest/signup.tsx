@@ -1,8 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 
 import { useSignUpFunc, useSocialLoginFunc } from '../../util/hook/useAuth';
-import { Header } from '../../components/layouts/Header/Header';
-import { EmailInput, PasswordInput, PasswordRemaindInput, SocialLoginButtons, SubmitButton, UserNameInput } from '../../components/Forms/userForms';
 import { BoxProps, Button, Center, Divider, Flex, Grid, GridItem, Heading, HStack } from '@chakra-ui/react'
 
 import { useForm } from "react-hook-form";

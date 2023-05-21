@@ -4,13 +4,11 @@ import { useRouter } from 'next/router'
 import React, { useContext, useEffect } from 'react'
 import { BasicHeader } from '../../component/layout/Header'
 import { PasswordChangeForm } from '../../component/standalone/PasswordChangeForm'
-import { Header } from '../../components/layouts/Header/Header'
 import { AuthContext } from '../../util/hook/authContext'
 
 export const ChangePassword: NextPage = () => {
     const { userState } = useContext(AuthContext);
     const router = useRouter()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
     return (
         <>
@@ -20,7 +18,6 @@ export const ChangePassword: NextPage = () => {
             direction="column" 
             justify="center" 
             align="center" 
-            mt={"100px"}
             >
                 <Heading m={5} size="lg">パスワード変更</Heading>
                 <Center
