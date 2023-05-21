@@ -14,3 +14,10 @@ export const USER_QUERY = gql`
     }
 `;
 
+export const READ_USER_UUID = gql`
+    query ReadUserUuid($uid: ID!) {
+        user(uid: $uid) {
+            uuid_uid
+        }
+    }
+`

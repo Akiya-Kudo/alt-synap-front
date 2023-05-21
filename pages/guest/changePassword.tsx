@@ -9,7 +9,6 @@ import { AuthContext } from '../../util/hook/authContext'
 export const ChangePassword: NextPage = () => {
     const { userState } = useContext(AuthContext);
     const router = useRouter()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
     return (
         <>

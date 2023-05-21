@@ -1,14 +1,16 @@
 import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, updateProfile } from "firebase/auth";
-import { useContext } from "react";
-import { setAuthContext } from "./authContext";
+import { useContext, useEffect } from "react";
+import { AuthContext, setAuthContext } from "./authContext";
 import { auth, githubProvider, googleProvider } from '../firebase/init';
 import { useUserRegister } from "./useMutation";
 import { useUserInfoQuery } from "./useQuery";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { USER_QUERY } from "../graphql/queries/users.query.schema";
 import { USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
 import {v4 as uuid_v4} from 'uuid'
 import { Box, Flex, Spinner } from "@chakra-ui/react";
+import { UserStateStringType } from "../../type/global";
+import { useRouter } from "next/router";
 
 export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);

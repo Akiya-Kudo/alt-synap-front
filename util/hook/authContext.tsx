@@ -1,4 +1,4 @@
-import { getRedirectResult, GoogleAuthProvider, onAuthStateChanged, updateProfile } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/init";
 
@@ -7,27 +7,20 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { USER_QUERY } from "../graphql/queries/users.query.schema";
 import { USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
 import {v4 as uuid_v4} from 'uuid'
-
-// require('dotenv').config({ path: '.env.development' });
-
-type UserStateStringType = 'isUser' | 'guest' | 'loading'; 
+import { useCustomToast } from "./useCustomToast";
+import { UserStateStringType } from "../../type/global";
 
 export const AuthContext = createContext({} as {userState : UserStateStringType});
 export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<UserStateStringType>>});
 
-
 export const AuthProvider = (props: any) => {
-    // console.log("auth Contextが呼び出されました")
-    // console.log(auth);
-    
-    const [userState, setUserState] = useState<UserStateStringType>("guest")
+    const [userState, setUserState] = useState<UserStateStringType>(undefined)
     const [getLoginUserInfo] = useLazyQuery(USER_QUERY);
     const [userRegister] = useMutation(USER_MUTATION);
+    const {toastNetDisconnectedError} = useCustomToast()
     
     useEffect(()=>{
-        console.log("context useEffect発火")
         onAuthStateChanged(auth, async (user)=>{
-            console.log("onAuthStateChanged実行");
             try {
                 if (user) {
                     const result = await getLoginUserInfo( {
@@ -42,10 +35,12 @@ export const AuthProvider = (props: any) => {
                                 }
                             }
                         })
-                        console.log("onstatechange server data store done");
+                        console.log("未設定のユーザ情報をサーバーに保存しました");
                         console.log(result_m);
                     }
                     setUserState("isUser")
+                } else {
+                    setUserState("guest")
                 }
             } catch (error) {
                 console.log("onstatechanged error");
@@ -70,15 +65,7 @@ export const AuthProvider = (props: any) => {
         }
     }, []);
     useEffect(()=>{
-        !isOnline && toast({
-            position: "bottom-left",
-            duration:null,
-            render: () => (
-                <Box fontSize={"0.8rem"}>
-                    <Toast title="ネットワークが接続されていません" status='error' variant={"subtle"} />
-                </Box>
-            ),
-        })
+        !isOnline && toastNetDisconnectedError()
     isOnline && toast.closeAll()
     },[isOnline])
 

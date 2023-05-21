@@ -1,4 +1,4 @@
-import { ArticlePostData } from "./page";
+import { ArticlePostData } from "./global";
 
 export interface ArticlePostFormProps {
     // formRef?: React.RefObject<any>,
