@@ -24,22 +24,28 @@ export const ArticlePostForm = ({
     register, errors, formState, 
     stateValue, setStateValue, 
 }:ArticlePostFormProps) => {
-    const handleContent = (e:any) => {setStateValue((preV)=>({...preV, content:e}))
-    
-    }
-    const handleTitle = (e:any) => setStateValue((preV)=>({...preV, title: e.target.value}))
-    const handleTopLink = (e:any) => setStateValue((preV)=>({...preV, top_link: e.target.value}))
-    const handleTopImage = (e:any) => setStateValue((preV)=>({...preV, top_image_file: e.target.files[0]}))
+    const handleContent = (e: any) => setStateValue((prev) => ({
+        ...prev, articleContent: {
+            ...prev.articleContent, content: e,
+        },
+    }));
+    const handleTitle = (e:any) => setStateValue((prev)=>({...prev, title: e.target.value}))
+    const handleTopLink = (e:any) => setStateValue((prev)=>({...prev, top_link: e.target.value}))
+    const handleTopImage = (e:any) => setStateValue((prev)=>({...prev, top_image_file: e.target.files[0]}))
     const handleTagsAdd = (e:any) => {
-        const newTag = e.target.value;
-        const tag_names = [...stateValue.tag_names, newTag]
-        setStateValue((preV)=>({...preV, tag_names: tag_names}))
+        // const newTag = e.target.value;
+        const newTag = {
+            tid: undefined,
+            tag_name: e.target.value,
+        }
+        const tags = [...stateValue.tags, newTag]
+        setStateValue((preV)=>({...preV, tags: tags}))
     }
     const handleTagDelete = (id:number) => {
-        const Array = stateValue.tag_names
+        const Array = stateValue.tags
         const newArray = [...Array]
         newArray.splice(id,1)
-        setStateValue((preV)=>({...preV, tag_names: newArray}))
+        setStateValue((preV)=>({...preV, tags: newArray}))
     }
     return (
         <>
@@ -69,11 +75,7 @@ export const ArticlePostForm = ({
                 maxWidth={"1100px"} //editorの基準の幅( 調整する場合は他のスタイルも同様に変更する必要あり )
                 >
                     <ArticleEditor
-                    setValue={handleContent} value={stateValue.content}
-                        // { time: 1552744582955,blocks: [{"type" : "warning","data" : {"title" : "Note:","message" : "Avoid using this method just for lulz. It can be very dangerous opposite your daily fun stuff."}}], version: "2.11.10"}
-                    onChange={(api:any, event:any) =>{}}
-                    onReady={() => console.log("editor ready")}
-                    onSave={() => console.log("editor saved")}
+                    setValue={handleContent} value={stateValue.articleContent.content}
                     />
                 </FlatBord>
             </GridItem>
@@ -90,7 +92,7 @@ export const ArticlePostForm = ({
                     errors={errors} register={register} formState={formState}
                     />
                     <TagInputPopover 
-                    id="input_tags" title="タグ" icon={<FaTags/>} setValue={handleTagsAdd} value={stateValue.tag_names} onDeleteClick={handleTagDelete}
+                    id="input_tags" title="タグ" icon={<FaTags/>} setValue={handleTagsAdd} value={stateValue.tags} onDeleteClick={handleTagDelete}
                     tooltipContent={<Box fontSize={".6.5rem"} pb={2}>投稿にタグを最大で５つまで指定することができます。関連する名前のタグを追加すると検索で探しやすくなります。</Box>}
                     errors={errors} register={register} formState={formState}
                     />

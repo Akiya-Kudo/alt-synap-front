@@ -144,7 +144,4 @@ export interface ArticleEditorProps {
     setValue: (e:any) => void,
     placeholder?: string;
     readOnly?: boolean;
-    onReady: () => void;
-    onSave: (data: OutputData) => void;
-    onChange: (api: API, event: CustomEvent) => void;
 };

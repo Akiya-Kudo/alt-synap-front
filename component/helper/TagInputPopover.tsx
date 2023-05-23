@@ -115,7 +115,7 @@ export const TagInputPopover = ({
                             />
                         </Box>
                         <TagList 
-                        tag_names={value}
+                        tags={value}
                         colors={[
                             "red_switch","orange_switch","green_switch","teal_switch",
                             "blue_switch","cyan_switch","purple_switch","pink_switch"

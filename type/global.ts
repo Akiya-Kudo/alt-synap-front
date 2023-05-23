@@ -15,8 +15,8 @@ export interface Post {
     uuid_pid?: string,
     uuid_uid?: string,
     title?: string,
-    top_image?: string,
-    top_link?: string,
+    top_image?: null | string,
+    top_link?: null | string,
     content_type?: number,
     likes_num?: number,
     deleted?: boolean,
@@ -54,25 +54,27 @@ export interface Like  {
     timestamp?: Date,
 }
 
-// export type EditingPostType {
-
-// }
-
-export interface EditingPostType {
+export interface EditingPostType extends Post {
     uuid_pid: string,
-    uuid_uid?: string,
-    title?: string,
-    top_image_file?: any,
+    uuid_uid: string,
+    uid?: string,
+    title: string,
     top_image?: null | string, 
     top_link?: null | string,
-    content_type?: number,
+    content_type: number,
     likes_num?: number,
     update_time?: Date,
     publish?: boolean,
     deleted?: boolean,
-    tag_names: Array<string>,
+    tags: Tag[] 
+    top_image_file?: any,
 }
+export interface ArticlePostData extends EditingPostType {
+    articleContent: {
+        content: OutputData,
+    },
 
-export interface ArticlePostData extends EditingPostType{
-    content: OutputData,
+}
+export interface SourcePostrData extends EditingPostType {
+    sourceContent?: SourceContent,
 }
