@@ -7,6 +7,7 @@ import { POST_UPSERT_MUTATION } from "../graphql/mutation/posts.mutation.scheme"
 
 export const usePost = () => {
     const [upsertPost, { data, loading, error }] = useMutation(POST_UPSERT_MUTATION);
+
     const upsertArticlePost = async (articlePost: ArticlePostData) => {
         try {
             //画像strage保存
@@ -15,18 +16,20 @@ export const usePost = () => {
                 const storageRef = ref(storage, "posts/" + articlePost.uuid_pid + "/thumbnail/");
                 await uploadBytes(storageRef, articlePost.top_image_file)
                 thumbnail_url = await getDownloadURL(storageRef)
-                console.log('strage Uploaded a blob or file!');
+                console.log('strage Uploaded a blob or file!', thumbnail_url);
             }
 
             //graphql schemeに調整する(top_image_fileをtop_imageとしundefined)
             articlePost.top_link = articlePost.top_link==""  ? null : articlePost.top_link
             delete articlePost["top_image_file"]
             articlePost.top_image = thumbnail_url
+            articlePost.uid = auth.currentUser?.uid
+            if (!articlePost.uid) throw new Error("user's ID could't be found. ")
 
             //保存mutation
-            const a = await upsertPost({ variables: { upsertPostValue: {...articlePost} }} )
-            console.log("🚀 ~ file: usePost.tsx:26 ~ upsertArticlePost ~ a:", a)
-            return articlePost
+            const result = await upsertPost({ variables: { postData: {...articlePost} }} )
+            delete articlePost.uid 
+            return result
         } catch (error) { 
             throw error
         }

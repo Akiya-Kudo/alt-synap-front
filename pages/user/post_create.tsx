@@ -20,9 +20,6 @@ const PostCreate: NextPage = () => {
   const { userState } = useContext(AuthContext);
   const router = useRouter()
   useEffect(() => { if (userState == 'guest')  router.replace('/') }, [userState])
-  console.log("userState");
-  console.log(userState);
-  
 
   const { upsertArticlePost } = usePost();
   const {toastPostSuccess, toastPostError} = useCustomToast()
@@ -30,6 +27,7 @@ const PostCreate: NextPage = () => {
 
   //save button loading処理 (uuid_uid処理中 + save処理中)
   const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(true) 
+  
   //article post 投稿初期値設定 
   const [currentPost, setCurrentPost] = useState<ArticlePostData>({
     uuid_pid: uuid_v4(),
@@ -40,12 +38,14 @@ const PostCreate: NextPage = () => {
     content_type: 1,
     publish: false,
     deleted: false,
-    content: {
-      blocks:[],
-      time: undefined,
-      version: "2.26.5",
+    articleContent: {
+      content: {
+        blocks:[],
+        time: undefined,
+        version: "2.26.5",
+      }
     },
-    tag_names: [],
+    tags: [],
   })
 
   // uuid_uid 設定 + isSaveButtonLoading　解除
@@ -65,20 +65,22 @@ const PostCreate: NextPage = () => {
 
   const handleClick_publish = () => setCurrentPost((preV)=>({...preV, publish: !preV.publish}))
   const handleClick_save = async (e:any) => {
+    setIsSaveButtonLoading(true)
+    console.log("save function input values ☟")
     console.log(currentPost)
     
-    setIsSaveButtonLoading(true)
     //currentPostをサーバに保存
-    upsertArticlePost(currentPost)
-    .then((data)=>{
-      toastPostSuccess()
-      console.log(data);
-    })
-    .catch((error) => {
-      toastPostError()
+    try {
+      const res = await upsertArticlePost(currentPost);
+      toastPostSuccess();
+      console.log("response ☟");
+      console.log(res.data.upsert_article_post);
+    } catch (error) {
+      toastPostError();
       console.log(error);
-    })
-    setIsSaveButtonLoading(false)
+    } finally {
+      setIsSaveButtonLoading(false);
+    }
   }
 
   return (
