@@ -72,7 +72,7 @@ const PostCreate: NextPage = () => {
     //currentPostをサーバに保存
     try {
       const res = await upsertArticlePost(currentPost);
-      setCurrentPost((prev)=>({...prev, uuid_pid: res.data.upsert_article_post.uuid_pid}))
+      setCurrentPost((prev)=>({...prev, uuid_pid: res.data.upsert_article_post.post.uuid_pid}))
       toastPostSuccess();
       console.log("response ☟");
       console.log(res.data.upsert_article_post);

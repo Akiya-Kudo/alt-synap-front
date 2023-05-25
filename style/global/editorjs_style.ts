@@ -105,7 +105,8 @@ export const editorjs_styles = {
         bg: "mock_glass_bg_switch",
         border: "0px solid",
         borderRadius: 10,
-        color: "text_normal"
+        color: "text_normal",
+        fontSize: "15px"
     },
 
     //warning
