@@ -12,7 +12,7 @@ export interface User {
 }
 
 export interface Post {
-    uuid_pid?: string,
+    uuid_pid?: string | null,
     uuid_uid?: string,
     title?: string,
     top_image?: null | string,
@@ -55,7 +55,7 @@ export interface Like  {
 }
 
 export interface EditingPostType extends Post {
-    uuid_pid: string,
+    uuid_pid?: string,
     uuid_uid: string,
     uid?: string,
     title: string,

@@ -30,7 +30,7 @@ const PostCreate: NextPage = () => {
   
   //article post 投稿初期値設定 
   const [currentPost, setCurrentPost] = useState<ArticlePostData>({
-    uuid_pid: uuid_v4(),
+    uuid_pid: undefined,
     uuid_uid: "",
     title: "",
     top_image_file: null,
@@ -72,6 +72,7 @@ const PostCreate: NextPage = () => {
     //currentPostをサーバに保存
     try {
       const res = await upsertArticlePost(currentPost);
+      setCurrentPost((prev)=>({...prev, uuid_pid: res.data.upsert_article_post.post.uuid_pid}))
       toastPostSuccess();
       console.log("response ☟");
       console.log(res.data.upsert_article_post);

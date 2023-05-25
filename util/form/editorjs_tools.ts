@@ -29,7 +29,7 @@ export const EditorTools = {
         config: {
             placeholder: "見出し",
             levels: [1, 2, 3, 4, 5, 6],
-            defaultLevel: 3,
+            defaultLevel: 4,
         },
     },
     list: {
