@@ -5,14 +5,15 @@ import { AuthProvider } from '../util/hook/authContext';
 import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from '../style/global/theme';
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import '../util/firebase/init'; //Initialize FirebaseApp
 import { useEffect } from 'react';
+import { auth } from '../util/firebase/init';
 
 // import '../style/atom/my-simple-image.css'
 
-//バックエンドのgraphqlスキーマの定義からIDを設定する
+//Cache id - バックエンドのgraphqlスキーマの定義からIDを設定する
 const apollo_cache_option = {
   typePolicies: {
     User: {
@@ -20,9 +21,28 @@ const apollo_cache_option = {
     }
   }
 }
+// Authorization header idT get & send
+const httplink = createHttpLink({
+  uri: 'http://localhost:4000/graphql',
+})
+const authLink = setContext( async (operation, { headers })=>{
+  // 型ガード + mutation時のみ idTokenをheadersに付加
+  if (operation.query.definitions[0].kind === 'OperationDefinition' && operation.query.definitions[0].operation=="mutation") {    
+    const token = await auth.currentUser?.getIdToken()
+    console.log(token);
+    
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : "",
+      }
+    }
+  } else return {headers}
+})
 
 export const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  // uri: 'http://localhost:4000/graphql',
+  link: authLink.concat(httplink),
   cache: new InMemoryCache(apollo_cache_option),
   connectToDevTools: true
 })

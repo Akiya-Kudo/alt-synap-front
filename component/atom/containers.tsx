@@ -1,4 +1,5 @@
 import { Box, Center, Flex, Grid, GridItem, HStack, WrapItem } from "@chakra-ui/react"
+import { ForwardedRef, forwardRef } from "react"
 import { GlassContainerProps } from "../../type/atom"
 import { useGlassColorMode } from "../../util/hook/useColor"
 

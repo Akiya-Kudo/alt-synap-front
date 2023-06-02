@@ -23,12 +23,9 @@ export const usePost = () => {
             articlePost.top_link = articlePost.top_link==""  ? null : articlePost.top_link
             delete articlePost["top_image_file"]
             articlePost.top_image = thumbnail_url
-            articlePost.uid = auth.currentUser?.uid
-            if (!articlePost.uid) throw new Error("user's ID could't be found. ")
 
             //保存mutation
             const result = await upsertPost({ variables: { postData: {...articlePost} }} )
-            delete articlePost.uid 
             return result
         } catch (error) { 
             throw error
