@@ -56,8 +56,6 @@ export interface Like  {
 
 export interface EditingPostType extends Post {
     uuid_pid?: string,
-    uuid_uid: string,
-    uid?: string,
     title: string,
     top_image?: null | string, 
     top_link?: null | string,

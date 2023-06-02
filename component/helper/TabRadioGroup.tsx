@@ -25,10 +25,10 @@ export const TabButtonSelectGroup = ({
         display={display} justifyContent={justifyContent} alignItems={alignItems}
         boxShadow={`5px 5px 15px ${shadow}, -5px -5px 15px ${highlight};`}
         >
-            { options.map((name: string) => {
+            { options.map((name: string, index: number) => {
                 return (
                     <SwitchButton_tab
-                    id={name}
+                    id={name} key={index}
                     selectedValue={selected} onClick={handleClick} 
                     Hcolor={Hcolor} Acolor={Acolor} 
                     borderRadius={chBorderRadius} w={chW} h={chH} fontSize={fontSize}

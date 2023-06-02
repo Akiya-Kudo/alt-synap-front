@@ -1,5 +1,5 @@
 import { BoxProps, Button, filter, Flex, forwardRef, IconButton, useColorMode } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps, NeumIconButtonProps, GlassIconButtonProps, GlassSwitchButtonProps } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
 import { CiSun, CiCloudMoon } from 'react-icons/ci';
@@ -288,6 +288,12 @@ export const ColorModeButton = ({
     ...props
 }: GlassColorModeButtonProps) => {
     const { toggleColorMode, colorMode } = useColorMode()
+    const [buttonIcon, setButtonIcon] = useState<ReactNode | null>(null);  // add state for the button icon
+    
+    useEffect(() => // set the icon in useEffect, which runs after component mount on client side
+        setButtonIcon(colorMode === "dark" ? <CiSun size={"1.5rem"} /> : <CiCloudMoon size={"1.5rem"} />)
+    , [colorMode]);  // dependency on colorMode so it updates when colorMode changes
+
     return (
         <Button
         {...props}
@@ -295,7 +301,8 @@ export const ColorModeButton = ({
         fontSize={fontSize} color={color} bg={bg} borderRadius={borderRadius} variant={variant}
         p={0}
         >
-            {colorMode=="light" ? <CiCloudMoon size={"1.5rem"}/> : <CiSun size={"1.5rem"}/>}
+            {/* {colorMode && colorMode === "dark" ? <CiSun size={"1.5rem"}/> : colorMode === "light" ? <CiCloudMoon size={"1.5rem"}/> : null } */}
+            {buttonIcon}
         </Button>
     )
 }

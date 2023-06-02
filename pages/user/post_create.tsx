@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react'
+import { Button, Flex } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -9,11 +9,13 @@ import { ArticlePostData } from '../../type/global'
 import { useForm } from 'react-hook-form'
 import { AuthContext } from '../../util/hook/authContext'
 import { usePost } from '../../util/hook/usePost'
-import {v4 as uuid_v4} from 'uuid'
 import { auth } from '../../util/firebase/init'
 import { client } from '../_app'
 import { READ_USER_UUID } from '../../util/graphql/queries/users.query.schema'
 import { useCustomToast } from '../../util/hook/useCustomToast'
+import { log } from 'console'
+import { onAuthStateChanged } from 'firebase/auth'
+
 
 const PostCreate: NextPage = () => {
   // ログアウト時のリダイレクト処理
@@ -25,13 +27,12 @@ const PostCreate: NextPage = () => {
   const {toastPostSuccess, toastPostError} = useCustomToast()
   const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
 
-  //save button loading処理 (uuid_uid処理中 + save処理中)
+  //save button loading処理 (userStateChanging中 + save処理中)
   const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(true) 
   
   //article post 投稿初期値設定 
   const [currentPost, setCurrentPost] = useState<ArticlePostData>({
     uuid_pid: undefined,
-    uuid_uid: "",
     title: "",
     top_image_file: null,
     top_link: "",
@@ -48,7 +49,7 @@ const PostCreate: NextPage = () => {
     tags: [],
   })
 
-  // uuid_uid 設定 + isSaveButtonLoading　解除
+  // reload時のuserData取得 + isSaveButtonLoading　解除
   useEffect(()=>{
     if (userState=="isUser") {
       const data = client.readQuery({
@@ -56,7 +57,6 @@ const PostCreate: NextPage = () => {
         variables: { uid: auth.currentUser?.uid },
       });
       if (data) {
-        setCurrentPost((preV)=>({...preV, uuid_uid: data.user.uuid_uid}))
         setIsSaveButtonLoading(false)
       }
     }

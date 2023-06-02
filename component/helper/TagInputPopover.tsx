@@ -82,7 +82,6 @@ export const TagInputPopover = ({
                 </Box>
             </PopoverTrigger>
             <PopoverContent
-            sx={{"-webkit-backdrop-filter": "blur(7px)"}}
             backdropFilter={"blur(7px)"}
             backgroundColor={glass_bg_switch}
             borderRadius={15}

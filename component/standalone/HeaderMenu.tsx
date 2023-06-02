@@ -28,7 +28,6 @@ export const HeaderMenu = ({
             borderRadius={15}
             // backgroundColor={"bg_switch"}
             backdropFilter={"blur(7px)"}
-            sx={{"-webkit-backdrop-filter": "blur(7px)"}}
             backgroundColor={"rgba(230,230,230, 0.1)"}
             >
                 <MenuGroup title={"- " + user_name + " -"}>
