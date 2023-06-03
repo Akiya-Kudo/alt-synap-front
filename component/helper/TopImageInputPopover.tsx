@@ -27,6 +27,7 @@ export const TopImageInputPopover = ({
     const [imageFile, setImageFile] = useState<any>()
     const handleChange = (e:any) => {
         setValue(e)
+        
     }
     return (
         <Popover

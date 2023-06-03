@@ -16,7 +16,7 @@ export const usePost = () => {
                 const storageRef = ref(storage, "posts/" + articlePost.uuid_pid + "/thumbnail/");
                 await uploadBytes(storageRef, articlePost.top_image_file)
                 thumbnail_url = await getDownloadURL(storageRef)
-                console.log('strage Uploaded a blob or file!', thumbnail_url);
+                console.log('strage Uploaded a blob or file! :', thumbnail_url);
             }
 
             //graphql schemeに調整する(top_image_fileをtop_imageとしundefined)
