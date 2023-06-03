@@ -135,8 +135,10 @@ export interface GlassContainerProps extends FlexProps{}
 //タグ
 export interface GlassTagProps extends TagProps{
     id: string,
-    onClick: (e:any)=>void,
 }
+export interface GlassTagCloseProps extends GlassTagProps {
+    onClick: (e:any)=>void,
+} 
 
 //エディター
 export interface ArticleEditorProps {

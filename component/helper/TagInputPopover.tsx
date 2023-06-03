@@ -1,12 +1,12 @@
-import { Box, Button, ButtonProps, Center, Flex, Heading, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text, useDisclosure, Fade, Collapse, Divider, VStack } from "@chakra-ui/react"
+import { Box, Button, ButtonProps, Center, Flex, Heading, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text, useDisclosure, Fade, Collapse, Divider, VStack, Tag } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { FaLink } from "react-icons/fa"
 import { TagPopoverProps } from "../../type/helper"
 import { Validation_url, Validation_word } from "../../util/form/validation"
-import { useGlassColorMode } from "../../util/hook/useColor"
+import { useColorOrderPick, useColorRandomPick, useGlassColorMode } from "../../util/hook/useColor"
 import { NeumIconButton } from "../atom/buttons"
 import { GlassFormInput_nolabel } from "../atom/inputs"
-import { GlassTag_edit } from "../atom/tags"
+import { GlassTag, GlassTag_edit } from "../atom/tags"
 import { TagList } from "./TagList"
 
 export const TagInputPopover = ({
@@ -26,6 +26,11 @@ export const TagInputPopover = ({
     const { isOpen: T_isOpen, onOpen: T_onOpen, onClose: T_onClose } = useDisclosure()
 
     const {glass_bg_switch, mock_bg_switch} = useGlassColorMode()
+    const tags_colors = [
+        "red_switch","orange_switch","green_switch","teal_switch",
+        "blue_switch","cyan_switch","purple_switch","pink_switch"
+    ]
+    const [colorList, setColorList] = useState<Array<string>>(useColorRandomPick(tags_colors, 5))
 
     const [composing, setComposition] = useState(false);
     const startComposition = () => setComposition(true);
@@ -76,7 +81,23 @@ export const TagInputPopover = ({
                                 <Center>{title}</Center>
                             </Heading>
                             <Divider my={2}/>
-                            {tooltipContent}
+                            { value && value.length!=0
+                                    ? <Text>
+                                        {value.map((tag, index)=> {
+                                            let color_theme = colorList[index].split("_")[0]
+                                            return (
+                                                <GlassTag 
+                                                key={index} id={index.toString()}
+                                                border="none"
+                                                colorScheme={color_theme}
+                                                >
+                                                    {tag.tag_name}
+                                                </GlassTag>
+                                            )
+                                        })}
+                                    </Text>
+                                : <Box > {tooltipContent} </Box>
+                            }
                         </Box>
                     </Collapse>
                 </Box>
@@ -115,10 +136,7 @@ export const TagInputPopover = ({
                         </Box>
                         <TagList 
                         tags={value}
-                        colors={[
-                            "red_switch","orange_switch","green_switch","teal_switch",
-                            "blue_switch","cyan_switch","purple_switch","pink_switch"
-                        ]}
+                        colorList={colorList}
                         mt={5}
                         onDeleteClick={onDeleteClick}
                         />
