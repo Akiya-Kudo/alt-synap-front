@@ -29,7 +29,7 @@ const authLink = setContext( async (operation, { headers })=>{
   // 型ガード + mutation時のみ idTokenをheadersに付加
   if (operation.query.definitions[0].kind === 'OperationDefinition' && operation.query.definitions[0].operation=="mutation") {    
     const token = await auth.currentUser?.getIdToken()
-    console.log(token);
+    // console.log(token);
     
     return {
       headers: {

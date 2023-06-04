@@ -1,7 +1,7 @@
 import { Box, Button, ButtonProps, Center, Flex, Heading, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text, useDisclosure, Fade, Collapse, Divider } from "@chakra-ui/react"
 import React, { useEffect, useState } from "react"
 import { FaLink } from "react-icons/fa"
-import { PostPopoverProps } from "../../type/helper"
+import { TopLinkPopoverProps } from "../../type/helper"
 import { Validation_url } from "../../util/form/validation"
 import { useGlassColorMode } from "../../util/hook/useColor"
 import { NeumIconButton } from "../atom/buttons"
@@ -18,7 +18,7 @@ export const TopLinkInputPopover = ({
     icon,
     tooltipContent,
     ...props
-}: PostPopoverProps) => {
+}: TopLinkPopoverProps) => {
     const { isOpen, onClose, onToggle } = useDisclosure()
     const { isOpen: T_isOpen, onOpen: T_onOpen, onClose: T_onClose } = useDisclosure()
     const {glass_bg_switch, mock_bg_switch} = useGlassColorMode()

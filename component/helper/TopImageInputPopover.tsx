@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import NextImage from 'next/image';
 import { Box, Button, ButtonProps, Center, Flex, Heading, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Text, useDisclosure, Fade, Collapse, Divider } from "@chakra-ui/react"
-import { PostPopoverProps } from "../../type/helper"
+import { PostPopoverProps, TopImagePopoverProps } from "../../type/helper"
 import { useGlassColorMode } from "../../util/hook/useColor"
 import { NeumIconButton } from "../atom/buttons"
 import { GlassFormInput_nolabel, PostImageInput } from "../atom/inputs"
@@ -10,24 +10,28 @@ export const TopImageInputPopover = ({
     errors, 
     register,
     formState,
-    setValue,
-    value,
+    image,
+    setImage,
+    imageFile,
+    setImageFile,
     id,
     title,
     icon,
     tooltipContent,
     ...props
-}: PostPopoverProps) => {
+}: TopImagePopoverProps) => {
     const { isOpen, onClose, onToggle } = useDisclosure()
     const { isOpen: T_isOpen, onOpen: T_onOpen, onClose: T_onClose } = useDisclosure()
-
     const {glass_bg_switch, mock_bg_switch} = useGlassColorMode()
 
-    const [image, setImage] = useState<string>("")
-    const [imageFile, setImageFile] = useState<any>()
-    const handleChange = (e:any) => {
-        setValue(e)
-        
+    const [preViewImage, setPreViewImage] = useState(image)
+    const handleImage = (photo:any) => {
+        setPreViewImage(photo)
+    }
+    const handleTopImageDelete = (e:any) => {
+        setImageFile("DELETE")
+        setPreViewImage(null)
+        // don't change top_image becouse its path will be needed in deleteObject-function when saving time
     }
     return (
         <Popover
@@ -44,8 +48,8 @@ export const TopImageInputPopover = ({
                     <NeumIconButton
                     icon={icon} 
                     aria-label="image_popover_trigger"
-                    neumH={value ? "shallow" : "tall"}
-                    color={value ? "tipsy_color_3" : undefined}
+                    neumH={preViewImage ? "shallow" : "tall"}
+                    color={preViewImage ? "tipsy_color_3" : undefined}
                     onClick={onToggle}
                     />
                     <Collapse in={T_isOpen}>
@@ -62,8 +66,8 @@ export const TopImageInputPopover = ({
                                 <Center>{title}</Center>
                             </Heading>
                             <Divider my={2}/>
-                            { image 
-                            ? <Box width='100%' height='auto' position='relative' bottom={1}><NextImage src={image} layout='responsive' objectFit='cover' alt='top_image' width={500} height={500} style={{ borderRadius: '20px' }} /></Box> 
+                            { preViewImage 
+                            ? <Box width='100%' height='auto' position='relative' bottom={1}><NextImage src={preViewImage} layout='responsive' objectFit='cover' alt='top_image' width={500} height={500} style={{ borderRadius: '20px' }} /></Box> 
                             : tooltipContent
                             }
                         </Box>
@@ -94,11 +98,11 @@ export const TopImageInputPopover = ({
                             </Text>
                             <PostImageInput
                             id={id}
-                            setImageFile={ setImageFile }
-                            image={ image } 
-                            setImage={ setImage } 
                             register={ register } 
-                            onChange={handleChange} defaultValue={value==null ? undefined : value}
+                            image={  preViewImage } 
+                            setImage={ handleImage } 
+                            setImageFile={ setImageFile }
+                            onChangeNoImageset={handleTopImageDelete}
                             />
                         </Box>
                     </Center>

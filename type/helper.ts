@@ -39,7 +39,7 @@ export interface PostPopoverProps extends PopoverProps {
     register?: any, 
     errors?: any,
     formState?: any,
-    setValue: (e:any) => void,
+    setValue?: (e:any) => void,
     value?: any,
     id: string,
     title: string,
@@ -47,13 +47,20 @@ export interface PostPopoverProps extends PopoverProps {
     tooltipContent: any,
 }
 export interface TopLinkPopoverProps extends PostPopoverProps {
-    value: string,
+    value: string | null,
+    setValue: (e:any) => void,
 }
 export interface TopImagePopoverProps extends PostPopoverProps {
-    value: string,
+    value?:never,
+    setValue?: never,
+    image: string | null,
+    setImage: React.Dispatch<React.SetStateAction<string | null>>,
+    imageFile: File | null | "DELETE",
+    setImageFile: React.Dispatch<React.SetStateAction<File | null | "DELETE">>,
 }
 export interface TagPopoverProps extends PostPopoverProps {
     value: Array<Tag>,
+    setValue: (e:any) => void,
     onDeleteClick: (e:any) => void,
 }
 
