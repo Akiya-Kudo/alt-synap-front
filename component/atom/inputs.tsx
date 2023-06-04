@@ -581,19 +581,19 @@ export const PostImageInput = ({
     setImageFile, 
     register,
     defaultValue,
+    onChangeNoImageset,
     ...props
 }: GlassFormImageInputProps) => {
 
     // 画像を選択したら画面に表示する処理
-    const ImageSet = (e: any) => {
+    const handleChange = (e: any) => {
         if (e.target.files[0]) {
         const file = e.target.files[0];
         setImageFile(file)
         const photo = window.URL.createObjectURL(file)
         setImage(photo)
         } else {
-            setImage("")
-            setImageFile(null)
+            onChangeNoImageset(e)
         }
     }
     const {border_switch} = useFormColorMode()
@@ -630,7 +630,7 @@ export const PostImageInput = ({
                     {...register(id)}
                     type={"file"} 
                     accept=" .png, .jpeg, .jpg, .svg"
-                    onChange={ ImageSet }
+                    onChange={ handleChange }
                     defaultValue={defaultValue}
                     cursor={"pointer"} w="100%" h="100%" pos={"absolute"} left={0} right={0} opacity={0} 
                     />

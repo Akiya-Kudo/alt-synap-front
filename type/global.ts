@@ -23,6 +23,9 @@ export interface Post {
     publish?: boolean,
     timestamp?: Date,
 }
+export interface Post_with_imageFile {
+    top_image_file?: any
+}
 
 export interface ArticleContent {
     uuid_pid?: string,
@@ -57,15 +60,15 @@ export interface Like  {
 export interface EditingPostType extends Post {
     uuid_pid?: string,
     title: string,
-    top_image?: null | string, 
-    top_link?: null | string,
+    top_image: null | string, 
+    top_link: null | string,
     content_type: number,
     likes_num?: number,
     update_time?: Date,
     publish?: boolean,
     deleted?: boolean,
     tags: Tag[] 
-    top_image_file?: any,
+    top_image_file: File | null | "DELETE",
 }
 export interface ArticlePostData extends EditingPostType {
     articleContent: {

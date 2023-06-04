@@ -13,7 +13,6 @@ import { auth } from '../../util/firebase/init'
 import { client } from '../_app'
 import { READ_USER_UUID } from '../../util/graphql/queries/users.query.schema'
 import { useCustomToast } from '../../util/hook/useCustomToast'
-import { log } from 'console'
 import { onAuthStateChanged } from 'firebase/auth'
 
 
@@ -35,6 +34,7 @@ const PostCreate: NextPage = () => {
     uuid_pid: undefined,
     title: "",
     top_image_file: null,
+    top_image: null,
     top_link: "",
     content_type: 1,
     publish: false,
@@ -48,7 +48,8 @@ const PostCreate: NextPage = () => {
     },
     tags: [],
   })
-
+  console.log(currentPost);
+  
   // reload時のuserData取得 + isSaveButtonLoading　解除
   useEffect(()=>{
     if (userState=="isUser") {

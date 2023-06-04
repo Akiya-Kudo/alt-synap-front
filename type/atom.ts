@@ -123,10 +123,10 @@ export interface GlassFormInputProps extends GlassInputProps {
 }
 export interface GlassFormImageInputProps extends GlassInputProps {
     register: any,
-    image?: string,
-    setImage: React.Dispatch<React.SetStateAction<string>>,
-    imageFile?: any,
+    image: string | null,
+    setImage: React.Dispatch<React.SetStateAction<string | null>>,
     setImageFile: React.Dispatch<React.SetStateAction<any>>,
+    onChangeNoImageset: (e:any) => void
 }
 
 //コンテイナー
