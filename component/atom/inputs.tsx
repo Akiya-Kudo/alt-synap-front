@@ -629,7 +629,7 @@ export const PostImageInput = ({
                     <Input   
                     {...register(id)}
                     type={"file"} 
-                    accept=" .png, .jpeg, .jpg, .svg"
+                    accept=" .png, .jpeg, .jpg, .svg, .webp"
                     onChange={ handleChange }
                     defaultValue={defaultValue}
                     cursor={"pointer"} w="100%" h="100%" pos={"absolute"} left={0} right={0} opacity={0} 

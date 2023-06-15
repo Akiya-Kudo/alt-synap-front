@@ -31,7 +31,6 @@ export const TopImageInputPopover = ({
     const handleTopImageDelete = (e:any) => {
         setImageFile("DELETE")
         setPreViewImage(null)
-        // don't change top_image becouse its path will be needed in deleteObject-function when saving time
     }
     return (
         <Popover
