@@ -10,9 +10,9 @@ export const usePost = () => {
     const [upsertPost, { data, loading, error }] = useMutation(POST_UPSERT_MUTATION);
 
     const upsertArticlePost = async (articlePost: ArticlePostData) => {
+        let storage_path = articlePost.top_image ? articlePost.top_image : null;
         try {
             //画像strage保存
-            let storage_path = articlePost.top_image ? articlePost.top_image : null;
             // the case new image is setted ( at the first save request, storage_path is "null", from second time it's before storage path )
             if (articlePost.top_image_file && articlePost.top_image_file!=="DELETE") {
                 storage_path = articlePost.top_image ? articlePost.top_image : "posts/" + uuid_v4() + "/thumbnail/"
@@ -35,15 +35,10 @@ export const usePost = () => {
 
             const reqPost = articlePost as Post_with_imageFile
             delete reqPost.top_image_file
-            console.log("reqPost");
-            console.log(reqPost);
-            
-
             //保存mutation
-            // const result = await upsertPost({ variables: { postData: {...articlePost} }} )
             const result = await upsertPost({ variables: { postData: {...reqPost} }} )
             return result
-        } catch (error) { 
+        } catch (error) {
             throw error
         }
     }

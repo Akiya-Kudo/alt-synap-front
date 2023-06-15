@@ -48,7 +48,6 @@ const PostCreate: NextPage = () => {
     },
     tags: [],
   })
-  console.log(currentPost);
   
   // reload時のuserData取得 + isSaveButtonLoading　解除
   useEffect(()=>{
@@ -67,21 +66,19 @@ const PostCreate: NextPage = () => {
   const handleClick_publish = () => setCurrentPost((preV)=>({...preV, publish: !preV.publish}))
   const handleClick_save = async (e:any) => {
     setIsSaveButtonLoading(true)
-    console.log("save function input values ☟")
-    console.log(currentPost)
-    
     //currentPostをサーバに保存
     try {
       const res = await upsertArticlePost(currentPost);
       setCurrentPost((prev)=>({...prev, uuid_pid: res.data.upsert_article_post.post.uuid_pid}))
       toastPostSuccess();
-      console.log("response ☟");
-      console.log(res.data.upsert_article_post);
+
     } catch (error) {
       toastPostError();
       console.log(error);
+
     } finally {
-      setIsSaveButtonLoading(false);
+      setIsSaveButtonLoading(false)
+
     }
   }
 
