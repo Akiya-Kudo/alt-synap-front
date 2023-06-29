@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import Link from "next/link"
 import { AuthContext } from "../../util/hook/authContext"
 
@@ -23,6 +23,8 @@ export const BasicHeader = () => {
     const { userState } = useContext(AuthContext);
     const photo_path = auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
     const user_name = auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
+
+    const [searchWords, setSearchWords] = useState("") 
     return (
         <BasicHeaderStyleContainer>
             {userState=="loading" && useLoading()}
@@ -32,7 +34,12 @@ export const BasicHeader = () => {
             >
                 <TitleLink fontSize={"1.3rem"}>tipsy</TitleLink>
                 <ColorModeButton />
-                <GlassInput_search id="search"/>
+                <GlassButton >{ searchWords }</GlassButton>
+                <GlassInput_search 
+                id="search"
+                value={searchWords}
+                setValue={ setSearchWords }
+                />
                 { userState == 'isUser' &&   
                     <>
                         <Link href="/user/post_create" passHref>

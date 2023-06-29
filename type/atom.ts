@@ -112,6 +112,10 @@ export interface GlassInputProps extends InputProps {
     PHcolor?: string,
     register?:  UseFormRegisterReturn,
 }
+export interface GlassSearchInputProps extends GlassInputProps {
+    setValue: (value: string) => any,
+    value: string
+}
 export interface GlassFormInputProps extends GlassInputProps {
     id: string,
     errors: any,

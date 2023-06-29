@@ -3,7 +3,7 @@ import NextImage from 'next/image';
 import { Box, Button, ButtonProps, ChakraComponent, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, useCheckbox, useColorMode } from '@chakra-ui/react'
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, NeumFormInputProps, NeumInputProps } from "../../type/atom";
+import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, GlassSearchInputProps, NeumFormInputProps, NeumInputProps } from "../../type/atom";
 import { useFormColorMode } from '../../util/hook/useColor';
 import { useOneSizeSmaller } from '../../util/hook/useSize';
 import { useNeumStyle_dent, useNeumStyle_flat } from '../../util/hook/useTheme';
@@ -538,10 +538,13 @@ export const GlassFormInput_nolabel = ({
 }
 
 export const GlassInput_search = ({
-    placeholder="検索"
-}: GlassInputProps) => {
-    const [value, setValue] = useState("")
-    const handleChange = (e: any) => setValue(e.target.value)
+    placeholder="検索",
+    setValue,
+    value
+}: GlassSearchInputProps) => {
+    const handleChange = (e: any) =>  {
+        setValue(e.target.value)
+    }
     const handleClear = () => setValue("")
 
     const {border_switch} = useFormColorMode()
