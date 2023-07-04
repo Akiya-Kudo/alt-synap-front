@@ -20,7 +20,6 @@ const SignUp: NextPage  = () => {
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
     return (
         <>
-            <BasicHeader/>
             <Grid
             className="page"
             gridTemplateRows={'100px 100px 1fr'}

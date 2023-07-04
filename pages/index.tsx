@@ -1,13 +1,7 @@
-import React, { useContext } from 'react';
 import { NextPage } from 'next';
-
-import { auth } from '../util/firebase/init';
 import { background, Box, Button, Heading, Input, Text } from '@chakra-ui/react';
 import { TabBord } from '../component/atom/bords';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
-import { BasicHeader } from '../component/layout/Header';
-import { AuthContext } from '../util/hook/authContext';
-import { useLoading } from '../util/hook/useAuth';
 
 const Index: NextPage  = () => {
   const handleTabGroup = (e:any) => {
@@ -15,7 +9,6 @@ const Index: NextPage  = () => {
   }
   return (
     <>
-      <BasicHeader/>
       <Box className="page">
         <TabButtonSelectGroup 
         onChange={ handleTabGroup} 

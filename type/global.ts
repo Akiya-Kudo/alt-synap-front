@@ -9,22 +9,8 @@ export interface User {
     lang_type?: number,
     follewer_num?: number,
     follewee_num?: number,
-}
-
-export interface Post {
-    uuid_pid?: string | null,
-    uuid_uid?: string,
-    title?: string,
-    top_image?: null | string,
-    top_link?: null | string,
-    content_type?: number,
-    likes_num?: number,
-    deleted?: boolean,
-    publish?: boolean,
-    timestamp?: Date,
-}
-export interface Post_with_imageFile {
-    top_image_file?: any
+    user_name?: string,
+    user_image?: string,
 }
 
 export interface ArticleContent {
@@ -55,6 +41,28 @@ export interface Like  {
     uuid_uid?: string,
     uuid_pid?: string,
     timestamp?: Date,
+}
+
+export interface Post {
+    uuid_pid?: string | null,
+    uuid_uid?: string,
+    title?: string,
+    top_image?: null | string,
+    top_link?: null | string,
+    content_type?: number,
+    likes_num?: number,
+    deleted?: boolean,
+    publish?: boolean,
+    timestamp?: Date,
+}
+export interface Post_with_imageFile {
+    top_image_file?: any
+}
+
+export interface PostCard extends Post {
+    title: string,
+    likes_num: number,
+    timestamp: Date,
 }
 
 export interface EditingPostType extends Post {
