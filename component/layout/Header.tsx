@@ -1,9 +1,9 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Link from "next/link"
 import { AuthContext } from "../../util/hook/authContext"
 
 import { auth } from "../../util/firebase/init"
-import { Avatar, Box, Button, Flex, Heading, SimpleGrid, Wrap, WrapItem } from "@chakra-ui/react"
+import { Avatar, Box, Flex, Heading } from "@chakra-ui/react"
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons"
 
 import { ColorModeButton, GlassButton, GlassIconButton } from "../atom/buttons"
@@ -20,11 +20,29 @@ import { useLoading } from "../../util/hook/useAuth"
 
 export const BasicHeader = () => {
 
+    const [searchWords, setSearchWords] = useState<string>("")
+
+    //input value取得 & ページによる切り替え & 検索
+    const router = useRouter()
+    const defValue = router.query.words as string
+    useEffect(() => {
+        if (router.pathname == '/search') setSearchWords(defValue)
+        else setSearchWords("")
+    },[defValue])
+    const handleSearch = () => {
+        router.push({
+            pathname: '/search',
+            query: {words: searchWords},
+        })
+    }    
+
+    //header内user情報
     const { userState } = useContext(AuthContext);
+    console.log(auth.currentUser);
+    
     const photo_path = auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
     const user_name = auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
 
-    const [searchWords, setSearchWords] = useState("") 
     return (
         <BasicHeaderStyleContainer>
             {userState=="loading" && useLoading()}
@@ -34,11 +52,11 @@ export const BasicHeader = () => {
             >
                 <TitleLink fontSize={"1.3rem"}>tipsy</TitleLink>
                 <ColorModeButton />
-                <GlassButton >{ searchWords }</GlassButton>
                 <GlassInput_search 
                 id="search"
                 value={searchWords}
                 setValue={ setSearchWords }
+                onSearch={ handleSearch }
                 />
                 { userState == 'isUser' &&   
                     <>

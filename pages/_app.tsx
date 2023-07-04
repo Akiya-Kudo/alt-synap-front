@@ -10,6 +10,8 @@ import { setContext } from '@apollo/client/link/context';
 import '../util/firebase/init'; //Initialize FirebaseApp
 import { useEffect } from 'react';
 import { auth } from '../util/firebase/init';
+import { BasicHeader } from '../component/layout/Header';
+import { useRouter } from 'next/router';
 
 // import '../style/atom/my-simple-image.css'
 
@@ -48,6 +50,10 @@ export const client = new ApolloClient({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
+  //headerの表示切り替え用
+  const router = useRouter()
+  const withoutBasicHeader = router.pathname == '/user/post_create'
+  
   return (
     <ChakraProvider
     theme={theme}
@@ -55,6 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ApolloProvider 
       client={ client }>
         <AuthProvider >
+          { withoutBasicHeader || <BasicHeader/> }
           <Component {...pageProps} />
         </AuthProvider>
       </ApolloProvider>

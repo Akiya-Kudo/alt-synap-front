@@ -33,8 +33,6 @@ export const TagInputPopover = ({
     const [colorList, setColorList] = useState<Array<string>>(useColorRandomPick(tags_colors, 5))
 
     const [composing, setComposition] = useState(false);
-    const startComposition = () => setComposition(true);
-    const endComposition = () => setComposition(false);
     const handleKeyDown = (e:any) => {
         if (
             e.key === 'Enter' 
@@ -126,7 +124,7 @@ export const TagInputPopover = ({
                             id={id}
                             validation={Validation_word(value)}
                             errors={errors} register={register}
-                            onKeyDown={handleKeyDown} onCompositionStart={startComposition} onCompositionEnd={endComposition}
+                            onKeyDown={handleKeyDown} onCompositionStart={ ()=>setComposition(true) } onCompositionEnd={ ()=>setComposition(false) }
                             isDisabled={!(value && value.length < 5)}
 
                             h="40px" w={"300px"} fontSize={"0.8rem"}

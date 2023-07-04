@@ -8,7 +8,6 @@ const Mypage: NextPage  = () => {
     // レンダリング時にuser情報をfirebaseから取得し直す処理（（SSG時にはnullになっている？）
     return (
     <>
-        <BasicHeader></BasicHeader>
         <Box className="page"  >
         </Box>
     </>

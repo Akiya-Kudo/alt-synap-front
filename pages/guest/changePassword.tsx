@@ -12,7 +12,6 @@ export const ChangePassword: NextPage = () => {
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
     return (
         <>
-            <BasicHeader/>
             <Flex
             className="page"
             direction="column" 

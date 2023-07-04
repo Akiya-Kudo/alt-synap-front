@@ -39,10 +39,14 @@ export const AuthProvider = (props: any) => {
                         console.log(result_m);
                     }
                     setUserState("isUser")
+                    console.log("is user");
+                    
                 } else {
                     setUserState("guest")
+                    console.log("guest");
                 }
             } catch (error) {
+                setUserState("guest")
                 console.log("onstatechanged error");
                 console.log(error);
             }

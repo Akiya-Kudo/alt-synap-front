@@ -3,6 +3,7 @@ import { MouseEventHandler, ReactComponentElement } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
 import { API, OutputData } from "@editorjs/editorjs";
+import { Tag, User } from "./global";
 
 //テキスト
 export interface NeumTextProps extends BoxProps {
@@ -114,7 +115,8 @@ export interface GlassInputProps extends InputProps {
 }
 export interface GlassSearchInputProps extends GlassInputProps {
     setValue: (value: string) => any,
-    value: string
+    value: string,
+    onSearch: () => any,
 }
 export interface GlassFormInputProps extends GlassInputProps {
     id: string,
@@ -151,3 +153,15 @@ export interface ArticleEditorProps {
     placeholder?: string;
     readOnly?: boolean;
 };
+
+export interface TipsyCardProps {
+    uuid_pid: string,
+    title: string,
+    likes_num: number,
+    top_image: string,
+    top_link: string,
+    content_type: number
+    timestamp: Date,
+    tags: Tag[],
+    user: User,
+}

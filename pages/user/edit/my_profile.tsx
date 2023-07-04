@@ -5,7 +5,6 @@ import { BasicHeader } from "../../../component/layout/Header";
 const MyProfile: NextPage  = () => {
     return (
       <Box >
-        <BasicHeader></BasicHeader>
         プロフィールを編集する
       </Box>
     )

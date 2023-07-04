@@ -271,10 +271,10 @@ export const GlassInputDefault =({
 export const GlassFormInput = ({
     id="input", 
     labelName="Input",
-    errors, 
-    register, 
-    validation, 
-    defaultValue, 
+    errors,
+    register,
+    validation,
+    defaultValue,
     maxLength,
     bg, border, borderRadius, focusBorderColor, 
     color, placeholder, PHcolor,
@@ -316,7 +316,7 @@ export const GlassFormInput_password = ({
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
 
-    const { border_switch, glass_text_switch } = useFormColorMode();
+    const { border_switch } = useFormColorMode();
     const focusBC = focusBorderColor ? focusBorderColor : border_switch
     const relementSize = useOneSizeSmaller(size)
     return (
@@ -540,17 +540,29 @@ export const GlassFormInput_nolabel = ({
 export const GlassInput_search = ({
     placeholder="検索",
     setValue,
-    value
+    value,
+    onSearch,
+    ...props
 }: GlassSearchInputProps) => {
-    const handleChange = (e: any) =>  {
-        setValue(e.target.value)
-    }
+        const [composing, setComposition] = useState(false);
+        const handleSearchKeyDown = (e:any) => {
+            if (
+                e.key === 'Enter' 
+                && !composing 
+                && e.target.value!="" 
+                ) {
+                e.preventDefault();
+                // e.target.value = ""
+                // setValue("")
+                onSearch()
+            }
+        }
+    const handleChange = (e: any) =>  setValue(e.target.value)
     const handleClear = () => setValue("")
 
     const {border_switch} = useFormColorMode()
     return (
         <InputGroup
-        // maxW={"60rem"}
         >
             <InputLeftElement
             pointerEvents='none'
@@ -559,7 +571,11 @@ export const GlassInput_search = ({
             children={<Search2Icon/>}
             />
             <Input 
+            { ...props }
             onChange={handleChange}
+            onKeyDown={ handleSearchKeyDown }
+            onCompositionStart={ ()=>setComposition(true) }
+            onCompositionEnd={ ()=>setComposition(false) }
             value={value}
             placeholder={placeholder}
             _placeholder={{ opacity: 1, color: 'text_light' }}
@@ -605,7 +621,7 @@ export const PostImageInput = ({
         id={id}
         {...props}
         >
-            <Box display={"flex"} justifyContent="center" alignItems={"center"} m={2}>          
+            <Box display={"flex"} justifyContent="center" alignItems={"center"} m={2}>
                 <Box 
                 pos="relative" display={"flex"} flexDirection="column" alignItems={"center"} justifyContent="center" 
                 textAlign={"center"}
