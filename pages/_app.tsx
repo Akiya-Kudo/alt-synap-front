@@ -19,7 +19,7 @@ import { useRouter } from 'next/router';
 const apollo_cache_option = {
   typePolicies: {
     User: {
-      keyFields: ["uid"],
+      keyFields: ["uuid_uid"],
     }
   }
 }

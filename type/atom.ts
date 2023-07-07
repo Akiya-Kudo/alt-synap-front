@@ -158,10 +158,14 @@ export interface TipsyCardProps {
     uuid_pid: string,
     title: string,
     likes_num: number,
-    top_image: string,
+    top_image?: string,
     top_link: string,
     content_type: number
     timestamp: Date,
-    tags: Tag[],
+    tags?: Tag[],
     user: User,
+}
+
+export interface TipsyCardWithImageProps extends TipsyCardProps {
+    top_image: string
 }

@@ -38,7 +38,6 @@ export const BasicHeader = () => {
 
     //header内user情報
     const { userState } = useContext(AuthContext);
-    console.log(auth.currentUser);
     
     const photo_path = auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
     const user_name = auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";

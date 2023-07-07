@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { background, Box, Button, Heading, Input, Text } from '@chakra-ui/react';
+import { background, Box, Button, Center, Heading, Input, Text } from '@chakra-ui/react';
 import { TabBord } from '../component/atom/bords';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
 
