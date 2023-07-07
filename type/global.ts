@@ -3,7 +3,7 @@ import { OutputData } from "@editorjs/editorjs";
 export type UserStateStringType = 'isUser' | 'guest' | 'loading' | undefined; 
 
 export interface User {
-    uid?: string,
+    uid?: string | null | undefined,
     uuid_uid?: string,
     comment?: string,
     lang_type?: number,
@@ -60,9 +60,16 @@ export interface Post_with_imageFile {
 }
 
 export interface PostCard extends Post {
+    uuid_pid: string,
+    uuid_uid: string,
     title: string,
+    top_link: string,
+    top_image?: string,
     likes_num: number,
     timestamp: Date,
+    content_type: number,
+    user: User,
+    tags: Tag[]
 }
 
 export interface EditingPostType extends Post {

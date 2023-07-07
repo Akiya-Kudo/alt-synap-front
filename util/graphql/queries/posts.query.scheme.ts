@@ -20,7 +20,14 @@ export const POSTS_SEARCH = gql`
                 tags {
                     tid
                     tag_name
-                }   
+                    display_name
+                    tag_image
+                } 
+                user {
+                    uuid_uid
+                    user_name
+                    user_image
+                }
             }
             total_count
         }

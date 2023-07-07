@@ -1,25 +1,28 @@
 import { NextPage } from 'next';
-import { Box } from '@chakra-ui/react';
+import { Box, Link, Tag } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { TipsyPostsboard } from '../component/standalone/TipsyPostsBoard';
-import { TabBord } from '../component/atom/bords';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
+import dynamic from 'next/dynamic';
+
+const Tipsyboard = dynamic(
+    () => import("../component/standalone/TipsyPostsBoard"),
+    { ssr: false }
+);
 const Search: NextPage  = () => {
     const router = useRouter()
     const { query } = router
     const query_text = query.words as string
 
-        
     return (
         <>
             <Box className="page">
                 <TabButtonSelectGroup
                 onChange={ () =>{} } 
                 options={["StackOverFlow", "YouTube", "Tipsy", "Qiita", "その他"]}  
-                defaultValue='人気順' 
+                defaultValue='Tipsy' 
                 m={"20px"}
                 />
-                <TipsyPostsboard query_text={query_text}/>
+                <Tipsyboard query_text={query_text}/>
             </Box>
         </>
     )

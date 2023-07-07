@@ -27,8 +27,8 @@ export const useColorRandomPick= ( array: string[] | undefined, num: number | un
     return sorted_array
 }
 
-//色を順番に配列に格納してくれる関数・２色を順番に欲しい個数分、配列で所得したい時など
-export const useColorOrderPick = (array: string[] | undefined, num: number | undefined ) => {
+//色を順番に配列に格納してくれる関数・２色を特定の個数分順番に欲しいときなど、配列で所得したい時など => １arg : switch color_string配列 ,  2args {nullable} : number( 欲しい個数分 )
+export const useColorOrderPick = (array: string[] | undefined, num?: number ) => {
     if (!array) {
         array = [
             "red_switch","orange_switch","yellow_switch","green_switch","teal_switch",
@@ -64,6 +64,7 @@ export const useFormColorMode = () => {
 export const useGlassColorMode = () => {
     const glass_bg_switch = useColorModeValue("rgba(220,220,220, 0.8)", "rgba(100,100,100, 0.7)")
     const glass_bg_switch_natural = useColorModeValue("rgba(200,200,200, 0.6)", "rgba(60,60,60, 0.6)")
+    const glass_bg_switch_deep = useColorModeValue("rgba(230,230,230, 0.75)", "rgba(60,60,60, 0.75)")
     const mock_bg_switch = useColorModeValue("rgb(224,224,224)", "rgb(88,89,90)")
-    return {glass_bg_switch, glass_bg_switch_natural, mock_bg_switch}
+    return {glass_bg_switch, glass_bg_switch_natural, mock_bg_switch, glass_bg_switch_deep}
 }

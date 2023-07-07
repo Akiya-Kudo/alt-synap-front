@@ -1,17 +1,15 @@
 import React from "react"
-import NextImage from 'next/image';
-import { Avatar, Box, Center, Grid, GridItem, Heading, HStack, Icon, Image, Link, LinkBox, LinkOverlay, Stack, Tag, Text } from "@chakra-ui/react"
-import { TipsyCardProps } from "../../type/atom"
-import { DentBord, FlatBord } from "./bords"
-import { TagList } from "../helper/TagList"
-import { AiOutlineHeart } from "react-icons/ai"
-import { useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useColor"
+import Image from 'next/image';
 import NextLink from 'next/link'
+import { Image as ChakraImage, Avatar, Box, Center,  Heading, HStack, Icon, Link, Stack, Tag, Text } from "@chakra-ui/react"
+import { TipsyCardProps, TipsyCardWithImageProps } from "../../type/atom"
+import { AiOutlineHeart } from "react-icons/ai"
+import { useColorOrderPick, useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useColor"
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 export const TipsyCard = ({
     uuid_pid,
     title,
-    top_image,
     top_link,
     likes_num, 
     timestamp,
@@ -20,9 +18,10 @@ export const TipsyCard = ({
     tags,
 }: TipsyCardProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
+    const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
     return (
-        <NextLink href="/">
             <Box
+            width={550}
             px={4} pb={2} pt={4}
             borderRadius={20}
             flexDirection={"column"}
@@ -32,36 +31,59 @@ export const TipsyCard = ({
                 boxShadow: `inset 10px 10px 13px -5px ${shadow}, inset -10px -10px 15px -5px ${highlight};`, 
             }}
             >
-                <Heading size={"sm"} w={"100%"} p={1}>
-                            { title }
-                </Heading>
+                <NextLink href={"/posts/" + uuid_pid}>
+                    <Heading size={"sm"} w={"100%"} p={1} color={"text_important"}>
+                                { title }
+                    </Heading>
+                </NextLink>
 
-                <Stack direction={"row"} w={"100%"} m={1}>
-                    <Stack direction={"row"} >
-                        { tags.map((tag) => {
-                            return <NextLink href={"/topic"}><Tag id={tag.tid?.toString()} color={"gray"} fontSize={".6rem"} px={1} size="xs" colorScheme={"blue"}>{ tag.tag_name }</Tag></NextLink>
+                <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
+                    <Stack direction={"row"} flexWrap={"wrap"} gap={.3} justify={"center"}>
+                        { tags?.map((tag, _i) => {
+                            return (
+                                <NextLink href={"/topics/" + tag.tid}>
+                                    <Tag 
+                                    id={tag.tid?.toString()} 
+                                    fontSize={".7rem"} 
+                                    px={1} py={.2}
+                                    size="xs" 
+                                    borderRadius={10}
+                                    color={"text_normal"}
+                                    bg={tag_colors[_i]} 
+                                    transition={".2s"}
+                                    _hover={{ filter: 'brightness(1.2)' }}
+                                    >
+                                        { tag.tag_name }
+                                    </Tag>
+                                </NextLink>
+                            )
                         })}
                     </Stack>
-                    <Link fontSize={".7rem"} color="teal.500" href={top_link} isExternal>{top_link.slice(0, 30) + "..."}</Link>
+                    {
+                        top_link &&
+                        <Link fontSize={".7rem"} color="text_light" href={top_link} isExternal>
+                            <ExternalLinkIcon color={"tipsy_color_active_2"} fontSize={".7rem"} me={1}/>
+                            {top_link.slice(0, 30) + "..."}
+                        </Link>
+                    }
                 </Stack>
 
                 <Stack direction={"row"} w={"100%"} m={1}>
                     <Stack direction={"row"}>
-                    <NextLink href={"/user/my_page"}>
-                            <Avatar h={5} w={5} name={user.user_name} src={user.user_image} />
+                    <NextLink href={"/users/" + user.uuid_uid}>
+                            <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} />
                     </NextLink>
-                    <NextLink href={"/user/my_page"}>
+                    <NextLink href={"/users/" + user.uuid_uid}>
                             <Center fontSize={".8rem"}>{user.user_name}</Center>
                     </NextLink>
                     </Stack>
-                    <Box fontSize={".8rem"}>{ timestamp.toString().split(" ", 4).join(" / ")}</Box>
+                    <Box fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1)}</Box>
                     <Stack direction={"row"}>
                         <Center mt={"1px"}><AiOutlineHeart/></Center>
                         <Center fontSize={".8rem"}>{ likes_num }</Center>
                     </Stack>
                 </Stack>
             </Box>
-        </NextLink>
     )
 }
 
@@ -75,15 +97,16 @@ export const TipsyCard_image = ({
     content_type,
     user,
     tags,
-}: TipsyCardProps) => {
+}: TipsyCardWithImageProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
-    const {glass_bg_switch_natural} = useGlassColorMode()
+    const {glass_bg_switch_deep} = useGlassColorMode()
+    const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
     return (
-        <NextLink href="/">
             <Box 
+            width={550}
+            height={350} 
             className='image_box'
             position="relative" 
-            maxH={300} 
             borderRadius={20}
             transition={".2s"}
             boxShadow={`7px 7px 10px -5px ${shadow}, -7px -7px 10px -5px ${highlight};`}
@@ -92,20 +115,24 @@ export const TipsyCard_image = ({
             }}
             overflow="hidden"
             >
-                <Image src={ top_image } objectFit="cover" w="100%" h="100%"
-                borderRadius={20}
-                transition=".3s"
-                sx={{
-                    '.image_box:hover &': {
-                        transform: "scale(1.05)",
-                    },
-                }}
-                />
+                <NextLink href={"/posts/" + uuid_pid}>
+                    <ChakraImage
+                    as={Image} 
+                    layout="fill"
+                    src={ top_image } 
+                    objectFit="cover" 
+                    transition=".3s"
+                    sx={{
+                        '.image_box:hover &': {
+                            transform: "scale(1.05)",
+                        },
+                    }}
+                    />
+                </NextLink>
                 <Box 
                 position="absolute" left="0" right="0" bottom="0"
-                backgroundColor={glass_bg_switch_natural}
+                backgroundColor={glass_bg_switch_deep}
                 borderBottomRadius={20}
-                // backdropFilter='invert(100%)'
                 backdropFilter='auto'
                 backdropBlur={"10px"}
                 px={4} pb={2} pt={4}
@@ -115,29 +142,56 @@ export const TipsyCard_image = ({
                     },
                 }}
                 >
-                    <Heading size={"sm"} w={"100%"} p={1}>
-                                { title }
-                    </Heading>
+                    <NextLink href={"/posts/" + uuid_pid}>
+                        <Heading size={"sm"} w={"100%"} p={1} color={"text_important"}>
+                                    { title }
+                        </Heading>
+                    </NextLink>
 
-                    <Stack direction={"row"} w={"100%"} m={1}>
-                        <Stack direction={"row"} >
-                            { tags.map((tag) => {
-                                return <NextLink href={"/topic"}><Tag id={tag.tid?.toString()} color={"gray"} fontSize={".6rem"} px={1} size="xs" colorScheme={"blue"}>{ tag.tag_name }</Tag></NextLink>
+                    <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
+                        <Stack direction={"row"} flexWrap={"wrap"} gap={.3} justify={"center"}>
+                            { tags?.map((tag, _i) => {
+                                return (
+                                    <NextLink href={"/topics/" + tag.tid}>
+                                        <Tag 
+                                        id={tag.tid?.toString()} 
+                                        fontSize={".7rem"} 
+                                        px={1} py={.2}
+                                        size="xs" 
+                                        borderRadius={10}
+                                        color={"text_normal"}
+                                        bg={tag_colors[_i]} 
+                                        transition={".2s"}
+                                        _hover={{ filter: 'brightness(1.2)' }}
+                                        >
+                                            { tag.tag_name }
+                                        </Tag>
+                                        </NextLink>
+                                )
                             })}
                         </Stack>
-                        <Link fontSize={".7rem"} color="teal.500" href={top_link} isExternal>{top_link.slice(0, 30) + "..."}</Link>
+                        {
+                        top_link &&
+                        <NextLink href={top_link} passHref>
+                            <Link fontSize={".7rem"} color="text_light" href={top_link} isExternal>
+                                <ExternalLinkIcon color={"tipsy_color_active_2"} fontSize={".7rem"} me={1}/>
+                                {top_link.slice(0, 30) + "..."}
+                            </Link>
+                        </NextLink>
+                        
+                        }
                     </Stack>
 
                     <Stack direction={"row"} w={"100%"} m={1}>
                         <Stack direction={"row"}>
-                        <NextLink href={"/user/my_page"}>
-                                <Avatar h={5} w={5} name={user.user_name} src={user.user_image} />
+                        <NextLink href={"/users/" + user.uuid_uid}>
+                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} />
                         </NextLink>
-                        <NextLink href={"/user/my_page"}>
+                        <NextLink href={"/users/" + user.uuid_uid}>
                                 <Center fontSize={".8rem"}>{user.user_name}</Center>
                         </NextLink>
                         </Stack>
-                        <Box fontSize={".8rem"}>{ timestamp.toString().split(" ", 4).join(" / ")}</Box>
+                        <Box fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1)}</Box>
                         <Stack direction={"row"}>
                             <Center mt={"1px"}><AiOutlineHeart/></Center>
                             <Center fontSize={".8rem"}>{ likes_num }</Center>
@@ -145,17 +199,5 @@ export const TipsyCard_image = ({
                     </Stack>
                 </Box>
             </Box>
-        </NextLink>
     )
 }
-{/* <Box width='100%' height='auto' position='absolute' bottom={1} px={6} pt={6}
-borderRadius={20}
-flexDirection={"column"}
-transition={".2s"}
-boxShadow={`inset 5px 5px 10px -5px ${shadow}, inset -5px -5px 10px -5px ${highlight};`}
-_hover={{
-    boxShadow: `inset 10px 10px 13px -5px ${shadow}, inset -10px -10px 15px -5px ${highlight};`, 
-}}
->
-    <NextImage src={top_image} layout='responsive' objectFit='cover' alt='top_image' width={100} height={100} style={{ borderRadius: '20px' }} />
-</Box> */}

@@ -6,21 +6,20 @@ export const tipsy_light = {
     500: "#808080",
     600: "rgb(174, 174, 174)",
     700: "rgba(255,255,255,0.5)",
-    800: "rgba(105, 128, 154, 0.5)"
+    800: "rgba(105, 128, 154, 0.5)",
+    900: "RGBA(0, 0, 0, 0.7)"
 }
 
 export const tipsy_dark = {
     100: "#292D32",
-    // 200: "#35383d",
     200: "#363a3d",
-    // 300: "#1e2123",
     300: "#181b1c",
     400: "#dddddd",
     500: "#b0b0b3",
     600: "#65696e",
-    // 700: "rgba(49, 50, 55, 0.5)",
     700: "rgba(62, 64, 69, 0.3)",
     800: "rgba(20, 22, 23, 0.5)",
+    900: "#fff",
 }
 
 //それを参照するものすべてがその擬似クラスの影響を受けるため themeでの使用限定
@@ -36,10 +35,11 @@ export const color_switchs =  {
     bg_editorjs_menu_hover: {default:"rgba(255,255,255,0.49)", _dark: "rgba(132,132,135,0.49)"},
     bg_editorjs_button: {default:"tipsy_light.200", _dark: "tipsy_dark.600"},
 
-    text_normal: {default: "tipsy_light.400", _dark: "tipsy_dark.400",},
+    text_normal: {default: "tipsy_light.400", _dark: "tipsy_dark.400"},
     text_reverse: {default: "tipsy_dark.400", _dark: "tipsy_light.400"},
-    text_light: {default: "tipsy_light.500", _dark: "tipsy_dark.500",},
-    text_very_light: {default: "tipsy_light.600", _dark: "tipsy_dark.600",},
+    text_light: {default: "tipsy_light.500", _dark: "tipsy_dark.500"},
+    text_very_light: {default: "tipsy_light.600", _dark: "tipsy_dark.600"},
+    text_important: {default: "tipsy_light.900", _dark: "tipsy_dark.900"},
     
     red_switch: {default: "red.400", _dark: "red.300",},
     orange_switch: {default: "orange.400", _dark: "orange.300" },
@@ -59,5 +59,10 @@ export const color_switchs =  {
     tipsy_color_active_1: {default: "yellow.500", _dark: "blue.200"},
     tipsy_color_active_2: {default: "green.500", _dark: "purple.200"},
     tipsy_color_active_3: {default: "teal.500", _dark: "pink.200"},
-    // tipsy_color_border: {default: "orange.300", _dark: "purple.300"},
+
+    tipsy_tag_1: {default: "rgba(154, 230, 180, 0.6)", _dark: "rgba(214, 188, 250, 0.6)"},
+    tipsy_tag_2: {default: "rgba(144, 230, 205, 0.6)", _dark: "rgba(234, 188, 230, 0.6)"},
+    tipsy_tag_3: {default: "rgba(129, 230, 217, 0.6)", _dark: "rgba(251, 182, 206, 0.6)"},
+    tipsy_tag_4: {default: "rgba(189, 260, 202, 0.6)", _dark: "rgba(200, 192, 226, 0.6)"},
+    tipsy_tag_5:{default: "rgba(240, 290, 187, 0.6)", _dark: "rgba(174, 205, 244, 0.6)"},
 }

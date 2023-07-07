@@ -23,6 +23,7 @@ export const AuthProvider = (props: any) => {
         onAuthStateChanged(auth, async (user)=>{
             try {
                 if (user) {
+                    
                     const result = await getLoginUserInfo( {
                         variables: {"uid" : user.uid}
                     })
