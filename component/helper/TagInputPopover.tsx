@@ -7,7 +7,7 @@ import { useColorOrderPick, useColorRandomPick, useGlassColorMode } from "../../
 import { NeumIconButton } from "../atom/buttons"
 import { GlassFormInput_nolabel } from "../atom/inputs"
 import { GlassTag, GlassTag_edit } from "../atom/tags"
-import { TagList } from "./TagList"
+import { GlassTagList } from "./TagList"
 
 export const TagInputPopover = ({
     errors, 
@@ -132,7 +132,7 @@ export const TagInputPopover = ({
                             maxLength={50}
                             />
                         </Box>
-                        <TagList 
+                        <GlassTagList 
                         tags={value}
                         colorList={colorList}
                         mt={5}

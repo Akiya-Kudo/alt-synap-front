@@ -1,5 +1,5 @@
 import { BoxProps, FlexProps, MenuProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
-import { Tag } from "./global";
+import { Tag, TagEditing } from "./global";
 
 export interface GlassMenuProps extends MenuProps {
     user_name?: string,
@@ -59,13 +59,21 @@ export interface TopImagePopoverProps extends PostPopoverProps {
     setImageFile: React.Dispatch<React.SetStateAction<File | null | "DELETE">>,
 }
 export interface TagPopoverProps extends PostPopoverProps {
-    value: Array<Tag>,
+    value: Array<Tag> | Array<TagEditing>
     setValue: (e:any) => void,
     onDeleteClick: (e:any) => void,
 }
 
-export interface TagListProps extends FlexProps {
+export interface GlassTagListProps extends FlexProps {
+    tags: Array<Tag> | Array<TagEditing>,
+    colorList: Array<string>,
+    onDeleteClick?: (e:any) => void,
+    isDeletable?: boolean,
+}
+
+export interface NeumTagListProps extends FlexProps {
     tags: Array<Tag>,
     colorList: Array<string>,
-    onDeleteClick: (e:any) => void
+    onDeleteClick?: (e:any) => void,
+    isDeletable?: boolean,
 }

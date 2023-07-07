@@ -145,6 +145,10 @@ export interface GlassTagProps extends TagProps{
 export interface GlassTagCloseProps extends GlassTagProps {
     onClick: (e:any)=>void,
 } 
+export interface NeumTagProps extends TagProps {
+    tag_image?: string,
+    display_name: string
+}
 
 //エディター
 export interface ArticleEditorProps {

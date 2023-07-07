@@ -3,8 +3,6 @@ import { Box, Flex, Grid, GridItem, Text, Tooltip, VStack } from "@chakra-ui/rea
 import { useForm } from "react-hook-form";
 import { DentBord, FlatBord } from "../atom/bords";
 import { GlassFormInput, NeumFloatFormInput } from "../atom/inputs"
-import { NeumIconButton } from "../atom/buttons"
-// import { useEffect, useState } from "react";
 
 import dynamic from "next/dynamic";
 import { FaImage, FaLink, FaQuestion, FaTags } from "react-icons/fa";
@@ -13,6 +11,7 @@ import { Validation_post_title } from "../../util/form/validation";
 import { TopLinkInputPopover } from "../helper/TopLinkInputPopover";
 import { TopImageInputPopover } from "../helper/TopImageInputPopover";
 import { TagInputPopover } from "../helper/TagInputPopover";
+import { TagEditing } from "../../type/global";
 
 const ArticleEditor = dynamic(
     () => import("../atom/ArticleEditor"),
@@ -35,7 +34,7 @@ export const ArticlePostForm = ({
     const handleTopImage = (photo:any) => setStateValue((prev)=>({...prev, top_image: photo }))
     const handleTagsAdd = (e:any) => {
         // const newTag = e.target.value;
-        const newTag = {
+        const newTag: TagEditing = {
             tid: undefined,
             tag_name: e.target.value,
         }

@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 // import { User} from '../../../type/user'
 
 export const USER_QUERY = gql`
-    query($uid: String!) {
+    query login_user_info_query($uid: String!) {
         user(uid: $uid) {
             uid
             uuid_uid
@@ -15,7 +15,7 @@ export const USER_QUERY = gql`
 `;
 
 export const READ_USER_UUID = gql`
-    query ReadUserUuid($uid: ID!) {
+    query login_user_uuid_query($uid: ID!) {
         user(uid: $uid) {
             uuid_uid
         }
