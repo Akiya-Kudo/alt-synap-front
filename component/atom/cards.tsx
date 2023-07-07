@@ -25,10 +25,10 @@ export const TipsyCard = ({
             px={4} pb={2} pt={4}
             borderRadius={20}
             flexDirection={"column"}
-            transition={".2s"}
-            boxShadow={`inset 5px 5px 10px -5px ${shadow}, inset -5px -5px 10px -5px ${highlight};`}
+            transition={".3s"}
+            boxShadow={`inset 6px 6px 13px -5px ${shadow}, inset -6px -6px 15px -5px ${highlight};`}
             _hover={{
-                boxShadow: `inset 10px 10px 13px -5px ${shadow}, inset -10px -10px 15px -5px ${highlight};`, 
+                boxShadow: `inset 0px 0px 2px ${shadow}, inset -0px -0px 2px ${highlight};`, 
             }}
             >
                 <NextLink href={"/posts/" + uuid_pid}>

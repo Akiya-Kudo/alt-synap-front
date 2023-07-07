@@ -20,6 +20,9 @@ const apollo_cache_option = {
   typePolicies: {
     User: {
       keyFields: ["uuid_uid"],
+    },
+    PostWithTagsAndUser: {
+      keyFields: ["uuid_pid"],
     }
   }
 }

@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { Tag } from "../../type/global";
+import { Tag, TagEditing } from "../../type/global";
 
 export const Validation_username = {
     required: "ユーザネームは必須です | User Name is required",
@@ -51,7 +51,7 @@ export const Validation_url = {
     }
 }
 
-export const Validation_word = (tags: Array<Tag>) => {
+export const Validation_word = (tags: Array<Tag> | Array<TagEditing>) => {
     const tag_names = tags.map((tag)=> tag.tag_name)
     return (
         {

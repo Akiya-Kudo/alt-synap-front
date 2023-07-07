@@ -32,9 +32,19 @@ export interface PostTag {
 }
 
 export interface Tag {
-    tid?: number,
-    tag_name?: string,
+    tid: number,
+    tag_name: string,
     tag_content_num?: number,
+    display_name: string,
+    tag_image?: string
+}
+
+export interface TagEditing {
+    tid?: number,
+    tag_name: string,
+    tag_content_num?: number,
+    display_name?: string,
+    tag_image?: string
 }
 
 export interface Like  {
@@ -82,7 +92,7 @@ export interface EditingPostType extends Post {
     update_time?: Date,
     publish?: boolean,
     deleted?: boolean,
-    tags: Tag[] 
+    tags: Tag[] | TagEditing[] 
     top_image_file: File | null | "DELETE",
 }
 export interface ArticlePostData extends EditingPostType {
