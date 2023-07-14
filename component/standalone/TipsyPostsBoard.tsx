@@ -35,13 +35,9 @@ const TipsyPostsboard = ({ query_text }: {query_text: string}) => {
 
     return (
         <>
-
             <Center mb={5} w={"100%"} flexDir={"column"}>
-                <DentBord w={130} h={"40px"} justifyContent="center" alignItems={"center"} my={3} borderRadius={"full"}>
-                    <Heading size={"sm"}>Post</Heading>
-                </DentBord>
                 {
-                data.search_post_tag.posts.length > 0 && (
+                data.search_post.posts.length > 0 && (
                     <PinterestGrid
                     columns={3}      
                     columnWidth={550}
@@ -49,7 +45,7 @@ const TipsyPostsboard = ({ query_text }: {query_text: string}) => {
                     gutterHeight={20}
                     responsive={true}
                     >
-                        {data.search_post_tag.posts.map((post: PostCard) => {
+                        {data.search_post.posts.map((post: PostCard) => {
                             if (post.top_image) {
                                 return (
                                     <TipsyCard_image
@@ -89,7 +85,7 @@ const TipsyPostsboard = ({ query_text }: {query_text: string}) => {
                         })}
                     </PinterestGrid>
                 )}
-                { data.search_post_tag.posts.length == 0 && (
+                { data.search_post.posts.length == 0 && (
                     <VStack m={10}>
                         <Text m={5}>検索条件の投稿は見つかりませんでした</Text>
                         <Center p={5}><NeumLoader/></Center>

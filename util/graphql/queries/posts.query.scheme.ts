@@ -3,7 +3,7 @@ import { gql } from '@apollo/client';
 //post searchで使用 => 検索ワードで投稿を取得する Query
 export const POSTS_SEARCH = gql`
     query post_search($searchString: String!, $selectedTagIds: [Int]!, $pgNum: Int!, $sortType: Int!) {
-        search_post_tag (
+        search_post (
             searchString: $searchString, 
             selectedTagIds: $selectedTagIds,
             pgNum: $pgNum,
