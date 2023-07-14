@@ -4,7 +4,7 @@ import { useNeumorphismColorMode } from "../../util/hook/useColor"
 
 export const BasicSwitch = ({
     id, children,
-    Scolor="blue_switch", 
+    Scolor="blue_switch", lbFontSize,
     swM, swP, lbM, lbP, m, p,
     display="flex", alignItems="center", flexDirection="row",
     ...props
@@ -14,7 +14,7 @@ export const BasicSwitch = ({
     return (
         <FormControl display={display} alignItems={alignItems} flexDirection={flexDirection} m={m} p={p}>
             <Box flexGrow={flexGrow}></Box>
-            <FormLabel htmlFor={id} mb={0} m={lbM} p={lbP}>
+            <FormLabel htmlFor={id} mb={0} m={lbM} p={lbP} fontSize={lbFontSize}>
                 { children }
             </FormLabel>
             <Switch

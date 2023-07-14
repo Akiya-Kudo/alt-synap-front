@@ -77,6 +77,7 @@ export interface NeumSwitchRadioProps extends NeumRadioProps {
 export interface NeumSwitchProps extends SwitchProps {
     id: string,
     Scolor?: string,
+    lbFontSize?: string | number,
     swM?: string | number,
     swP?: string | number,
     lbM?: string | number,

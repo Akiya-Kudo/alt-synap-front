@@ -100,7 +100,7 @@ export const SwitchButton = ({
 export const SwitchButtonConcave = ({
     onClick=()=>undefined,
     fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
-    Hcolor="red_switch", Acolor="red.600", 
+    Hcolor="red_switch", Acolor="red.600", bgGradient, HbgGradient,
     ...props
 }: NeumButtonProps) => {
     const [active, setActive] = useState(false);
@@ -118,11 +118,12 @@ export const SwitchButtonConcave = ({
         {...props}
         onClick={ handleClick } 
         fontSize={fontSize} color={color} bg={bg} borderRadius={borderRadius}
-        boxShadow={neumState}
+        boxShadow={neumState} bgGradient={bgGradient}
         _hover={{
             boxShadow: neumHover, 
             color: Hcolor,
-            fontSize: fontSize / 1.02
+            fontSize: fontSize / 1.02,
+            bgGradient: HbgGradient
         }}
         _active={{
             boxShadow: `inset 10px 10px 20px -3px ${shadow}, inset -10px -10px 20px -3px ${highlight};`,
