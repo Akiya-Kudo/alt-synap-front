@@ -21,7 +21,7 @@ export const TipsyCard = ({
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
     return (
             <Box
-            width={550}
+            width={"100%"}
             px={4} pb={2} pt={4}
             borderRadius={20}
             flexDirection={"column"}
@@ -103,7 +103,7 @@ export const TipsyCard_image = ({
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
     return (
             <Box 
-            width={550}
+            width={"100%"}
             height={350} 
             className='image_box'
             position="relative" 

@@ -36,7 +36,7 @@ const TipsyTagsBoard = ({ query_text, isDisplay }: {query_text: string, isDispla
             <Center>
                 <DentBord
                 display={"flex"} flexDirection={"column"}
-                mx={10} my={3} p={4}
+                mx={10} mt={3} mb={1} p={4}
                 w={1150}
                 borderRadius={40}
                 position={"relative"}
@@ -45,7 +45,7 @@ const TipsyTagsBoard = ({ query_text, isDisplay }: {query_text: string, isDispla
                             <Heading size={"sm"}>Topic</Heading>
                     </DentBord>
                     <SwitchButton_tab id={"a"} onClick={handleDisplay} position={"absolute"} right={3} top={2} size={"xs"} borderRadius={"full"} >×</SwitchButton_tab>
-                    <NeumTagList 
+                    <NeumTagList
                     tags={data.search_tag} colorList={colorList}
                     gap={3}
                     />

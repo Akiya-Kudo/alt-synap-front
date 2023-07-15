@@ -23,6 +23,12 @@ const apollo_cache_option = {
     },
     PostWithTagsAndUser: {
       keyFields: ["uuid_pid"],
+    },
+    Post: {
+      keyFields: ["uuid_pid"]
+    },
+    Tag: {
+      keyFields: ["tid"]
     }
   }
 }
