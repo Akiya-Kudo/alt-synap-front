@@ -79,7 +79,7 @@ export const NeumTag = ({
             <Avatar src={tag_image} size='2xs' h={5} w={5} name={display_name} mr={2}/> 
             : 
             // <Box bg={colorScheme} borderRadius={"full"} mr={1} ml={1} opacity={0.5} h={2} w={2}/> 
-            <Box ps={1}><FaHashtag color={colorScheme} opacity={0.5} fontSize={"12px"}/></Box>
+            <Box mr={.5} ps={1}><FaHashtag color={colorScheme} opacity={0.7} fontSize={"12px"}/></Box>
             }
             <TagLabel fontSize={".6rem"} fontWeight={"bold"} color={"text_light"} mr={1}>{display_name}</TagLabel>
         </Tag>

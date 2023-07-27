@@ -29,14 +29,17 @@ export interface PostTag {
     tid?: number,
     uuid_pid?: string,
     timestamp?: Date,
+    tags?: Tag,
+    posts?: Post
 }
 
 export interface Tag {
     tid: number,
-    tag_name: string,
+    tag_name?: string,
     tag_content_num?: number,
     display_name: string,
-    tag_image?: string
+    tag_image?: string,
+    post_tags?: PostTag[],
 }
 
 export interface TagEditing {
@@ -54,35 +57,24 @@ export interface Like  {
 }
 
 export interface Post {
-    uuid_pid?: string | null,
-    uuid_uid?: string,
-    title?: string,
-    top_image?: null | string,
-    top_link?: null | string,
-    content_type?: number,
-    likes_num?: number,
-    deleted?: boolean,
-    publish?: boolean,
-    timestamp?: Date,
+    uuid_pid: string,
+    uuid_uid: string,
+    title: string,
+    top_image?: string,
+    top_link?: string,
+    content_type: number,
+    likes_num: number,
+    deleted: boolean,
+    publish: boolean,
+    timestamp: Date,
+    users: User,
+    post_tags: PostTag[],
 }
 export interface Post_with_imageFile {
     top_image_file?: any
 }
 
-export interface PostCard extends Post {
-    uuid_pid: string,
-    uuid_uid: string,
-    title: string,
-    top_link: string,
-    top_image?: string,
-    likes_num: number,
-    timestamp: Date,
-    content_type: number,
-    user: User,
-    tags: Tag[]
-}
-
-export interface EditingPostType extends Post {
+export interface EditingPostType {
     uuid_pid?: string,
     title: string,
     top_image: null | string, 
@@ -104,3 +96,5 @@ export interface ArticlePostData extends EditingPostType {
 export interface SourcePostrData extends EditingPostType {
     sourceContent?: SourceContent,
 }
+
+export type SortType = "人気順" | "新着順"

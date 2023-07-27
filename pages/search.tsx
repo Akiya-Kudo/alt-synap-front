@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { DentBord } from '../component/atom/bords';
 import { ClickButton, SwitchButtonConcave, SwitchButton_tab } from '../component/atom/buttons';
 
-export const isTagBoardDisplayVar = makeVar(false as boolean)
+export const isTagBoardDisplayVar = makeVar(true as boolean)
 
 const TipsyPostsboard = dynamic(
     () => import("../component/standalone/TipsyPostsBoard"),

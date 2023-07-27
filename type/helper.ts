@@ -1,4 +1,5 @@
 import { BoxProps, FlexProps, MenuProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
+import { NeumBordProps } from "./atom";
 import { Tag, TagEditing } from "./global";
 
 export interface GlassMenuProps extends MenuProps {
@@ -33,6 +34,14 @@ export interface MyTabGroupProps extends BoxProps {
     chH?: string | number,
     chP?: string | number,
     chM?: string | number,
+}
+export interface SwitchGroupProps extends NeumBordProps {
+    optionRight: string,
+    optionLeft: string,
+    defaultValue: string,
+    onChange: (value:any)=>any,
+    chH?: string | number,
+    chFontSize?: number,
 }
 
 export interface PostPopoverProps extends PopoverProps {

@@ -100,7 +100,7 @@ export const SwitchButton = ({
 export const SwitchButtonConcave = ({
     onClick=()=>undefined,
     fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
-    Hcolor="red_switch", Acolor="red.600", bgGradient, HbgGradient,
+    Hcolor="red_switch", Acolor="red.600", bgGradient, HbgGradient, Ashadow=true,
     ...props
 }: NeumButtonProps) => {
     const [active, setActive] = useState(false);
@@ -126,7 +126,7 @@ export const SwitchButtonConcave = ({
             bgGradient: HbgGradient
         }}
         _active={{
-            boxShadow: `inset 10px 10px 20px -3px ${shadow}, inset -10px -10px 20px -3px ${highlight};`,
+            boxShadow: Ashadow ? `inset 10px 10px 20px -3px ${shadow}, inset -10px -10px 20px -3px ${highlight};` : undefined,
             color: Acolor,
         }}
         />
@@ -138,15 +138,17 @@ export const SwitchButton_tab = ({
     onClick=()=>undefined, 
     selectedValue, 
     children, id,
-    fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
+    fontSize=20, color="text_normal", bg="transparent",
     Hcolor="red_switch", Acolor="red.600",
     ...props
 }: NeumSwitchButtonTabProps) => {
     const [active, setActive] = useState(false);
 
     const handleClick = (e: any) => {
-        setActive(!active)
-        onClick(e)
+        if (selectedValue!=children) {
+            setActive(!active)
+            onClick(e)
+        }
     }
 
     useEffect(() => {
@@ -157,22 +159,28 @@ export const SwitchButton_tab = ({
     const color_switch = active ? Hcolor : color
     const { highlight, shadow } = useNeumorphismColorMode()
     const neumState = active ? `inset 5px 5px 10px -5px ${shadow}, inset -5px -5px 10px -5px ${highlight};` :  ``;
-    const neumHover = active ? `inset 7px 7px 13px -5px ${shadow}, inset -7px -7px 15px -5px ${highlight};` : `inset 2px 2px 5px -2px ${shadow}, inset -2px -2px 5px -2px ${highlight};`;
+    const neumHover = 
+        selectedValue!=children ?
+            active ? 
+            `inset 7px 7px 13px -5px ${shadow}, inset -7px -7px 15px -5px ${highlight};` 
+            : `inset 2px 2px 5px -2px ${shadow}, inset -2px -2px 5px -2px ${highlight};` 
+        : undefined;
+
     return (
         <Button
         {...props}
         onClick={ handleClick }
         id={id} children={children}
-        fontSize={fontSize} color={color_switch} bg={bg} borderRadius={borderRadius}
+        fontSize={fontSize} color={color_switch} bg={bg}
         boxShadow={neumState}
         _hover={{
             boxShadow: neumHover, 
             color: Hcolor,
-            fontSize: fontSize / 1.02,
+            fontSize: selectedValue!=children && fontSize / 1.02,
         }}
         _active={{
-            boxShadow: `inset 8px 8px 15px -5px ${shadow}, inset -8px -8px 15px -5px ${highlight};`,
-            color: Acolor,
+            boxShadow: selectedValue!=children && `inset 8px 8px 15px -5px ${shadow}, inset -8px -8px 15px -5px ${highlight};`,
+            color: selectedValue!=children && Acolor,
         }}
         />
     )

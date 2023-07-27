@@ -137,6 +137,7 @@ export const TagInputPopover = ({
                         colorList={colorList}
                         mt={5}
                         onDeleteClick={onDeleteClick}
+                        isDeletable
                         />
                     </VStack>
                 </PopoverBody>
