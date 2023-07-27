@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { auth } from '../util/firebase/init';
 import { BasicHeader } from '../component/layout/Header';
 import { useRouter } from 'next/router';
+import { Post } from '../type/global';
 
 // import '../style/atom/my-simple-image.css'
 
@@ -29,6 +30,28 @@ const apollo_cache_option = {
     },
     Tag: {
       keyFields: ["tid"]
+    },
+    Query: {
+      fields: {
+        search_post: {
+          keyArgs: ["searchString", "selectedTagId", "sortType"],
+          // merge(existing: Post[] = [], incoming: Post[]) {
+          //   return [...existing, ...incoming];
+          // }
+          merge(existing: Post[] = [], incoming: Post[]) {
+            const mergedPosts = [...existing];
+
+            // Remove duplicates from incoming data before merging
+            incoming.forEach((newPost) => {
+              if (!existing.some((existingPost) => existingPost.uuid_pid === newPost.uuid_pid)) {
+                mergedPosts.push(newPost);
+              }
+            });
+
+            return mergedPosts;
+          }
+        }
+      }
     }
   }
 }

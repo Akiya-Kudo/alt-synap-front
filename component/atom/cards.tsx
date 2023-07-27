@@ -15,7 +15,7 @@ export const TipsyCard = ({
     timestamp,
     content_type,
     user,
-    tags,
+    post_tags,
 }: TipsyCardProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
@@ -39,21 +39,21 @@ export const TipsyCard = ({
 
                 <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
                     <Stack direction={"row"} flexWrap={"wrap"} gap={.3} justify={"center"}>
-                        { tags?.map((tag, _i) => {
+                        { post_tags?.map((post_tag, _i) => {
                             return (
-                                <NextLink href={"/topics/" + tag.tid}>
+                                <NextLink href={"/topics/" + post_tag.tags?.tid}>
                                     <Tag 
-                                    id={tag.tid?.toString()} 
+                                    id={post_tag.tags?.tid?.toString()} 
                                     fontSize={".7rem"} 
                                     px={1} py={.2}
                                     size="xs" 
                                     borderRadius={10}
-                                    color={"text_normal"}
+                                    color={"text_important"}
                                     bg={tag_colors[_i]} 
                                     transition={".2s"}
                                     _hover={{ filter: 'brightness(1.2)' }}
                                     >
-                                        { tag.tag_name }
+                                        { post_tag.tags?.tag_name }
                                     </Tag>
                                 </NextLink>
                             )
@@ -96,7 +96,7 @@ export const TipsyCard_image = ({
     timestamp,
     content_type,
     user,
-    tags,
+    post_tags,
 }: TipsyCardWithImageProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const {glass_bg_switch_deep} = useGlassColorMode()
@@ -150,21 +150,21 @@ export const TipsyCard_image = ({
 
                     <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
                         <Stack direction={"row"} flexWrap={"wrap"} gap={.3} justify={"center"}>
-                            { tags?.map((tag, _i) => {
+                            { post_tags?.map((post_tag, _i) => {
                                 return (
-                                    <NextLink href={"/topics/" + tag.tid}>
+                                    <NextLink href={"/topics/" + post_tag.tags?.tid}>
                                         <Tag 
-                                        id={tag.tid?.toString()} 
+                                        id={post_tag.tags?.tid?.toString()} 
                                         fontSize={".7rem"} 
                                         px={1} py={.2}
                                         size="xs" 
                                         borderRadius={10}
-                                        color={"text_normal"}
+                                        color={"text_important"}
                                         bg={tag_colors[_i]} 
                                         transition={".2s"}
                                         _hover={{ filter: 'brightness(1.2)' }}
                                         >
-                                            { tag.tag_name }
+                                            { post_tag.tags?.tag_name }
                                         </Tag>
                                         </NextLink>
                                 )

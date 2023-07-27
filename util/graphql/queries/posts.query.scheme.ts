@@ -2,11 +2,11 @@ import { gql } from '@apollo/client';
 
 //post searchで使用 => 検索ワードで投稿を取得する Query
 export const POSTS_SEARCH = gql`
-    query post_search($searchString: String!, $selectedTagId: Int, $pgNum: Int!, $sortType: Int!) {
+    query post_search($searchString: String!, $selectedTagId: Int, $offset: Int!, $sortType: Int!) {
         search_post (
             searchString: $searchString, 
             selectedTagId: $selectedTagId,
-            pgNum: $pgNum,
+            offset: $offset,
             sortType: $sortType
         ) {
             uuid_uid
@@ -16,13 +16,15 @@ export const POSTS_SEARCH = gql`
             top_image
             timestamp
             likes_num
-            tags {
-                tid
-                tag_name
-                display_name
-                tag_image
+            post_tags {
+                tags {
+                    tid
+                    tag_name
+                    display_name
+                    tag_image
+                }
             } 
-            user {
+            users {
                 uuid_uid
                 user_name
                 user_image

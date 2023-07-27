@@ -1,24 +1,56 @@
 import { useQuery } from "@apollo/client"
-import { PostCard } from "../../type/global";
+import { Post, SortType } from "../../type/global";
 import { POSTS_SEARCH } from '../../util/graphql/queries/posts.query.scheme';
-import { TAG_SEARCH } from '../../util/graphql/queries/tags.query.scheme';
 import { TipsyCard, TipsyCard_image } from '../atom/cards'
 import PinterestGrid from 'rc-pinterest-grid';
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, Heading, Highlight, Text, VStack } from "@chakra-ui/react";
 import { CircleLoader, NeumLoader } from "../atom/loaders";
-import { DentBord } from "../atom/bords";
-import { SwitchButtonConcave } from "../atom/buttons";
+import { DentBord, TabBord } from "../atom/bords";
+import { ClickButton, SwitchButtonConcave, SwitchButton_tab } from "../atom/buttons";
+import { useEffect, useState } from "react";
+import { TabSwitchGroup } from "../helper/TabRadioGroup";
 
 const TipsyPostsboard = ({ query_text,isTagBoardDisplay, handleTagDisplay }: {query_text: string, isTagBoardDisplay: boolean, handleTagDisplay: any}) => {
-    const { loading, error, data } = useQuery(POSTS_SEARCH, {
+    const [displayPosts, setDisplayPosts] = useState<Post[]>([])
+    const [sortType, setSortType] = useState<SortType>("人気順")
+    const { loading, error, data, fetchMore } = useQuery(POSTS_SEARCH, {
         variables: 
         {
             searchString: query_text,
             selectedTagIds: null,
-            pgNum: 0,
+            offset: 0,
             sortType: 0
-        }
+        },
+        pollInterval: 600000, // 600秒間はキャッシュからフェッチされる
     })
+
+    const handleFetchMore = async () => {
+        const res = await fetchMore({
+            variables: {
+                offset: displayPosts.length,
+                sortType: sortType=="人気順" ? 0 : 1
+            },
+        })
+        setDisplayPosts([...displayPosts, ...res.data.search_post])
+        
+    }
+
+    const handleChangeSort = async (e: SortType) => {
+        if (e != sortType) {
+            const res = await fetchMore({
+                variables: {
+                    sortType: e=="人気順" ? 0 : 1
+                }
+            })
+            setSortType(e)
+            setDisplayPosts( res.data.search_post )
+        }
+    }
+
+    useEffect(() => {
+        setDisplayPosts(data?.search_post)  
+    },[data])
+
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
     if (error) {
@@ -32,6 +64,7 @@ const TipsyPostsboard = ({ query_text,isTagBoardDisplay, handleTagDisplay }: {qu
         </Center>
         )
     }
+    
     return (
         <>
             <Center my={1} w={"100%"} maxW={1100} flexDir={"column"} marginX="auto">
@@ -41,24 +74,32 @@ const TipsyPostsboard = ({ query_text,isTagBoardDisplay, handleTagDisplay }: {qu
                 my={3} borderRadius={"full"} 
                 position={"relative"}
                 >
+                    <Heading size={"sm"}>Post <Highlight query={ data.count_total_posts.toString()} styles={{fontSize: "0.8rem" }}>{data.count_total_posts ? data.count_total_posts.toString() : "0"}</Highlight></Heading>
                     {
                     isTagBoardDisplay ||
                     <SwitchButtonConcave 
                     onClick={handleTagDisplay}
-                    position={"absolute"} left={-120} top={2} h={6} fontSize={10} 
-                    color={"white"} Hcolor={"whiteAlpha.600"} 
+                    position={"absolute"} left={-120} top={1.5} h={6} 
+                    fontSize={10} Ashadow={false}
+                    color={"white"} Hcolor={"whiteAlpha.600"} Acolor={"whiteAlpha.100"}
                     bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} 
                     HbgGradient={"linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}
                     >
                         タグ検索ON
                     </SwitchButtonConcave>
                     }
-                    <Heading size={"sm"}>Post <Highlight query={ data.count_total_posts.toString()} styles={{fontSize: "0.8rem" }}>{data.count_total_posts && data.count_total_posts.toString()}</Highlight></Heading>
+                    <TabSwitchGroup
+                    optionLeft="人気順"
+                    optionRight="新着順"
+                    defaultValue="人気順"
+                    onChange={ handleChangeSort }
+                    position={"absolute"} left={200} top={-0.5}
+                    fontSize={10} gap={1} p={1} borderRadius={"full"}/>
                 </DentBord>
             </Center>
             <Center mb={5} w={"100%"} flexDir={"column"} >
                 {
-                data.search_post.length > 0 && (
+                displayPosts && displayPosts?.length > 0 && (
                     <>
                         <PinterestGrid
                         columns={3}      
@@ -67,23 +108,23 @@ const TipsyPostsboard = ({ query_text,isTagBoardDisplay, handleTagDisplay }: {qu
                         gutterHeight={20}
                         responsive={true}
                         >
-                            {data.search_post.map((post: PostCard) => {
+                            { displayPosts.map((post: Post) => {
                                 if (post.top_image) {
                                     return (
                                         <TipsyCard_image
                                         uuid_pid={post.uuid_pid}
                                         title={post.title}
-                                        top_link={post.top_link}
+                                        top_link={post.top_link }
                                         top_image={post.top_image}
                                         likes_num={post.likes_num}
                                         timestamp={post.timestamp}
                                         content_type={0}
                                         user={{
                                             uuid_uid: post.uuid_uid,
-                                            user_name: post.user.user_name,
-                                            user_image: post.user.user_image
+                                            user_name: post.users.user_name,
+                                            user_image: post.users.user_image
                                         }}
-                                        tags={post.tags}
+                                        post_tags={post.post_tags}
                                         />
                                     )
                                 } else {
@@ -97,19 +138,30 @@ const TipsyPostsboard = ({ query_text,isTagBoardDisplay, handleTagDisplay }: {qu
                                         content_type={0}
                                         user={{
                                             uuid_uid: post.uuid_uid,
-                                            user_name: post.user.user_name,
-                                            user_image: post.user.user_image
+                                            user_name: post.users.user_name,
+                                            user_image: post.users.user_image
                                         }}
-                                        tags={post.tags}
+                                        post_tags={post.post_tags}
                                         />
                                     )
                                 }
                             })}
                         </PinterestGrid>
+                        {
+                            displayPosts.length < data.count_total_posts && 
+                            (<Center m={10}>
+                                <ClickButton
+                                size={"md"} fontSize={16}
+                                Hcolor={"tipsy_color_3"}
+                                onClick={handleFetchMore}
+                                >もっと見る</ClickButton>
+                            </Center>)
+                        }
                     </>
                 )}
-                { data.search_post.length == 0 && (
-                    <VStack m={10}>
+                { 
+                displayPosts && displayPosts.length == 0 && (
+                    <VStack m={5}>
                         <Text m={5}>検索条件の投稿は見つかりませんでした</Text>
                         <Center p={5}><NeumLoader/></Center>
                     </VStack>

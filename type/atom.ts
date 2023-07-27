@@ -3,7 +3,7 @@ import { MouseEventHandler, ReactComponentElement } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
 import { API, OutputData } from "@editorjs/editorjs";
-import { Tag, User } from "./global";
+import { PostTag, Tag, User } from "./global";
 
 //テキスト
 export interface NeumTextProps extends BoxProps {
@@ -32,6 +32,7 @@ export interface NeumButtonProps extends ButtonProps {
     HbgGradient?: string,
     fontSize?: number,
     formState?: any,
+    Ashadow?: boolean
 }
 export interface NeumIconButtonProps extends IconButtonProps {
     neumH?: "shallow" | "tall",
@@ -164,10 +165,10 @@ export interface TipsyCardProps {
     title: string,
     likes_num: number,
     top_image?: string,
-    top_link: string,
+    top_link?: string,
     content_type: number
     timestamp: Date,
-    tags?: Tag[],
+    post_tags?: PostTag[],
     user: User,
 }
 

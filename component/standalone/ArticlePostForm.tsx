@@ -11,7 +11,7 @@ import { Validation_post_title } from "../../util/form/validation";
 import { TopLinkInputPopover } from "../helper/TopLinkInputPopover";
 import { TopImageInputPopover } from "../helper/TopImageInputPopover";
 import { TagInputPopover } from "../helper/TagInputPopover";
-import { TagEditing } from "../../type/global";
+import { Tag, TagEditing } from "../../type/global";
 
 const ArticleEditor = dynamic(
     () => import("../atom/ArticleEditor"),
@@ -38,12 +38,12 @@ export const ArticlePostForm = ({
             tid: undefined,
             tag_name: e.target.value,
         }
-        const tags = [...stateValue.tags, newTag]
+        const tags = [...stateValue.tags, newTag] as Tag[] | TagEditing[]
         setStateValue((preV)=>({...preV, tags: tags}))
     }
     const handleTagDelete = (id:number) => {
         const Array = stateValue.tags
-        const newArray = [...Array]
+        const newArray = [...Array] as Tag[] | TagEditing[]
         newArray.splice(id,1)
         setStateValue((preV)=>({...preV, tags: newArray}))
     }
