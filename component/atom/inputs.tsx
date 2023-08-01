@@ -1,13 +1,13 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useImperativeHandle, useRef, useState } from 'react';
 import NextImage from 'next/image';
-import { Box, Button, ButtonProps, ChakraComponent, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, useCheckbox, useColorMode } from '@chakra-ui/react'
+import { Box, Button, ButtonProps, Center, ChakraComponent, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, useCheckbox, useColorMode } from '@chakra-ui/react'
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, GlassSearchInputProps, NeumFormInputProps, NeumInputProps } from "../../type/atom";
 import { useFormColorMode } from '../../util/hook/useColor';
 import { useOneSizeSmaller } from '../../util/hook/useSize';
 import { useNeumStyle_dent, useNeumStyle_flat } from '../../util/hook/useTheme';
-import { NeumIconButton } from './buttons';
+import { GlassIconButton, NeumIconButton } from './buttons';
 import ImageThumnail from "../../public/thumnailimage.svg";
 
 
@@ -542,6 +542,7 @@ export const GlassInput_search = ({
     setValue,
     value,
     onSearch,
+    right_element,
     ...props
 }: GlassSearchInputProps) => {
         const [composing, setComposition] = useState(false);
@@ -558,7 +559,6 @@ export const GlassInput_search = ({
             }
         }
     const handleChange = (e: any) =>  setValue(e.target.value)
-    const handleClear = () => setValue("")
 
     const {border_switch} = useFormColorMode()
     return (
@@ -584,11 +584,9 @@ export const GlassInput_search = ({
             borderRadius={"full"}
             />
             <InputRightElement 
-            onClick={handleClear}
-            color='text_light'
-            fontSize={"0.85rem"}
-            children={<CloseIcon/>} 
-            />
+            >
+                {right_element}
+            </InputRightElement>
         </InputGroup>
     )
 }

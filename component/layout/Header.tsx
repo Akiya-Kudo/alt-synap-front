@@ -3,8 +3,9 @@ import Link from "next/link"
 import { AuthContext } from "../../util/hook/authContext"
 
 import { auth } from "../../util/firebase/init"
-import { Avatar, Box, Flex, Heading } from "@chakra-ui/react"
+import { Avatar, Box, Center, Flex, Heading } from "@chakra-ui/react"
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons"
+import { TfiUnlink } from "react-icons/tfi"
 
 import { ColorModeButton, GlassButton, GlassIconButton } from "../atom/buttons"
 import { BasicHeaderStyleContainer } from "../atom/containers"
@@ -17,6 +18,7 @@ import { PostHeaderProps } from "../../type/layout"
 import { useRouter } from "next/router"
 import { GlassSwitch } from "../atom/switchs"
 import { useLoading } from "../../util/hook/useAuth"
+import { data } from "../standalone/LinkBoard"
 
 export const BasicHeader = () => {
 
@@ -42,6 +44,17 @@ export const BasicHeader = () => {
     const photo_path = auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
     const user_name = auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
 
+    const handleMultiLink = () => {
+        console.log("hel");
+        
+        const links = data.map(link => {
+            const joined_words = searchWords?.toLowerCase().replace(/　/g, ' ').replace(' ', link.query_joint)
+            const link_path = link.url + "?" + link.query_name + "=" + joined_words
+            return link_path
+        })
+        links.map(link => window.open(link, '_blank'))
+    }
+
     return (
         <BasicHeaderStyleContainer>
             {userState=="loading" && useLoading()}
@@ -56,11 +69,24 @@ export const BasicHeader = () => {
                 value={searchWords}
                 setValue={ setSearchWords }
                 onSearch={ handleSearch }
+                right_element={(                
+                    <Center>
+                            <GlassIconButton
+                            onClick={() => handleMultiLink()}
+                            color="tipsy_color_2"
+                            // bgGradient={"linear(to-l, tipsy_color_3, tipsy_color_2)"}
+                            _hover={{ filter: 'brightness(1.2)' }}
+                            borderRadius={"full"}
+                            fontSize={"1.3rem"} size={"sm"}
+                            icon={<TfiUnlink/>} aria-label="multi-link-search"
+                            />
+                    </Center>
+                )}
                 />
                 { userState == 'isUser' &&   
                     <>
                         <Link href="/user/post_create" passHref>
-                            <GlassButton color="tipsy_color_2" p={0}><AddIcon /></GlassButton>
+                            <GlassButton color="tipsy_color_3" p={0}><AddIcon /></GlassButton>
                         </Link>
                         <Link href="/user/my_page" passHref>
                             <Box bg={"tipsy_color_3"} p={0.5} borderRadius="full">

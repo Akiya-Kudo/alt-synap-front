@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react"
-import { useState } from "react"
+import { Children, useState } from "react"
 import { MyTabGroupProps, SwitchGroupProps } from "../../type/helper"
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
 import { TabBord } from "../atom/bords"
@@ -80,6 +80,61 @@ export const TabSwitchGroup = (
                 >
                     { optionRight }
                 </SwitchButton_tab>
+            </TabBord>
+        </>
+    )
+}
+
+export const TabSwitchGroup_3 = (
+    {
+        optionLeft, optionRight, optionCenter="center_button",
+        onChange, defaultValue, 
+        chH=7, chFontSize=12,
+        children,
+        ...props
+    }: SwitchGroupProps
+) => {
+    const [selected, setSelected] = useState(defaultValue)
+    const handleClick = (e: any) => {
+        setSelected(e.target.id)
+        onChange(e.target.id)
+    }
+    return (
+        <>
+            <TabBord
+            {...props}
+            >
+                <SwitchButton_tab 
+                id={optionLeft}
+                fontSize={chFontSize} height={chH}
+                borderLeftRadius={"full"}
+                selectedValue={selected} onClick={handleClick} 
+                Hcolor={"tipsy_color_2"}
+                Acolor={"tipsy_color_active_2"}
+                >
+                    { optionLeft }
+                </SwitchButton_tab>
+                <SwitchButton_tab 
+                id={optionCenter}
+                borderRadius={0}
+                fontSize={chFontSize} height={chH}
+                selectedValue={selected} onClick={handleClick} 
+                Hcolor={"tipsy_color_2"}
+                Acolor={"tipsy_color_active_2"}
+                >
+                    { optionCenter }
+                </SwitchButton_tab>
+                <SwitchButton_tab 
+                id={optionRight}
+                fontSize={chFontSize} height={chH}
+                borderRightRadius={"full"}
+                selectedValue={selected} onClick={handleClick} 
+                Hcolor={"tipsy_color_2"}
+                Acolor={"tipsy_color_active_2"}
+                >
+                    { optionRight }
+                </SwitchButton_tab>
+                {children}
             </TabBord>
         </>
     )

@@ -5,7 +5,7 @@ import { useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useC
 export const FlatBord = ({
     neumH="shallow",
     bg="transparent", color="text_normal", borderRadius="20",
-    display="flex", flexDirection="row", justifyContent="center", alignItems="center",
+    display="flex", flexDirection="row", justifyContent="center", alignItems="center", children,
     ...props
 }: NeumBordProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
@@ -16,7 +16,7 @@ export const FlatBord = ({
         boxShadow={neumHeight}
         borderRadius={borderRadius} bg={bg} color={color}
         display={display} flexDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
-        />
+        >{children}</Box>
     )
 }
 
