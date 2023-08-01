@@ -41,6 +41,7 @@ export const AuthProvider = (props: any) => {
                     }
                     setUserState("isUser")
                     console.log("is user");
+                    console.log(result);
                     
                 } else {
                     setUserState("guest")

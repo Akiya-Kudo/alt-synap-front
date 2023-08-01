@@ -38,6 +38,7 @@ export interface MyTabGroupProps extends BoxProps {
 export interface SwitchGroupProps extends NeumBordProps {
     optionRight: string,
     optionLeft: string,
+    optionCenter?: string,
     defaultValue: string,
     onChange: (value:any)=>any,
     chH?: string | number,

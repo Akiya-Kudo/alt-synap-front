@@ -1,4 +1,4 @@
-import { BoxProps, Button, filter, Flex, forwardRef, IconButton, useColorMode } from "@chakra-ui/react";
+import { BoxProps, Button, filter, Flex, forwardRef, IconButton, IconButtonProps, useColorMode } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps, NeumIconButtonProps, GlassIconButtonProps, GlassSwitchButtonProps } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
@@ -27,6 +27,30 @@ export const ClickButton = ({
         }}
         _disabled={{
             color: "text_very_light"
+        }}
+        />
+    )
+}
+
+export const ClickButtonFlat = ({
+    fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
+    Hcolor="red_switch",Acolor="red.600", isDisabled,
+    ...props
+}: NeumButtonProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
+    return (
+        <Button
+        {...props}
+        borderRadius={borderRadius} color={color} bg={bg} fontSize={fontSize} 
+        boxShadow={`inset 1px 1px 3px -1px ${shadow}, inset -1px -1px 3px -1px ${highlight};`}
+        _hover={{
+            boxShadow: `inset 4px 4px 6px -4px ${shadow}, inset -4px -4px 6px -4px ${highlight};`, 
+            color: Hcolor,
+            fontSize: fontSize / 1.02,
+        }}
+        _active={{
+            boxShadow: `inset 8px 8px 10px -5px ${shadow}, inset -8px -8px 10px -5px ${highlight};`,
+            color:  Acolor,
         }}
         />
     )

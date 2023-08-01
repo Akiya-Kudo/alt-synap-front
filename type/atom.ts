@@ -1,4 +1,4 @@
-import { BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SwitchProps, TagProps } from "@chakra-ui/react"
+import { BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, SwitchProps, TagProps } from "@chakra-ui/react"
 import { MouseEventHandler, ReactComponentElement } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
@@ -64,6 +64,11 @@ export interface GlassColorModeButtonProps extends GlassButtonProps {
     onClick?: undefined,
 }
 
+//セレクト
+export interface NeumSelectProps extends SelectProps {
+    
+}
+
 //ラジオボタン
 export interface NeumRadioProps extends RadioProps {
     value: string,
@@ -119,6 +124,7 @@ export interface GlassSearchInputProps extends GlassInputProps {
     setValue: (value: string) => any,
     value: string,
     onSearch: () => any,
+    right_element: any
 }
 export interface GlassFormInputProps extends GlassInputProps {
     id: string,

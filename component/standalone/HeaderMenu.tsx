@@ -37,6 +37,12 @@ export const HeaderMenu = ({
                         _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
                         >プロフィール編集</MenuItem>
                     </Link>
+                    <Link href="/user/edit/link_setting" passHref>
+                        <MenuItem
+                        backgroundColor={"transparent"}
+                        _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
+                        >LINK-SEARCH の設定</MenuItem>
+                    </Link>
                     <MenuItem 
                     onClick={ () => {execute();}}
                     backgroundColor={"transparent"}

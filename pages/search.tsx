@@ -1,12 +1,10 @@
 import { NextPage } from 'next';
-import { Box, Button, Center, Heading, Highlight, Text } from '@chakra-ui/react';
+import { AbsoluteCenter, Box, Flex } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import TipsyTagsBoard from '../component/standalone/TipsyTagsBoard';
+import LinkBoard from '../component/standalone/LinkBoard';
 import { makeVar, useReactiveVar } from '@apollo/client';
-import { useState } from 'react';
-import { DentBord } from '../component/atom/bords';
-import { ClickButton, SwitchButtonConcave, SwitchButton_tab } from '../component/atom/buttons';
 
 export const isTagBoardDisplayVar = makeVar(true as boolean)
 
@@ -21,14 +19,26 @@ const Search: NextPage  = () => {
 
     const isTagBoardDisplay = useReactiveVar(isTagBoardDisplayVar)
     const handleTagDisplay = () => isTagBoardDisplayVar(!isTagBoardDisplay)
+
     return (
         <>
-            <Box className="page">
-                {
-                    isTagBoardDisplay ? <TipsyTagsBoard query_text={query_text} isDisplay={isTagBoardDisplay}/> : null
-                }
-                <TipsyPostsboard query_text={query_text} isTagBoardDisplay={isTagBoardDisplay} handleTagDisplay={handleTagDisplay}/>
-            </Box>
+            <Flex className="page">
+                <Box className='side-bar' 
+                position={"fixed"}
+                width={150} height={"90vh"}
+                >
+                    <AbsoluteCenter>
+                        <LinkBoard
+                        query_text={query_text}/>
+                    </AbsoluteCenter>
+                </Box>
+                <Box flexGrow={1}>
+                    {
+                        isTagBoardDisplay ? <TipsyTagsBoard query_text={query_text} isDisplay={isTagBoardDisplay}/> : null
+                    }
+                    <TipsyPostsboard query_text={query_text} isTagBoardDisplay={isTagBoardDisplay} handleTagDisplay={handleTagDisplay}/>
+                </Box>
+            </Flex>
         </>
     )
 }

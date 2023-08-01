@@ -11,7 +11,7 @@ export const BasicRadio = ({
 }: NeumRadioProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
-        <Radio 
+        <Radio
         {...props}
         value={ value }
         isDisabled={isDisabled}

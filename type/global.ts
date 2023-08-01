@@ -2,6 +2,8 @@ import { OutputData } from "@editorjs/editorjs";
 
 export type UserStateStringType = 'isUser' | 'guest' | 'loading' | undefined; 
 
+export type LinkDisplaySwitchType = "公開中" | "履歴" | "作成済み"
+
 export interface User {
     uid?: string | null | undefined,
     uuid_uid?: string,
@@ -11,6 +13,46 @@ export interface User {
     follewee_num?: number,
     user_name?: string,
     user_image?: string,
+    links?: Link[],
+    collections?: Collection[],
+    link_collections?: LinkCollection[],
+
+}
+
+export interface Link {
+    lid: number,
+    uuid_uid: string,
+    link_name: string,
+    image_path: string,
+    explanation: string,
+    url_scheme: string,
+    query: string,
+    joint: string,
+    other_queries: string,
+    genre: number,
+    is_path_search: boolean,
+    publish: boolean,
+    timestamp: Date,
+    users: User,
+    link_collections: LinkCollection[],
+}
+
+export interface Collection {
+    cid: number,
+    uuid_uid: string,
+    collection_name: string,
+    users: User,
+    link_collections: LinkCollection[],
+}
+
+export interface LinkCollection {
+    lid: number, 
+    cid: number,
+    uuid_uid: string,
+    deleted: boolean,
+    users: User,
+    links: Link,
+    collections: Collection
 }
 
 export interface ArticleContent {

@@ -84,7 +84,7 @@ export const NeumTagList = ({
                 colorScheme={color_theme}
                 onClick={handleClick_delete}
                 >
-                    {tag.tag_name}
+                    {tag.display_name}
                 </GlassTag_edit>
             )
         })
