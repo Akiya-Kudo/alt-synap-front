@@ -15,7 +15,6 @@ export interface User {
     user_image?: string,
     links?: Link[],
     collections?: Collection[],
-    link_collections?: LinkCollection[],
 
 }
 
@@ -33,26 +32,27 @@ export interface Link {
     is_path_search: boolean,
     publish: boolean,
     timestamp: Date,
-    users: User,
-    link_collections: LinkCollection[],
+    users?: User,
+    link_collections?: LinkCollection[],
 }
 
 export interface Collection {
     cid: number,
-    uuid_uid: string,
+    uuid_uid?: string,
     collection_name: string,
-    users: User,
-    link_collections: LinkCollection[],
+    deleted?: boolean,
+    users?: User,
+    link_collections?: LinkCollection[],
 }
 
 export interface LinkCollection {
-    lid: number, 
-    cid: number,
-    uuid_uid: string,
-    deleted: boolean,
-    users: User,
-    links: Link,
-    collections: Collection
+    lid?: number, 
+    cid?: number,
+    uuid_uid?: string,
+    deleted?: boolean,
+    users?: User,
+    links?: Link,
+    collections?: Collection
 }
 
 export interface ArticleContent {

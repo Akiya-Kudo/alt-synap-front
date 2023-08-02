@@ -31,13 +31,16 @@ const apollo_cache_option = {
     Tag: {
       keyFields: ["tid"]
     },
+    Collection: {
+      keyFields: ["cid"]
+    },
+    Link: {
+      keyFields: ["lid"]
+    },
     Query: {
       fields: {
         search_post: {
           keyArgs: ["searchString", "selectedTagId", "sortType"],
-          // merge(existing: Post[] = [], incoming: Post[]) {
-          //   return [...existing, ...incoming];
-          // }
           merge(existing: Post[] = [], incoming: Post[]) {
             const mergedPosts = [...existing];
 

@@ -10,6 +10,28 @@ export const USER_QUERY = gql`
             followee_num
             follower_num
             lang_type
+
+            collections {
+                cid
+                collection_name
+
+                link_collections {
+                    links {
+                        lid
+                        link_name
+                        image_path
+                        explanation
+                        url_scheme
+                        query
+                        joint
+                        other_queries
+                        genre
+                        is_path_search
+                        publish
+                        timestamp
+                    }
+                }
+            }
         }
     }
 `;
