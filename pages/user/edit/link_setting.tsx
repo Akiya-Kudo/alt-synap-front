@@ -54,7 +54,7 @@ const LinkSetting: NextPage  = () => {
                         })}
                         </Box>
                         <Flex 
-                        w={"100%"} my={2} px={3} h={"60px"} align={"center"} borderRadius={10}
+                        w={"100%"} my={2} px={3} h={"50px"} align={"center"} borderRadius={10}
                         fontSize={".8rem"}
                         _hover={{ 
                             filter: 'brightness(1.2)',
@@ -78,7 +78,7 @@ const LinkSetting: NextPage  = () => {
                         position={"relative"}
                         >
                             <BasicSelect 
-                            placeholder='ジャンルを指定する' 
+                            placeholder='条件なし' 
                             onChange={(e: any)=>console.log(e.target.value)}
                             position={"absolute"}
                             left={300} top={3}
