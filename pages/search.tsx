@@ -26,6 +26,7 @@ const Search: NextPage  = () => {
                 <Box className='side-bar' 
                 position={"fixed"}
                 width={150} height={"90vh"}
+                zIndex={100}  // collection選択menuが投稿一覧の下に表示されてしまうため設定
                 >
                     <AbsoluteCenter>
                         <LinkBoard

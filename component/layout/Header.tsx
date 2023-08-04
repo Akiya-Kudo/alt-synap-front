@@ -3,7 +3,7 @@ import Link from "next/link"
 import { AuthContext } from "../../util/hook/authContext"
 
 import { auth } from "../../util/firebase/init"
-import { Avatar, Box, Center, Flex, Heading } from "@chakra-ui/react"
+import { Avatar, Box, Center, Flex, Heading, IconButton, MenuButton } from "@chakra-ui/react"
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons"
 import { TfiUnlink } from "react-icons/tfi"
 
@@ -19,6 +19,10 @@ import { useRouter } from "next/router"
 import { GlassSwitch } from "../atom/switchs"
 import { useLoading } from "../../util/hook/useAuth"
 import { data } from "../standalone/LinkBoard"
+import { LinkSelectboard } from "../helper/LinkSelectMenu"
+import { Collection } from "../../type/global"
+import { client } from "../../pages/_app"
+import { USER_QUERY } from "../../util/graphql/queries/users.query.schema"
 
 export const BasicHeader = () => {
 
@@ -44,15 +48,26 @@ export const BasicHeader = () => {
     const photo_path = auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
     const user_name = auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
 
-    const handleMultiLink = () => {
-        console.log("hel");
-        
-        const links = data.map(link => {
-            const joined_words = searchWords?.toLowerCase().replace(/　/g, ' ').replace(' ', link.query_joint)
-            const link_path = link.url + "?" + link.query_name + "=" + joined_words
+    //Multi Link選択 & 実行
+    const [collection, setCollection] = useState<Collection[]>([])
+    
+    useEffect(() => {
+        const read_collections = client.readQuery({
+            query: USER_QUERY,
+            variables: {
+                uid: auth.currentUser?.uid,
+            },
+        });
+        setCollection(read_collections?.user?.collections)
+    }, [userState]);
+    
+    const handleMultLink = (cid: number) => {
+        const links = collection.find(col => col.cid == cid)?.link_collections?.map(li_col => {
+            const joined_words = searchWords?.toLowerCase().replace(/　/g, ' ').replace(' ', li_col.links.joint)
+            const link_path = li_col.links.url_scheme + "?" + li_col.links.query + "=" + joined_words
             return link_path
         })
-        links.map(link => window.open(link, '_blank'))
+        links?.map(link => window.open(link, '_blank'))
     }
 
     return (
@@ -71,15 +86,16 @@ export const BasicHeader = () => {
                 onSearch={ handleSearch }
                 right_element={(                
                     <Center>
-                            <GlassIconButton
-                            onClick={() => handleMultiLink()}
-                            color="tipsy_color_2"
-                            // bgGradient={"linear(to-l, tipsy_color_3, tipsy_color_2)"}
-                            _hover={{ filter: 'brightness(1.2)' }}
-                            borderRadius={"full"}
-                            fontSize={"1.3rem"} size={"sm"}
-                            icon={<TfiUnlink/>} aria-label="multi-link-search"
-                            />
+                            <LinkSelectboard title={"- Mult Link Search -"} collections={collection} handleClick={handleMultLink}>
+                                <MenuButton 
+                                as={IconButton} icon={<TfiUnlink/>} aria-label="multi-link-search"
+                                _hover={{ filter: 'brightness(1.2)' }} 
+                                color="tipsy_color_2"
+                                bg={"bg_popover_switch"}
+                                borderRadius={"full"}
+                                fontSize={"1.3rem"} size={"sm"}
+                                />
+                            </LinkSelectboard>
                     </Center>
                 )}
                 />

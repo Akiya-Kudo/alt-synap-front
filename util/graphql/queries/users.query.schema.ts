@@ -43,3 +43,29 @@ export const READ_USER_UUID = gql`
         }
     }
 `
+
+export const USER_COLLECTION_FRAGMENT = gql`
+    fragment UserCollections on User {
+        collections {
+            cid
+            collection_name
+
+            link_collections {
+                links {
+                    lid
+                    link_name
+                    image_path
+                    explanation
+                    url_scheme
+                    query
+                    joint
+                    other_queries
+                    genre
+                    is_path_search
+                    publish
+                    timestamp
+                }
+            }
+        }
+    }
+`
