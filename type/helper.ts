@@ -1,6 +1,6 @@
 import { BoxProps, FlexProps, MenuProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
 import { NeumBordProps } from "./atom";
-import { Tag, TagEditing } from "./global";
+import { Collection, Tag, TagEditing } from "./global";
 
 export interface GlassMenuProps extends MenuProps {
     user_name?: string,
@@ -86,4 +86,10 @@ export interface NeumTagListProps extends FlexProps {
     colorList: Array<string>,
     onDeleteClick?: (e:any) => void,
     isDeletable?: boolean,
+}
+
+export interface LinkSelectBoardProps extends MenuProps {
+    collections?: Collection[],
+    title: string,
+    handleClick?: (e: any) =>any,
 }

@@ -26,27 +26,26 @@ export const HeaderMenu = ({
             pos={"relative"}
             fontSize={itemFontSize}
             borderRadius={15}
-            // backgroundColor={"bg_switch"}
-            backdropFilter={"blur(7px)"}
-            backgroundColor={"rgba(230,230,230, 0.1)"}
+            backdropFilter={"blur(17px)"}
+            backgroundColor={"bg_popover_switch"}
             >
                 <MenuGroup title={"- " + user_name + " -"}>
                     <Link href="/mypage" passHref>
                         <MenuItem
                         backgroundColor={"transparent"}
-                        _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
+                        _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
                         >プロフィール編集</MenuItem>
                     </Link>
                     <Link href="/user/edit/link_setting" passHref>
                         <MenuItem
                         backgroundColor={"transparent"}
-                        _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
+                        _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
                         >LINK-SEARCH の設定</MenuItem>
                     </Link>
                     <MenuItem 
                     onClick={ () => {execute();}}
                     backgroundColor={"transparent"}
-                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
+                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
                     >
                         ログアウト
                     </MenuItem>
@@ -54,7 +53,7 @@ export const HeaderMenu = ({
                     <MenuItem 
                     onClick={() => executeSendEmail(auth.currentUser?.email)}
                     backgroundColor={"transparent"}
-                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
+                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
                     >
                         パスワードを変更する
                     </MenuItem> 
@@ -64,13 +63,13 @@ export const HeaderMenu = ({
                 <MenuGroup title='- その他 -'>
                     <MenuItem
                     backgroundColor={"transparent"}
-                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
+                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)" , color: "white"}}
                     >
                         ヘルパー
                     </MenuItem>
                     <MenuItem
                     backgroundColor={"transparent"}
-                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)"}}
+                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
                     >
                         お問い合わせ
                     </MenuItem>

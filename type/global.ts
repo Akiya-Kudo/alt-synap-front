@@ -51,7 +51,7 @@ export interface LinkCollection {
     uuid_uid?: string,
     deleted?: boolean,
     users?: User,
-    links?: Link,
+    links: Link,
     collections?: Collection
 }
 
