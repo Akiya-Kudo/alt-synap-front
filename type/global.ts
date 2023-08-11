@@ -28,7 +28,7 @@ export interface Link {
     query: string,
     joint: string,
     other_queries: string,
-    genre: number,
+    genre: 0 | 1 | 2 | 3 | 4 | 5,
     is_path_search: boolean,
     publish: boolean,
     timestamp: Date,
@@ -46,8 +46,8 @@ export interface Collection {
 }
 
 export interface LinkCollection {
-    lid?: number, 
-    cid?: number,
+    lid: number, 
+    cid: number,
     uuid_uid?: string,
     deleted?: boolean,
     users?: User,

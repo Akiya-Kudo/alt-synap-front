@@ -37,6 +37,7 @@ export const TopLinkInputPopover = ({
                 <Box 
                 className="tooltip_hover_trigger" position={"relative"} 
                 onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
+                
                 >
                     <NeumIconButton
                     icon={icon} 
@@ -45,7 +46,7 @@ export const TopLinkInputPopover = ({
                     color={value!="" && value!=null ? !errors[id] ? "tipsy_color_2": "red_switch" : undefined}
                     onClick={onToggle}
                     />
-                    <Collapse in={T_isOpen} >
+                    <Collapse in={T_isOpen}>
                         <Box
                         className="tooltip_top_link"
                         position={"absolute"} top={-50} right={70}
@@ -55,7 +56,7 @@ export const TopLinkInputPopover = ({
                         borderRadius={15}
                         backgroundColor={mock_bg_switch}
                         >
-                            <Heading  size={"sm"} color={"tipsy_color_2"} >
+                            <Heading  size={"sm"} color={"tipsy_color_2"}>
                                 <Center>{title}</Center>
                             </Heading>
                             <Divider my={2}/>

@@ -1,4 +1,4 @@
-import { BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, SwitchProps, TagProps } from "@chakra-ui/react"
+import { AlertDialogProps, AlertProps, BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, SwitchProps, TagProps } from "@chakra-ui/react"
 import { MouseEventHandler, ReactComponentElement } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
@@ -180,4 +180,17 @@ export interface TipsyCardProps {
 
 export interface TipsyCardWithImageProps extends TipsyCardProps {
     top_image: string
+}
+
+//アラートダイアログ
+export interface GlassAlertProps extends BoxProps {
+    isOpen: boolean, 
+    onClose: ()=>void, 
+    onOpen: ()=>void,
+    alertTitle: string, 
+    alertMessage: string, 
+    cancelMessage?: string, 
+    exeMessage?: string, 
+    handleExecute:()=>void,
+    exeButtonBg?: string,
 }
