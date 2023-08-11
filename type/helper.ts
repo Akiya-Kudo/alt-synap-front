@@ -1,4 +1,4 @@
-import { BoxProps, FlexProps, MenuProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
+import { BoxProps, FlexProps, MenuProps, ModalProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
 import { NeumBordProps } from "./atom";
 import { Collection, Tag, TagEditing } from "./global";
 
@@ -43,6 +43,9 @@ export interface SwitchGroupProps extends NeumBordProps {
     onChange: (value:any)=>any,
     chH?: string | number,
     chFontSize?: number,
+    isDisabledCenter?: boolean, 
+    isDisabledRight?: boolean, 
+    isDisabledLeft?: boolean, 
 }
 
 export interface PostPopoverProps extends PopoverProps {
@@ -92,4 +95,9 @@ export interface LinkSelectBoardProps extends MenuProps {
     collections?: Collection[],
     title: string,
     handleClick?: (e: any) =>any,
+}
+
+export interface CollectionItemModalProps extends BoxProps {
+    collection: Collection,
+
 }

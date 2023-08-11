@@ -90,6 +90,7 @@ export const TabSwitchGroup_3 = (
         optionLeft, optionRight, optionCenter="center_button",
         onChange, defaultValue, 
         chH=7, chFontSize=12,
+        isDisabledLeft, isDisabledRight, isDisabledCenter,
         children,
         ...props
     }: SwitchGroupProps
@@ -111,6 +112,7 @@ export const TabSwitchGroup_3 = (
                 selectedValue={selected} onClick={handleClick} 
                 Hcolor={"tipsy_color_2"}
                 Acolor={"tipsy_color_active_2"}
+                isDisabled={isDisabledLeft}
                 >
                     { optionLeft }
                 </SwitchButton_tab>
@@ -121,6 +123,7 @@ export const TabSwitchGroup_3 = (
                 selectedValue={selected} onClick={handleClick} 
                 Hcolor={"tipsy_color_2"}
                 Acolor={"tipsy_color_active_2"}
+                isDisabled={isDisabledCenter}
                 >
                     { optionCenter }
                 </SwitchButton_tab>
@@ -131,6 +134,7 @@ export const TabSwitchGroup_3 = (
                 selectedValue={selected} onClick={handleClick} 
                 Hcolor={"tipsy_color_2"}
                 Acolor={"tipsy_color_active_2"}
+                isDisabled={isDisabledRight}
                 >
                     { optionRight }
                 </SwitchButton_tab>

@@ -77,7 +77,7 @@ export const TipsyCard = ({
                             <Center fontSize={".8rem"}>{user.user_name}</Center>
                     </NextLink>
                     </Stack>
-                    <Box fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1)}</Box>
+                    <Box fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1) }</Box>
                     <Stack direction={"row"}>
                         <Center mt={"1px"}><AiOutlineHeart/></Center>
                         <Center fontSize={".8rem"}>{ likes_num }</Center>

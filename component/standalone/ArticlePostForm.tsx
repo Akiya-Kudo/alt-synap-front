@@ -79,7 +79,7 @@ export const ArticlePostForm = ({
                     />
                 </FlatBord>
             </GridItem>
-            <GridItem colSpan={1} display="flex" flexDirection="column" gap={3}>
+            <GridItem colSpan={1} display="flex" flexDirection="column" gap={3} zIndex={1}>
                 <VStack gap={1}>
                     <TopLinkInputPopover
                     id={"input_top_link"} title="WEBブックマーク" icon={<FaLink/>} setValue={handleTopLink} value={stateValue.top_link}

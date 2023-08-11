@@ -50,7 +50,7 @@ export const GlassTag = ({
         variant={variant}
         colorScheme={colorScheme}
         m={m} 
-        border={border} borderRadius={borderRadius} fontSize={fontSize}
+        border={border} borderRadius={borderRadius} fontSize={fontSize} borderColor={colorScheme + ".200"}
         display={display} flexDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
         >
             <TagLabel>{children}</TagLabel>

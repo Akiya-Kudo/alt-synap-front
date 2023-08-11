@@ -37,6 +37,9 @@ const apollo_cache_option = {
     Link: {
       keyFields: ["lid"]
     },
+    LinkCollection: {
+      keyFields: ["lid", "cid"]
+    },
     Query: {
       fields: {
         search_post: {

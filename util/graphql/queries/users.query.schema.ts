@@ -14,8 +14,13 @@ export const USER_QUERY = gql`
             collections {
                 cid
                 collection_name
-
+                uuid_uid
+                deleted
                 link_collections {
+                    lid
+                    cid
+                    uuid_uid
+                    deleted
                     links {
                         lid
                         link_name
@@ -37,7 +42,7 @@ export const USER_QUERY = gql`
 `;
 
 export const READ_USER_UUID = gql`
-    query login_user_uuid_query($uid: ID!) {
+    query login_user_uuid_query($uid: String!) {
         user(uid: $uid) {
             uuid_uid
         }
