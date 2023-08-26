@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Switch, SwitchProps } from "@chakra-ui/react"
+import { Box, Flex, FormControl, FormLabel, Switch, SwitchProps } from "@chakra-ui/react"
 import { GlassSwitchProps, NeumSwitchProps } from "../../type/atom"
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
 

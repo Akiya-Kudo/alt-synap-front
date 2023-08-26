@@ -47,7 +47,6 @@ export const Validation_url = {
     pattern: {
         value: /^https?:\/\/[\w!?/+\-_~;.,*&@#$%()'\[\]]+/,
         message: "有効なURLの形式に一致しません"
-
     }
 }
 
@@ -70,6 +69,32 @@ export const Validation_word = (tags: Array<Tag> | Array<TagEditing>) => {
     )
 }
 
+export const Validation_collection_name = {
+    required: "名前を入力してください | Name is required",
+    maxLength: { value: 50, message: '50文字以下で入力してください | Please make Name less than 50 words' },
+    minLength: { value: 2, message: "2文字以上で入力してください | Please make Name more than 2 words" },
+}
+
+export const Validation_link_name = {
+    required: "名前は必須です | Name is required",
+    maxLength: { value: 50, message: '50文字以下で入力してください | Please make Name less than 50 words' },
+    minLength: { value: 2, message: "2文字以上で入力してください | Please make Name more than 2 words" },
+}
+
+export const Validation_url_required = {
+    required: "URLは必須です | URL is required",
+    pattern: {
+        value: /^https?:\/\/[\w!?/+\-_~;.,*&@#$%()'\[\]]+/,
+        message: "有効なURLの形式に一致しません"
+    }
+}
+
+export const Validation_linkname = {
+    required: "名前は必須です | Name is required",
+    maxLength: { value: 50, message: '50文字以下で入力してください | Please make Name less than 50 words' },
+    minLength: { value: 2, message: "2文字以上で入力してください | Please make Name more than 2 words" }
+}
+
 // export const Validation_word = {
 //     pattern: {
 //         value: /^[a-zA-Z0-9\u3040-\u309F\u30A0-\u30FF\uAC00-\uD7A3\u4E00-\u9FFF.]+$/,
@@ -78,3 +103,4 @@ export const Validation_word = (tags: Array<Tag> | Array<TagEditing>) => {
 //     maxLength: { value: 30, message: '30文字以下で入力してください | Please make User Name less than 30 words' },
 //     minLength: { value: 2, message: "2文字以上で入力してください | Please make User Name more than 2 words" },
 // }
+

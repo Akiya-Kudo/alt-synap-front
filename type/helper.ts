@@ -99,5 +99,13 @@ export interface LinkSelectBoardProps extends MenuProps {
 
 export interface CollectionItemModalProps extends BoxProps {
     collection: Collection,
+}
 
+export type LinkAnalyzeStepType = {
+    url_all: string,
+    url_scheme: string,
+    query: string | null,
+    joint: string,
+    other_queries_array: string[] | null,
+    is_path_search: boolean,
 }

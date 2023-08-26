@@ -14,6 +14,8 @@ import { client } from "../../pages/_app";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ADD_LINK_TO_COLLECTION, DELETE_LINK, DELETE_LINK_COLLECTION } from "../../util/graphql/mutation/links.mutation.scheme";
 import { GlassAlert } from "../atom/alerts";
+import { LinkGenreNames } from "../../type/standalone";
+import { GET_LINKCOLLECTION_HISTORY } from "../../util/graphql/queries/links.query.scheme";
 
 export const CollectionEditModal = (
     {
@@ -23,6 +25,7 @@ export const CollectionEditModal = (
 ) => {
     const [removeCollection, { data, error}] = useMutation(REMOVE_COLLECTION,{
         update( cache, { data: { remove_collection } } ) {
+            //userのcollection配列の　cacheの更新
             const data: {user: User} | null = cache.readQuery({
                 query: USER_QUERY,
                 variables: {
@@ -37,12 +40,14 @@ export const CollectionEditModal = (
                     data: { collections: newCollections } 
                 })
             }
+
         }
     })
 
     const handleDelete = (e: any) => {
         e.stopPropagation()
         removeCollection({ variables: { cid: collection.cid }})
+        onClose()
     }
 
     if (error) alert("Delete failed Error: " + error)
@@ -162,36 +167,67 @@ export const LinkEditModal = (
 
     const [AddLink, { error, data, loading }] = useMutation(ADD_LINK_TO_COLLECTION, {
         update( cache, { data: { add_link_to_collection } } ) {
+            //collectionのlink_col配列を変更
             const col: Collection | null = cache.readFragment({
                 id: `Collection:{"cid":${add_link_to_collection.cid}}`,
                 fragment: LINK_COLLECTION_FRAGMENT
             })
             if (col) {
                 const newLinkCollections = [...(col?.link_collections || []), add_link_to_collection];
-                cache.writeFragment({
+                const res = cache.writeFragment({
                     id: `Collection:{"cid":${add_link_to_collection.cid}}`,
                     fragment: COLLECTION_FRAGMENT_TO_LINKCOLLECTION,
-                    data: { link_collections: newLinkCollections } 
+                    data: { 
+                        link_collections: newLinkCollections 
+                    } 
                 })
             }
+
+            //追加menuから既に追加したものを排除
+            const cols_without_added = collections.filter((col: Collection)=> col.cid != add_link_to_collection.cid )
+            setCollections(cols_without_added)
+
+            //履歴取得クエリがすでに実行済みの場合にはその配列に追加する
+            const data_his = client.readQuery({ query: GET_LINKCOLLECTION_HISTORY,
+                variables: {
+                    uuid_uid: uuid_uid,
+                }
+            })
+            if (data_his?.get_link_collections_used) {
+                const addedHistory = [...data_his?.get_link_collections_used, add_link_to_collection ]
+                client.writeQuery({
+                    query: GET_LINKCOLLECTION_HISTORY,
+                    variables: { uuid_uid: uuid_uid },
+                    data: { get_link_collections_used: addedHistory }
+                })
+            }
+            
         }
     })
-
+    
     const [DeleteHistory] = useMutation(DELETE_LINK_COLLECTION, {
         update( cache, { data: { delete_link_collection }}) {
-            console.log(delete_link_collection);
             delete_link_collection.forEach((li_col: any) => {
                 const boolEvicted = cache.evict({ id: cache.identify(li_col) })
-                console.log(boolEvicted);
             })
             //アプリ表示機能では直後では履歴画面には反映されないため、queryの結果を変える必要
-            
+            const { get_link_collections_used } = client.readQuery({ query: GET_LINKCOLLECTION_HISTORY,
+                variables: {
+                    uuid_uid: uuid_uid,
+                }
+            })
+            const resetedHistory = get_link_collections_used.filter((li_col: LinkCollection)=> li_col.lid != link.lid )
+            client.writeQuery({
+                query: GET_LINKCOLLECTION_HISTORY,
+                variables: { uuid_uid: uuid_uid },
+                data: { get_link_collections_used: resetedHistory }
+            })
         }
     })
 
     const [DeleteLink] = useMutation(DELETE_LINK, {
         update( cache, { data: { delete_link } } ) {
-            cache.evict({ id: cache.identify(delete_link) })
+            const isDeleted = cache.evict({ id: cache.identify(delete_link) })
             //わかんないけどcollectionsからlinkcollectionの参照が消える
             // とりあえずlinkCollectikonの削除は見送る
         }
@@ -224,14 +260,13 @@ export const LinkEditModal = (
             lid: link.lid,
             uuid_uid: uuid_uid
         }})
-        console.log(link.lid);
-        console.log(uuid_uid);
-        
         onClose_del_hi()
+        onClose()
     }
     const handleDeleteLink = () => {
         DeleteLink({ variables: { lid: link.lid}})
         onClose_del_li()
+        onClose()
     }
     
     return (
@@ -253,7 +288,7 @@ export const LinkEditModal = (
                     <Flex fontSize="1rem" align={"center"} gap={4}>
                         <Avatar name={link.link_name} src={link.image_path} size={"sm"}/>
                         <Box>{link.link_name}</Box>
-                        <GlassTag id="link_genre">{ "ジャンル"}</GlassTag>
+                        <GlassTag id="link_genre">{LinkGenreNames[link.genre]}</GlassTag>
                     </Flex>
                     <ModalCloseButton color={"text_light"}/>
                 </ModalHeader>
@@ -281,38 +316,41 @@ export const LinkEditModal = (
                     <Text m={2}>作成日<Box as={"span"}>{ link.timestamp.toString().split("-", 3).join("/").split("T", 1) }</Box></Text>
                 </ModalBody>
                 <ModalFooter gap={4} position={"relative"}>
-                    <Menu>
-                        <MenuButton 
-                        as={GlassButton} rightIcon={<ChevronDownIcon />}
-                        size={"sm"} fontSize={".8rem"} 
-                        color={"tipsy_color_2"} border={"1px"}
-                        onClick={()=> {}}
-                        >
-                            追加
-                        </MenuButton>
-                        <MenuList
-                        fontSize={".8rem"} p={1}
-                        borderRadius={10}
-                        bg="mock_glass_bg_switch"
-                        position={"absolute"} top={"70px"} 
-                        >
-                            {
-                                collections.map(( col: Collection ) => {
-                                    return (
-                                        <MenuItem
-                                        id={col.cid.toString()}  key={col.cid}
-                                        backgroundColor={"transparent"} fontWeight={"bold"} borderRadius={5}
-                                        _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
-                                        display={"flex"} justifyContent={"center"}
-                                        onClick={() => handleAddLink(col.cid)}
-                                        >
-                                            <Heading size={"xs"} isTruncated>{ col.collection_name }</Heading>
-                                        </MenuItem>
-                                    )
-                                })
-                            }
-                        </MenuList>
-                    </Menu>
+                    {
+                        collections.length != 0 &&
+                        <Menu>
+                            <MenuButton 
+                            as={GlassButton} rightIcon={<ChevronDownIcon />}
+                            size={"sm"} fontSize={".8rem"} 
+                            color={"tipsy_color_2"} border={"1px"}
+                            onClick={()=> {}}
+                            >
+                                追加
+                            </MenuButton>
+                            <MenuList
+                            fontSize={".8rem"} p={1}
+                            borderRadius={10}
+                            bg="mock_glass_bg_switch"
+                            position={"absolute"} top={"70px"} 
+                            >
+                                {
+                                    collections.map(( col: Collection ) => {
+                                        return (
+                                            <MenuItem
+                                            id={col.cid.toString()}  key={col.cid}
+                                            backgroundColor={"transparent"} fontWeight={"bold"} borderRadius={5}
+                                            _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
+                                            display={"flex"} justifyContent={"center"}
+                                            onClick={() => handleAddLink(col.cid)}
+                                            >
+                                                <Heading size={"xs"} isTruncated>{ col.collection_name }</Heading>
+                                            </MenuItem>
+                                        )
+                                    })
+                                }
+                            </MenuList>
+                        </Menu>
+                    }
                     {
                         displayMode=="履歴" && 
                         <>

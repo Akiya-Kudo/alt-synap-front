@@ -1,14 +1,15 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useImperativeHandle, useRef, useState } from 'react';
 import NextImage from 'next/image';
-import { Box, Button, ButtonProps, Center, ChakraComponent, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, useCheckbox, useColorMode } from '@chakra-ui/react'
+import { Box, Button, ButtonProps, Center, ChakraComponent, Flex, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, Textarea, Tooltip, useCheckbox, useColorMode } from '@chakra-ui/react'
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, GlassSearchInputProps, NeumFormInputProps, NeumInputProps } from "../../type/atom";
+import { FaEye, FaEyeSlash, FaQuestion } from 'react-icons/fa';
+import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, GlassSearchInputProps, NeumFormInputProps, NeumFormTextareaProps, NeumInputProps, NeumTextareaProps } from "../../type/atom";
 import { useFormColorMode } from '../../util/hook/useColor';
 import { useOneSizeSmaller } from '../../util/hook/useSize';
 import { useNeumStyle_dent, useNeumStyle_flat } from '../../util/hook/useTheme';
 import { GlassIconButton, NeumIconButton } from './buttons';
 import ImageThumnail from "../../public/thumnailimage.svg";
+import { DentBord } from './bords';
 
 
 
@@ -42,6 +43,38 @@ export const NeumInputDefault = ({
         />
     )
 }
+
+export const NeumTextAreaDefault = ({
+    //PHcolor: 制限拡張可 : boxShadow 固定 : fontSize 数値のみ : register hook用
+    bg="transparent", 
+    borderRadius="10px", 
+    border="none",
+    color="text_normal", 
+    fontSize=20, 
+    placeholder='📝',
+    PHcolor="text_very_light",
+    register,
+    ...props
+}: NeumTextareaProps ) => {
+    const { dent } = useNeumStyle_dent()
+    const {flat_tall} = useNeumStyle_flat()
+    return (
+        <Textarea
+        {...props}
+        placeholder={placeholder}
+        _placeholder={{ color: PHcolor }}
+        border={border}
+        _focus={{
+            boxShadow: flat_tall,
+            fontSize: fontSize / 0.95,
+        }}
+        borderRadius={borderRadius} bg={bg} color={color} fontSize={fontSize}
+        boxShadow={dent}
+        {...register}
+        />
+    )
+}
+
 export const NeumFormInput = ({
     id="input", 
     labelName="Input",
@@ -52,6 +85,7 @@ export const NeumFormInput = ({
     maxLength,
     bg, border, borderRadius, color,
     fontSize, placeholder, PHcolor,
+    isInputGuideToolTip, InputGuideToolexplain, fontWeight,
     ...props
 }: NeumFormInputProps ) => {
     return (
@@ -59,7 +93,18 @@ export const NeumFormInput = ({
         {...props}
         isInvalid={errors[id] ? true : false}
         >
-            <FormLabel ms={3}>{labelName}</FormLabel>
+            <Flex>
+                <FormLabel ms={3} fontWeight={fontWeight}>{labelName}</FormLabel>
+                {
+                    isInputGuideToolTip && (
+                        <Tooltip label={InputGuideToolexplain}>
+                            <DentBord h={"30px"} w={"30px"} >
+                                <FaQuestion fontSize={".6rem"} color="orange" />
+                            </DentBord>
+                        </Tooltip>
+                    )
+                }
+            </Flex>
             <NeumInputDefault
             bg={bg} border={border} borderRadius={borderRadius} color={color} 
             fontSize={fontSize} placeholder={placeholder} PHcolor={PHcolor}
@@ -72,6 +117,37 @@ export const NeumFormInput = ({
                 {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
             </FormErrorMessage>
     </FormControl>
+    )
+}
+
+export const NeumFormTextArea = ({
+    id="textarea", 
+    labelName="textarea",
+    errors, 
+    register, 
+    validation, 
+    defaultValue, 
+    maxLength,
+    bg, border, borderRadius, color,
+    fontSize, placeholder, PHcolor,
+    ...props
+}: NeumFormTextareaProps ) => {
+    return (
+        <>
+            <FormLabel ms={3}>{labelName}</FormLabel>
+            <NeumTextAreaDefault
+            {...props}
+            bg={bg} border={border} borderRadius={borderRadius} color={color} 
+            fontSize={fontSize} placeholder={placeholder} PHcolor={PHcolor}
+
+            register={register(id , validation)}
+            defaultValue={defaultValue}
+            maxLength={maxLength}
+            />
+            <FormErrorMessage ms={5}>
+                {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
+            </FormErrorMessage>
+        </>
     )
 }
 

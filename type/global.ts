@@ -140,3 +140,18 @@ export interface SourcePostrData extends EditingPostType {
 }
 
 export type SortType = "人気順" | "新着順"
+
+export interface EditingLinkType {
+    url_all: string,
+    link_name: string,
+    image_path: string,
+    explanation: string,
+    url_scheme: string,
+    query: string | null,
+    joint: string,
+    other_queries: string | null,
+    other_queries_array: string[] | null,
+    genre: 0 | 1 | 2 | 3 | 4 | 5,
+    is_path_search: boolean,
+    publish: boolean,
+}

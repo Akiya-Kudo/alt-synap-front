@@ -1,4 +1,4 @@
-import { Select } from "@chakra-ui/react";
+import { FormControl, Select } from "@chakra-ui/react";
 import { NeumSelectProps } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
 

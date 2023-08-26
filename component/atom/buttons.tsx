@@ -7,14 +7,14 @@ import { useNeumStyle_dent, useNeumStyle_curve, useNeumStyle_flat } from "../../
 
 export const ClickButton = ({
     fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
-    Hcolor="red_switch",Acolor="red.600", isDisabled,
+    Hcolor="red_switch",Acolor="red.600", isDisabled=false,
     ...props
 }: NeumButtonProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <Button
         {...props}
-        borderRadius={borderRadius} color={color} bg={bg} fontSize={fontSize} 
+        borderRadius={borderRadius} color={color} bg={bg} fontSize={fontSize} isDisabled={isDisabled}
         boxShadow={`15px 15px 30px ${shadow},-15px -15px 30px ${highlight};`}
         _hover={{
             boxShadow: `5px 5px 15px ${shadow},-5px -5px 15px ${highlight};`, 
@@ -26,6 +26,7 @@ export const ClickButton = ({
             color: Acolor,
         }}
         _disabled={{
+            boxShadow: `5px 5px 15px ${shadow},-5px -5px 15px ${highlight};`, 
             color: "text_very_light"
         }}
         />

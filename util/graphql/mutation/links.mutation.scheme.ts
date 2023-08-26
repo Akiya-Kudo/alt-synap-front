@@ -59,3 +59,27 @@ export const DELETE_LINK = gql`
         }
     }
 `
+
+export const CREATE_LINK = gql`
+    mutation ($linkData: createLinkInput!) {
+        create_link(linkData: $linkData) {
+            lid
+            link_name
+            url_scheme
+            genre
+            image_path
+            explanation
+            query
+            joint
+            other_queries
+            publish
+            timestamp
+            is_path_search
+            uuid_uid
+            users {
+                uuid_uid
+                user_name
+            }
+        }
+    }
+`

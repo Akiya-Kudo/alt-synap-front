@@ -15,3 +15,14 @@ export const REMOVE_COLLECTION = gql`
         }
     }
 `
+
+export const CREATE_COLLECTION = gql`
+    mutation ( $collection_name: String!, $uuid_uid: String! ) {
+        create_collection( collection_name: $collection_name, uuid_uid: $uuid_uid ) {
+            cid
+            collection_name
+            deleted
+            uuid_uid
+        }
+    }
+`

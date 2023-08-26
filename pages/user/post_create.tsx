@@ -23,7 +23,7 @@ const PostCreate: NextPage = () => {
   useEffect(() => { if (userState == 'guest')  router.replace('/') }, [userState])
 
   const { upsertArticlePost } = usePost();
-  const {toastPostSuccess, toastPostError} = useCustomToast()
+  const {toastSuccess, toastError} = useCustomToast()
   const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
 
   //save button loading処理 (userStateChanging中 + save処理中)
@@ -70,10 +70,10 @@ const PostCreate: NextPage = () => {
     try {
       const res = await upsertArticlePost(currentPost);
       setCurrentPost((prev)=>({...prev, uuid_pid: res.data.upsert_article_post.post.uuid_pid}))
-      toastPostSuccess();
+      toastSuccess("投稿を正常に保存しました");
 
     } catch (error) {
-      toastPostError();
+      toastError("保存に失敗しました", "ネットワーク環境や投稿の内容を確認してください");
       console.log(error);
 
     } finally {
@@ -86,7 +86,7 @@ const PostCreate: NextPage = () => {
     <>
       <PostHeader title={"文章で記録"}>
         <GlassSwitchButton
-        getState={handleClick_publish} defStateValue={false}
+        getState={handleClick_publish} defStateValue={currentPost.publish}
         variant={"outline"} fontSize={".9rem"} 
         SBgGradient={"linear(to-tl, tipsy_color_2, tipsy_color_3)"} SHBgGradient={"linear(to-tl, tipsy_color_active_2, tipsy_color_active_3)"}
         Scolor={"bg_switch"} Acolor={"tipsy_color_active_3"} Hcolor={"tipsy_color_3"}

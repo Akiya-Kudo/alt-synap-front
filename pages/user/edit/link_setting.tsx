@@ -32,6 +32,7 @@ const LinkSetting: NextPage  = () => {
                 <GridItem area={'multi'}>
                     <CollectionSettingBoard 
                     collections={user_data?.user?.collections}
+                    uuid_uid={user_data?.user?.uuid_uid}
                     />
                 </GridItem>
 
