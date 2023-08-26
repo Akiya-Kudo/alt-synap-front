@@ -1,10 +1,11 @@
-import { Box, Center, Heading, Flex } from "@chakra-ui/react";
+import { Box, Center, Heading } from "@chakra-ui/react";
 import React from "react";
 import { Collection } from "../../type/global";
 import { DentBord } from "../atom/bords";
+import { AddCollectionPopover } from "../helper/AddCollectionPopover";
 import { CollectionListItem } from "../helper/ListItems";
 
-const CollectionSettingBoard = ({collections}: {collections: Collection[]}) => {
+const CollectionSettingBoard = ({collections, uuid_uid}: {collections: Collection[], uuid_uid: string}) => {
     return (
         <>
             <Center h={"40px"} mb={4}>
@@ -23,16 +24,7 @@ const CollectionSettingBoard = ({collections}: {collections: Collection[]}) => {
                         )
                     })}
                 </Box>
-                <Flex 
-                w={"100%"} my={2} px={3} h={"50px"} align={"center"} borderRadius={10}
-                fontSize={".8rem"}
-                _hover={{ 
-                    filter: 'brightness(1.2)',
-                    bg: "whiteAlpha.500"
-                }}
-                >
-                    ＋ 新しい COLLECTION を作成する
-                </Flex>
+                <AddCollectionPopover uuid_uid={uuid_uid}/>
             </DentBord>
         </>
     )

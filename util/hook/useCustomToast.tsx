@@ -3,24 +3,50 @@ import { Box, Toast, useToast } from "@chakra-ui/react"
 export const useCustomToast = () => {
     const toast = useToast()
 
-    const toastPostSuccess = () => toast({
-        position: "bottom-right",
-        render: () => (
-            <Box fontSize={"0.8rem"}>
-                <Toast title="投稿を正常に保存しました" status="success" variant={"subtle"} duration={5000} isClosable />
-            </Box>
-        ),
-    })
+    
+    const toastSuccess = (title: string, description?: string) => {
+        toast({
+            position: "bottom-right",
+            isClosable: true,
+            title: title,
+            description: description,
+            status: "success",
+            duration: 5000,
+            variant: "subtle",
+        });
+    }
+    
+    const toastError = (title: string, description: string) => {
+        toast({
+            position: "bottom-right",
+            isClosable: true,
+            title: "ERROR : " + title,
+            description: description,
+            status: "error",
+            duration: 5000,
+            variant: "subtle",
+        });
+    }
 
-    const toastPostError = () => toast({
-        position: "bottom-right",
-        render: () => (
-            <Box fontSize={"0.8rem"}>
-                <Toast title="ERROR : 保存に失敗しました" description={"ネットワーク環境や投稿の内容を確認してください"} status='error'
-                variant={"subtle"} duration={5000} isClosable />
-            </Box>
-        ),
-    })
+    // const toastSuccess = (title: string, description?: string) => toast({
+    //     position: "bottom-right",
+    //     isClosable: true,
+    //     render: () => (
+    //         <Box fontSize={"0.8rem"}>
+    //             <Toast title={title} description={description} status="success" variant={"subtle"} duration={5000} isClosable />
+    //         </Box>
+    //     ),
+    // })
+    // const toastError = (title: string, description: string) => toast({
+    //     position: "bottom-right",
+    //     isClosable: true,
+    //     render: () => (
+    //         <Box fontSize={"0.8rem"}>
+    //             <Toast title={"ERROR : " + title} description={description} status='error'
+    //             variant={"subtle"} duration={5000} isClosable />
+    //         </Box>
+    //     ),
+    // })
 
     const toastNetDisconnectedError = () => toast({
         position: "bottom-left",
@@ -31,5 +57,5 @@ export const useCustomToast = () => {
             </Box>
         ),
     })
-    return {toastPostSuccess, toastPostError, toastNetDisconnectedError}
+    return {toastSuccess, toastError, toastNetDisconnectedError}
 }

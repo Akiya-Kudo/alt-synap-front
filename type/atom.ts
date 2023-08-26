@@ -1,5 +1,5 @@
-import { AlertDialogProps, AlertProps, BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, SwitchProps, TagProps } from "@chakra-ui/react"
-import { MouseEventHandler, ReactComponentElement } from "react"
+import { AlertDialogProps, AlertProps, BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, StackProps, SwitchProps, TagProps, TextareaProps } from "@chakra-ui/react"
+import { Dispatch, MouseEventHandler, ReactComponentElement, SetStateAction } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
 import { API, OutputData } from "@editorjs/editorjs";
@@ -8,6 +8,10 @@ import { PostTag, Tag, User } from "./global";
 //テキスト
 export interface NeumTextProps extends BoxProps {
     neumH?: "shallow" | "tall",
+}
+export interface StepGuideProps extends FlexProps {
+    guide: string,
+    stepNum: number
 }
 
 //ボード
@@ -107,7 +111,24 @@ export interface NeumInputProps extends InputProps {
     fontSize?: number,
     register?:  UseFormRegisterReturn,
 }
+export interface NeumTextareaProps extends TextareaProps {
+    PHcolor?: string,
+    fontSize?: number,
+    register?:  UseFormRegisterReturn,
+
+}
 export interface NeumFormInputProps extends NeumInputProps {
+    id: string,
+    labelName?: string,
+    register: any,
+    formState?: any,
+    errors: any,
+    validation: any,
+    focusColor?: string,
+    isInputGuideToolTip?: boolean,
+    InputGuideToolexplain?: string,
+}
+export interface NeumFormTextareaProps extends NeumTextareaProps {
     id: string,
     labelName?: string,
     register: any,
@@ -193,4 +214,16 @@ export interface GlassAlertProps extends BoxProps {
     exeMessage?: string, 
     handleExecute:()=>void,
     exeButtonBg?: string,
+}
+
+//ステッパーズ
+export interface BasicStepperProps extends StackProps {
+    steps: StepsType[],
+    activeStep: number, 
+    setActiveStep: Dispatch<SetStateAction<number>>,
+}
+
+export interface StepsType {
+    title: string,
+    description: string,
 }

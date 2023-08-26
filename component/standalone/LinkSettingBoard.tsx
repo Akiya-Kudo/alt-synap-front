@@ -10,6 +10,7 @@ import { FlatBord } from "../atom/bords";
 import { BasicSelect } from "../atom/select";
 import { LinkListItem } from "../helper/ListItems";
 import { TabSwitchGroup_3 } from "../helper/TabRadioGroup";
+import NextLink from 'next/link'
 
 const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
 
@@ -18,9 +19,9 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
     const [displayGenre, setDispayGenre] = useState<LinkGenre | null>(null)
 
     const { data: public_link_data } = useQuery( GET_PUBLISHED_LINKS );
-    const [getUserLinkHistory] = useLazyQuery( GET_LINKCOLLECTION_HISTORY);
+    const [getUserLinkHistory, {data: link_history_data}] = useLazyQuery( GET_LINKCOLLECTION_HISTORY);
     const [getUserMadeLink] = useLazyQuery( GET_USER_MADE_LINKS );
-
+    
     const allLinkCollections = client.readFragment({
         id: `User:{"uuid_uid":"${ uuid_uid }"}`,
         fragment: ALL_LINKCOLLECTIONS,
@@ -35,7 +36,6 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
             //userのlinkCollectin全ての配列
             const linkCollections = await getUserLinkHistory({ variables: { uuid_uid: uuid_uid }}) 
             //一つもdeletedがfalseでないLinkを一意に取得する
-            console.log(linkCollections.data?.get_link_collections_used);
             const linkMap = new Map();
             linkCollections.data?.get_link_collections_used.forEach(( li_col: LinkCollection )  => {
                 if ( !linkMap.has(li_col.lid) && !usingLidMap.has(li_col.lid)) {
@@ -53,8 +53,21 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
     }
     
     useEffect(()=>{setDisplayLinks(public_link_data?.get_published_links)},[public_link_data])
+    //linkがcollectionから削除され、writeQueryによりクエリのレスポンスが変更された時に発火し再表示する
+    useEffect(()=>{ 
+        if (displayMode=="履歴" ) {
+            const linkMap = new Map();
+            link_history_data?.get_link_collections_used.forEach(( li_col: LinkCollection )  => {
+                if ( !linkMap.has(li_col.lid) && !usingLidMap.has(li_col.lid)) {
+                    linkMap.set(li_col.lid, li_col.links);
+                }
+            })
+            const uniqueLinks = Array.from(linkMap.values());
+            setDisplayLinks(uniqueLinks)
+        }
+    },[link_history_data])
     
-    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => setDispayGenre(event.target.value ? parseInt(event.target.value) : null)
+    const handleSelectGenre = (event: React.ChangeEvent<HTMLSelectElement>) => setDispayGenre(event.target.value ? parseInt(event.target.value) : null)
     return (
     <>
         <Center>
@@ -72,7 +85,7 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
                 placeholder='条件なし' 
                 position={"absolute"}
                 left={300} top={3}
-                onChange={handleSelectChange}
+                onChange={handleSelectGenre}
                 >
                     { Object.entries(LinkGenreNames).map( ([key, name]) => <option value={parseInt(key)} >{name}</option>)}
                 </BasicSelect>
@@ -90,17 +103,27 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
                         <LinkListItem link={link}  badgeLidArray={ Array.from(usingLidMap.values()) } displayMode={displayMode} uuid_uid={uuid_uid}/>
                     )
                 })}
-            { displayLinks && displayLinks.length == 0 && <Center w={"100%"} h={"100px"}>LINKが見つかりませんでした</Center> }
+                { 
+                displayLinks && 
+                displayLinks?.filter((link: Link) => {
+                    if (displayGenre || displayGenre==0) return link.genre == displayGenre
+                    else return true
+                }).length == 0 && 
+                <Center w={"100%"} h={"100px"}>LINKが見つかりませんでした</Center> 
+                }
             </Box>
-            <Flex w={"100%"} my={2} px={2} h={"50px"} align={"center"} borderRadius={10}
-            fontSize={".8rem"}
-            _hover={{ 
-                filter: 'brightness(1.2)',
-                bg: "whiteAlpha.500"
-            }}
-            >
-                ＋ 新しい検索リンクを作成する
-            </Flex>
+
+            <NextLink href={"/user/link_create/"} >
+                <Flex w={"100%"} my={2} px={2} h={"50px"} align={"center"} borderRadius={10}
+                fontSize={".8rem"}
+                _hover={{ 
+                    filter: 'brightness(1.2)',
+                    bg: "whiteAlpha.500"
+                }}
+                >
+                    ＋ 新しい検索リンクを作成する
+                </Flex>
+            </NextLink>
         </FlatBord>
     </>
     )

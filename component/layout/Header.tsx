@@ -48,21 +48,22 @@ export const BasicHeader = () => {
     const photo_path = auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
     const user_name = auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
 
-    //Multi Link選択 & 実行
-    const [collection, setCollection] = useState<Collection[]>([])
-    
-    useEffect(() => {
-        const read_collections = client.readQuery({
-            query: USER_QUERY,
-            variables: {
-                uid: auth.currentUser?.uid,
-            },
-        });
-        setCollection(read_collections?.user?.collections)
-    }, [userState]);
-    
+    let collections = [] as Collection[]
+    const read_collections = client.readQuery({
+        query: USER_QUERY,
+        variables: {
+            uid: auth.currentUser?.uid,
+        },
+    });
+    if (read_collections) {
+        collections = read_collections?.user?.collections
+    } 
+    if (userState == "guest") {
+        //サンプルコレクションを表示
+    }
+
     const handleMultLink = (cid: number) => {
-        const links = collection.find(col => col.cid == cid)?.link_collections?.map(li_col => {
+        const links = collections.find(col => col.cid == cid)?.link_collections?.map(li_col => {
             const joined_words = searchWords?.toLowerCase().replace(/　/g, ' ').replace(' ', li_col.links.joint)
             const link_path = li_col.links.url_scheme + "?" + li_col.links.query + "=" + joined_words
             return link_path
@@ -86,7 +87,7 @@ export const BasicHeader = () => {
                 onSearch={ handleSearch }
                 right_element={(                
                     <Center>
-                            <LinkSelectboard title={"- Mult Link Search -"} collections={collection} handleClick={handleMultLink}>
+                            <LinkSelectboard title={"- Mult Link Search -"} collections={collections} handleClick={handleMultLink}>
                                 <MenuButton 
                                 as={IconButton} icon={<TfiUnlink/>} aria-label="multi-link-search"
                                 _hover={{ filter: 'brightness(1.2)' }} 
@@ -134,6 +135,44 @@ export const BasicHeader = () => {
 }
 
 export const PostHeader = ({
+    children, title
+}: PostHeaderProps) => {
+    const router = useRouter()
+    const { userState } = useContext(AuthContext);
+    return (
+        <BasicHeaderStyleContainer>
+            {userState=="loading" && useLoading()}
+            <Flex
+            alignItems='center' 
+            gap={5}
+            >
+                <GlassIconButton
+                aria-label="ページを戻る"
+                icon={<ArrowBackIcon/>}
+                size={"md"} bg="transparent" color={"tipsy_color_2"} variant='outline'
+                onClick={() => {router.back()}}
+                />
+                <ColorModeButton variant='outline'/>
+
+                {/* 左右要素調整Box */}
+                <Box flexGrow={1}></Box>
+                {/* 中央要素 */}
+                <Heading
+                children={title} 
+                size={"md"}
+                position="absolute"
+                left={"50%"}
+                top={"50%"}
+                transform="translateY(-50%) translateX(-50%)"
+                m="auto"
+                />
+                {children}
+            </Flex>
+        </BasicHeaderStyleContainer>
+    )
+}
+
+export const LinkHeader = ({
     children, title
 }: PostHeaderProps) => {
     const router = useRouter()

@@ -2,6 +2,10 @@ import { gql } from "@apollo/client";
 
 export const LINK_COLLECTION_FRAGMENT = gql`
     fragment MyCollection on Collection {
+        cid
+        collection_name
+        deleted
+        uuid_uid
         link_collections {
             lid
             cid

@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { auth } from '../util/firebase/init';
 import { BasicHeader } from '../component/layout/Header';
 import { useRouter } from 'next/router';
-import { Post } from '../type/global';
+import { LinkCollection, Post } from '../type/global';
 
 // import '../style/atom/my-simple-image.css'
 
@@ -56,6 +56,12 @@ const apollo_cache_option = {
 
             return mergedPosts;
           }
+        },
+        get_link_collections_used: {
+          keyArgs: ["uuid_uid"],
+          merge(existing: LinkCollection[] = [], incoming: LinkCollection[]) {
+            return incoming;
+          }
         }
       }
     }
@@ -90,7 +96,7 @@ export const client = new ApolloClient({
 function MyApp({ Component, pageProps }: AppProps) {
   //headerの表示切り替え用
   const router = useRouter()
-  const withoutBasicHeader = router.pathname == '/user/post_create'
+  const withoutBasicHeader = router.pathname == '/user/post_create' || router.pathname == '/user/link_create'
   
   return (
     <ChakraProvider
