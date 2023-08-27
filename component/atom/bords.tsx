@@ -38,14 +38,12 @@ export const FullfyBord = ({
     )
 }
 
-//ref参照のためforwardRefで定義する
-export const DentBord = forwardRef<NeumBordProps, "div">(
-    function DentBord ({
+export const DentBord = ({
     neumH="shallow",
     bg="transparent",color="text_normal", borderRadius="50",
-    display="flex", flexDirection="row", justifyContent="center", alignItems="center",
+    display="flex", justifyContent="center", alignItems="center",
     ...props
-}, ref) {
+}) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const neumHeight = neumH=="shallow" ? `inset -5px -5px 15px -3px ${highlight}, inset 5px 5px 15px -3px  ${shadow};` : `inset -15px -15px 30px -10px ${highlight}, inset 15px 15px 30px -10px  ${shadow};`
     return (
@@ -53,11 +51,30 @@ export const DentBord = forwardRef<NeumBordProps, "div">(
         {...props}
         boxShadow={neumHeight}
         borderRadius={borderRadius} bg={bg} color={color}
-        display={display} flexDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
-        ref={ref}
+        display={display} justifyContent={justifyContent} alignItems={alignItems}
         />
     )
-})
+}
+// //ref参照のためforwardRefで定義する
+// export const DentBord = forwardRef<NeumBordProps, "div">(
+//     function DentBord ({
+//     neumH="shallow",
+//     bg="transparent",color="text_normal", borderRadius="50",
+//     display="flex", flexDirection="row", justifyContent="center", alignItems="center",
+//     ...props
+// }, ref) {
+//     const { highlight, shadow } = useNeumorphismColorMode()
+//     const neumHeight = neumH=="shallow" ? `inset -5px -5px 15px -3px ${highlight}, inset 5px 5px 15px -3px  ${shadow};` : `inset -15px -15px 30px -10px ${highlight}, inset 15px 15px 30px -10px  ${shadow};`
+//     return (
+//         <Box
+//         {...props}
+//         boxShadow={neumHeight}
+//         borderRadius={borderRadius} bg={bg} color={color}
+//         display={display} flexDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
+//         ref={ref}
+//         />
+//     )
+// })
 
 // shadow　&　highlight　の半透明バージョン  コンポーネントが重なる場合のshadow/highlightの打ち消し対処
 export const TabBord = ({

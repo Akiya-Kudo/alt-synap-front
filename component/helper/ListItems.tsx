@@ -28,8 +28,8 @@ export const CollectionListItem = ({collection}: {collection: Collection}) => {
         }}
         >
             <AvatarGroup size='xs' max={3} fontSize={".7rem"} w={"80px"}>
-                {collection.link_collections?.map(li_col => {
-                    return (<Avatar name={li_col.links.link_name} src={li_col.links.image_path}/>)
+                {collection.link_collections?.map((li_col, _i) => {
+                    return (<Avatar name={li_col.links.link_name} src={li_col.links.image_path} key={_i}/>)
                 })}
             </AvatarGroup>
             <Center flexGrow={1}><Heading size={"xs"} overflow={"hidden"}>{collection.collection_name}</Heading></Center>

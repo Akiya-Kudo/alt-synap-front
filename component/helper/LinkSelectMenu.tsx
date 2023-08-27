@@ -33,7 +33,7 @@ export const LinkSelectboard = ({
                                 >
                                     <AvatarGroup size='xs' max={2} mr='12px' fontSize={".6rem"}>
                                         {
-                                            col.link_collections?.map(li_col => <Avatar name={li_col.links?.link_name} src={li_col.links?.image_path} id={li_col.lid?.toString()}/>)
+                                            col.link_collections?.map(li_col => <Avatar name={li_col.links?.link_name} src={li_col.links?.image_path} id={li_col.lid?.toString()} key={li_col.lid}/>)
                                         }
                                     </AvatarGroup>
                                     <span>{col.collection_name}</span>

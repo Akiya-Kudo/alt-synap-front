@@ -38,7 +38,7 @@ const TipsyTagsBoard = ({ query_text, isDisplay }: {query_text: string, isDispla
                 display={"flex"} flexDirection={"column"}
                 mx={10} mt={3} mb={1} p={4}
                 w={1150}
-                borderRadius={40}
+                borderRadius={"30px"}
                 position={"relative"}
                 >
                     <DentBord w={130} h={"40px"} justifyContent="center" alignItems={"center"} borderRadius={"full"} mb={5}>

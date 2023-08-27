@@ -46,7 +46,7 @@ const LinkCreate : NextPage  = () => {
             }
 
             const data_pubsh = client.readQuery({ query: GET_PUBLISHED_LINKS })
-            if (data_pubsh) {
+            if (data_pubsh && create_link.publish) {
                 const res_pre = data_pubsh.get_published_links
                 const new_res = [...res_pre, create_link]
                 client.writeQuery({

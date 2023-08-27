@@ -18,9 +18,9 @@ const CollectionSettingBoard = ({collections, uuid_uid}: {collections: Collectio
             flexDirection={"column"} justifyContent={"space-between"}
             >
                 <Box overflowY={"scroll"} borderRadius={15} w={"100%"} p={3}>
-                    {collections?.map((col: Collection) => {
+                    {collections?.map((col: Collection, _i) => {
                         return (
-                            <CollectionListItem collection={col}/>
+                            <CollectionListItem collection={col} key={_i}/>
                         )
                     })}
                 </Box>

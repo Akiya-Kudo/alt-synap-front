@@ -41,7 +41,7 @@ export const TipsyCard = ({
                     <Stack direction={"row"} flexWrap={"wrap"} gap={.3} justify={"center"}>
                         { post_tags?.map((post_tag, _i) => {
                             return (
-                                <NextLink href={"/topics/" + post_tag.tags?.tid}>
+                                <NextLink href={"/topics/" + post_tag.tags?.tid} key={post_tag.tags?.tid}>
                                     <Tag 
                                     id={post_tag.tags?.tid?.toString()} 
                                     fontSize={".7rem"} 
@@ -152,9 +152,9 @@ export const TipsyCard_image = ({
                         <Stack direction={"row"} flexWrap={"wrap"} gap={.3} justify={"center"}>
                             { post_tags?.map((post_tag, _i) => {
                                 return (
-                                    <NextLink href={"/topics/" + post_tag.tags?.tid}>
+                                    <NextLink href={"/topics/" + post_tag.tags?.tid}  key={post_tag.tags?.tid}>
                                         <Tag 
-                                        id={post_tag.tags?.tid?.toString()} 
+                                        id={post_tag.tags?.tid?.toString()}
                                         fontSize={".7rem"} 
                                         px={1} py={.2}
                                         size="xs" 
