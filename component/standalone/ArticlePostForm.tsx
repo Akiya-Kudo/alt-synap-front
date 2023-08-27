@@ -83,18 +83,18 @@ export const ArticlePostForm = ({
                 <VStack gap={1}>
                     <TopLinkInputPopover
                     id={"input_top_link"} title="WEBブックマーク" icon={<FaLink/>} setValue={handleTopLink} value={stateValue.top_link}
-                    tooltipContent={<Text fontSize={".6.5rem"} pb={2}>WEBブックマークを付けると、投稿を開かずにリンクに飛ぶことができます。すぐ確認し直したい時に便利です！</Text>}
+                    tooltipContent={<Text fontSize={".6.5rem"}>WEBブックマークを付けると、投稿を開かずにリンクに飛ぶことができます。すぐ確認し直したい時に便利です！</Text>}
                     errors={errors} register={register} formState={formState}
                     />
                     <TopImageInputPopover
                     id="input_top_image" title="サムネイル" icon={<FaImage/>} 
                     image={stateValue.top_image} imageFile={stateValue.top_image_file} setImage={handleTopImage} setImageFile={handleTopImageFile}
-                    tooltipContent={<Text fontSize={".6.5rem"} pb={2}>投稿のトップに画像を追加できます。投稿の内容に沿った画像を表示することで、わかりやすい投稿になります。</Text>}
+                    tooltipContent={<Text fontSize={".6.5rem"}>投稿のトップに画像を追加できます。投稿の内容に沿った画像を表示することで、わかりやすい投稿になります。</Text>}
                     errors={errors} register={register} formState={formState}
                     />
                     <TagInputPopover 
                     id="input_tags" title="タグ" icon={<FaTags/>} setValue={handleTagsAdd} value={stateValue.tags} onDeleteClick={handleTagDelete}
-                    tooltipContent={<Box fontSize={".6.5rem"} pb={2}>投稿にタグを最大で５つまで指定することができます。関連する名前のタグを追加すると検索で探しやすくなります。</Box>}
+                    tooltipContent={<Box fontSize={".6.5rem"}>投稿にタグを最大で５つまで指定することができます。関連する名前のタグを追加すると検索で探しやすくなります。</Box>}
                     errors={errors} register={register} formState={formState}
                     />
                     <DentBord h={"30px"} w={"30px"} >

@@ -94,9 +94,9 @@ export const NeumTagList = ({
         tags_conponents = tags.map((tag, index)=> {
             let color_theme = colorList[index].split("_")[0]
             return (
-                <NextLink href={"/topics/" + tag.tid}>
+                <NextLink href={"/topics/" + tag.tid} key={tag.tid}>
                     <NeumTag
-                    key={tag.tid} id={tag.tid.toString()}
+                    id={tag.tid.toString()}
                     display_name={tag.display_name}
                     tag_image={tag.tag_image && tag.tag_image}
                     colorScheme={color_theme}

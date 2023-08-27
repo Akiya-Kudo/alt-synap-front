@@ -306,7 +306,7 @@ export const UrlLabelingStep = (
                     <FormControl isRequired w={250}>
                         <FormLabel size={"xs"} mt={5} fontWeight={"bold"} >ジャンル</FormLabel>
                         <BasicSelect defaultValue={currentLink.genre} mt={3} onChange={handleGenre}>
-                            { Object.entries(LinkGenreNames).map( ([key, name]) => <option value={parseInt(key)} >{name}</option>)}
+                            { Object.entries(LinkGenreNames).map( ([key, name]) => <option value={parseInt(key)} key={parseInt(key)}>{name}</option>)}
                         </BasicSelect>
                     </FormControl>
 

@@ -212,30 +212,52 @@ export const SwitchButton_tab = ({
 }
 
 //ref参照のためforwardRefで定義する
-export const NeumIconButton = forwardRef<NeumIconButtonProps, "button">(
-    function NeumIconButton ({
+export const NeumIconButton = ({
         neumH="shallow",
         color="text_normal", 
         borderRadius="full",
         ...props
-    }, ref) {
-        const { curve_sm, curve_sm_shallow, curve_sm_tall } = useNeumStyle_curve()
-        const {dent_sm} = useNeumStyle_dent()
-        const {flat_sm } = useNeumStyle_flat()
-        const neumBS = neumH=="shallow" ? curve_sm : flat_sm 
-        return (
-            <IconButton
-            {...props}
-            color={color}
-            borderRadius={borderRadius}
-            boxShadow={ neumBS }
-            _hover={{boxShadow: curve_sm_shallow}}
-            _active={{boxShadow: dent_sm}}
-            ref={ref}
-            />
-        )
-    }
-)
+    }) => {
+    const { curve_sm, curve_sm_shallow, curve_sm_tall } = useNeumStyle_curve()
+    const {dent_sm} = useNeumStyle_dent()
+    const {flat_sm } = useNeumStyle_flat()
+    const neumBS = neumH=="shallow" ? curve_sm : flat_sm 
+    return (
+        <IconButton
+        {...props}
+        color={color} aria-label={"neum_icon_button"}
+        borderRadius={borderRadius}
+        boxShadow={ neumBS }
+        _hover={{boxShadow: curve_sm_shallow}}
+        _active={{boxShadow: dent_sm}}
+        />
+    )
+}
+// //ref参照のためforwardRefで定義する
+// export const NeumIconButton = forwardRef<NeumIconButtonProps, "button">(
+//     function NeumIconButton ({
+//         neumH="shallow",
+//         color="text_normal", 
+//         borderRadius="full",
+//         ...props
+//     }, ref) {
+//         const { curve_sm, curve_sm_shallow, curve_sm_tall } = useNeumStyle_curve()
+//         const {dent_sm} = useNeumStyle_dent()
+//         const {flat_sm } = useNeumStyle_flat()
+//         const neumBS = neumH=="shallow" ? curve_sm : flat_sm 
+//         return (
+//             <IconButton
+//             {...props}
+//             color={color}
+//             borderRadius={borderRadius}
+//             boxShadow={ neumBS }
+//             _hover={{boxShadow: curve_sm_shallow}}
+//             _active={{boxShadow: dent_sm}}
+//             ref={ref}
+//             />
+//         )
+//     }
+// )
 
 export const GlassButton = ({
     fontSize=20, color="text_normal", borderRadius="full", bg="transparent", bgGradient,

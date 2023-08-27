@@ -56,7 +56,7 @@ export const TagInputPopover = ({
             <PopoverTrigger >
                 <Box 
                 className="tooltip_hover_trigger" position={"relative"} 
-                onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
+                onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose} pb={3}
                 >
                     <NeumIconButton
                     icon={icon} 

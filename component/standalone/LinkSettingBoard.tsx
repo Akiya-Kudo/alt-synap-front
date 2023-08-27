@@ -20,7 +20,7 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
 
     const { data: public_link_data } = useQuery( GET_PUBLISHED_LINKS );
     const [getUserLinkHistory, {data: link_history_data}] = useLazyQuery( GET_LINKCOLLECTION_HISTORY);
-    const [getUserMadeLink] = useLazyQuery( GET_USER_MADE_LINKS );
+    const [getUserMadeLink, {data: link_madeby}] = useLazyQuery( GET_USER_MADE_LINKS );
     
     const allLinkCollections = client.readFragment({
         id: `User:{"uuid_uid":"${ uuid_uid }"}`,
@@ -52,7 +52,16 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
         }
     }
     
-    useEffect(()=>{setDisplayLinks(public_link_data?.get_published_links)},[public_link_data])
+    useEffect(()=>{
+        if (displayMode=="公開中" ) {
+            setDisplayLinks(public_link_data?.get_published_links)
+        }
+    },[public_link_data])
+    useEffect(()=>{
+        if (displayMode=="作成済み" ) {
+            setDisplayLinks(link_madeby?.get_link_made_by_user)
+        }
+    },[link_madeby])
     //linkがcollectionから削除され、writeQueryによりクエリのレスポンスが変更された時に発火し再表示する
     useEffect(()=>{ 
         if (displayMode=="履歴" ) {
@@ -87,7 +96,7 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
                 left={300} top={3}
                 onChange={handleSelectGenre}
                 >
-                    { Object.entries(LinkGenreNames).map( ([key, name]) => <option value={parseInt(key)} >{name}</option>)}
+                    { Object.entries(LinkGenreNames).map( ([key, name]) => <option value={parseInt(key)} key={parseInt(key)} >{name}</option>)}
                 </BasicSelect>
             </TabSwitchGroup_3>
         </Center>
@@ -97,14 +106,14 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
                 displayLinks?.filter((link: Link) => {
                     if (displayGenre || displayGenre==0) return link.genre == displayGenre
                     else return true
-                }).map((link: Link) => {
+                }).map((link: Link, _i) => {
 
                     return (
-                        <LinkListItem link={link}  badgeLidArray={ Array.from(usingLidMap.values()) } displayMode={displayMode} uuid_uid={uuid_uid}/>
+                        <LinkListItem link={link}  badgeLidArray={ Array.from(usingLidMap.values()) } displayMode={displayMode} uuid_uid={uuid_uid} key={_i}/>
                     )
                 })}
                 { 
-                displayLinks && 
+                displayLinks &&
                 displayLinks?.filter((link: Link) => {
                     if (displayGenre || displayGenre==0) return link.genre == displayGenre
                     else return true

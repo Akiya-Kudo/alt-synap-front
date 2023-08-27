@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react"
 import { Avatar, AvatarGroup, Box, Center, Flex, Heading, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
 import { GlassTag } from "../atom/tags"
 import NextLink from 'next/link'
-import { Collection, Link as LinkType, LinkCollection, LinkDisplaySwitchType, User } from "../../type/global";
+import { Collection, Link, Link as LinkType, LinkCollection, LinkDisplaySwitchType, User } from "../../type/global";
 import { LinkListItemDeletable } from "./ListItems";
 import { GlassButton } from "../atom/buttons";
 import { useMutation } from "@apollo/client";
 import { REMOVE_COLLECTION } from "../../util/graphql/mutation/collections.mutation.scheme";
-import { USER_QUERY } from "../../util/graphql/queries/users.query.schema";
+import { READ_USER_UUID, USER_QUERY } from "../../util/graphql/queries/users.query.schema";
 import { auth } from "../../util/firebase/init";
 import { COLLECTION_FRAGMENT_TO_LINKCOLLECTION, LINK_COLLECTION_FRAGMENT, USER_FRAGMENT_COLLECTION_ONLY } from "../../util/graphql/fragment/fragment.scheme";
 import { client } from "../../pages/_app";
@@ -15,7 +15,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ADD_LINK_TO_COLLECTION, DELETE_LINK, DELETE_LINK_COLLECTION } from "../../util/graphql/mutation/links.mutation.scheme";
 import { GlassAlert } from "../atom/alerts";
 import { LinkGenreNames } from "../../type/standalone";
-import { GET_LINKCOLLECTION_HISTORY } from "../../util/graphql/queries/links.query.scheme";
+import { GET_LINKCOLLECTION_HISTORY, GET_PUBLISHED_LINKS, GET_USER_MADE_LINKS } from "../../util/graphql/queries/links.query.scheme";
 
 export const CollectionEditModal = (
     {
@@ -78,9 +78,9 @@ export const CollectionEditModal = (
                 <ModalCloseButton />
                 <ModalBody>
                     {
-                        collection.link_collections?.map(li_col => {
+                        collection.link_collections?.map((li_col, _i) => {
                             return (
-                                <LinkListItemDeletable link={li_col.links} cid={collection.cid}/>
+                                <LinkListItemDeletable link={li_col.links} cid={collection.cid} key={_i}/>
                             )
                         })
                     }
@@ -126,7 +126,7 @@ export const LinkDetailModal = (
                     <Flex fontSize="1rem" align={"center"} gap={4}>
                         <Avatar name={link.link_name} src={link.image_path} size={"sm"}/>
                         <Box>{link.link_name}</Box>
-                        <GlassTag id="link_genre">{ "ジャンル"}</GlassTag>
+                        <GlassTag id="link_genre">{LinkGenreNames[link.genre]}</GlassTag>
                     </Flex>
                     <ModalCloseButton color={"text_light"}/>
                 </ModalHeader>
@@ -135,7 +135,7 @@ export const LinkDetailModal = (
                     <Text m={2}>作成：
                         <NextLink href={"/users/" + link.uuid_uid}>
                             <Box as={"span"} cursor={"pointer"} color={"tipsy_color_3"} _hover={{ textDecoration: "underline" }}>
-                                { "作者したのは誰だ" }
+                                { link.users?.user_name ? link.users?.user_name : "Guest" }
                             </Box>
                         </NextLink>
                     </Text>
@@ -151,7 +151,7 @@ export const LinkDetailModal = (
                     <Text m={2}>結合子：<Box as={"span"}>{ link.joint }</Box></Text>
                     <Text m={2}>その他のクエリ：<Box as={"span"}>{ link.other_queries ? link.other_queries : "未設定" }</Box></Text>
                     <Text m={2}>Pathによる検索：<Box as={"span"}>{ link.is_path_search ? "ON" : "OFF" }</Box></Text>
-                    <Text m={2}>作成日<Box as={"span"}>{ link.timestamp.toString().split("-", 3).join("/").split("T", 1) }</Box></Text>
+                    <Text m={2}>作成日：<Box as={"span"}>{ link.timestamp.toString().split("-", 3).join("/").split("T", 1) }</Box></Text>
                 </ModalBody>
             </ModalContent>
         </Modal>
@@ -297,7 +297,7 @@ export const LinkEditModal = (
                     <Text m={2}>作成：
                         <NextLink href={"/users/" + link.uuid_uid}>
                             <Box as={"span"} cursor={"pointer"} color={"tipsy_color_3"} _hover={{ textDecoration: "underline" }}>
-                                { "作者したのは誰だ" }
+                                { link.users?.user_name ? link.users?.user_name : "Guest" }
                             </Box>
                         </NextLink>
                     </Text>
@@ -313,7 +313,7 @@ export const LinkEditModal = (
                     <Text m={2}>結合子：<Box as={"span"}>{ link.joint }</Box></Text>
                     <Text m={2}>その他のクエリ：<Box as={"span"}>{ link.other_queries ? link.other_queries : "未設定" }</Box></Text>
                     <Text m={2}>Pathによる検索：<Box as={"span"}>{ link.is_path_search ? "ON" : "OFF" }</Box></Text>
-                    <Text m={2}>作成日<Box as={"span"}>{ link.timestamp.toString().split("-", 3).join("/").split("T", 1) }</Box></Text>
+                    <Text m={2}>作成日：<Box as={"span"}>{ link.timestamp.toString().split("-", 3).join("/").split("T", 1) }</Box></Text>
                 </ModalBody>
                 <ModalFooter gap={4} position={"relative"}>
                     {

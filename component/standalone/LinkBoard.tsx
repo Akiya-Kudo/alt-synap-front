@@ -61,10 +61,10 @@ const LinkBoard = ({query_text}: {query_text: string}) => {
                 </MenuButton>
             </LinkSelectboard>
             {
-                collection && displayCid && collection.find(col => col.cid == displayCid)?.link_collections?.map(li_col => {
+                collection && displayCid && collection.find(col => col.cid == displayCid)?.link_collections?.map((li_col, _i )=> {
                     return (
                         <ClickButtonFlat
-                        id={li_col.lid?.toString()}
+                        id={li_col.lid?.toString()} key={_i}
                         onClick={() => handleLink(li_col.links.url_scheme, li_col.links.query, li_col.links.joint)}
                         p={0}
                         >
