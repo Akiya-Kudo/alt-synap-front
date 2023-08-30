@@ -1,9 +1,9 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useImperativeHandle, useRef, useState } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import NextImage from 'next/image';
 import { Box, Button, ButtonProps, Center, ChakraComponent, Flex, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, Textarea, Tooltip, useCheckbox, useColorMode } from '@chakra-ui/react'
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
 import { FaEye, FaEyeSlash, FaQuestion } from 'react-icons/fa';
-import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, GlassSearchInputProps, NeumFormInputProps, NeumFormTextareaProps, NeumInputProps, NeumTextareaProps } from "../../type/atom";
+import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, GlassSearchInputProps, ImageInputDefaultProps, NeumFormInputProps, NeumFormTextareaProps, NeumInputProps, NeumTextareaProps } from "../../type/atom";
 import { useFormColorMode } from '../../util/hook/useColor';
 import { useOneSizeSmaller } from '../../util/hook/useSize';
 import { useNeumStyle_dent, useNeumStyle_flat } from '../../util/hook/useTheme';
@@ -53,11 +53,18 @@ export const NeumTextAreaDefault = ({
     fontSize=20, 
     placeholder='📝',
     PHcolor="text_very_light",
-    register,
+    register, onChange,
     ...props
 }: NeumTextareaProps ) => {
     const { dent } = useNeumStyle_dent()
     const {flat_tall} = useNeumStyle_flat()
+    if (register) {
+        const newRegisterOnChange = register.onChange
+        register.onChange = async (event: any) => {
+            if (onChange) onChange(event)
+            newRegisterOnChange(event)
+        }
+    }
     return (
         <Textarea
         {...props}
@@ -70,7 +77,7 @@ export const NeumTextAreaDefault = ({
         }}
         borderRadius={borderRadius} bg={bg} color={color} fontSize={fontSize}
         boxShadow={dent}
-        {...register}
+        {...register} onChange={onChange}
         />
     )
 }
@@ -130,11 +137,12 @@ export const NeumFormTextArea = ({
     maxLength,
     bg, border, borderRadius, color,
     fontSize, placeholder, PHcolor,
+    mt,
     ...props
 }: NeumFormTextareaProps ) => {
     return (
         <>
-            <FormLabel ms={3}>{labelName}</FormLabel>
+            <FormLabel ms={3} mt={mt}>{labelName}</FormLabel>
             <NeumTextAreaDefault
             {...props}
             bg={bg} border={border} borderRadius={borderRadius} color={color} 
@@ -144,9 +152,11 @@ export const NeumFormTextArea = ({
             defaultValue={defaultValue}
             maxLength={maxLength}
             />
-            <FormErrorMessage ms={5}>
-                {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
-            </FormErrorMessage>
+            <FormControl isInvalid={errors[id] ? true : false} >
+                <FormErrorMessage ms={5}>
+                    {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
+                </FormErrorMessage>
+            </FormControl>
         </>
     )
 }
@@ -664,6 +674,39 @@ export const GlassInput_search = ({
                 {right_element}
             </InputRightElement>
         </InputGroup>
+    )
+}
+
+// positionがabsoluteになっているためにこれを呼び出す親コンポーネントにはposition relative指定が必要
+export const ImageInputDefault = ({
+    id,
+    setImage, 
+    setImageFile, 
+    register,
+    defaultValue,
+    onChangeNoImageset,
+    ...props
+}: ImageInputDefaultProps) => {
+    // 画像を選択したら画面に表示する処理
+    const handleChange = (e: any) => {
+        if (e.target.files[0]) {
+        const file = e.target.files[0];
+        setImageFile(file)
+        const photo = window.URL.createObjectURL(file)
+        setImage(photo)
+        } else {
+            onChangeNoImageset(e)
+        }
+    }
+    return (
+        <Input   
+        {...register(id)} {...props}
+        type={"file"} 
+        accept=" .png, .jpeg, .jpg, .svg, .webp"
+        onChange={ handleChange }
+        defaultValue={defaultValue}
+        cursor={"pointer"} w="100%" h="100%" pos={"absolute"} left={0} right={0} opacity={0} 
+        />
     )
 }
 

@@ -11,8 +11,10 @@ import { client } from '../../pages/_app';
 import { auth } from '../../util/firebase/init';
 import { USER_COLLECTION_FRAGMENT, USER_QUERY } from '../../util/graphql/queries/users.query.schema';
 import { AuthContext } from '../../util/hook/authContext';
-import { Collection } from '../../type/global';
+import { Collection, Link as LinkType, LinkCollection } from '../../type/global';
 import { BiCategoryAlt } from 'react-icons/bi';
+import {useLinkSearch} from '../../util/hook/useLink'
+import { async } from '@firebase/util';
 
 const LinkBoard = ({query_text}: {query_text: string}) => {
 
@@ -33,11 +35,7 @@ const LinkBoard = ({query_text}: {query_text: string}) => {
     
     const handleSelect = (cid: number) => setDlisplayCid(cid)
 
-    const handleLink = (url: string, query_name: string, query_joint: string) => {
-        const joined_words = query_text?.toLowerCase().replace(/　/g, ' ').replace(' ', query_joint)
-        const link_path = url + "?" + query_name + "=" + joined_words
-        window.open(link_path, '_blank'); // 新しいタブでリンクを開く
-    }
+    const handleLink = (link: LinkType) => useLinkSearch(link, query_text)
 
     const { highlight, shadow } = useNeumorphismColorMode()
     return(
@@ -65,7 +63,7 @@ const LinkBoard = ({query_text}: {query_text: string}) => {
                     return (
                         <ClickButtonFlat
                         id={li_col.lid?.toString()} key={_i}
-                        onClick={() => handleLink(li_col.links.url_scheme, li_col.links.query, li_col.links.joint)}
+                        onClick={() => handleLink(li_col.links)}
                         p={0}
                         >
                             <Avatar src={li_col.links.image_path} name={li_col.links.link_name} size={"sm"}/>

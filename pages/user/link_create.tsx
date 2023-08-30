@@ -139,7 +139,7 @@ const defLinkData = {
     joint: "",
     other_queries: null,
     other_queries_array: null,
-    publish: false,
+    publish: true,
     is_path_search: false,
 } as EditingLinkType
 

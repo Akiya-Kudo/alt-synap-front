@@ -14,17 +14,15 @@ export const USER_MUTATION = gql`
 `
 
 export const USER_INFO_MUTATION = gql`
-  mutation ($updateUserInfoData: updateUserInfoInput!){
-    updateUserInfo(updateUserInfoData: $updateUserInfoData) {
-      firebase_id
-      user_name
-      comment
-      photo_url
-      followee_num
-      follower_num
-      lang_type
+  mutation ($userData: updateUserInput!) {
+    update_user_info(userData: $userData) {
+        uuid_uid
+        comment
+        user_name
+        user_image
     }
-  }
+}
+
   `
 
 // apollo client cache確認

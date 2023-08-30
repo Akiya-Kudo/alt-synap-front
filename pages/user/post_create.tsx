@@ -37,7 +37,7 @@ const PostCreate: NextPage = () => {
     top_image: null,
     top_link: "",
     content_type: 1,
-    publish: false,
+    publish: true,
     deleted: false,
     articleContent: {
       content: {
@@ -60,7 +60,6 @@ const PostCreate: NextPage = () => {
         setIsSaveButtonLoading(false)
       }
     }
-    
   },[userState])
 
   const handleClick_publish = () => setCurrentPost((preV)=>({...preV, publish: !preV.publish}))

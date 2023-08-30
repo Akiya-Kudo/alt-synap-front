@@ -6,6 +6,8 @@ export const USER_QUERY = gql`
         user(uid: $uid) {
             uid
             uuid_uid
+            user_name
+            user_image
             comment
             followee_num
             follower_num

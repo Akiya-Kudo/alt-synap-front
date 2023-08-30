@@ -1,5 +1,5 @@
 import { AlertDialogProps, AlertProps, BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, StackProps, SwitchProps, TagProps, TextareaProps } from "@chakra-ui/react"
-import { Dispatch, MouseEventHandler, ReactComponentElement, SetStateAction } from "react"
+import { Dispatch, FormEventHandler, MouseEventHandler, ReactComponentElement, SetStateAction } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
 import { API, OutputData } from "@editorjs/editorjs";
@@ -163,7 +163,12 @@ export interface GlassFormImageInputProps extends GlassInputProps {
     setImageFile: React.Dispatch<React.SetStateAction<any>>,
     onChangeNoImageset: (e:any) => void
 }
-
+export interface ImageInputDefaultProps extends GlassInputProps {
+    register: any,
+    setImage: (photo: string) => void | React.Dispatch<React.SetStateAction<string | undefined>>,
+    setImageFile: React.Dispatch<React.SetStateAction<any>>,
+    onChangeNoImageset: (e:any) => void
+} 
 //コンテイナー
 export interface GlassContainerProps extends FlexProps{}
 

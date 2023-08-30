@@ -2,7 +2,6 @@ import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider,
 import { useContext, useEffect } from "react";
 import { AuthContext, setAuthContext } from "./authContext";
 import { auth, githubProvider, googleProvider } from '../firebase/init';
-import { useUserRegister } from "./useMutation";
 import { useUserInfoQuery } from "./useQuery";
 import { useMutation } from "@apollo/client";
 import { USER_QUERY } from "../graphql/queries/users.query.schema";
