@@ -14,6 +14,7 @@ import { client } from '../_app'
 import { READ_USER_UUID } from '../../util/graphql/queries/users.query.schema'
 import { useCustomToast } from '../../util/hook/useCustomToast'
 import { onAuthStateChanged } from 'firebase/auth'
+import Head from 'next/head'
 
 
 const PostCreate: NextPage = () => {
@@ -83,6 +84,7 @@ const PostCreate: NextPage = () => {
 
   return (
     <>
+    <Head><title>Tipsy | 投稿作成</title></Head>
       <PostHeader title={"文章で記録"}>
         <GlassSwitchButton
         getState={handleClick_publish} defStateValue={currentPost.publish}

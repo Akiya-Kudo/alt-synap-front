@@ -10,6 +10,7 @@ import { READ_USER_UUID, USER_QUERY } from '../../util/graphql/queries/users.que
 import { auth } from '../../util/firebase/init';
 import { User } from '../../type/global';
 import { ClickButton } from '../../component/atom/buttons';
+import Head from 'next/head';
 
 const Mypage: NextPage  = () => {
     const { userState } = useContext(AuthContext);
@@ -27,6 +28,7 @@ const Mypage: NextPage  = () => {
     },[userState])
     return (
     <>
+    <Head><title>Tipsy | マイページ</title></Head>
         <Flex flexDir={"column"} align={"center"} mt={5} className="page">
             <DentBord maxW={"1100px"} w={"90%"} justifyContent={"start"} p={5} borderRadius={"30px"} flexDir={["column", "column", "row"]}>
                 <Avatar src={userInfo?.user_image} name={userInfo?.user_name} size={"lg"} m={1}/>

@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { AuthContext } from "../../../util/hook/authContext";
 import CollectionSettingBoard from "../../../component/standalone/CollectionSettingBoard"
 import LinkSettingBoard from "../../../component/standalone/LinkSettingBoard";
+import Head from "next/head";
 
 const LinkSetting: NextPage  = () => {
     const { userState } = useContext(AuthContext);
@@ -20,6 +21,8 @@ const LinkSetting: NextPage  = () => {
     });
     
     return (
+        <>
+        <Head><title>Tipsy | リンク設定</title></Head>
             <Center><Grid
             className="page" 
             templateAreas={`"multi select"`}
@@ -40,6 +43,7 @@ const LinkSetting: NextPage  = () => {
                     <LinkSettingBoard uuid_uid={user_data?.user?.uuid_uid}/>
                 </GridItem>
             </Grid></Center>
+        </>
     )
 }
 

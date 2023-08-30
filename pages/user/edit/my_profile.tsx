@@ -1,6 +1,7 @@
 import { EditIcon } from "@chakra-ui/icons";
 import { Avatar, Box, Center, Flex, Icon, Text, Textarea } from "@chakra-ui/react";
 import { NextPage } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -75,68 +76,71 @@ const MyProfile: NextPage  = () => {
     .finally(()=> setIsSaveButtonLoading(false))
   }
   return (
-    <Box >
-      <LinkHeader title={"プロフィールを編集する"}/>
-      <Flex
-      className="page" 
-      justify={"center"}
-      >
+    <>
+    <Head><title>Tipsy | ユーザ情報編集</title></Head>
+      <Box >
+        <LinkHeader title={"プロフィールを編集する"}/>
         <Flex
-        direction={"column"}
-        w="600px"
+        className="page" 
+        justify={"center"}
         >
-          <Flex align={"end"} justify={"center"} mt={5} position={"relative"}>
-            <ImageSetPopover 
-            id="user_image_upload" title="画像を変更" register={register} 
-            setImage={handlePrevewImage} setImageFile={handleImageFile} setNoImageFile={handleNoImageFile}
-            setNewImagePath={handleNewImagepath}
-            beforeImage={currentUser?.user_image}
-            >
-              <Flex flexDir="column" cursor={"pointer"}>
-                <Avatar 
-                src={preViewImage} name={currentUser?.user_name} 
-                size={"xl"} m={1} 
-                >
-                  <Flex 
-                  position={"absolute"} justify={"center"} align={"center"}
-                  w={"100%"} h={"100%"} borderRadius={"full"} color={"whiteAlpha.50"} transition={".1s"}
-                  _hover={{
-                    filter: "auto", backdropFilter: 'auto', backdropBlur: "2px", backdropContrast: '50%', color: "whiteAlpha.800"
-                  }}
+          <Flex
+          direction={"column"}
+          w="600px"
+          >
+            <Flex align={"end"} justify={"center"} mt={5} position={"relative"}>
+              <ImageSetPopover 
+              id="user_image_upload" title="画像を変更" register={register} 
+              setImage={handlePrevewImage} setImageFile={handleImageFile} setNoImageFile={handleNoImageFile}
+              setNewImagePath={handleNewImagepath}
+              beforeImage={currentUser?.user_image}
+              >
+                <Flex flexDir="column" cursor={"pointer"}>
+                  <Avatar 
+                  src={preViewImage} name={currentUser?.user_name} 
+                  size={"xl"} m={1} 
                   >
-                    <Icon as={EditIcon} w={8} h={8}/>
-                  </Flex>
-                </Avatar>
-                <Center fontSize={".9rem"}>画像を変更</Center>
-              </Flex>
-            </ImageSetPopover>
+                    <Flex 
+                    position={"absolute"} justify={"center"} align={"center"}
+                    w={"100%"} h={"100%"} borderRadius={"full"} color={"whiteAlpha.50"} transition={".1s"}
+                    _hover={{
+                      filter: "auto", backdropFilter: 'auto', backdropBlur: "2px", backdropContrast: '50%', color: "whiteAlpha.800"
+                    }}
+                    >
+                      <Icon as={EditIcon} w={8} h={8}/>
+                    </Flex>
+                  </Avatar>
+                  <Center fontSize={".9rem"}>画像を変更</Center>
+                </Flex>
+              </ImageSetPopover>
+            </Flex>
+            <NeumFormInput
+            mt={2}
+            id="user_name" register={register} errors={errors} validation={Validation_username}
+            defaultValue={currentUser?.user_name} placeholder={"Name"} labelName={"名前"}
+            onChange={handleUserName}
+            />
+            <NeumFormTextArea
+            mt={5}
+            id="comment" register={register} errors={errors} validation={Validation_comment}
+            defaultValue={currentUser?.comment} placeholder={"Comment..."} labelName={"コメント"}
+            fontSize={18} rows={6} 
+            onChange={handleComment}
+            />
+            <Center mt={5}>
+              <ClickButton
+              w={"200px"}
+              color={"bg_switch"} Hcolor={"bg_switch"} 
+              onClick={handleSubmit}
+              isLoading={isSaveButtonLoading}
+              bg={!(!errors.user_name) || !(!errors.comment) ? "transparent" : "tipsy_color_3"}
+              isDisabled={!(!errors.user_name) || !(!errors.comment)}
+              >保存</ClickButton>
+            </Center>
           </Flex>
-          <NeumFormInput
-          mt={2}
-          id="user_name" register={register} errors={errors} validation={Validation_username}
-          defaultValue={currentUser?.user_name} placeholder={"Name"} labelName={"名前"}
-          onChange={handleUserName}
-          />
-          <NeumFormTextArea
-          mt={5}
-          id="comment" register={register} errors={errors} validation={Validation_comment}
-          defaultValue={currentUser?.comment} placeholder={"Comment..."} labelName={"コメント"}
-          fontSize={18} rows={6} 
-          onChange={handleComment}
-          />
-          <Center mt={5}>
-            <ClickButton
-            w={"200px"}
-            color={"bg_switch"} Hcolor={"bg_switch"} 
-            onClick={handleSubmit}
-            isLoading={isSaveButtonLoading}
-            bg={!(!errors.user_name) || !(!errors.comment) ? "transparent" : "tipsy_color_3"}
-            isDisabled={!(!errors.user_name) || !(!errors.comment)}
-            >保存</ClickButton>
-          </Center>
         </Flex>
-      </Flex>
-    </Box>
+      </Box>
+    </>
   )
 }
 

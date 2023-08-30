@@ -17,6 +17,7 @@ import { UrlAnalyzeStep, UrlLabelingStep, UrlTestStep } from "../../component/he
 import { useMutation } from "@apollo/client";
 import { CREATE_LINK } from "../../util/graphql/mutation/links.mutation.scheme";
 import { GET_PUBLISHED_LINKS, GET_USER_MADE_LINKS } from "../../util/graphql/queries/links.query.scheme";
+import Head from "next/head";
 
 const LinkCreate : NextPage  = () => {
     const { userState } = useContext(AuthContext);
@@ -91,6 +92,7 @@ const LinkCreate : NextPage  = () => {
 
     return (
         <>
+        <Head><title>Tipsy | リンクを作成</title></Head>
         <LinkHeader title={"LINKを作成する"}/>
         <Flex
         className="page" 
