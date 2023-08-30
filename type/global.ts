@@ -9,13 +9,21 @@ export interface User {
     uuid_uid?: string,
     comment?: string,
     lang_type?: number,
-    follewer_num?: number,
-    follewee_num?: number,
+    follower_num?: number,
+    followee_num?: number,
     user_name?: string,
     user_image?: string,
     links?: Link[],
     collections?: Collection[],
+}
 
+export interface EditingUser {
+    uuid_uid?: string,
+    user_name?: string,
+    user_image?: string,
+    comment?: string,
+    image_file?: File ,
+    new_image_url?: string, 
 }
 
 export interface Link {

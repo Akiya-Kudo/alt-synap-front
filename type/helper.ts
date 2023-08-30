@@ -1,4 +1,5 @@
 import { BoxProps, FlexProps, MenuProps, ModalProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
+import { ReactNode } from "react";
 import { NeumBordProps } from "./atom";
 import { Collection, Tag, TagEditing } from "./global";
 
@@ -55,9 +56,9 @@ export interface PostPopoverProps extends PopoverProps {
     setValue?: (e:any) => void,
     value?: any,
     id: string,
-    title: string,
+    title?: string,
     icon?: React.ReactElement<any, string | React.JSXElementConstructor<any>>,
-    tooltipContent: any,
+    tooltipContent?: any,
 }
 export interface TopLinkPopoverProps extends PostPopoverProps {
     value: string | null,
@@ -75,6 +76,14 @@ export interface TagPopoverProps extends PostPopoverProps {
     value: Array<Tag> | Array<TagEditing>
     setValue: (e:any) => void,
     onDeleteClick: (e:any) => void,
+}
+export interface ImageSetPopoverProps extends PostPopoverProps {
+    children: ReactNode,
+    setImage: (photo: string | undefined) => void | React.Dispatch<React.SetStateAction<string | undefined>>,
+    setImageFile: React.Dispatch<React.SetStateAction<File>>,
+    setNoImageFile: React.Dispatch<React.SetStateAction<undefined>>,
+    setNewImagePath: React.Dispatch<React.SetStateAction<string | undefined>>,
+    beforeImage?: string,
 }
 
 export interface GlassTagListProps extends FlexProps {

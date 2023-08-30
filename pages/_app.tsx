@@ -96,7 +96,7 @@ export const client = new ApolloClient({
 function MyApp({ Component, pageProps }: AppProps) {
   //headerの表示切り替え用
   const router = useRouter()
-  const withoutBasicHeader = router.pathname == '/user/post_create' || router.pathname == '/user/link_create'
+  const withoutBasicHeader = router.pathname == '/user/post_create' || router.pathname == '/user/link_create' || router.pathname == '/user/edit/my_profile'
   
   return (
     <ChakraProvider

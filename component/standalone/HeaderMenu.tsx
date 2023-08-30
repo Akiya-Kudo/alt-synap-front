@@ -30,7 +30,7 @@ export const HeaderMenu = ({
             backgroundColor={"bg_popover_switch"}
             >
                 <MenuGroup title={"- " + user_name + " -"}>
-                    <Link href="/mypage" passHref>
+                    <Link href="/user/edit/my_profile" passHref>
                         <MenuItem
                         backgroundColor={"transparent"}
                         _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}

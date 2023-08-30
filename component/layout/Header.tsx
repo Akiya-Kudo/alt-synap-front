@@ -23,6 +23,7 @@ import { LinkSelectboard } from "../helper/LinkSelectMenu"
 import { Collection } from "../../type/global"
 import { client } from "../../pages/_app"
 import { USER_QUERY } from "../../util/graphql/queries/users.query.schema"
+import { useLinkSearch } from "../../util/hook/useLink"
 
 export const BasicHeader = () => {
 
@@ -44,19 +45,16 @@ export const BasicHeader = () => {
 
     //header内user情報
     const { userState } = useContext(AuthContext);
-    
-    const photo_path = auth.currentUser?.photoURL ? auth.currentUser.photoURL: undefined
-    const user_name = auth.currentUser?.displayName ? auth.currentUser.displayName : "Guest";
 
     let collections = [] as Collection[]
-    const read_collections = client.readQuery({
+    const data_user = client.readQuery({
         query: USER_QUERY,
         variables: {
             uid: auth.currentUser?.uid,
         },
     });
-    if (read_collections) {
-        collections = read_collections?.user?.collections
+    if (data_user) {
+        collections = data_user?.user?.collections
     } 
     if (userState == "guest") {
         //サンプルコレクションを表示
@@ -64,11 +62,12 @@ export const BasicHeader = () => {
 
     const handleMultLink = (cid: number) => {
         const links = collections.find(col => col.cid == cid)?.link_collections?.map(li_col => {
+            useLinkSearch(li_col.links, searchWords)
             const joined_words = searchWords?.toLowerCase().replace(/　/g, ' ').replace(' ', li_col.links.joint)
             const link_path = li_col.links.url_scheme + "?" + li_col.links.query + "=" + joined_words
             return link_path
         })
-        links?.map(link => window.open(link, '_blank'))
+        // links?.map(link => window.open(link, '_blank'))
     }
 
     return (
@@ -107,10 +106,10 @@ export const BasicHeader = () => {
                         </Link>
                         <Link href="/user/my_page" passHref>
                             <Box bg={"tipsy_color_3"} p={0.5} borderRadius="full">
-                                <Avatar size='sm' m={0} name={ user_name } src={ photo_path }/>
+                                <Avatar size='sm' m={0} name={ data_user.user.user_name } src={ data_user.user.user_image }/>
                             </Box>
                         </Link>
-                        <HeaderMenu user_name={user_name} children={undefined}/>
+                        <HeaderMenu user_name={data_user.user.user_name} children={undefined}/>
                     </>
                 }
                 { userState == 'guest' &&
