@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import TipsyTagsBoard from '../component/standalone/TipsyTagsBoard';
 import LinkBoard from '../component/standalone/LinkBoard';
 import { makeVar, useReactiveVar } from '@apollo/client';
+import Head from 'next/head';
 
 export const isTagBoardDisplayVar = makeVar(true as boolean)
 
@@ -22,6 +23,7 @@ const Search: NextPage  = () => {
 
     return (
         <>
+        <Head><title>Tipsy | 検索</title></Head>
             <Flex className="page">
                 <Box className='side-bar' 
                 position={"fixed"}

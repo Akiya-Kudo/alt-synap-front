@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { Box } from '@chakra-ui/react';
 import { TabBord } from '../component/atom/bords';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
+import Head from 'next/head';
 
 const Index: NextPage  = () => {
   const handleTabGroup = (e:any) => {
@@ -9,6 +10,7 @@ const Index: NextPage  = () => {
   }
   return (
     <>
+      <Head><title>Tipsy | Home</title></Head>
       <Box className="page">
         <TabButtonSelectGroup 
         onChange={ handleTabGroup} 

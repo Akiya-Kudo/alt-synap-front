@@ -11,6 +11,7 @@ import { BasicHeader } from '../../component/layout/Header';
 import { SignupForm } from '../../component/standalone/SignupForm';
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { NeumSocialLoginButtons } from '../../component/helper/SocialLoginButtons';
+import Head from 'next/head';
 
 const SignUp: NextPage  = () => {
 
@@ -20,6 +21,7 @@ const SignUp: NextPage  = () => {
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
     return (
         <>
+        <Head><title>Tipsy | 新規登録</title></Head>
             <Grid
             className="page"
             gridTemplateRows={'100px 100px 1fr'}

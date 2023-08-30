@@ -1,5 +1,6 @@
 import { Center, Flex, Heading } from '@chakra-ui/react'
 import { NextPage } from 'next'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect } from 'react'
 import { BasicHeader } from '../../component/layout/Header'
@@ -12,6 +13,7 @@ export const ChangePassword: NextPage = () => {
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
     return (
         <>
+        <Head><title>Tipsy | パスワード変更</title></Head>
             <Flex
             className="page"
             direction="column" 
