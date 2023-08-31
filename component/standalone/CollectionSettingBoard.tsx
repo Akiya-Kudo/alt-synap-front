@@ -14,7 +14,7 @@ const CollectionSettingBoard = ({collections, uuid_uid}: {collections: Collectio
                 </DentBord>
             </Center>
             <DentBord 
-            h={"350px"} borderRadius={15}
+            h={"350px"} borderRadius={"15px"}
             flexDirection={"column"} justifyContent={"space-between"}
             >
                 <Box overflowY={"scroll"} borderRadius={15} w={"100%"} p={3}>

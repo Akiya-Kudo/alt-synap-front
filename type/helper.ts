@@ -87,14 +87,14 @@ export interface ImageSetPopoverProps extends PostPopoverProps {
 }
 
 export interface GlassTagListProps extends FlexProps {
-    tags: Array<Tag> | Array<TagEditing>,
+    tags: Array<Tag | undefined> | Array<TagEditing>,
     colorList: Array<string>,
     onDeleteClick?: (e:any) => void,
     isDeletable?: boolean,
 }
 
 export interface NeumTagListProps extends FlexProps {
-    tags: Array<Tag>,
+    tags: Array<Tag | undefined>,
     colorList: Array<string>,
     onDeleteClick?: (e:any) => void,
     isDeletable?: boolean,

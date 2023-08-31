@@ -6,10 +6,11 @@ import { EditorTools, i18n } from "../../util/form/editorjs_tools";
 // import { EditorTools, i18n } from "@constants/EditorTools";
 
 const ArticleEditor = ({
-    value,
+    defaultValue,
     setValue,
     placeholder="文章を書きはじめる",
     readOnly=false,
+    maxWidth="1100px", w="100%", minHeight="65vh",
 }: ArticleEditorProps) => {
     const id = "article-editorjs"
     const editorJS = useRef<EditorJS | null>(null);
@@ -19,10 +20,10 @@ const ArticleEditor = ({
                 placeholder,
                 readOnly,
                 holder: id,
-                data: value,
+                data: defaultValue,
                 onChange(api: API, event: CustomEvent) {
                     editorJS.current?.save().then((res) => {
-                        setValue(res);
+                        setValue && setValue(res);
                     });
                 },
                 onReady() {},
@@ -32,7 +33,8 @@ const ArticleEditor = ({
             });
         }
     }, []);
-    return <Box id={id} minHeight={"65vh"} w={"100%"} maxWidth={"1100px"}/>;
+    
+    return <Box id={id} minHeight={minHeight} w={w} maxWidth={maxWidth}/>;
 };
 
 export default ArticleEditor;

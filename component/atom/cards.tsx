@@ -38,14 +38,14 @@ export const TipsyCard = ({
                 </NextLink>
 
                 <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
-                    <Stack direction={"row"} flexWrap={"wrap"} gap={.3} justify={"center"}>
+                    <Stack direction={"row"} flexWrap={"wrap"} justify={"center"}>
                         { post_tags?.map((post_tag, _i) => {
                             return (
                                 <NextLink href={"/topics/" + post_tag.tags?.tid} key={post_tag.tags?.tid}>
                                     <Tag 
                                     id={post_tag.tags?.tid?.toString()} 
                                     fontSize={".7rem"} 
-                                    px={1} py={.2}
+                                    px={1} py={.2} ms={.5}
                                     size="xs" 
                                     borderRadius={10}
                                     color={"text_important"}
@@ -70,12 +70,12 @@ export const TipsyCard = ({
 
                 <Stack direction={"row"} w={"100%"} m={1}>
                     <Stack direction={"row"}>
-                    <NextLink href={"/users/" + user.uuid_uid}>
-                            <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} />
-                    </NextLink>
-                    <NextLink href={"/users/" + user.uuid_uid}>
-                            <Center fontSize={".8rem"}>{user.user_name}</Center>
-                    </NextLink>
+                        <NextLink href={"/users/" + user.uuid_uid}>
+                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} />
+                        </NextLink>
+                        <NextLink href={"/users/" + user.uuid_uid}>
+                                <Center fontSize={".8rem"}>{user.user_name}</Center>
+                        </NextLink>
                     </Stack>
                     <Box fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1) }</Box>
                     <Stack direction={"row"}>
@@ -105,15 +105,15 @@ export const TipsyCard_image = ({
             <Box 
             width={"100%"}
             height={350} 
+            borderRadius={20}
             className='image_box'
             position="relative" 
-            borderRadius={20}
+            overflow="hidden"
             transition={".2s"}
             boxShadow={`7px 7px 10px -5px ${shadow}, -7px -7px 10px -5px ${highlight};`}
             _hover={{
                 boxShadow: ` 10px 10px 13px -5px ${shadow},  -10px -10px 15px -5px ${highlight};`, 
             }}
-            overflow="hidden"
             >
                 <NextLink href={"/posts/" + uuid_pid}>
                     <ChakraImage
@@ -149,14 +149,14 @@ export const TipsyCard_image = ({
                     </NextLink>
 
                     <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
-                        <Stack direction={"row"} flexWrap={"wrap"} gap={.3} justify={"center"}>
+                        <Stack direction={"row"} flexWrap={"wrap"} justify={"center"}>
                             { post_tags?.map((post_tag, _i) => {
                                 return (
                                     <NextLink href={"/topics/" + post_tag.tags?.tid}  key={post_tag.tags?.tid}>
                                         <Tag 
                                         id={post_tag.tags?.tid?.toString()}
                                         fontSize={".7rem"} 
-                                        px={1} py={.2}
+                                        px={1} py={.2} ms={.5}
                                         size="xs" 
                                         borderRadius={10}
                                         color={"text_important"}
@@ -166,7 +166,7 @@ export const TipsyCard_image = ({
                                         >
                                             { post_tag.tags?.display_name }
                                         </Tag>
-                                        </NextLink>
+                                    </NextLink>
                                 )
                             })}
                         </Stack>
