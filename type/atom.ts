@@ -1,4 +1,4 @@
-import { AlertDialogProps, AlertProps, BoxProps, ButtonProps, FlexProps, FormLabelProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, StackProps, SwitchProps, TagProps, TextareaProps } from "@chakra-ui/react"
+import { AlertDialogProps, AlertProps, BoxProps, ButtonProps, FlexProps, FormLabelProps, HeadingProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, StackProps, SwitchProps, TagProps, TextareaProps, TextProps } from "@chakra-ui/react"
 import { Dispatch, FormEventHandler, MouseEventHandler, ReactComponentElement, SetStateAction } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
@@ -8,6 +8,14 @@ import { PostTag, Tag, User } from "./global";
 //テキスト
 export interface NeumTextProps extends BoxProps {
     neumH?: "shallow" | "tall",
+}
+export interface TruncatedTextProps extends TextProps {
+    children?: string,
+    maxLength: number,
+}
+export interface TruncatedHeadingProps extends HeadingProps {
+    children?: string,
+    maxLength: number,
 }
 export interface StepGuideProps extends FlexProps {
     guide: string,
@@ -181,15 +189,18 @@ export interface GlassTagCloseProps extends GlassTagProps {
 } 
 export interface NeumTagProps extends TagProps {
     tag_image?: string,
-    display_name: string
+    display_name?: string
 }
 
 //エディター
 export interface ArticleEditorProps {
-    value: OutputData,
-    setValue: (e:any) => void,
-    placeholder?: string;
-    readOnly?: boolean;
+    defaultValue: OutputData,
+    setValue?: (e:any) => void,
+    placeholder?: string,
+    readOnly?: boolean,
+    maxWidth?: string | number,
+    w?:  string | number,
+    minHeight?: string | number,
 };
 
 export interface TipsyCardProps {

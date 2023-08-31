@@ -77,7 +77,7 @@ export const NeumTextAreaDefault = ({
         }}
         borderRadius={borderRadius} bg={bg} color={color} fontSize={fontSize}
         boxShadow={dent}
-        {...register} onChange={onChange}
+        {...register} onInput={onChange}
         />
     )
 }

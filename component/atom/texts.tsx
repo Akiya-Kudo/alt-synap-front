@@ -1,5 +1,5 @@
-import { Box, Flex } from "@chakra-ui/react"
-import { NeumTextProps, StepGuideProps } from "../../type/atom";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react"
+import { NeumTextProps, StepGuideProps, TruncatedHeadingProps, TruncatedTextProps } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
 
 
@@ -17,6 +17,37 @@ export const FlatText = ({
         color={color} bg={bg}
         />
     )
+}
+
+
+export const TruncatedText = ({ children, maxLength, ...props }: TruncatedTextProps) => {
+    if ( children && children.length > maxLength) {
+        const text = children.substring(0, maxLength)
+        return (
+            <Text 
+            {...props}
+            >
+            {text + "..."}
+            </Text>
+        );
+    }
+
+    return <Text {...props}>{children}</Text>
+}
+
+export const TruncatedHeading = ({ children, maxLength, ...props }: TruncatedHeadingProps) => {
+    if (children && children.length > maxLength) {
+        const text = children.substring(0, maxLength)
+        return (
+            <Heading 
+            {...props}
+            >
+                {text + "..."}
+            </Heading>
+        );
+    }
+
+    return <Heading {...props}>{children}</Heading>
 }
 
 export const StepGuide = ({guide, stepNum, ...props}: StepGuideProps) => {

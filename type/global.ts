@@ -120,6 +120,12 @@ export interface Post {
     users: User,
     post_tags: PostTag[],
 }
+export interface ArticlePost extends Post {
+    article_contents: {
+        uuid_pid: string,
+        content: OutputData,
+    },
+}
 export interface Post_with_imageFile {
     top_image_file?: any
 }
@@ -141,7 +147,6 @@ export interface ArticlePostData extends EditingPostType {
     articleContent: {
         content: OutputData,
     },
-
 }
 export interface SourcePostrData extends EditingPostType {
     sourceContent?: SourceContent,

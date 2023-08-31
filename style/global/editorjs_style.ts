@@ -3,6 +3,7 @@ export const editorjs_styles = {
 //親コンポーネント(ArticleEditor)のsizeにより完全に影響を受ける
     ".codex-editor": {
         margin: "30px 70px",
+        fontSize: ".85rem",
     },
     ".ce-block__content": {
         margin: 0,
@@ -101,7 +102,8 @@ export const editorjs_styles = {
     ".ce-code": {
     },
     ".ce-code .ce-code__textarea": {
-        minHeight: "50px",
+        minHeight: "60px",
+        height: "200px",
         bg: "mock_glass_bg_switch",
         border: "0px solid",
         borderRadius: 10,

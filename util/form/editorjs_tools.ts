@@ -28,7 +28,7 @@ export const EditorTools = {
         shortcut: "CMD+SHIFT+H",
         config: {
             placeholder: "見出し",
-            levels: [1, 2, 3, 4, 5, 6],
+            levels: [3, 4, 5, 6],
             defaultLevel: 4,
         },
     },
@@ -168,12 +168,10 @@ export const i18n = {
         },
         tools: {
             "header": {
-                "Heading 1": "大きさ 1 ",
-                "Heading 2": "大きさ 2 ",
-                "Heading 3": "大きさ 3 ",
-                "Heading 4": "大きさ 4 ",
-                "Heading 5": "大きさ 5 ",
-                "Heading 6": "大きさ 6 ",
+                "Heading 3": "大きさ 1 ",
+                "Heading 4": "大きさ 2 ",
+                "Heading 5": "大きさ 3 ",
+                "Heading 6": "大きさ 4 ",
             },
             "list": {
                 "Unordered": "箇条書きリスト",

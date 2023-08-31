@@ -75,7 +75,7 @@ export const ArticlePostForm = ({
                 maxWidth={"1100px"} //editorの基準の幅( 調整する場合は他のスタイルも同様に変更する必要あり )
                 >
                     <ArticleEditor
-                    setValue={handleContent} value={stateValue.articleContent.content}
+                    setValue={handleContent} defaultValue={stateValue.articleContent.content}
                     />
                 </FlatBord>
             </GridItem>

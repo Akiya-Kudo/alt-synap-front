@@ -33,3 +33,40 @@ export const POSTS_SEARCH = gql`
         count_total_posts ( searchString: $searchString, selectedTagId: $selectedTagId )
     }
 `
+
+export const POST_CONTENT_QUERY = gql`
+    query post_content_query($uuid_pid: String!) {
+        post (
+            uuid_pid: $uuid_pid
+        ) {
+            uuid_pid
+            title
+            top_image
+            top_link
+            content_type
+            likes_num
+            timestamp
+            publish
+            deleted
+            article_contents {
+                uuid_pid
+                content
+            }
+            users {
+                uuid_uid
+                user_name
+                user_image
+                comment
+            }
+            post_tags {
+                tags {
+                    tid
+                    tag_name
+                    display_name
+                    tag_image
+                    tag_content_num
+                }
+            }
+        }
+    }
+`

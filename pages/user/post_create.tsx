@@ -97,7 +97,8 @@ const PostCreate: NextPage = () => {
         </GlassSwitchButton>
         <GlassButton
         isLoading={isSaveButtonLoading}
-        disabled={ isSaveButtonLoading || !(!formState.errors.input_article_title && currentPost.title && currentPost.title.length!=0 && !formState.errors.input_top_link)}
+        // disabled={ isSaveButtonLoading || !(!formState.errors.input_article_title && currentPost.title && currentPost.title.length!=0 && !formState.errors.input_top_link)}
+        isDisabled={ (isSaveButtonLoading || !(!errors.input_top_link) || !(!errors.input_article_title) || !currentPost.title || currentPost.title.length==0)}
         onClick={handleClick_save}
         _hover={{
           bgGradient: "linear(to-bl, tipsy_color_1, tipsy_color_2)",
@@ -108,7 +109,7 @@ const PostCreate: NextPage = () => {
         variant="outline"
         color={"tipsy_color_2"}
         >
-          { currentPost.publish ? "変更を保存" : "下書き保存" }
+          { currentPost.publish ? "内容を保存" : "下書き保存" }
         </GlassButton>
       </PostHeader>
 
