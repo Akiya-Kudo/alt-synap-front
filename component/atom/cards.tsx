@@ -6,6 +6,7 @@ import { TipsyCardProps, TipsyCardWithImageProps } from "../../type/atom"
 import { AiOutlineHeart } from "react-icons/ai"
 import { useColorOrderPick, useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useColor"
 import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { TruncatedHeading } from "./texts";
 
 export const TipsyCard = ({
     uuid_pid,
@@ -32,9 +33,9 @@ export const TipsyCard = ({
             }}
             >
                 <NextLink href={"/posts/" + uuid_pid}>
-                    <Heading size={"sm"} w={"100%"} p={1} color={"text_important"}>
-                                { title }
-                    </Heading>
+                    <TruncatedHeading maxLength={60} size={"sm"} w={"100%"} p={1} color={"text_important"}>
+                        { title }
+                    </TruncatedHeading>
                 </NextLink>
 
                 <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
@@ -53,7 +54,7 @@ export const TipsyCard = ({
                                     transition={".2s"}
                                     _hover={{ filter: 'brightness(1.2)' }}
                                     >
-                                        { post_tag.tags?.display_name }
+                                        { post_tag.tags?.display_name?.slice(0, 15) + "..." }
                                     </Tag>
                                 </NextLink>
                             )
@@ -71,14 +72,16 @@ export const TipsyCard = ({
                 <Stack direction={"row"} w={"100%"} m={1}>
                     <Stack direction={"row"}>
                         <NextLink href={"/users/" + user.uuid_uid}>
-                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} />
+                            <Center>
+                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image}/>
+                            </Center>
                         </NextLink>
                         <NextLink href={"/users/" + user.uuid_uid}>
-                                <Center fontSize={".8rem"}>{user.user_name}</Center>
+                                <Center fontSize={".8rem"}>{user.user_name?.slice(0, 25) + "..."}</Center>
                         </NextLink>
                     </Stack>
-                    <Box fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1) }</Box>
-                    <Stack direction={"row"}>
+                    <Center fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1) }</Center>
+                    <Stack direction={"row"} mx={2}>
                         <Center mt={"1px"}><AiOutlineHeart/></Center>
                         <Center fontSize={".8rem"}>{ likes_num }</Center>
                     </Stack>
@@ -143,9 +146,9 @@ export const TipsyCard_image = ({
                 }}
                 >
                     <NextLink href={"/posts/" + uuid_pid}>
-                        <Heading size={"sm"} w={"100%"} p={1} color={"text_important"}>
-                                    { title }
-                        </Heading>
+                        <TruncatedHeading maxLength={60} size={"sm"} w={"100%"} p={1} color={"text_important"}>
+                            { title }
+                        </TruncatedHeading>
                     </NextLink>
 
                     <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
@@ -164,7 +167,7 @@ export const TipsyCard_image = ({
                                         transition={".2s"}
                                         _hover={{ filter: 'brightness(1.2)' }}
                                         >
-                                            { post_tag.tags?.display_name }
+                                            { post_tag.tags?.display_name?.slice(0, 15) + "..." }
                                         </Tag>
                                     </NextLink>
                                 )
@@ -185,14 +188,16 @@ export const TipsyCard_image = ({
                     <Stack direction={"row"} w={"100%"} m={1}>
                         <Stack direction={"row"}>
                         <NextLink href={"/users/" + user.uuid_uid}>
-                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} />
+                            <Center>
+                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image}/>
+                            </Center>
                         </NextLink>
                         <NextLink href={"/users/" + user.uuid_uid}>
-                                <Center fontSize={".8rem"}>{user.user_name}</Center>
+                            <Center fontSize={".8rem"}>{user.user_name?.slice(0, 25) + "..."}</Center>
                         </NextLink>
                         </Stack>
-                        <Box fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1)}</Box>
-                        <Stack direction={"row"}>
+                        <Center fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1)}</Center>
+                        <Stack direction={"row"} mx={2}>
                             <Center mt={"1px"}><AiOutlineHeart/></Center>
                             <Center fontSize={".8rem"}>{ likes_num }</Center>
                         </Stack>
