@@ -81,7 +81,7 @@ export const NeumTag = ({
             // <Box bg={colorScheme} borderRadius={"full"} mr={1} ml={1} opacity={0.5} h={2} w={2}/> 
             <Box mr={.5} ps={1}><FaHashtag color={colorScheme} opacity={0.7} fontSize={"12px"}/></Box>
             }
-            <TagLabel fontSize={".6rem"} fontWeight={"bold"} color={"text_light"} mr={1}>{display_name}</TagLabel>
+            <TagLabel fontSize={".6rem"} fontWeight={"bold"} color={"text_light"} mr={1}>{display_name?.slice(0, 15) + "..."}</TagLabel>
         </Tag>
     )
 }
