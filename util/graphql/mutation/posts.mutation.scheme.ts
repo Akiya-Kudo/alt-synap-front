@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const POST_UPSERT_MUTATION = gql`
+export const ARTICLE_POST_UPSERT_MUTATION = gql`
     mutation ($postData: upsertArticlePostInput!) {
         upsert_article_post(postData: $postData) {
             post {
@@ -20,6 +20,23 @@ export const POST_UPSERT_MUTATION = gql`
             tags {
                 tid
                 tag_name
+            }
+        }
+    }
+`
+
+export const LINK_POST_UPSERT_MUTATION = gql`
+    mutation ($postData: upsertLinkPostInput!) {
+        upsert_link_post(postData: $postData) {
+            post {
+                uuid_pid
+                uuid_uid
+                title
+                top_link
+                content_type
+                publish
+                deleted
+                timestamp
             }
         }
     }

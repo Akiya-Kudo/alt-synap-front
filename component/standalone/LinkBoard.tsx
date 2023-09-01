@@ -6,7 +6,7 @@ import { DentBord, FlatBord, FullfyBord } from '../../component/atom/bords';
 import { ClickButtonFlat } from '../../component/atom/buttons';
 import Link from 'next/link';
 import { useNeumorphismColorMode } from '../../util/hook/useColor';
-import { LinkSelectboard } from '../helper/LinkSelectMenu';
+import { LinkSelectMenu } from '../helper/LinkSelectMenu';
 import { client } from '../../pages/_app';
 import { auth } from '../../util/firebase/init';
 import { USER_COLLECTION_FRAGMENT, USER_QUERY } from '../../util/graphql/queries/users.query.schema';
@@ -45,7 +45,7 @@ const LinkBoard = ({query_text}: {query_text: string}) => {
         neumH="shallow"
         >
             <>
-            <LinkSelectboard title={"- COLLECTIONを選択 -"} collections={collection} handleClick={handleSelect}>
+            <LinkSelectMenu title={"- COLLECTIONを選択 -"} collections={collection} handleClick={handleSelect}>
                 <MenuButton
                 transition={".3s"}
                 h={"45px"} w={"45px"} borderRadius={"full"}
@@ -57,7 +57,7 @@ const LinkBoard = ({query_text}: {query_text: string}) => {
                 >
                     <Center><Icon aria-label='link_setting' as={BiCategoryAlt} color="tipsy_color_2" /></Center>
                 </MenuButton>
-            </LinkSelectboard>
+            </LinkSelectMenu>
             {
                 collection && displayCid && collection.find(col => col.cid == displayCid)?.link_collections?.map((li_col, _i )=> {
                     return (

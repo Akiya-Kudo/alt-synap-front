@@ -3,7 +3,7 @@ import Link from "next/link"
 import { AuthContext } from "../../util/hook/authContext"
 
 import { auth } from "../../util/firebase/init"
-import { Avatar, Box, Center, Flex, Heading, IconButton, MenuButton } from "@chakra-ui/react"
+import { Avatar, Box, Button, Center, Flex, Heading, IconButton, MenuButton } from "@chakra-ui/react"
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons"
 import { TfiUnlink } from "react-icons/tfi"
 
@@ -19,11 +19,12 @@ import { useRouter } from "next/router"
 import { GlassSwitch } from "../atom/switchs"
 import { useLoading } from "../../util/hook/useAuth"
 import { data } from "../standalone/LinkBoard"
-import { LinkSelectboard } from "../helper/LinkSelectMenu"
+import { LinkSelectMenu } from "../helper/LinkSelectMenu"
 import { Collection } from "../../type/global"
 import { client } from "../../pages/_app"
 import { USER_QUERY } from "../../util/graphql/queries/users.query.schema"
 import { useLinkSearch } from "../../util/hook/useLink"
+import { AddPostSelectMenu } from "../helper/AddPostSelectNemu"
 
 export const BasicHeader = () => {
 
@@ -86,7 +87,7 @@ export const BasicHeader = () => {
                 onSearch={ handleSearch }
                 right_element={(                
                     <Center>
-                            <LinkSelectboard title={"- Mult Link Search -"} collections={collections} handleClick={handleMultLink}>
+                            <LinkSelectMenu title={"- Mult Link Search -"} collections={collections} handleClick={handleMultLink}>
                                 <MenuButton 
                                 as={IconButton} icon={<TfiUnlink/>} aria-label="multi-link-search"
                                 _hover={{ filter: 'brightness(1.2)' }} 
@@ -95,15 +96,18 @@ export const BasicHeader = () => {
                                 borderRadius={"full"}
                                 fontSize={"1.3rem"} size={"sm"}
                                 />
-                            </LinkSelectboard>
+                            </LinkSelectMenu>
                     </Center>
                 )}
                 />
                 { userState == 'isUser' &&   
                     <>
-                        <Link href="/user/post_create" passHref>
-                            <GlassButton color="tipsy_color_3" p={0}><AddIcon /></GlassButton>
-                        </Link>
+                        <AddPostSelectMenu >
+                            <MenuButton 
+                            as={IconButton} icon={<AddIcon />} 
+                            color="tipsy_color_3" p={0} borderRadius={"full"}
+                            />
+                        </AddPostSelectMenu>
                         <Link href="/user/my_page" passHref>
                             <Box bg={"tipsy_color_3"} p={0.5} borderRadius="full">
                                 <Avatar size='sm' m={0} name={ data_user.user.user_name } src={ data_user.user.user_image }/>

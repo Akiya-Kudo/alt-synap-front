@@ -138,7 +138,7 @@ export interface EditingPostType {
     content_type: number,
     likes_num?: number,
     update_time?: Date,
-    publish?: boolean,
+    publish: boolean,
     deleted?: boolean,
     tags: Tag[] | TagEditing[] 
     top_image_file: File | null | "DELETE",
@@ -148,8 +148,13 @@ export interface ArticlePostData extends EditingPostType {
         content: OutputData,
     },
 }
-export interface SourcePostrData extends EditingPostType {
-    sourceContent?: SourceContent,
+export interface LinkPostData extends EditingPostType {
+    top_image: never, 
+    top_link: string,
+    publish: boolean,
+    deleted?: boolean,
+    tags: never, 
+    top_image_file: never,
 }
 
 export type SortType = "人気順" | "新着順"

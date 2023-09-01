@@ -1,13 +1,14 @@
 import { useMutation } from "@apollo/client";
 import { rejects } from "assert";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { ArticlePostData, Post, Post_with_imageFile } from "../../type/global"
-import { auth, storage } from "../../util/firebase/init";
-import { POST_UPSERT_MUTATION } from "../graphql/mutation/posts.mutation.scheme";
+import { ArticlePostData, LinkPostData, Post, Post_with_imageFile } from "../../type/global"
+import { storage } from "../../util/firebase/init";
+import { ARTICLE_POST_UPSERT_MUTATION, LINK_POST_UPSERT_MUTATION } from "../graphql/mutation/posts.mutation.scheme";
 import {v4 as uuid_v4} from 'uuid'
 
 export const usePost = () => {
-    const [upsertPost, { data, loading, error }] = useMutation(POST_UPSERT_MUTATION);
+    const [upsertArticlePost_exe] = useMutation(ARTICLE_POST_UPSERT_MUTATION);
+    const [upsertLinkPost_exe] = useMutation(LINK_POST_UPSERT_MUTATION);
 
     const upsertArticlePost = async (articlePost: ArticlePostData) => {
         let storage_path = articlePost.top_image ? articlePost.top_image : null;
@@ -36,11 +37,21 @@ export const usePost = () => {
             const reqPost = articlePost as Post_with_imageFile
             delete reqPost.top_image_file
             //保存mutation
-            const result = await upsertPost({ variables: { postData: {...reqPost} }} )
+            const result = await upsertArticlePost_exe({ variables: { postData: {...reqPost} }} )
             return result
         } catch (error) {
             throw error
         }
     }
-    return { upsertArticlePost }
+
+    const upsertLinkPost = async (linkPost: LinkPostData) => {
+        try {
+            console.log(linkPost);
+            const result = await upsertLinkPost_exe({ variables: { postData: {...linkPost} }} )
+            console.log(result);
+            // return result
+        } catch (error) { throw error }
+    }
+
+    return { upsertArticlePost, upsertLinkPost }
 }

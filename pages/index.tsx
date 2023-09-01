@@ -3,6 +3,12 @@ import { Box } from '@chakra-ui/react';
 import { TabBord } from '../component/atom/bords';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
+
+const GsEngine = dynamic(
+  () => import("../component/layout/GsEngine"),
+  { ssr: false }
+);
 
 const Index: NextPage  = () => {
   const handleTabGroup = (e:any) => {
@@ -20,6 +26,8 @@ const Index: NextPage  = () => {
         />
         <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>
           <h1>hello </h1>
+          <GsEngine></GsEngine>
+          <div className="gcse-searchbox-only">aaa</div>
         </TabBord>
       </Box>
     </>

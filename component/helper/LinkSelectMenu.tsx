@@ -1,7 +1,7 @@
 import { Avatar, AvatarGroup, Menu, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react"
 import { LinkSelectBoardProps } from "../../type/helper";
 
-export const LinkSelectboard = ({
+export const LinkSelectMenu = ({
     collections, children, title,
     handleClick=(e: any)=>{},
     ...props

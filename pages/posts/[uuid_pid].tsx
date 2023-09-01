@@ -33,6 +33,7 @@ const PostPage: NextPage = () => {
     const { loading, error, data, refetch } = useQuery(POST_CONTENT_QUERY, {
         variables: { uuid_pid: uuid_pid }
     })
+
     
     const [post, setPost] = useState(data?.post)
     useEffect(()=> {
@@ -51,6 +52,7 @@ const PostPage: NextPage = () => {
     const {glass_bg_switch_deep} = useGlassColorMode()
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
 
+    if (data?.post?.content_type == 2) router.back()
     if (error || data?.post?.content_type==0) { 
         console.log(error);
         return <Flex className="page" justify={"center"} align={"center"} as={Flex} flexDir={"column"} gap={3}><CircleLoader/><Flex >投稿を見つけられませんでした</Flex></Flex>
