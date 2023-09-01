@@ -118,3 +118,7 @@ export type LinkAnalyzeStepType = {
     other_queries_array: string[] | null,
     is_path_search: boolean,
 }
+
+export interface AddPostSelectMenuProps extends MenuProps {
+
+}
