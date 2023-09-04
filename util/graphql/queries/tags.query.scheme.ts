@@ -13,3 +13,14 @@ export const TAG_SEARCH = gql`
         }
     }
 `
+
+export const GET_TAG = gql`
+    query get_tag_info($tid: Int!) {
+        tag ( tid: $tid ) {
+            tid
+            display_name
+            tag_name
+            tag_image
+        }
+    }
+`

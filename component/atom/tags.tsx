@@ -68,7 +68,6 @@ export const NeumTag = ({
     return (
         <Tag
         {...props}
-        // colorScheme={colorScheme}
         bg={"transparent"}
         p={p} borderRadius={borderRadius} 
         boxShadow={`3px 3px 5px ${shadow}, -3px -3px 5px ${highlight};` }

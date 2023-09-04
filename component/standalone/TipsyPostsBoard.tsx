@@ -10,20 +10,20 @@ import { ClickButton, SwitchButtonConcave, SwitchButton_tab } from "../atom/butt
 import { useEffect, useState } from "react";
 import { TabSwitchGroup } from "../helper/TabRadioGroup";
 
-const TipsyPostsboard = ({ query_text,isTagBoardDisplay, handleTagDisplay }: {query_text: string, isTagBoardDisplay: boolean, handleTagDisplay: any}) => {
+const TipsyPostsboard = ({ query_text, selectedTid, isTagBoardDisplay, handleTagDisplay }: {query_text: string | null, selectedTid: number | null, isTagBoardDisplay?: boolean, handleTagDisplay?: any}) => {
     const [displayPosts, setDisplayPosts] = useState<Post[]>([])
     const [sortType, setSortType] = useState<SortType>("人気順")
     const { loading, error, data, fetchMore } = useQuery(POSTS_SEARCH, {
         variables: 
         {
             searchString: query_text,
-            selectedTagIds: null,
+            selectedTagId: selectedTid,
             offset: 0,
             sortType: 0
         },
         pollInterval: 600000, // 600秒間はキャッシュからフェッチされる
     })
-
+    
     const handleFetchMore = async () => {
         const res = await fetchMore({
             variables: {
@@ -76,17 +76,17 @@ const TipsyPostsboard = ({ query_text,isTagBoardDisplay, handleTagDisplay }: {qu
                 >
                     <Heading size={"sm"}>Post <Highlight query={ data.count_total_posts.toString()} styles={{fontSize: "0.8rem" }}>{data.count_total_posts ? data.count_total_posts.toString() : "0"}</Highlight></Heading>
                     {
-                    isTagBoardDisplay ||
-                    <SwitchButtonConcave 
-                    onClick={handleTagDisplay}
-                    position={"absolute"} left={-120} top={1.5} h={6} 
-                    fontSize={10} Ashadow={false}
-                    color={"white"} Hcolor={"whiteAlpha.600"} Acolor={"whiteAlpha.100"}
-                    bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} 
-                    HbgGradient={"linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}
-                    >
-                        タグ検索ON
-                    </SwitchButtonConcave>
+                        isTagBoardDisplay ||
+                        <SwitchButtonConcave 
+                        onClick={handleTagDisplay}
+                        position={"absolute"} left={-120} top={1.5} h={6} 
+                        fontSize={10} Ashadow={false}
+                        color={"white"} Hcolor={"whiteAlpha.600"} Acolor={"whiteAlpha.100"}
+                        bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} 
+                        HbgGradient={"linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}
+                        >
+                            タグ検索ON
+                        </SwitchButtonConcave>
                     }
                     <TabSwitchGroup
                     optionLeft="人気順"
@@ -125,6 +125,7 @@ const TipsyPostsboard = ({ query_text,isTagBoardDisplay, handleTagDisplay }: {qu
                                             user_image: post.users.user_image
                                         }}
                                         post_tags={post.post_tags}
+                                        isLiked={post.likes.length!=0 ? true : false}
                                         />
                                     )
                                 } else {
@@ -142,6 +143,7 @@ const TipsyPostsboard = ({ query_text,isTagBoardDisplay, handleTagDisplay }: {qu
                                             user_image: post.users.user_image
                                         }}
                                         post_tags={post.post_tags}
+                                        isLiked={post.likes.length!=0 ? true : false}
                                         />
                                     )
                                 }

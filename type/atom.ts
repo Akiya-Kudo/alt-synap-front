@@ -1,4 +1,4 @@
-import { AlertDialogProps, AlertProps, BoxProps, ButtonProps, FlexProps, FormLabelProps, HeadingProps, IconButtonProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, StackProps, SwitchProps, TagProps, TextareaProps, TextProps } from "@chakra-ui/react"
+import { AlertDialogProps, AlertProps, BoxProps, ButtonProps, FlexProps, FormLabelProps, HeadingProps, IconButtonProps, IconProps, InputGroupProps, InputProps, LinkBoxProps, LinkProps, RadioProps, SelectProps, StackProps, SwitchProps, TagProps, TextareaProps, TextProps } from "@chakra-ui/react"
 import { Dispatch, FormEventHandler, MouseEventHandler, ReactComponentElement, SetStateAction } from "react"
 import { UseFormRegisterReturn } from "react-hook-form"
 
@@ -213,6 +213,7 @@ export interface TipsyCardProps {
     timestamp: Date,
     post_tags?: PostTag[],
     user: User,
+    isLiked: boolean,
 }
 
 export interface TipsyCardWithImageProps extends TipsyCardProps {
@@ -242,4 +243,12 @@ export interface BasicStepperProps extends StackProps {
 export interface StepsType {
     title: string,
     description: string,
+}
+
+//いいねボタン
+export interface LikeButtonProps extends IconProps{
+    likes_num: number,
+    defaultIsLiked: boolean,
+    size?: number,
+    uuid_pid: string,
 }

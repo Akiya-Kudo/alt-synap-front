@@ -19,6 +19,7 @@ import { TruncatedHeading, TruncatedText } from '../../component/atom/texts'
 import { ClickButtonFlat } from '../../component/atom/buttons'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
+import { LikeButton } from '../../component/atom/likes'
 
 const ArticleEditor = dynamic(
     () => import("../../component/atom/ArticleEditor"),
@@ -30,15 +31,11 @@ const PostPage: NextPage = () => {
     const router = useRouter()
     const uuid_pid = router.query.uuid_pid
     
-    const { loading, error, data, refetch } = useQuery(POST_CONTENT_QUERY, {
-        variables: { uuid_pid: uuid_pid }
-    })
+    const { loading, error, data, refetch } = useQuery(POST_CONTENT_QUERY, { variables: { uuid_pid: uuid_pid } })
 
     
     const [post, setPost] = useState(data?.post)
-    useEffect(()=> {
-        setPost(data?.post)
-    } ,[data])
+    useEffect(()=> { setPost(data?.post) } ,[data])
     
     // reload時のuserData取得 + isSaveButtonLoading　解除
     useEffect(()=>{
@@ -48,10 +45,11 @@ const PostPage: NextPage = () => {
         }
     },[userState])
 
-    const colorList = useColorRandomPick(undefined, 5)
+    const colorList = useColorRandomPick( undefined, 5 )
     const {glass_bg_switch_deep} = useGlassColorMode()
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
 
+    // exception case of content_type or 
     if (data?.post?.content_type == 2) router.back()
     if (error || data?.post?.content_type==0) { 
         console.log(error);
@@ -81,8 +79,12 @@ const PostPage: NextPage = () => {
                             }
 
                             <Stack direction={"row"} mt={5}>
-                                <ClickButtonFlat h={10} w={10}><AiOutlineHeart /></ClickButtonFlat>
-                                <Center fontSize={".8rem"} color={"text_light"}>{ post?.likes_num }</Center>
+                                <LikeButton 
+                                likes_num={post?.likes_num} 
+                                defaultIsLiked={false} 
+                                uuid_pid={post?.uuid_pid}
+                                size={6} ms={3} mt={2}
+                                />
                             </Stack>
 
                             {
@@ -171,7 +173,7 @@ const PostPage: NextPage = () => {
                                             post?.post_tags &&
                                             <NeumTagList
                                             tags={post?.post_tags.map((ps_tg: PostTag) => ps_tg.tags)} 
-                                            gap={3} m={2}
+                                            gap={3} my={2} mx={5}
                                             colorList={colorList}
                                             />
                                         }

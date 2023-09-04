@@ -7,6 +7,7 @@ import { AiOutlineHeart } from "react-icons/ai"
 import { useColorOrderPick, useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useColor"
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { TruncatedHeading } from "./texts";
+import { LikeButton } from "./likes";
 
 export const TipsyCard = ({
     uuid_pid,
@@ -17,6 +18,7 @@ export const TipsyCard = ({
     content_type,
     user,
     post_tags,
+    isLiked,
 }: TipsyCardProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
@@ -45,7 +47,7 @@ export const TipsyCard = ({
                                 <NextLink href={"/topics/" + post_tag.tags?.tid} key={post_tag.tags?.tid}>
                                     <Tag 
                                     id={post_tag.tags?.tid?.toString()} 
-                                    fontSize={".7rem"} 
+                                    fontSize={".7rem"} cursor={"pointer"}
                                     px={1} py={.2} ms={.5}
                                     size="xs" 
                                     borderRadius={10}
@@ -73,18 +75,19 @@ export const TipsyCard = ({
                     <Stack direction={"row"}>
                         <NextLink href={"/users/" + user.uuid_uid}>
                             <Center>
-                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image}/>
+                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
                             </Center>
                         </NextLink>
                         <NextLink href={"/users/" + user.uuid_uid}>
-                                <Center fontSize={".8rem"}>{user.user_name?.slice(0, 25) + "..."}</Center>
+                                <Center fontSize={".8rem"} cursor={"pointer"}>{user.user_name?.slice(0, 25) + "..."}</Center>
                         </NextLink>
                     </Stack>
                     <Center fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1) }</Center>
-                    <Stack direction={"row"} mx={2}>
-                        <Center mt={"1px"}><AiOutlineHeart/></Center>
-                        <Center fontSize={".8rem"}>{ likes_num }</Center>
-                    </Stack>
+                    <LikeButton 
+                    likes_num={likes_num} defaultIsLiked={isLiked} 
+                    uuid_pid={uuid_pid}
+                    size={4} ms={3} mt={1.5}
+                    />
                 </Stack>
             </Box>
     )
@@ -100,6 +103,7 @@ export const TipsyCard_image = ({
     content_type,
     user,
     post_tags,
+    isLiked,
 }: TipsyCardWithImageProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const {glass_bg_switch_deep} = useGlassColorMode()
@@ -158,7 +162,7 @@ export const TipsyCard_image = ({
                                     <NextLink href={"/topics/" + post_tag.tags?.tid}  key={post_tag.tags?.tid}>
                                         <Tag 
                                         id={post_tag.tags?.tid?.toString()}
-                                        fontSize={".7rem"} 
+                                        fontSize={".7rem"} cursor={"pointer"}
                                         px={1} py={.2} ms={.5}
                                         size="xs" 
                                         borderRadius={10}
@@ -189,18 +193,19 @@ export const TipsyCard_image = ({
                         <Stack direction={"row"}>
                         <NextLink href={"/users/" + user.uuid_uid}>
                             <Center>
-                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image}/>
+                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
                             </Center>
                         </NextLink>
                         <NextLink href={"/users/" + user.uuid_uid}>
-                            <Center fontSize={".8rem"}>{user.user_name?.slice(0, 25) + "..."}</Center>
+                            <Center fontSize={".8rem"} cursor={"pointer"}>{user.user_name?.slice(0, 25) + "..."}</Center>
                         </NextLink>
                         </Stack>
                         <Center fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1)}</Center>
-                        <Stack direction={"row"} mx={2}>
-                            <Center mt={"1px"}><AiOutlineHeart/></Center>
-                            <Center fontSize={".8rem"}>{ likes_num }</Center>
-                        </Stack>
+                        <LikeButton 
+                        likes_num={likes_num} defaultIsLiked={isLiked} 
+                        uuid_pid={uuid_pid}
+                        size={4} ms={3} mt={1.5}
+                        />
                     </Stack>
                 </Box>
             </Box>
