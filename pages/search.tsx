@@ -13,6 +13,7 @@ const TipsyPostsboard = dynamic(
     () => import("../component/standalone/TipsyPostsBoard"),
     { ssr: false }
 );
+
 const Search: NextPage  = () => {
     const router = useRouter()
     const { query } = router
@@ -39,7 +40,11 @@ const Search: NextPage  = () => {
                     {
                         isTagBoardDisplay ? <TipsyTagsBoard query_text={query_text} isDisplay={isTagBoardDisplay}/> : null
                     }
-                    <TipsyPostsboard query_text={query_text} isTagBoardDisplay={isTagBoardDisplay} handleTagDisplay={handleTagDisplay}/>
+                    <TipsyPostsboard 
+                    query_text={query_text} selectedTid={null}
+                    isTagBoardDisplay={isTagBoardDisplay} 
+                    handleTagDisplay={handleTagDisplay}
+                    />
                 </Box>
             </Flex>
         </>

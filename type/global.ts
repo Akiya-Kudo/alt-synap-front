@@ -101,8 +101,8 @@ export interface TagEditing {
 }
 
 export interface Like  {
-    uuid_uid?: string,
-    uuid_pid?: string,
+    uuid_uid: string,
+    uuid_pid: string,
     timestamp?: Date,
 }
 
@@ -119,6 +119,7 @@ export interface Post {
     timestamp: Date,
     users: User,
     post_tags: PostTag[],
+    likes: Like[],
 }
 export interface ArticlePost extends Post {
     article_contents: {

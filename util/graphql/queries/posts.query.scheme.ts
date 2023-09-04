@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 //post searchで使用 => 検索ワードで投稿を取得する Query
 export const POSTS_SEARCH = gql`
-    query post_search($searchString: String!, $selectedTagId: Int, $offset: Int!, $sortType: Int!) {
+    query post_search($searchString: String, $selectedTagId: Int, $offset: Int!, $sortType: Int!) {
         search_post (
             searchString: $searchString, 
             selectedTagId: $selectedTagId,
@@ -28,6 +28,10 @@ export const POSTS_SEARCH = gql`
                 uuid_uid
                 user_name
                 user_image
+            }
+            likes {
+                uuid_pid
+                uuid_uid
             }
         }
         count_total_posts ( searchString: $searchString, selectedTagId: $selectedTagId )
