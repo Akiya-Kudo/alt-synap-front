@@ -8,11 +8,11 @@ import { DentBord } from "../atom/bords";
 import { ClickButton } from "../atom/buttons";
 import { useContext, useEffect, useState } from "react";
 import { GET_USER_PUBLISHED_POSTS } from "../../util/graphql/queries/posts.query.scheme";
-import { AuthContext, IsAlreadyPostsFetchedAsIsUserVar } from "../../util/hook/authContext";
+import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from "../../util/hook/authContext";
 
 const TipsyPostsUserBoard = ({ uuid_uid }: { uuid_uid: String }) => {
     const { userState } = useContext(AuthContext);
-    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyPostsFetchedAsIsUserVar)
+    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
     const [displayPosts, setDisplayPosts] = useState<Post[]>([])
     const { loading, error, data, fetchMore, refetch } = useQuery(GET_USER_PUBLISHED_POSTS, {
@@ -35,7 +35,7 @@ const TipsyPostsUserBoard = ({ uuid_uid }: { uuid_uid: String }) => {
         if (userState=="isUser" && !IsAlreadyFetchedAsIsUser) {
             console.log("refetching to refresh like state");
             refetch() // same variables with first fetch of useQuery
-            IsAlreadyPostsFetchedAsIsUserVar(true)
+            IsAlreadyFirstFetchedAsIsUserVar(true)
         }
     },[userState])
     // set display posts by fetch

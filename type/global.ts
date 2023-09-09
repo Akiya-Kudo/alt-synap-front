@@ -31,8 +31,8 @@ export interface EditingUser {
 export interface Follow {
     follower_uuid: string,
     followee_uuid: string,
-    users_follows_followee_uuidTousers?: User[],
-    users_follows_follower_uuidTousers?: User[]
+    users_follows_followee_uuidTousers?: User,
+    users_follows_follower_uuidTousers?: User
 }
 
 export interface Link {

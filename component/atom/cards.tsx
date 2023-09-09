@@ -56,7 +56,11 @@ export const TipsyCard = ({
                                     transition={".2s"}
                                     _hover={{ filter: 'brightness(1.2)' }}
                                     >
-                                        { post_tag.tags?.display_name?.slice(0, 15) + "..." }
+                                        { 
+                                            post_tag.tags?.display_name && post_tag.tags?.display_name.length > 15 
+                                            ? post_tag.tags?.display_name?.slice(0, 15) + "..." 
+                                            : post_tag.tags?.display_name 
+                                        }
                                     </Tag>
                                 </NextLink>
                             )
@@ -178,7 +182,11 @@ export const TipsyCard_image = ({
                                         transition={".2s"}
                                         _hover={{ filter: 'brightness(1.2)' }}
                                         >
-                                            { post_tag.tags?.display_name?.slice(0, 15) + "..." }
+                                            { 
+                                                post_tag.tags?.display_name && post_tag.tags?.display_name.length > 15 
+                                                ? post_tag.tags?.display_name?.slice(0, 15) + "..." 
+                                                : post_tag.tags?.display_name 
+                                            }
                                         </Tag>
                                     </NextLink>
                                 )

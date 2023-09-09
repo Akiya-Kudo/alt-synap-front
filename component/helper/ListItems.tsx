@@ -2,16 +2,17 @@ import { useMutation } from "@apollo/client"
 import { CloseIcon } from "@chakra-ui/icons"
 import { Avatar, AvatarBadge, AvatarGroup, Box, Center, Flex, Grid, GridItem, Heading, HStack, IconButton,  Link,  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Text, useDisclosure, VStack } from "@chakra-ui/react"
 import React from "react"
-import { Collection, Link as LinkType, LinkCollection, LinkDisplaySwitchType } from "../../type/global"
-import { LINK_COLLECTION_FRAGMENT } from "../../util/graphql/fragment/fragment.scheme"
+import { Collection, Follow, Link as LinkType, LinkDisplaySwitchType, User } from "../../type/global"
+import { LINK_COLLECTION_FRAGMENT, USER_FOLLOWEE_FRAG } from "../../util/graphql/fragment/fragment.scheme"
 import { REMOVE_COLLECTION } from "../../util/graphql/mutation/collections.mutation.scheme"
 import { REMOVE_LINK_FROM_COLLECTION } from "../../util/graphql/mutation/links.mutation.scheme"
-import { GlassButton } from "../atom/buttons"
+import { GlassSwitchButton } from "../atom/buttons"
 import { CollectionEditModal, LinkDetailModal, LinkEditModal } from "./Modals"
 import NextLink from 'next/link'
 import { LinkGenreNames } from "../../type/standalone"
-import { client } from "../../pages/_app"
-import { GET_LINKCOLLECTION_HISTORY } from "../../util/graphql/queries/links.query.scheme"
+import { TOGGLE_FOLLOW } from "../../util/graphql/mutation/follows.mutation.scheme"
+import { USER_QUERY } from "../../util/graphql/queries/users.query.schema"
+import { auth } from "../../util/firebase/init"
 
 export const CollectionListItem = ({collection}: {collection: Collection}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -163,6 +164,91 @@ export const LinkListItem = (
         link={link} uuid_uid={uuid_uid} displayMode={displayMode}
         onClose={onClose} isOpen={isOpen} onOpen={onOpen}
         />
+        </>
+    )
+}
+
+
+export const UserListItemWithFollow = ({user, onClose}: {user?: User, onClose: any}) => {
+
+    const isFollowed = user?.follows_follows_followee_uuidTousers && user?.follows_follows_followee_uuidTousers.length!=0
+
+    const [toggleFollow, {error: error_follow}] = useMutation(TOGGLE_FOLLOW, {
+        variables: { followee_uuid: user?.uuid_uid },
+        update( cache, { data: { follow_toggle } } ) {
+            //correct cache's displaying user7s followee num
+            cache.updateFragment(
+                { 
+                    id: `User:{"uuid_uid":"${follow_toggle.followee_uuid}"}`,
+                    fragment: USER_FOLLOWEE_FRAG
+                },
+                (data) => {
+                    if (data?.follows_follows_followee_uuidTousers) { // post's relation's users cache is less field of regurding of follow, they shold be avoided 
+                        if (data.follows_follows_followee_uuidTousers.length!=0) {
+                            return ({
+                                followee_num: data?.followee_num!=undefined && data?.followee_num  - 1,
+                                follows_follows_followee_uuidTousers: []
+                            })
+                        }
+                        else {
+                            return ({
+                                followee_num: data?.followee_num!=undefined && data?.followee_num  + 1,
+                                follows_follows_followee_uuidTousers: [follow_toggle]
+                            }) 
+                        }
+                    }
+                }
+            )
+            cache.updateQuery({
+                    query: USER_QUERY,
+                    variables: {uid: auth.currentUser?.uid},
+                },
+                (data) => {
+                    if (isFollowed) {
+                        return ({ user: { follower_num: data.user.follower_num - 1 }})
+                    } else {
+                        return ({ user: { follower_num: data.user.follower_num + 1 }})
+                    }
+                    
+                }
+            )
+        }
+    })
+    
+    return (
+        <>
+        <Flex
+        w={"100%"} p={2}
+        direction={"row"} justify={"space-between"} align={"center"}
+        borderRadius={10}
+        >
+            <NextLink href={"/users/" + user?.uuid_uid}>
+                <Flex 
+                onClick={onClose}
+                align={"center"} 
+                _hover={{ filter: 'brightness(1.3)' }}
+                >
+                    <Avatar name={user?.user_name} src={user?.user_image} size={"xs"}/>
+                    <Heading size={"xs"} ms={10} overflow={"hidden"} minW={100}>
+                        {
+                            user?.user_name && user?.user_name.length > 20
+                            ? user?.user_name.slice(0, 20) + "..."
+                            : user?.user_name
+                        }
+                    </Heading>
+                </Flex>
+            </NextLink>
+            <GlassSwitchButton
+            onClick={() => {toggleFollow()}}
+            defStateValue={ isFollowed }
+            fontSize={".7rem"}  size="sm" h={7} w={100}
+            SBgGradient={"linear(to-tl, tipsy_color_2, tipsy_color_3)"} SHBgGradient={"linear(to-tl, tipsy_color_active_2, tipsy_color_active_3)"}
+            Scolor={"bg_switch"} Acolor={"tipsy_color_active_3"} Hcolor={"tipsy_color_3"}
+            Schildren={"フォロー中"}
+            >
+                フォローする
+            </GlassSwitchButton>
+        </Flex>
         </>
     )
 }

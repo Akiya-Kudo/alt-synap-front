@@ -1,17 +1,19 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client'
 import { Avatar, Box, Flex, Heading, Text } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { DentBord } from '../../component/atom/bords'
 import { SwitchButton } from '../../component/atom/buttons'
 import { Post, User } from '../../type/global'
-import { GET_OTHER_USER_QUERY } from '../../util/graphql/queries/users.query.schema'
+import { GET_OTHER_USER_QUERY, USER_QUERY } from '../../util/graphql/queries/users.query.schema'
 import { TOGGLE_FOLLOW } from '../../util/graphql/mutation/follows.mutation.scheme'
-import { async } from '@firebase/util'
 import { USER_FOLLOWEE_FRAG } from '../../util/graphql/fragment/fragment.scheme'
+import { FollowListModal } from '../../component/standalone/FollowListModal'
+import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from '../../util/hook/authContext'
+import { auth } from '../../util/firebase/init'
 
 const TipsyPostsUserBoard = dynamic(
     () => import("../../component/standalone/TipsyPostsUserBoard"),
@@ -21,9 +23,12 @@ const TipsyPostsUserBoard = dynamic(
 const UsersPage: NextPage = () => {
     const router = useRouter()
     const uuid_uid: string = router.query.uuid_uid as string
+    const { userState } = useContext(AuthContext);
+    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
-    const { loading, error, data } = useQuery(GET_OTHER_USER_QUERY,  { variables: { uuid_uid: uuid_uid }})
+    const { loading, error, data, refetch } = useQuery(GET_OTHER_USER_QUERY,  { variables: { uuid_uid: uuid_uid }})
     const userInfo = data?.other_user as User
+    const isFollowed = userInfo?.follows_follows_followee_uuidTousers && userInfo?.follows_follows_followee_uuidTousers.length!=0
 
     const [toggleFollow, {error: error_follow}] = useMutation(TOGGLE_FOLLOW, {
         variables: { followee_uuid: uuid_uid },
@@ -49,6 +54,19 @@ const UsersPage: NextPage = () => {
                     }
                 }
             )
+            cache.updateQuery({
+                query: USER_QUERY,
+                variables: {uid: auth.currentUser?.uid},
+            },
+            (data) => {
+                if (isFollowed) {
+                    return ({ user: { follower_num: data.user.follower_num - 1 }})
+                } else {
+                    return ({ user: { follower_num: data.user.follower_num + 1 }})
+                }
+                
+            }
+        )
         }
     })
 
@@ -56,6 +74,15 @@ const UsersPage: NextPage = () => {
         await toggleFollow()
         .catch(error => console.log(error))
     }
+
+    // reload時のlike state更新
+    useEffect(()=>{
+        if (userState=="isUser" && !IsAlreadyFetchedAsIsUser) {
+            console.log("refetching to refresh follow state");
+            refetch() // same variables with first fetch of useQuery
+            IsAlreadyFirstFetchedAsIsUserVar(true)
+        }
+    },[userState])
     
     if (error) console.log(error);
     return (
@@ -67,8 +94,21 @@ const UsersPage: NextPage = () => {
                     <Box ms={5} flexGrow={1}>
                         <Heading size={"lg"} m={1}>{userInfo?.user_name}</Heading>
                         <Text size={"lg"} fontSize={".75rem"} m={1} as={Flex} flexDir={"row"} gap={2}>
-                            <Box>フォロワー : {userInfo?.followee_num!=undefined && userInfo?.followee_num}</Box>
-                            <Box>フォロー : {userInfo?.follower_num}</Box>
+                            {
+                                userInfo?.followee_num && 
+                                <FollowListModal 
+                                follow_num={userInfo.followee_num} 
+                                uuid_uid={uuid_uid}
+                                />
+                            }
+                            {
+                                userInfo?.follower_num && 
+                                <FollowListModal 
+                                is_follower_list 
+                                follow_num={userInfo.follower_num} 
+                                uuid_uid={uuid_uid}
+                                />
+                            }
                         </Text>
                         <Text size={"lg"} fontSize={".75rem"} m={1}>{userInfo?.comment}</Text>
                     </Box>
@@ -78,10 +118,9 @@ const UsersPage: NextPage = () => {
                             <SwitchButton
                             fontSize={15} w={"200px"} m={1}
                             Hcolor={"tipsy_color_1"} Acolor={"tipsy_color_1v2"} Scolor={"tipsy_color_1v2"}
-                            defaultChecked={userInfo?.follows_follows_followee_uuidTousers 
-                                && userInfo?.follows_follows_followee_uuidTousers.length!=0} 
-                                Schildren={"フォロー中"}
-                                onClick={handleFollowButton}
+                            defaultChecked={ isFollowed }
+                            Schildren={"フォロー中"}
+                            onClick={handleFollowButton}
                             >
                                 フォローする
                             </SwitchButton>
