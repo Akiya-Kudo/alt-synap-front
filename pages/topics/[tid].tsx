@@ -11,8 +11,8 @@ import { POSTS_SEARCH, POST_CONTENT_QUERY } from '../../util/graphql/queries/pos
 import { GET_TAG } from '../../util/graphql/queries/tags.query.scheme'
 import { useColorRandomPick } from '../../util/hook/useColor'
 
-const TipsyPostsboard = dynamic(
-    () => import("../../component/standalone/TipsyPostsBoard"),
+const TipsyPostsSearchBoard = dynamic(
+    () => import("../../component/standalone/TipsyPostsSearchBoard"),
     { ssr: false }
 );
 
@@ -22,7 +22,7 @@ const TopicPage: NextPage = () => {
 
     const { loading, error, data } = useQuery(GET_TAG,  { variables: { tid: tid }})
     const colorList = useColorRandomPick(undefined, 9)
-
+    
     if (error) console.log(error);
     return (
         <>
@@ -51,7 +51,7 @@ const TopicPage: NextPage = () => {
                     </Box>
                 </DentBord>
 
-                <TipsyPostsboard query_text={null} selectedTid={tid} isTagBoardDisplay/>
+                <TipsyPostsSearchBoard query_text={null} selectedTid={tid} isTagBoardDisplay/>
             </Flex>
         </>
     )

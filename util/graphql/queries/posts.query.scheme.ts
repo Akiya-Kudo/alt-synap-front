@@ -16,6 +16,8 @@ export const POSTS_SEARCH = gql`
             top_image
             timestamp
             likes_num
+            publish
+            deleted
             post_tags {
                 tags {
                     tid
@@ -35,6 +37,39 @@ export const POSTS_SEARCH = gql`
             }
         }
         count_total_posts ( searchString: $searchString, selectedTagId: $selectedTagId )
+    }
+`
+
+export const GET_USER_PUBLISHED_POSTS = gql`
+    query get_posts_made_by_user_and_count($uuid_uid: String!, $selectedTagIds: [Int], $offset: Int! ) {
+        get_posts_made_by_user (
+            uuid_uid: $uuid_uid, 
+            selectedTagIds: $selectedTagIds,
+            offset: $offset,
+        ) {
+                uuid_uid
+                uuid_pid
+                title
+                top_link
+                top_image
+                timestamp
+                likes_num
+                publish
+                deleted
+                post_tags {
+                    tags {
+                        tid
+                        tag_name
+                        display_name
+                        tag_image
+                    }
+                } 
+                likes {
+                    uuid_pid
+                    uuid_uid
+                }
+        }
+        count_posts_made_by_user ( uuid_uid: $uuid_uid, selectedTagIds: $selectedTagIds )
     }
 `
 
@@ -70,6 +105,10 @@ export const POST_CONTENT_QUERY = gql`
                     tag_image
                     tag_content_num
                 }
+            }
+            likes {
+                uuid_pid
+                uuid_uid
             }
         }
     }

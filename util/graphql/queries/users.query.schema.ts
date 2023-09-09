@@ -76,3 +76,20 @@ export const USER_COLLECTION_FRAGMENT = gql`
         }
     }
 `
+
+export const GET_OTHER_USER_QUERY = gql`
+    query other_user_info_query( $uuid_uid: String! ) {
+        other_user(uuid_uid: $uuid_uid) {
+            uuid_uid
+            user_name
+            user_image
+            comment
+            follower_num
+            followee_num
+            follows_follows_followee_uuidTousers {
+                follower_uuid
+                followee_uuid
+            }
+        }
+    }
+`

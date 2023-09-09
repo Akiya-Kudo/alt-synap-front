@@ -73,16 +73,23 @@ export const TipsyCard = ({
 
                 <Stack direction={"row"} w={"100%"} m={1}>
                     <Stack direction={"row"}>
-                        <NextLink href={"/users/" + user.uuid_uid}>
-                            <Center>
-                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
-                            </Center>
-                        </NextLink>
-                        <NextLink href={"/users/" + user.uuid_uid}>
-                                <Center fontSize={".8rem"} cursor={"pointer"}>{user.user_name?.slice(0, 25) + "..."}</Center>
-                        </NextLink>
+                        {
+                            user.uuid_uid &&
+                            <>
+                                <NextLink href={"/users/" + user.uuid_uid}>
+                                    <Center>
+                                        <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
+                                    </Center>
+                                </NextLink>
+                                <NextLink href={"/users/" + user.uuid_uid}>
+                                    <Center fontSize={".8rem"} cursor={"pointer"}>
+                                        { user.user_name && user.user_name.length>25 ?  user.user_name?.slice(0, 25) + "..." : user.user_name}
+                                    </Center>
+                                </NextLink>
+                            </>
+                        }
                     </Stack>
-                    <Center fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1) }</Center>
+                    <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
                     <LikeButton 
                     likes_num={likes_num} defaultIsLiked={isLiked} 
                     uuid_pid={uuid_pid}
@@ -191,16 +198,21 @@ export const TipsyCard_image = ({
 
                     <Stack direction={"row"} w={"100%"} m={1}>
                         <Stack direction={"row"}>
-                        <NextLink href={"/users/" + user.uuid_uid}>
-                            <Center>
-                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
-                            </Center>
-                        </NextLink>
-                        <NextLink href={"/users/" + user.uuid_uid}>
-                            <Center fontSize={".8rem"} cursor={"pointer"}>{user.user_name?.slice(0, 25) + "..."}</Center>
-                        </NextLink>
+                            {
+                                user.uuid_uid &&
+                                <>
+                                    <NextLink href={"/users/" + user.uuid_uid}>
+                                        <Center>
+                                            <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
+                                        </Center>
+                                    </NextLink>
+                                    <NextLink href={"/users/" + user.uuid_uid}>
+                                        <Center fontSize={".8rem"} cursor={"pointer"}>{user.user_name?.slice(0, 25) + "..."}</Center>
+                                    </NextLink>
+                                </>
+                            }
                         </Stack>
-                        <Center fontSize={".8rem"}>{ timestamp.toString().split("-", 3).join("/").split("T", 1)}</Center>
+                        <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1)}</Center>
                         <LikeButton 
                         likes_num={likes_num} defaultIsLiked={isLiked} 
                         uuid_pid={uuid_pid}

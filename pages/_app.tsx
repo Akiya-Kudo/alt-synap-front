@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { auth } from '../util/firebase/init';
 import { BasicHeader } from '../component/layout/Header';
 import { useRouter } from 'next/router';
-import { LinkCollection, Post } from '../type/global';
+import { Follow, LinkCollection, Post, PostRef, User } from '../type/global';
 
 // import '../style/atom/my-simple-image.css'
 
@@ -21,6 +21,14 @@ const apollo_cache_option = {
   typePolicies: {
     User: {
       keyFields: ["uuid_uid"],
+      fields: {
+        // this column is used for inply which this user is followed or not by the logined user
+        follows_follows_followee_uuidTousers: {
+          merge(existing: Follow[] = [], incoming: Follow[]) {
+            return incoming
+          },
+        },
+      },
     },
     PostWithTagsAndUser: {
       keyFields: ["uuid_pid"],
@@ -42,27 +50,43 @@ const apollo_cache_option = {
     },
     Query: {
       fields: {
+        //handle fetchMore
         search_post: {
           keyArgs: ["searchString", "selectedTagId", "sortType"],
-          merge(existing: Post[] = [], incoming: Post[]) {
+          merge(existing: PostRef[] = [], incoming: PostRef[]) {
             const mergedPosts = [...existing];
-
+            
             // Remove duplicates from incoming data before merging
             incoming.forEach((newPost) => {
-              if (!existing.some((existingPost) => existingPost.uuid_pid === newPost.uuid_pid)) {
+              if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
                 mergedPosts.push(newPost);
               }
             });
-
             return mergedPosts;
           }
         },
+        //handle fetchMore
+        get_posts_made_by_user: {
+          keyArgs: ["uuid_uid", "selectedTagIds"],
+          merge(existing: PostRef[] = [], incoming: PostRef[]) {
+            const mergedPosts = [...existing];
+            
+            // Remove duplicates from incoming data before merging
+            incoming.forEach((newPost) => {
+              if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
+                mergedPosts.push(newPost);
+              }
+            });
+            return mergedPosts;
+          }
+        },
+        //updateQuery時 : 新しく編集された配列を返す
         get_link_collections_used: {
-          keyArgs: ["uuid_uid"],
+          keyArgs: ["uuid_uid"], // maybe false is also ok in this situation
           merge(existing: LinkCollection[] = [], incoming: LinkCollection[]) {
             return incoming;
           }
-        }
+        },
       }
     }
   }

@@ -4,6 +4,8 @@ import { TabBord } from '../component/atom/bords';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
+import { client } from './_app';
+import { POSTS_SEARCH } from '../util/graphql/queries/posts.query.scheme';
 
 const GsEngine = dynamic(
   () => import("../component/layout/GsEngine"),
