@@ -108,6 +108,8 @@ export const SwitchButton = ({
     const neumHover = active ? `inset 10px 10px 20px -3px ${shadow}, inset -10px -10px 20px -3px ${highlight},5px 5px 15px ${shadow},-5px -5px 15px ${highlight};` : `5px 5px 15px ${shadow},-5px -5px 15px ${highlight};`;
     const switchColor = active ? Scolor : color
     const switchChildren = active ? Schildren : children
+
+    useEffect(() => {setActive(defaultChecked)},[defaultChecked])
     return (
         <Button
         {...props}

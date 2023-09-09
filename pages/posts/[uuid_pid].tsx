@@ -11,7 +11,7 @@ import { NeumTag } from '../../component/atom/tags'
 import { GlassTagList, NeumTagList } from '../../component/helper/TagList'
 import { ArticlePost, PostTag, Tag as TagType } from '../../type/global'
 import { POST_CONTENT_QUERY } from '../../util/graphql/queries/posts.query.scheme'
-import { AuthContext, IsAlreadyPostsFetchedAsIsUserVar } from '../../util/hook/authContext'
+import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from '../../util/hook/authContext'
 import { useColorOrderPick, useColorRandomPick, useGlassColorMode } from '../../util/hook/useColor'
 import NextLink from 'next/link'
 import { AiOutlineHeart } from 'react-icons/ai'
@@ -31,7 +31,7 @@ const PostPage: NextPage = () => {
     const router = useRouter()
     const uuid_pid = router.query.uuid_pid
 
-    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyPostsFetchedAsIsUserVar)
+    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
     
     const { loading, error, data, refetch } = useQuery(POST_CONTENT_QUERY, { variables: { uuid_pid: uuid_pid } })
 
@@ -44,7 +44,7 @@ const PostPage: NextPage = () => {
         if (userState=="isUser" && (error || !IsAlreadyFetchedAsIsUser )) {
             console.log("非公開の可能性のある投稿を再フェッチ");
             refetch({ uuid_pid: uuid_pid })
-            IsAlreadyPostsFetchedAsIsUserVar(true)
+            IsAlreadyFirstFetchedAsIsUserVar(true)
         }
     },[userState])
     

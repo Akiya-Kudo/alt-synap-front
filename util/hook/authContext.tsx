@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 
 // for the search page proccessing
 // to prevent refetching of useEffect(of IsUser in search page) : refetch of useQuery will difinitly fetch from server, so the cached data(search query's merged posts array will deleted)
-export const IsAlreadyPostsFetchedAsIsUserVar = makeVar(false as boolean)
+export const IsAlreadyFirstFetchedAsIsUserVar = makeVar(false as boolean)
 
 export const AuthContext = createContext({} as {userState : UserStateStringType});
 export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<UserStateStringType>>});
@@ -51,7 +51,7 @@ export const AuthProvider = (props: any) => {
                     console.log(result);
                     // the case under path page is rendering, the reactive value will changed in the PostsBoard's useEffect
                     const isPostsFetchPage = router.pathname=='/search' || router.pathname=='/users/[uuid_uid]' || router.pathname=='/posts/[uuid_pid]'
-                    if (!isPostsFetchPage) IsAlreadyPostsFetchedAsIsUserVar(true)
+                    if (!isPostsFetchPage) IsAlreadyFirstFetchedAsIsUserVar(true)
                 } else {
                     setUserState("guest")
                     console.log("guest");

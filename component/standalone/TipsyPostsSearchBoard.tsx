@@ -9,12 +9,12 @@ import { DentBord, TabBord } from "../atom/bords";
 import { ClickButton, SwitchButtonConcave, SwitchButton_tab } from "../atom/buttons";
 import { useContext, useEffect, useState } from "react";
 import { TabSwitchGroup } from "../helper/TabRadioGroup";
-import { AuthContext, IsAlreadyPostsFetchedAsIsUserVar,  } from "../../util/hook/authContext";
+import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar,  } from "../../util/hook/authContext";
 import { client } from "../../pages/_app";
 
 const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, handleTagDisplay }: {query_text: string | null, selectedTid: number | null, isTagBoardDisplay?: boolean, handleTagDisplay?: any}) => {
     const { userState } = useContext(AuthContext)
-    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyPostsFetchedAsIsUserVar)
+    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
     
 
     const [displayPosts, setDisplayPosts] = useState<Post[]>([])
@@ -80,7 +80,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                     sortType: 0
                 },
             )
-            IsAlreadyPostsFetchedAsIsUserVar(true)
+            IsAlreadyFirstFetchedAsIsUserVar(true)
         }
     },[userState])
     // set display posts by fetch
@@ -189,7 +189,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                             })}
                         </PinterestGrid>
                         {
-                            displayPosts.length < data.count_total_posts && 
+                            displayPosts.length < data.count_total_posts &&
                             (<Center m={10}>
                                 <ClickButton
                                 size={"md"} fontSize={16}
