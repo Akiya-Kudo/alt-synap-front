@@ -30,7 +30,7 @@ export const LINK_COLLECTION_FRAGMENT = gql`
 `
 
 export const COLLECTION_FRAGMENT_TO_LINKCOLLECTION = gql`
-    fragment MyCollection on Collection {
+    fragment MyCollectionOnlyLinkCollection on Collection {
         link_collections {
             lid
             cid
@@ -119,5 +119,25 @@ export const COLLECTION_FRAG = gql`
         uuid_uid
         collection_name
         deleted
+    }
+`
+
+export const USER_FOLLOWEE_FRAG = gql`
+    fragment UserFolloweeFragment on User {
+        followee_num
+        follows_follows_followee_uuidTousers {
+            followee_uuid
+            follower_uuid
+        }
+    }
+`
+
+export const POSTS_LIKE_FRAG = gql`
+    fragment PostLikeFragment on Post {
+        likes_num
+        likes {
+            uuid_pid
+            uuid_uid
+        }
     }
 `

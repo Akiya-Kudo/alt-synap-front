@@ -15,6 +15,8 @@ export interface User {
     user_image?: string,
     links?: Link[],
     collections?: Collection[],
+    follows_follows_followee_uuidTousers?: Follow[],
+    follows_follows_follower_uuidTousers?: Follow[],
 }
 
 export interface EditingUser {
@@ -24,6 +26,13 @@ export interface EditingUser {
     comment?: string,
     image_file?: File ,
     new_image_url?: string, 
+}
+
+export interface Follow {
+    follower_uuid: string,
+    followee_uuid: string,
+    users_follows_followee_uuidTousers?: User[],
+    users_follows_follower_uuidTousers?: User[]
 }
 
 export interface Link {
@@ -173,4 +182,7 @@ export interface EditingLinkType {
     genre: 0 | 1 | 2 | 3 | 4 | 5,
     is_path_search: boolean,
     publish: boolean,
+}
+export interface PostRef {
+    __ref: string
 }

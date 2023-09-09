@@ -40,11 +40,28 @@ export interface BasicLinkBoxProps extends LinkBoxProps {}
 export interface NeumButtonProps extends ButtonProps {
     Hcolor?: string, //hover{color}
     Acolor?: string, //active{color}
+    Scolor?: string, // switch_on{color}
     Hbg?: string,
     HbgGradient?: string,
     fontSize?: number,
     formState?: any,
-    Ashadow?: boolean
+    Ashadow?: boolean,
+    children: string,
+    Schildren?: string,
+    getState?: (e:boolean)=> void,
+}
+//ボタン
+export interface NeumButtonPropsFlat extends ButtonProps {
+    Hcolor?: string, //hover{color}
+    Acolor?: string, //active{color}
+    Scolor?: string, // switch_on{color}
+    Hbg?: string,
+    HbgGradient?: string,
+    fontSize?: number,
+    formState?: any,
+    Ashadow?: boolean,
+    Schildren?: string,
+    getState?: (e:boolean)=> void,
 }
 export interface NeumIconButtonProps extends IconButtonProps {
     neumH?: "shallow" | "tall",

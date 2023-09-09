@@ -1,9 +1,10 @@
 import { useMutation } from "@apollo/client"
 import { Box, Center, Flex, Icon, IconButton, Image, keyframes } from "@chakra-ui/react"
 import { motion, useAnimation, useDragControls } from "framer-motion"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import { LikeButtonProps } from "../../type/atom"
+import { POSTS_LIKE_FRAG } from "../../util/graphql/fragment/fragment.scheme"
 import { TOGGLE_LIKE } from "../../util/graphql/mutation/likes.mutation.scheme"
 
 export const LikeButton = ({ 
@@ -14,19 +15,43 @@ export const LikeButton = ({
 }: LikeButtonProps) => {
     //state
     const [isLiked, setIsLiked] = useState<boolean>(defaultIsLiked)
-
     //query setting
-    const [toggleLike, { error, data, loading }] = useMutation(TOGGLE_LIKE, {variables: { uuid_pid: uuid_pid }})
+    const [toggleLike, { error, data, loading }] = useMutation(TOGGLE_LIKE, {
+        variables: { uuid_pid: uuid_pid },
+        update( cache, { data: { like_toggle } } ) {
+            cache.updateFragment(
+                { 
+                    id: `Post:{"uuid_pid":"${like_toggle.uuid_pid}"}`,
+                    fragment: POSTS_LIKE_FRAG 
+                },
+                (data) => {
+                    if (data.likes.length!=0) {
+                        return ({
+                            likes_num: likes_num  - 1,
+                            likes: []
+                        })
+                    }
+                    else {
+                        return ({
+                            likes_num: likes_num  + 1,
+                            likes: [like_toggle]
+                        }) 
+                    }
+                }
+            )
+        }
+    })
     
     //animation setting
-    const [countCalculated, setCountCalculated] = useState<number>(0)
     const controls = useAnimation()
     const handleLike = async () => {
         toggleLike()
         setIsLiked(!isLiked)
-        setCountCalculated(isLiked ? countCalculated-1 : countCalculated+1)
         controls.start({ scale: [1.15, 1.2, 1] })
     }
+
+    //when the posts likes state change by refetch, change default isLike
+    useEffect(()=>setIsLiked(defaultIsLiked),[defaultIsLiked])
     return (
         <>
             <motion.div
@@ -52,7 +77,7 @@ export const LikeButton = ({
                 {...props}
                 />
             </motion.div>
-            <Center fontSize={".8rem"}>{ likes_num + countCalculated }</Center>
+            <Center fontSize={".8rem"}>{ likes_num  }</Center>
         </>
     )
 }

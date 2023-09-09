@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client"
+import { makeVar, useQuery, useReactiveVar } from "@apollo/client"
 import { Post, SortType } from "../../type/global";
 import { POSTS_SEARCH } from '../../util/graphql/queries/posts.query.scheme';
 import { TipsyCard, TipsyCard_image } from '../atom/cards'
@@ -7,13 +7,20 @@ import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, Heading, H
 import { CircleLoader, NeumLoader } from "../atom/loaders";
 import { DentBord, TabBord } from "../atom/bords";
 import { ClickButton, SwitchButtonConcave, SwitchButton_tab } from "../atom/buttons";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TabSwitchGroup } from "../helper/TabRadioGroup";
+import { AuthContext, IsAlreadyPostsFetchedAsIsUserVar,  } from "../../util/hook/authContext";
+import { client } from "../../pages/_app";
 
-const TipsyPostsboard = ({ query_text, selectedTid, isTagBoardDisplay, handleTagDisplay }: {query_text: string | null, selectedTid: number | null, isTagBoardDisplay?: boolean, handleTagDisplay?: any}) => {
+const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, handleTagDisplay }: {query_text: string | null, selectedTid: number | null, isTagBoardDisplay?: boolean, handleTagDisplay?: any}) => {
+    const { userState } = useContext(AuthContext)
+    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyPostsFetchedAsIsUserVar)
+    
+
     const [displayPosts, setDisplayPosts] = useState<Post[]>([])
     const [sortType, setSortType] = useState<SortType>("人気順")
-    const { loading, error, data, fetchMore } = useQuery(POSTS_SEARCH, {
+    
+    const { loading, error, data, fetchMore, refetch } = useQuery(POSTS_SEARCH, {
         variables: 
         {
             searchString: query_text,
@@ -23,33 +30,61 @@ const TipsyPostsboard = ({ query_text, selectedTid, isTagBoardDisplay, handleTag
         },
         pollInterval: 600000, // 600秒間はキャッシュからフェッチされる
     })
-    
+
     const handleFetchMore = async () => {
         const res = await fetchMore({
             variables: {
                 offset: displayPosts.length,
                 sortType: sortType=="人気順" ? 0 : 1
-            },
+            }
         })
         setDisplayPosts([...displayPosts, ...res.data.search_post])
         
     }
 
+    //これを呼び出すとmerge関数との兼ね合いによって重複した投稿がマージされる => ??? 重複を制御するマージ関数が機能していない？
     const handleChangeSort = async (e: SortType) => {
         if (e != sortType) {
-            const res = await fetchMore({
-                variables: {
-                    sortType: e=="人気順" ? 0 : 1
-                }
-            })
             setSortType(e)
-            setDisplayPosts( res.data.search_post )
+
+            const cache = client.readQuery({ query: POSTS_SEARCH, variables: { 
+                searchString: query_text,
+                selectedTagId: selectedTid,
+                offset: 0,
+                sortType: e=="人気順" ? 0 : 1
+            }})
+
+            if (cache?.search_post) return setDisplayPosts(cache.search_post)
+            else {
+                const res = await fetchMore({
+                    variables: {
+                        sortType: e=="人気順" ? 0 : 1
+                    }
+                })
+                setDisplayPosts( res.data.search_post )
+            }
+            
         }
     }
 
-    useEffect(() => {
-        setDisplayPosts(data?.search_post)  
-    },[data])
+    // reload時のlike state更新
+    // this is needed only when reloading search page, so reactive var will updated when this is called or the other page roaded in context. 
+    useEffect(()=>{
+        if (userState=="isUser" && !IsAlreadyFetchedAsIsUser) {
+            console.log("refetching to refresh like state");
+            refetch(
+                {
+                    searchString: query_text,
+                    selectedTagId: selectedTid,
+                    offset: 0,
+                    sortType: 0
+                },
+            )
+            IsAlreadyPostsFetchedAsIsUserVar(true)
+        }
+    },[userState])
+    // set display posts by fetch
+    useEffect(() => {setDisplayPosts(data?.search_post)}, [data])
 
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
@@ -74,7 +109,11 @@ const TipsyPostsboard = ({ query_text, selectedTid, isTagBoardDisplay, handleTag
                 my={3} borderRadius={"full"} 
                 position={"relative"}
                 >
-                    <Heading size={"sm"}>Post <Highlight query={ data.count_total_posts.toString()} styles={{fontSize: "0.8rem" }}>{data.count_total_posts ? data.count_total_posts.toString() : "0"}</Highlight></Heading>
+                    <Heading size={"sm"}>Post 
+                        <Highlight query={ data?.count_total_posts.toString()} styles={{fontSize: "0.8rem" }}>
+                            { data.count_total_posts ? " " + data.count_total_posts.toString() : " " + "0"}
+                        </Highlight>
+                    </Heading>
                     {
                         isTagBoardDisplay ||
                         <SwitchButtonConcave 
@@ -120,12 +159,12 @@ const TipsyPostsboard = ({ query_text, selectedTid, isTagBoardDisplay, handleTag
                                         timestamp={post.timestamp}
                                         content_type={0}
                                         user={{
-                                            uuid_uid: post.uuid_uid,
-                                            user_name: post.users.user_name,
-                                            user_image: post.users.user_image
+                                            uuid_uid: post.users?.uuid_uid,
+                                            user_name: post.users?.user_name,
+                                            user_image: post.users?.user_image
                                         }}
                                         post_tags={post.post_tags}
-                                        isLiked={post.likes.length!=0 ? true : false}
+                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
                                         />
                                     )
                                 } else {
@@ -138,12 +177,12 @@ const TipsyPostsboard = ({ query_text, selectedTid, isTagBoardDisplay, handleTag
                                         timestamp={post.timestamp}
                                         content_type={0}
                                         user={{
-                                            uuid_uid: post.uuid_uid,
-                                            user_name: post.users.user_name,
-                                            user_image: post.users.user_image
+                                            uuid_uid: post.users?.uuid_uid,
+                                            user_name: post.users?.user_name,
+                                            user_image: post.users?.user_image
                                         }}
                                         post_tags={post.post_tags}
-                                        isLiked={post.likes.length!=0 ? true : false}
+                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
                                         />
                                     )
                                 }
@@ -173,4 +212,4 @@ const TipsyPostsboard = ({ query_text, selectedTid, isTagBoardDisplay, handleTag
     )
 }
 
-export default TipsyPostsboard
+export default TipsyPostsSearchBoard

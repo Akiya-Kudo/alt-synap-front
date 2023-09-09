@@ -9,11 +9,10 @@ import Head from 'next/head';
 
 export const isTagBoardDisplayVar = makeVar(true as boolean)
 
-const TipsyPostsboard = dynamic(
-    () => import("../component/standalone/TipsyPostsBoard"),
+const TipsyPostsSearchBoard = dynamic(
+    () => import("../component/standalone/TipsyPostsSearchBoard"),
     { ssr: false }
 );
-
 const Search: NextPage  = () => {
     const router = useRouter()
     const { query } = router
@@ -21,7 +20,7 @@ const Search: NextPage  = () => {
 
     const isTagBoardDisplay = useReactiveVar(isTagBoardDisplayVar)
     const handleTagDisplay = () => isTagBoardDisplayVar(!isTagBoardDisplay)
-
+    
     return (
         <>
         <Head><title>Tipsy | 検索</title></Head>
@@ -40,7 +39,10 @@ const Search: NextPage  = () => {
                     {
                         isTagBoardDisplay ? <TipsyTagsBoard query_text={query_text} isDisplay={isTagBoardDisplay}/> : null
                     }
-                    <TipsyPostsboard 
+                    {
+
+                    }
+                    <TipsyPostsSearchBoard 
                     query_text={query_text} selectedTid={null}
                     isTagBoardDisplay={isTagBoardDisplay} 
                     handleTagDisplay={handleTagDisplay}

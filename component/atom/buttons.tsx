@@ -1,6 +1,6 @@
 import { BoxProps, Button, filter, Flex, forwardRef, IconButton, IconButtonProps, useColorMode } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
-import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps, NeumIconButtonProps, GlassIconButtonProps, GlassSwitchButtonProps } from "../../type/atom";
+import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps, NeumIconButtonProps, GlassIconButtonProps, GlassSwitchButtonProps, NeumButtonPropsFlat } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
 import { CiSun, CiCloudMoon } from 'react-icons/ci';
 import { useNeumStyle_dent, useNeumStyle_curve, useNeumStyle_flat } from "../../util/hook/useTheme";
@@ -37,7 +37,7 @@ export const ClickButtonFlat = ({
     fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
     Hcolor="red_switch",Acolor="red.600", isDisabled,
     ...props
-}: NeumButtonProps) => {
+}: NeumButtonPropsFlat) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <Button
@@ -89,25 +89,30 @@ export const ClickButton_submit = ({
 
 export const SwitchButton = ({
     onClick=()=>undefined,
+    getState=()=>undefined,
     fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
-    Hcolor="red_switch", Acolor="red.600",
+    Hcolor="red_switch", Acolor="red.600", defaultChecked=false, Scolor="red.600",
+    children, Schildren,
     ...props
 }: NeumButtonProps) => {
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState<boolean>(defaultChecked);
 
     const handleClick = (e: any) => {
         setActive(!active)
         onClick(e)
+        getState(!active)
     }
 
     const { highlight, shadow } = useNeumorphismColorMode()
     const neumState = active ? `inset 5px 5px 15px -3px ${shadow}, inset -5px -5px 15px -3px ${highlight},15px 15px 30px ${shadow},-15px -15px 30px ${highlight};` :  `15px 15px 30px ${shadow},-15px -15px 30px ${highlight};`;
     const neumHover = active ? `inset 10px 10px 20px -3px ${shadow}, inset -10px -10px 20px -3px ${highlight},5px 5px 15px ${shadow},-5px -5px 15px ${highlight};` : `5px 5px 15px ${shadow},-5px -5px 15px ${highlight};`;
+    const switchColor = active ? Scolor : color
+    const switchChildren = active ? Schildren : children
     return (
         <Button
         {...props}
         onClick={ handleClick } 
-        fontSize={fontSize} color={color} bg={bg} borderRadius={borderRadius}
+        fontSize={fontSize} color={switchColor} bg={bg} borderRadius={borderRadius}
         boxShadow={neumState}
         _hover={{
             boxShadow: neumHover, 
@@ -118,7 +123,9 @@ export const SwitchButton = ({
             boxShadow: `5px 5px 15px ${shadow},-5px -5px 15px ${highlight}, inset 10px 10px 20px -3px ${shadow}, inset -10px -10px 20px -3px ${highlight};`,
             color: Acolor,
         }}
-        />
+        >
+            { Schildren ? switchChildren : children }
+        </Button>
     )
 }
 

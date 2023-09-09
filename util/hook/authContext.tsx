@@ -3,17 +3,23 @@ import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/init";
 
 import { Box, Toast, useToast } from "@chakra-ui/react";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { makeVar, useLazyQuery, useMutation } from "@apollo/client";
 import { USER_QUERY } from "../graphql/queries/users.query.schema";
 import { USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
 import {v4 as uuid_v4} from 'uuid'
 import { useCustomToast } from "./useCustomToast";
 import { UserStateStringType } from "../../type/global";
+import { useRouter } from "next/router";
+
+// for the search page proccessing
+// to prevent refetching of useEffect(of IsUser in search page) : refetch of useQuery will difinitly fetch from server, so the cached data(search query's merged posts array will deleted)
+export const IsAlreadyPostsFetchedAsIsUserVar = makeVar(false as boolean)
 
 export const AuthContext = createContext({} as {userState : UserStateStringType});
 export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<UserStateStringType>>});
 
 export const AuthProvider = (props: any) => {
+    const router = useRouter()
     const [userState, setUserState] = useState<UserStateStringType>(undefined)
     const [getLoginUserInfo] = useLazyQuery(USER_QUERY);
     const [userRegister] = useMutation(USER_MUTATION);
@@ -43,7 +49,9 @@ export const AuthProvider = (props: any) => {
                     setUserState("isUser")
                     console.log("is user");
                     console.log(result);
-                    
+                    // the case under path page is rendering, the reactive value will changed in the PostsBoard's useEffect
+                    const isPostsFetchPage = router.pathname=='/search' || router.pathname=='/users/[uuid_uid]' || router.pathname=='/posts/[uuid_pid]'
+                    if (!isPostsFetchPage) IsAlreadyPostsFetchedAsIsUserVar(true)
                 } else {
                     setUserState("guest")
                     console.log("guest");

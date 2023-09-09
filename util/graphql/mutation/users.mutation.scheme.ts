@@ -22,8 +22,4 @@ export const USER_INFO_MUTATION = gql`
         user_image
     }
 }
-
-  `
-
-// apollo client cache確認
-// __APOLLO_CLIENT__.cache.data.data
+`

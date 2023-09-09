@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useQuery } from '@apollo/client'
+import { useQuery, useReactiveVar } from '@apollo/client'
 import { Avatar, Box, Center, Flex, Heading, HStack, Link, Stack, Text, Image as ChakraImage, Tag } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
@@ -11,7 +11,7 @@ import { NeumTag } from '../../component/atom/tags'
 import { GlassTagList, NeumTagList } from '../../component/helper/TagList'
 import { ArticlePost, PostTag, Tag as TagType } from '../../type/global'
 import { POST_CONTENT_QUERY } from '../../util/graphql/queries/posts.query.scheme'
-import { AuthContext } from '../../util/hook/authContext'
+import { AuthContext, IsAlreadyPostsFetchedAsIsUserVar } from '../../util/hook/authContext'
 import { useColorOrderPick, useColorRandomPick, useGlassColorMode } from '../../util/hook/useColor'
 import NextLink from 'next/link'
 import { AiOutlineHeart } from 'react-icons/ai'
@@ -30,6 +30,8 @@ const PostPage: NextPage = () => {
     const { userState } = useContext(AuthContext);
     const router = useRouter()
     const uuid_pid = router.query.uuid_pid
+
+    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyPostsFetchedAsIsUserVar)
     
     const { loading, error, data, refetch } = useQuery(POST_CONTENT_QUERY, { variables: { uuid_pid: uuid_pid } })
 
@@ -39,11 +41,13 @@ const PostPage: NextPage = () => {
     
     // reload時のuserData取得 + isSaveButtonLoading　解除
     useEffect(()=>{
-        if (userState=="isUser" && error) {
+        if (userState=="isUser" && (error || !IsAlreadyFetchedAsIsUser )) {
             console.log("非公開の可能性のある投稿を再フェッチ");
             refetch({ uuid_pid: uuid_pid })
+            IsAlreadyPostsFetchedAsIsUserVar(true)
         }
     },[userState])
+    
 
     const colorList = useColorRandomPick( undefined, 5 )
     const {glass_bg_switch_deep} = useGlassColorMode()
@@ -81,7 +85,7 @@ const PostPage: NextPage = () => {
                             <Stack direction={"row"} mt={5}>
                                 <LikeButton 
                                 likes_num={post?.likes_num} 
-                                defaultIsLiked={false} 
+                                defaultIsLiked={ post?.likes && post?.likes?.length!=0 ? true : false} 
                                 uuid_pid={post?.uuid_pid}
                                 size={6} ms={3} mt={2}
                                 />
