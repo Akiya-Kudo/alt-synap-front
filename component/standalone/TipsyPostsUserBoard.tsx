@@ -1,6 +1,6 @@
 import { useQuery, useReactiveVar } from "@apollo/client"
 import { Post} from "../../type/global";
-import { TipsyCard, TipsyCard_image } from '../atom/cards'
+import { TipsyCard, TipsyCard_image, TipsyCard_link } from '../atom/cards'
 import PinterestGrid from 'rc-pinterest-grid';
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, Heading, Highlight, Text, VStack } from "@chakra-ui/react";
 import { CircleLoader, NeumLoader } from "../atom/loaders";
@@ -9,6 +9,9 @@ import { ClickButton } from "../atom/buttons";
 import { useContext, useEffect, useState } from "react";
 import { GET_USER_PUBLISHED_POSTS } from "../../util/graphql/queries/posts.query.scheme";
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from "../../util/hook/authContext";
+import { READ_USER_UUID } from "../../util/graphql/queries/users.query.schema";
+import { auth } from "../../util/firebase/init";
+import { client } from "../../pages/_app";
 
 const TipsyPostsUserBoard = ({ uuid_uid }: { uuid_uid: String }) => {
     const { userState } = useContext(AuthContext);
@@ -99,6 +102,26 @@ const TipsyPostsUserBoard = ({ uuid_uid }: { uuid_uid: String }) => {
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
+                                        isLoginUser={true}
+                                        />
+                                    )
+                                } else if (post.content_type==2) {
+                                    return (
+                                        <TipsyCard_link
+                                        uuid_pid={post.uuid_pid}
+                                        title={post.title}
+                                        top_link={post.top_link}
+                                        likes_num={post.likes_num}
+                                        timestamp={post.timestamp}
+                                        content_type={post.content_type}
+                                        user={{
+                                            uuid_uid: post.users?.uuid_uid,
+                                            user_name: post.users?.user_name,
+                                            user_image: post.users?.user_image
+                                        }}
+                                        post_tags={post.post_tags}
+                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
+                                        isLoginUser={true}
                                         />
                                     )
                                 } else {
@@ -117,6 +140,7 @@ const TipsyPostsUserBoard = ({ uuid_uid }: { uuid_uid: String }) => {
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
+                                        isLoginUser={true}
                                         />
                                     )
                                 }

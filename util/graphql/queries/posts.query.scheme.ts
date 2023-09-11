@@ -16,6 +16,7 @@ export const POSTS_SEARCH = gql`
             top_image
             timestamp
             likes_num
+            content_type
             publish
             deleted
             post_tags {
@@ -54,6 +55,7 @@ export const GET_USER_PUBLISHED_POSTS = gql`
                 top_image
                 timestamp
                 likes_num
+                content_type
                 publish
                 deleted
                 post_tags {
@@ -64,6 +66,11 @@ export const GET_USER_PUBLISHED_POSTS = gql`
                         tag_image
                     }
                 } 
+                users {
+                    uuid_uid
+                    user_name
+                    user_image
+                }
                 likes {
                     uuid_pid
                     uuid_uid

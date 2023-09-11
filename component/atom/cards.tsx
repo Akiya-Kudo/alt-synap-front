@@ -1,13 +1,15 @@
 import React from "react"
 import Image from 'next/image';
 import NextLink from 'next/link'
-import { Image as ChakraImage, Avatar, Box, Center,  Heading, HStack, Icon, Link, Stack, Tag, Text } from "@chakra-ui/react"
+import { Image as ChakraImage, Avatar, Box, Center,  Heading, HStack, Icon, Link, Stack, Tag, Text, LinkBox, VStack, Grid, Flex, GridItem } from "@chakra-ui/react"
 import { TipsyCardProps, TipsyCardWithImageProps } from "../../type/atom"
 import { AiOutlineHeart } from "react-icons/ai"
 import { useColorOrderPick, useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useColor"
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { TruncatedHeading } from "./texts";
+import { TruncatedHeading, TruncatedText } from "./texts";
 import { LikeButton } from "./likes";
+import { GlassIconButton } from "./buttons";
+import { TfiUnlink } from "react-icons/tfi";
 
 export const TipsyCard = ({
     uuid_pid,
@@ -19,6 +21,7 @@ export const TipsyCard = ({
     user,
     post_tags,
     isLiked,
+    isLoginUser
 }: TipsyCardProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
@@ -27,7 +30,6 @@ export const TipsyCard = ({
             width={"100%"}
             px={4} pb={2} pt={4}
             borderRadius={20}
-            flexDirection={"column"}
             transition={".3s"}
             boxShadow={`inset 6px 6px 13px -5px ${shadow}, inset -6px -6px 15px -5px ${highlight};`}
             _hover={{
@@ -75,30 +77,32 @@ export const TipsyCard = ({
                     }
                 </Stack>
 
-                <Stack direction={"row"} w={"100%"} m={1}>
+                <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
+                    { !isLoginUser &&
+                        <Stack direction={"row"}>
+                            <NextLink href={"/users/" + user.uuid_uid}>
+                                <Center>
+                                    <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
+                                </Center>
+                            </NextLink>
+                            <NextLink href={"/users/" + user.uuid_uid}>
+                                <Center>
+                                    <TruncatedText maxLength={16} fontSize={".8rem"} cursor={"pointer"}>
+                                        { user.user_name}
+                                    </TruncatedText>
+                                </Center>
+                            </NextLink>
+                        </Stack>
+                    }
+
                     <Stack direction={"row"}>
-                        {
-                            user.uuid_uid &&
-                            <>
-                                <NextLink href={"/users/" + user.uuid_uid}>
-                                    <Center>
-                                        <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
-                                    </Center>
-                                </NextLink>
-                                <NextLink href={"/users/" + user.uuid_uid}>
-                                    <Center fontSize={".8rem"} cursor={"pointer"}>
-                                        { user.user_name && user.user_name.length>25 ?  user.user_name?.slice(0, 25) + "..." : user.user_name}
-                                    </Center>
-                                </NextLink>
-                            </>
-                        }
+                        <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
+                        <LikeButton 
+                        likes_num={likes_num} defaultIsLiked={isLiked} 
+                        uuid_pid={uuid_pid}
+                        size={4} ms={3} mt={1.5}
+                        />
                     </Stack>
-                    <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
-                    <LikeButton 
-                    likes_num={likes_num} defaultIsLiked={isLiked} 
-                    uuid_pid={uuid_pid}
-                    size={4} ms={3} mt={1.5}
-                    />
                 </Stack>
             </Box>
     )
@@ -115,6 +119,7 @@ export const TipsyCard_image = ({
     user,
     post_tags,
     isLiked,
+    isLoginUser,
 }: TipsyCardWithImageProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const {glass_bg_switch_deep} = useGlassColorMode()
@@ -204,30 +209,110 @@ export const TipsyCard_image = ({
                         }
                     </Stack>
 
-                    <Stack direction={"row"} w={"100%"} m={1}>
+                    <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
+                        { !isLoginUser &&
+                            <Stack direction={"row"}>
+                                <NextLink href={"/users/" + user.uuid_uid}>
+                                    <Center>
+                                        <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
+                                    </Center>
+                                </NextLink>
+                                <NextLink href={"/users/" + user.uuid_uid}>
+                                    <Center>
+                                        <TruncatedText maxLength={16} fontSize={".8rem"} cursor={"pointer"}>
+                                            { user.user_name}
+                                        </TruncatedText>
+                                    </Center>
+                                </NextLink>
+                            </Stack>
+                        }
+
                         <Stack direction={"row"}>
-                            {
-                                user.uuid_uid &&
-                                <>
-                                    <NextLink href={"/users/" + user.uuid_uid}>
-                                        <Center>
-                                            <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
-                                        </Center>
-                                    </NextLink>
-                                    <NextLink href={"/users/" + user.uuid_uid}>
-                                        <Center fontSize={".8rem"} cursor={"pointer"}>{user.user_name?.slice(0, 25) + "..."}</Center>
-                                    </NextLink>
-                                </>
-                            }
+                            <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1)}</Center>
+                            <LikeButton 
+                            likes_num={likes_num} defaultIsLiked={isLiked} 
+                            uuid_pid={uuid_pid}
+                            size={4} ms={3} mt={1.5}
+                            />
                         </Stack>
-                        <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1)}</Center>
-                        <LikeButton 
-                        likes_num={likes_num} defaultIsLiked={isLiked} 
-                        uuid_pid={uuid_pid}
-                        size={4} ms={3} mt={1.5}
-                        />
                     </Stack>
                 </Box>
             </Box>
+    )
+}
+
+export const TipsyCard_link = ({
+    uuid_pid,
+    title,
+    top_link,
+    likes_num, 
+    timestamp,
+    content_type,
+    user,
+    isLiked,
+    isLoginUser
+}: TipsyCardProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
+    const handleLinkButtonClick = () => window.open(top_link, '_blank')
+    return (
+        <Box
+        width={"100%"}
+        px={4} pb={2} pt={4}
+        borderRadius={20}
+        transition={".3s"}
+        boxShadow={`inset 6px 6px 13px -5px ${shadow}, inset -6px -6px 15px -5px ${highlight};`}
+        _hover={{
+            boxShadow: `inset 0px 0px 2px ${shadow}, inset -0px -0px 2px ${highlight};`, 
+        }}
+        >
+            <Box display={"flex"}>
+                <GlassIconButton 
+                icon={<TfiUnlink/>} aria-label="link-go"
+                color={"tipsy_color_active_1"} size={"md"}
+                onClick={handleLinkButtonClick}
+                />
+                <TruncatedHeading 
+                maxLength={60} size={"sm"} w={"100%"} p={1} color={"text_important"} 
+                maxWidth={window.innerWidth > 550 ? "470px" : "270px"}
+                >
+                    { title }
+                </TruncatedHeading>
+            </Box>
+
+            <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
+                <Link fontSize={".7rem"} color="text_light" href={top_link} isExternal>
+                    <ExternalLinkIcon color={"tipsy_color_active_2"} fontSize={".7rem"} me={1}/>
+                    { top_link && top_link.slice(0, 30) + "..."}
+                </Link>
+            </Stack>
+
+            <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
+                { !isLoginUser &&
+                    <Stack direction={"row"}>
+                        <NextLink href={"/users/" + user.uuid_uid}>
+                            <Center>
+                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
+                            </Center>
+                        </NextLink>
+                        <NextLink href={"/users/" + user.uuid_uid}>
+                            <Center>
+                                <TruncatedText maxLength={16} fontSize={".8rem"} cursor={"pointer"}>
+                                    { user.user_name}
+                                </TruncatedText>
+                            </Center>
+                        </NextLink>
+                    </Stack>
+                }
+
+                <Stack direction={"row"}>
+                    <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
+                    <LikeButton 
+                    likes_num={likes_num} defaultIsLiked={isLiked} 
+                    uuid_pid={uuid_pid}
+                    size={4} ms={3} mt={1.5}
+                    />
+                </Stack>
+            </Stack>
+        </Box>
     )
 }
