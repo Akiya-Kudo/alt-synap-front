@@ -1,7 +1,7 @@
 import { makeVar, useQuery, useReactiveVar } from "@apollo/client"
 import { Post, SortType } from "../../type/global";
 import { POSTS_SEARCH } from '../../util/graphql/queries/posts.query.scheme';
-import { TipsyCard, TipsyCard_image } from '../atom/cards'
+import { TipsyCard, TipsyCard_image, TipsyCard_link } from '../atom/cards'
 import PinterestGrid from 'rc-pinterest-grid';
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, Heading, Highlight, Text, VStack } from "@chakra-ui/react";
 import { CircleLoader, NeumLoader } from "../atom/loaders";
@@ -11,6 +11,8 @@ import { useContext, useEffect, useState } from "react";
 import { TabSwitchGroup } from "../helper/TabRadioGroup";
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar,  } from "../../util/hook/authContext";
 import { client } from "../../pages/_app";
+import { READ_USER_UUID } from "../../util/graphql/queries/users.query.schema";
+import { auth } from "../../util/firebase/init";
 
 const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, handleTagDisplay }: {query_text: string | null, selectedTid: number | null, isTagBoardDisplay?: boolean, handleTagDisplay?: any}) => {
     const { userState } = useContext(AuthContext)
@@ -66,7 +68,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
             
         }
     }
-
+    
     // reload時のlike state更新
     // this is needed only when reloading search page, so reactive var will updated when this is called or the other page roaded in context. 
     useEffect(()=>{
@@ -86,6 +88,8 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
     // set display posts by fetch
     useEffect(() => {setDisplayPosts(data?.search_post)}, [data])
 
+    const login_user_uuid = client.readQuery({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})?.user.uuid_uid
+
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
     if (error) {
@@ -99,7 +103,6 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
         </Center>
         )
     }
-    
     return (
         <>
             <Center my={1} w={"100%"} maxW={1100} flexDir={"column"} marginX="auto">
@@ -148,6 +151,9 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                         responsive={true}
                         >
                             { displayPosts.map((post: Post) => {
+                                const is_login_user_post: boolean = login_user_uuid && login_user_uuid == post.uuid_uid 
+                                    ? true : false
+                                
                                 if (post.top_image) {
                                     return (
                                         <TipsyCard_image
@@ -157,7 +163,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                                         top_image={post.top_image}
                                         likes_num={post.likes_num}
                                         timestamp={post.timestamp}
-                                        content_type={0}
+                                        content_type={post.content_type}
                                         user={{
                                             uuid_uid: post.users?.uuid_uid,
                                             user_name: post.users?.user_name,
@@ -165,9 +171,30 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
+                                        isLoginUser={is_login_user_post}
                                         />
                                     )
-                                } else {
+                                } else if (post.content_type==2) {
+                                    return (
+                                        <TipsyCard_link
+                                        uuid_pid={post.uuid_pid}
+                                        title={post.title}
+                                        top_link={post.top_link}
+                                        likes_num={post.likes_num}
+                                        timestamp={post.timestamp}
+                                        content_type={post.content_type}
+                                        user={{
+                                            uuid_uid: post.users?.uuid_uid,
+                                            user_name: post.users?.user_name,
+                                            user_image: post.users?.user_image
+                                        }}
+                                        post_tags={post.post_tags}
+                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
+                                        isLoginUser={is_login_user_post}
+                                        />
+                                    )
+                                }
+                                else {
                                     return (
                                         <TipsyCard
                                         uuid_pid={post.uuid_pid}
@@ -175,7 +202,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                                         top_link={post.top_link}
                                         likes_num={post.likes_num}
                                         timestamp={post.timestamp}
-                                        content_type={0}
+                                        content_type={post.content_type}
                                         user={{
                                             uuid_uid: post.users?.uuid_uid,
                                             user_name: post.users?.user_name,
@@ -183,6 +210,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
+                                        isLoginUser={is_login_user_post}
                                         />
                                     )
                                 }

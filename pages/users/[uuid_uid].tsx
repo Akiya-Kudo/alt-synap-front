@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client'
 import { Avatar, Box, Flex, Heading, Text } from '@chakra-ui/react'
-import { NextPage } from 'next'
+import { GetServerSidePropsContext, NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -14,6 +14,7 @@ import { USER_FOLLOWEE_FRAG } from '../../util/graphql/fragment/fragment.scheme'
 import { FollowListModal } from '../../component/standalone/FollowListModal'
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from '../../util/hook/authContext'
 import { auth } from '../../util/firebase/init'
+import { client } from '../_app'
 
 const TipsyPostsUserBoard = dynamic(
     () => import("../../component/standalone/TipsyPostsUserBoard"),
@@ -21,9 +22,10 @@ const TipsyPostsUserBoard = dynamic(
 );
 
 const UsersPage: NextPage = () => {
+    
     const router = useRouter()
-    const uuid_uid: string = router.query.uuid_uid as string
     const { userState } = useContext(AuthContext);
+    const uuid_uid: string = router.query.uuid_uid as string
     const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
     const { loading, error, data, refetch } = useQuery(GET_OTHER_USER_QUERY,  { variables: { uuid_uid: uuid_uid }})
@@ -83,6 +85,10 @@ const UsersPage: NextPage = () => {
             IsAlreadyFirstFetchedAsIsUserVar(true)
         }
     },[userState])
+
+    //the case linked to logined-user-page from search page before userState is not fetched, redirect to my-page
+    const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
+    if (user_data.user.uuid_uid == uuid_uid) router.push({ pathname: '/user/my_page' })
     
     if (error) console.log(error);
     return (
@@ -139,3 +145,4 @@ const UsersPage: NextPage = () => {
 }
 
 export default UsersPage
+

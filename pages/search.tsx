@@ -25,16 +25,14 @@ const Search: NextPage  = () => {
         <>
         <Head><title>Tipsy | 検索</title></Head>
             <Flex className="page">
-                <Box className='side-bar' 
-                position={"fixed"}
-                width={150} height={"90vh"}
+                <Flex className='side-bar' 
+                position={"sticky"}
+                width={120} height={"90vh"}
                 zIndex={100}  // collection選択menuが投稿一覧の下に表示されてしまうため設定
+                justify="end" align={"center"}
                 >
-                    <AbsoluteCenter>
-                        <LinkBoard
-                        query_text={query_text}/>
-                    </AbsoluteCenter>
-                </Box>
+                    <LinkBoard query_text={query_text}/>
+                </Flex>
                 <Box flexGrow={1}>
                     {
                         isTagBoardDisplay ? <TipsyTagsBoard query_text={query_text} isDisplay={isTagBoardDisplay}/> : null
