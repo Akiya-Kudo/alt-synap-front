@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
-import { Avatar, Box, Flex, Heading, Text } from '@chakra-ui/react'
+import { Avatar, Box, Divider, Flex, Heading, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
 import { BasicHeader } from '../../component/layout/Header';
-import { DentBord } from '../../component/atom/bords';
+import { DentBord, SharpBoard } from '../../component/atom/bords';
 import { AuthContext } from '../../util/hook/authContext';
 import { useRouter } from 'next/router';
 import { client } from '../_app';
@@ -11,6 +11,14 @@ import { auth } from '../../util/firebase/init';
 import { User } from '../../type/global';
 import { ClickButton } from '../../component/atom/buttons';
 import Head from 'next/head';
+import { useNeumorphismColorMode } from '../../util/hook/useColor';
+import { NeumTab } from '../../component/atom/indicators';
+import dynamic from 'next/dynamic';
+
+const TipsyPostsUserBoard = dynamic(
+    () => import("../../component/standalone/TipsyPostsUserBoard"),
+    { ssr: false }
+);
 
 const Mypage: NextPage  = () => {
     const { userState } = useContext(AuthContext);
@@ -30,7 +38,11 @@ const Mypage: NextPage  = () => {
     <>
     <Head><title>Tipsy | マイページ</title></Head>
         <Flex flexDir={"column"} align={"center"} mt={5} className="page">
-            <DentBord maxW={"1100px"} w={"90%"} justifyContent={"start"} p={5} borderRadius={"30px"} flexDir={["column", "column", "row"]}>
+            <SharpBoard 
+            maxW={"1100px"} w={"90%"} justifyContent={"start"} p={5} borderRadius={"30px"} 
+            flexDir={["column", "column", "row"]}
+            neumH={"shallow"}
+            >
                 <Avatar src={userInfo?.user_image} name={userInfo?.user_name} size={"lg"} m={1}/>
                 <Box ms={5} flexGrow={1}>
                     <Heading size={"lg"} m={1}>{userInfo?.user_name}</Heading>
@@ -49,7 +61,43 @@ const Mypage: NextPage  = () => {
                         プロフィールを編集する
                     </ClickButton>
                 </Box>
-            </DentBord>
+            </SharpBoard>
+
+            <Tabs 
+            isFitted variant="unstyled"
+            maxW={"1100px"} w={["100%", "100%", "90%"]} my={10}
+            >
+                <TabList>
+                    <NeumTab>My Posts</NeumTab>
+                    <NeumTab>Likes</NeumTab>
+                    <NeumTab>Folders</NeumTab>
+                </TabList>
+                <TabIndicator
+                height="1.5px"
+                bg="tipsy_color_3"
+                borderRadius="full"
+                />
+                <TabPanels>
+                    <TabPanel>
+                        <Box flexGrow={1}>
+                            {
+                                userInfo?.uuid_uid && 
+                                <TipsyPostsUserBoard
+                                uuid_uid={userInfo?.uuid_uid}
+                                isHidePostCounter
+                                />
+                            }
+                        </Box>
+                    </TabPanel>
+
+                    <TabPanel>
+                        ！！！！！いいね一覧を取得
+                    </TabPanel>
+                    <TabPanel>
+                    <p>three</p>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </Flex>
     </>
     )

@@ -9,11 +9,8 @@ import { ClickButton } from "../atom/buttons";
 import { useContext, useEffect, useState } from "react";
 import { GET_USER_PUBLISHED_POSTS } from "../../util/graphql/queries/posts.query.scheme";
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from "../../util/hook/authContext";
-import { READ_USER_UUID } from "../../util/graphql/queries/users.query.schema";
-import { auth } from "../../util/firebase/init";
-import { client } from "../../pages/_app";
 
-const TipsyPostsUserBoard = ({ uuid_uid }: { uuid_uid: String }) => {
+const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: String, isHidePostCounter?: boolean }) => {
     const { userState } = useContext(AuthContext);
     const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
@@ -60,18 +57,21 @@ const TipsyPostsUserBoard = ({ uuid_uid }: { uuid_uid: String }) => {
     return (
         <>
             <Center my={1} w={"100%"} maxW={1100} flexDir={"column"} marginX="auto">
-                <DentBord 
-                w={130} h={"40px"} 
-                justifyContent="center" alignItems={"center"} 
-                my={3} borderRadius={"full"} 
-                position={"relative"}
-                >
-                    <Heading size={"sm"}>Post 
-                        <Highlight query={ data.count_posts_made_by_user.toString()} styles={{fontSize: "0.8rem" }}>
-                            {data.count_posts_made_by_user ?  " " + data.count_posts_made_by_user.toString() : " " + "0"}
-                        </Highlight>
-                    </Heading>
-                </DentBord>
+                {
+                    !isHidePostCounter && 
+                    <DentBord 
+                    w={130} h={"40px"} 
+                    justifyContent="center" alignItems={"center"} 
+                    my={3} borderRadius={"full"} 
+                    position={"relative"}
+                    >
+                        <Heading size={"sm"}>Post 
+                            <Highlight query={ data.count_posts_made_by_user.toString()} styles={{fontSize: "0.8rem" }}>
+                                {data.count_posts_made_by_user ?  " " + data.count_posts_made_by_user.toString() : " " + "0"}
+                            </Highlight>
+                        </Heading>
+                    </DentBord>
+                }
             </Center>
             <Center mb={5} w={"100%"} flexDir={"column"} >
                 {

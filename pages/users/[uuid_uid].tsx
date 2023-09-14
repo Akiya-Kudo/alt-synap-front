@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client'
 import { Avatar, Box, Flex, Heading, Text } from '@chakra-ui/react'
-import { GetServerSidePropsContext, NextPage } from 'next'
+import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -85,11 +85,11 @@ const UsersPage: NextPage = () => {
             IsAlreadyFirstFetchedAsIsUserVar(true)
         }
     },[userState])
-
-    //the case linked to logined-user-page from search page before userState is not fetched, redirect to my-page
-    const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
-    if (user_data.user.uuid_uid == uuid_uid) router.push({ pathname: '/user/my_page' })
-    
+    useEffect(()=>{
+        //the case linked to logined-user-page from search page before userState is not fetched, redirect to my-page
+        const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
+        if (user_data?.user?.uuid_uid == uuid_uid ) router?.push({ pathname: '/user/my_page' })
+    },[])
     if (error) console.log(error);
     return (
         <>

@@ -11,7 +11,7 @@ import { READ_USER_UUID } from "../../util/graphql/queries/users.query.schema";
 import { AuthContext } from "../../util/hook/authContext";
 import { useCustomToast } from "../../util/hook/useCustomToast";
 import { client } from "../_app";
-import { BasicStepper } from "../../component/atom/steppers";
+import { BasicStepper } from "../../component/atom/indicators";
 import { StepsType } from "../../type/atom";
 import { UrlAnalyzeStep, UrlLabelingStep, UrlTestStep } from "../../component/helper/LinkCreateStepForms";
 import { useMutation } from "@apollo/client";
