@@ -110,7 +110,7 @@ export const BasicHeader = () => {
                         </AddPostSelectMenu>
                         <Link href="/user/my_page" passHref>
                             <Box bg={"tipsy_color_3"} p={0.5} borderRadius="full">
-                                <Avatar size='sm' m={0} name={ data_user?.user?.user_name } src={ data_user.user.user_image }/>
+                                <Avatar size='sm' m={0} name={ data_user?.user?.user_name } src={ data_user?.user?.user_image }/>
                             </Box>
                         </Link>
                         <HeaderMenu user_name={data_user.user.user_name} children={undefined}/>

@@ -94,3 +94,23 @@ export const TabBord = ({
         />
     )
 }
+
+export const SharpBoard = ({
+    neumH="shallow",
+    bg="transparent", color="text_normal", borderRadius="20",
+    display="flex", flexDirection="row", justifyContent="center", alignItems="center", children,
+    ...props
+}: NeumBordProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
+    const neumHeight = neumH=="shallow" 
+    ? `3px 3px 12px ${shadow}, -3px -3px 12px ${highlight}, inset -3px -3px 12px -3px ${highlight}, inset 3px 3px 12px -3px  ${shadow};` 
+    : `15px 15px 30px ${shadow}, -15px -15px 30px ${highlight}, inset -15px -15px 30px -10px ${highlight}, inset 15px 15px 30px -10px  ${shadow};`
+    return (
+        <Box
+        {...props}
+        boxShadow={neumHeight}
+        borderRadius={borderRadius} bg={bg} color={color}
+        display={display} flexDirection={flexDirection} justifyContent={justifyContent} alignItems={alignItems}
+        >{children}</Box>
+    )
+}

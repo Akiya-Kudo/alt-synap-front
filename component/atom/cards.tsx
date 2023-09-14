@@ -265,14 +265,14 @@ export const TipsyCard_link = ({
             boxShadow: `inset 0px 0px 2px ${shadow}, inset -0px -0px 2px ${highlight};`, 
         }}
         >
-            <Box display={"flex"}>
+            <Box display={"flex"} alignItems={"center"}>
                 <GlassIconButton 
                 icon={<TfiUnlink/>} aria-label="link-go"
                 color={"tipsy_color_active_1"} size={"md"}
                 onClick={handleLinkButtonClick}
                 />
                 <TruncatedHeading 
-                maxLength={60} size={"sm"} w={"100%"} p={1} color={"text_important"} 
+                maxLength={60} size={"sm"} w={"100%"} p={2} color={"text_important"} 
                 maxWidth={window.innerWidth > 550 ? "470px" : "270px"}
                 >
                     { title }
