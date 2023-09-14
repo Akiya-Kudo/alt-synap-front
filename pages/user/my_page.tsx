@@ -1,22 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import { Avatar, Box, Divider, Flex, Heading, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
-import { BasicHeader } from '../../component/layout/Header';
-import { DentBord, SharpBoard } from '../../component/atom/bords';
+import { SharpBoard } from '../../component/atom/bords';
 import { AuthContext } from '../../util/hook/authContext';
 import { useRouter } from 'next/router';
 import { client } from '../_app';
-import { READ_USER_UUID, USER_QUERY } from '../../util/graphql/queries/users.query.schema';
+import { USER_QUERY } from '../../util/graphql/queries/users.query.schema';
 import { auth } from '../../util/firebase/init';
-import { User } from '../../type/global';
+import { Post, User } from '../../type/global';
 import { ClickButton } from '../../component/atom/buttons';
 import Head from 'next/head';
 import { useNeumorphismColorMode } from '../../util/hook/useColor';
 import { NeumTab } from '../../component/atom/indicators';
 import dynamic from 'next/dynamic';
+import { GET_USER_LIKED_POSTS, GET_USER_PUBLISHED_POSTS } from '../../util/graphql/queries/posts.query.scheme';
+import { useLazyQuery } from '@apollo/client';
 
-const TipsyPostsUserBoard = dynamic(
-    () => import("../../component/standalone/TipsyPostsUserBoard"),
+const TipsyPostsDisplay = dynamic(
+    () => import('../../component/helper/TipsyPostsDisplay'),
     { ssr: false }
 );
 
@@ -30,10 +31,69 @@ const Mypage: NextPage  = () => {
     // reload時のuserData取得 + isSaveButtonLoading　解除
     useEffect(()=>{
         if (userState=="isUser") {
-        const data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
-        setUserInfo(data.user)
+        const data_user = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
+        setUserInfo(data_user.user)
+        handleFetchUserMade()
         }
     },[userState])
+
+
+    const [displayPosts, setDisplayPosts] = useState<Post[]>([])
+    const [allPostsCount, setAllPostsCount] = useState<number>(0)
+    const handleTabChange = (index: number) => {
+        if (index==0) handleFetchUserMade()
+        else if (index==1) handleFetchLiked()
+    }
+
+
+    const [getPostsUserMade, { loading: loading_userMade, error: error_userMade, fetchMore: fetchMore_userMade }] = useLazyQuery(GET_USER_PUBLISHED_POSTS, {
+        variables: 
+        {
+            uuid_uid: userInfo?.uuid_uid,
+            selectedTagIds: null,
+            offset: 0,
+        },
+    })
+    const handleFetchUserMade = async () => {
+        getPostsUserMade().then(res => {
+            setDisplayPosts(res.data.get_posts_made_by_user)
+            setAllPostsCount(res.data.count_posts_made_by_user)
+        })
+    }
+    const handleFetchMoreUserMade = async () => {
+        const res = await fetchMore_userMade({ variables: { offset: displayPosts.length }})
+        setDisplayPosts([...displayPosts, ...res.data.get_posts_made_by_user])
+    }
+
+
+    const [getPostsUserLiked, { loading: loading_userLiked, error: error_userLiked, fetchMore: fetchMore_userLiked }] = useLazyQuery(GET_USER_LIKED_POSTS, {
+        variables: 
+        {
+            selectedTagIds: null,
+            offset: 0,
+        },
+    })
+    const handleFetchLiked = async () => {
+        getPostsUserLiked().then(res => {
+            console.log(res.data);
+            //to omit overrapping of response data, likes array which is used to check login user is liked is not fetched, so that altanatively fake id is added
+            const posts_addedFakeLikes = res.data.get_posts_user_liked.map((post: Post)=> {
+                return ({ ...post, likes:  [{uuid_pid: "fake_uuid_pid", uuid_uid: "fake_uuid_uid"}]})
+            })
+            setDisplayPosts(posts_addedFakeLikes)
+            setAllPostsCount(res.data.count_posts_user_liked)
+        })
+    }
+    const handleFetchMoreUserLiked = async () => {
+        
+        const res = await fetchMore_userLiked({ variables: { offset: displayPosts.length }})
+        //to omit overrapping of response data, likes array which is used to check login user is liked is not fetched, so that altanatively fake id is added
+        const posts_addedFakeLikes = res.data.get_posts_user_liked.map((post: Post)=> {
+            return ({ ...post, likes:  [{uuid_pid: "fake_uuid_pid", uuid_uid: "fake_uuid_uid"}]})
+        })
+        setDisplayPosts([...displayPosts, ...posts_addedFakeLikes])
+    }
+    
     return (
     <>
     <Head><title>Tipsy | マイページ</title></Head>
@@ -64,8 +124,9 @@ const Mypage: NextPage  = () => {
             </SharpBoard>
 
             <Tabs 
-            isFitted variant="unstyled"
+            isFitted variant="unstyled" isLazy
             maxW={"1100px"} w={["100%", "100%", "90%"]} my={10}
+            onChange={handleTabChange}
             >
                 <TabList>
                     <NeumTab>My Posts</NeumTab>
@@ -80,18 +141,22 @@ const Mypage: NextPage  = () => {
                 <TabPanels>
                     <TabPanel>
                         <Box flexGrow={1}>
-                            {
-                                userInfo?.uuid_uid && 
-                                <TipsyPostsUserBoard
-                                uuid_uid={userInfo?.uuid_uid}
-                                isHidePostCounter
-                                />
-                            }
+                            <TipsyPostsDisplay
+                            displayPosts={displayPosts}
+                            allPostsCount={allPostsCount}
+                            handleFetchMore={handleFetchMoreUserMade}
+                            error={error_userMade} loading={loading_userMade || userState!="isUser"}
+                            />
                         </Box>
                     </TabPanel>
 
                     <TabPanel>
-                        ！！！！！いいね一覧を取得
+                        <TipsyPostsDisplay
+                        displayPosts={displayPosts}
+                        allPostsCount={allPostsCount}
+                        handleFetchMore={handleFetchMoreUserLiked}
+                        error={error_userLiked} loading={loading_userLiked}
+                        />
                     </TabPanel>
                     <TabPanel>
                     <p>three</p>

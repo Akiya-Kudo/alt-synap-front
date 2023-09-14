@@ -80,6 +80,40 @@ export const GET_USER_PUBLISHED_POSTS = gql`
     }
 `
 
+export const GET_USER_LIKED_POSTS = gql`
+    query get_posts_user_liked($selectedTagIds: [Int], $offset: Int! ) {
+        get_posts_user_liked (
+            selectedTagIds: $selectedTagIds,
+            offset: $offset,
+        ) {
+                uuid_uid
+                uuid_pid
+                title
+                top_link
+                top_image
+                timestamp
+                likes_num
+                content_type
+                publish
+                deleted
+                post_tags {
+                    tags {
+                        tid
+                        tag_name
+                        display_name
+                        tag_image
+                    }
+                } 
+                users {
+                    uuid_uid
+                    user_name
+                    user_image
+                }
+        }
+        count_posts_user_liked (selectedTagIds: $selectedTagIds)
+    }
+`
+
 export const POST_CONTENT_QUERY = gql`
     query post_content_query($uuid_pid: String!) {
         post (
