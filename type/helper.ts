@@ -1,7 +1,8 @@
+import { ApolloQueryResult, QueryResult } from "@apollo/client";
 import { BoxProps, FlexProps, MenuProps, ModalProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import { NeumBordProps } from "./atom";
-import { Collection, Tag, TagEditing } from "./global";
+import { Collection, Post, Tag, TagEditing } from "./global";
 
 export interface GlassMenuProps extends MenuProps {
     user_name?: string,
@@ -121,4 +122,13 @@ export type LinkAnalyzeStepType = {
 
 export interface AddPostSelectMenuProps extends MenuProps {
 
+}
+
+export interface TipsyPostsDisplayProps {
+    displayPosts: Post[],
+    // setDisplayPosts: Dispatch<SetStateAction<Post[]>>,
+    allPostsCount: number,
+    handleFetchMore: any,
+    loading: boolean,
+    error: Error | undefined,
 }

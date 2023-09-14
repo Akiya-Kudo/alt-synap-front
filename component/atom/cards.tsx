@@ -21,7 +21,7 @@ export const TipsyCard = ({
     user,
     post_tags,
     isLiked,
-    isLoginUser
+    isPostOrner
 }: TipsyCardProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
@@ -78,7 +78,7 @@ export const TipsyCard = ({
                 </Stack>
 
                 <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
-                    { !isLoginUser &&
+                    { !isPostOrner &&
                         <Stack direction={"row"}>
                             <NextLink href={"/users/" + user.uuid_uid}>
                                 <Center>
@@ -119,7 +119,7 @@ export const TipsyCard_image = ({
     user,
     post_tags,
     isLiked,
-    isLoginUser,
+    isPostOrner,
 }: TipsyCardWithImageProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const {glass_bg_switch_deep} = useGlassColorMode()
@@ -210,7 +210,7 @@ export const TipsyCard_image = ({
                     </Stack>
 
                     <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
-                        { !isLoginUser &&
+                        { !isPostOrner &&
                             <Stack direction={"row"}>
                                 <NextLink href={"/users/" + user.uuid_uid}>
                                     <Center>
@@ -250,7 +250,7 @@ export const TipsyCard_link = ({
     content_type,
     user,
     isLiked,
-    isLoginUser
+    isPostOrner
 }: TipsyCardProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const handleLinkButtonClick = () => window.open(top_link, '_blank')
@@ -287,7 +287,7 @@ export const TipsyCard_link = ({
             </Stack>
 
             <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
-                { !isLoginUser &&
+                { !isPostOrner &&
                     <Stack direction={"row"}>
                         <NextLink href={"/users/" + user.uuid_uid}>
                             <Center>

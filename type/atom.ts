@@ -231,7 +231,7 @@ export interface TipsyCardProps {
     post_tags?: PostTag[],
     user: User,
     isLiked: boolean,
-    isLoginUser: boolean,
+    isPostOrner: boolean,
 }
 
 export interface TipsyCardWithImageProps extends TipsyCardProps {

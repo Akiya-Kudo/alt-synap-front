@@ -1,46 +1,21 @@
-import { useQuery, useReactiveVar } from "@apollo/client"
+import { TipsyPostsDisplayProps } from "../../type/helper";
 import { Post} from "../../type/global";
 import { TipsyCard, TipsyCard_image, TipsyCard_link } from '../atom/cards'
 import PinterestGrid from 'rc-pinterest-grid';
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, Heading, Highlight, Text, VStack } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Center, Text, VStack } from "@chakra-ui/react";
 import { CircleLoader, NeumLoader } from "../atom/loaders";
-import { DentBord } from "../atom/bords";
 import { ClickButton } from "../atom/buttons";
-import { useContext, useEffect, useState } from "react";
-import { GET_USER_PUBLISHED_POSTS } from "../../util/graphql/queries/posts.query.scheme";
-import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from "../../util/hook/authContext";
+import { client } from "../../pages/_app";
+import { READ_USER_UUID } from "../../util/graphql/queries/users.query.schema";
+import { auth } from "../../util/firebase/init";
 
-const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: String, isHidePostCounter?: boolean }) => {
-    const { userState } = useContext(AuthContext);
-    const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
+const TipsyPostsDisplay = ({
+    allPostsCount,
+    displayPosts, 
+    handleFetchMore, error, loading,
+}: TipsyPostsDisplayProps) => {
+    const login_user_uuid = client.readQuery({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})?.user.uuid_uid
 
-    const [displayPosts, setDisplayPosts] = useState<Post[]>([])
-    const { loading, error, data, fetchMore, refetch } = useQuery(GET_USER_PUBLISHED_POSTS, {
-        variables: 
-        {
-            uuid_uid: uuid_uid,
-            selectedTagIds: null,
-            offset: 0,
-        },
-    })
-    const handleFetchMore = async () => {
-        const res = await fetchMore({
-            variables: { offset: displayPosts.length }
-        })
-        setDisplayPosts([...displayPosts, ...res.data.get_posts_made_by_user])
-    }
-
-    // reload時のlike state更新
-    useEffect(()=>{
-        if (userState=="isUser" && !IsAlreadyFetchedAsIsUser) {
-            console.log("refetching to refresh like state");
-            refetch() // same variables with first fetch of useQuery
-            IsAlreadyFirstFetchedAsIsUserVar(true)
-        }
-    },[userState])
-    // set display posts by fetch
-    useEffect(() => {setDisplayPosts(data?.get_posts_made_by_user)}, [data])
-    
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
     if (error) {
@@ -56,23 +31,6 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
     }
     return (
         <>
-            <Center my={1} w={"100%"} maxW={1100} flexDir={"column"} marginX="auto">
-                {
-                    !isHidePostCounter && 
-                    <DentBord 
-                    w={130} h={"40px"} 
-                    justifyContent="center" alignItems={"center"} 
-                    my={3} borderRadius={"full"} 
-                    position={"relative"}
-                    >
-                        <Heading size={"sm"}>Post 
-                            <Highlight query={ data.count_posts_made_by_user.toString()} styles={{fontSize: "0.8rem" }}>
-                                {data.count_posts_made_by_user ?  " " + data.count_posts_made_by_user.toString() : " " + "0"}
-                            </Highlight>
-                        </Heading>
-                    </DentBord>
-                }
-            </Center>
             <Center mb={5} w={"100%"} flexDir={"column"} >
                 {
                 displayPosts && displayPosts?.length > 0 && (
@@ -85,6 +43,9 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                         responsive={true}
                         >
                             { displayPosts.map((post: Post) => {
+                                const is_login_user_post: boolean = login_user_uuid && login_user_uuid == post.uuid_uid 
+                                ? true : false
+
                                 if (post.top_image) {
                                     return (
                                         <TipsyCard_image
@@ -102,7 +63,7 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
-                                        isPostOrner={true}
+                                        isPostOrner={is_login_user_post}
                                         />
                                     )
                                 } else if (post.content_type==2) {
@@ -121,7 +82,7 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
-                                        isPostOrner={true}
+                                        isPostOrner={is_login_user_post}
                                         />
                                     )
                                 } else {
@@ -140,14 +101,14 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
-                                        isPostOrner={true}
+                                        isPostOrner={is_login_user_post}
                                         />
                                     )
                                 }
                             })}
                         </PinterestGrid>
                         {
-                            displayPosts.length < data.count_posts_made_by_user && 
+                            displayPosts.length < allPostsCount && 
                             (<Center m={10}>
                                 <ClickButton
                                 size={"md"} fontSize={16}
@@ -170,4 +131,4 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
     )
 }
 
-export default TipsyPostsUserBoard
+export default TipsyPostsDisplay

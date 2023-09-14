@@ -39,6 +39,7 @@ export const NeumTab = ({
     return (
         <Tab
         borderTopRadius={15}
+        boxShadow={`inset -1px -1px 5px -2px ${highlight}, inset 1px 1px 5px -3px  ${shadow}`}
         _hover={{ 
             boxShadow: `inset -2px -2px 10px -4px ${highlight}, inset 3px 3px 10px -6px  ${shadow};` ,
             color: "tipsy_color_3"

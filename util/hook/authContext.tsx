@@ -50,7 +50,7 @@ export const AuthProvider = (props: any) => {
                     console.log("is user");
                     console.log(result);
                     // the case under path page is rendering, the reactive value will changed in the PostsBoard's useEffect
-                    const isPostsFetchPage = router.pathname=='/search' || router.pathname=='/users/[uuid_uid]' || router.pathname=='/posts/[uuid_pid]'
+                    const isPostsFetchPage = router.pathname=='/search' || router.pathname=='/users/[uuid_uid]' || router.pathname=='/posts/[uuid_pid]' 
                     if (!isPostsFetchPage) IsAlreadyFirstFetchedAsIsUserVar(true)
                 } else {
                     setUserState("guest")

@@ -80,6 +80,21 @@ const apollo_cache_option = {
             return mergedPosts;
           }
         },
+        //handle fetchMore
+        get_posts_user_liked: {
+          keyArgs: ["selectedTagIds"],
+          merge(existing: PostRef[] = [], incoming: PostRef[]) {
+            const mergedPosts = [...existing];
+            
+            // Remove duplicates from incoming data before merging
+            incoming.forEach((newPost) => {
+              if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
+                mergedPosts.push(newPost);
+              }
+            });
+            return mergedPosts;
+          }
+        },
         //updateQuery時 : 新しく編集された配列を返す
         get_link_collections_used: {
           keyArgs: ["uuid_uid"], // maybe false is also ok in this situation

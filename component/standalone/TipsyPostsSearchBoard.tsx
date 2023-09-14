@@ -171,7 +171,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
-                                        isLoginUser={is_login_user_post}
+                                        isPostOrner={is_login_user_post}
                                         />
                                     )
                                 } else if (post.content_type==2) {
@@ -190,7 +190,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
-                                        isLoginUser={is_login_user_post}
+                                        isPostOrner={is_login_user_post}
                                         />
                                     )
                                 }
@@ -210,7 +210,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                                         }}
                                         post_tags={post.post_tags}
                                         isLiked={ post.likes && post.likes?.length!=0 ? true : false}
-                                        isLoginUser={is_login_user_post}
+                                        isPostOrner={is_login_user_post}
                                         />
                                     )
                                 }
