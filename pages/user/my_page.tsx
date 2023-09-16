@@ -15,6 +15,7 @@ import { NeumTab } from '../../component/atom/indicators';
 import dynamic from 'next/dynamic';
 import { GET_USER_LIKED_POSTS, GET_USER_PUBLISHED_POSTS } from '../../util/graphql/queries/posts.query.scheme';
 import { useLazyQuery } from '@apollo/client';
+import { FollowListModal } from '../../component/standalone/FollowListModal';
 
 const TipsyPostsDisplay = dynamic(
     () => import('../../component/helper/TipsyPostsDisplay'),
@@ -40,15 +41,19 @@ const Mypage: NextPage  = () => {
 
     const [displayPosts, setDisplayPosts] = useState<Post[]>([])
     const [allPostsCount, setAllPostsCount] = useState<number>(0)
-    const handleTabChange = (index: number) => {
-        if (index==0) handleFetchUserMade()
-        else if (index==1) handleFetchLiked()
-    }
+    
+    const [tabIndex, setTabIndex] = useState(0)
+    const handleTabChange = (index: number) => setTabIndex(index)
+    useEffect(() => {
+        if (userState=="isUser") {
+            if (tabIndex==0) handleFetchUserMade()
+            else if (tabIndex==1) handleFetchLiked()
+        }
+    },[tabIndex])
 
 
-    const [getPostsUserMade, { loading: loading_userMade, error: error_userMade, fetchMore: fetchMore_userMade }] = useLazyQuery(GET_USER_PUBLISHED_POSTS, {
-        variables: 
-        {
+    const [getPostsUserMade, { data: data_userMade, loading: loading_userMade, error: error_userMade, fetchMore: fetchMore_userMade }] = useLazyQuery(GET_USER_PUBLISHED_POSTS, {
+        variables: {
             uuid_uid: userInfo?.uuid_uid,
             selectedTagIds: null,
             offset: 0,
@@ -66,37 +71,37 @@ const Mypage: NextPage  = () => {
     }
 
 
-    const [getPostsUserLiked, { loading: loading_userLiked, error: error_userLiked, fetchMore: fetchMore_userLiked }] = useLazyQuery(GET_USER_LIKED_POSTS, {
-        variables: 
-        {
+    const [getPostsUserLiked, { data: data_userLiked, loading: loading_userLiked, error: error_userLiked, fetchMore: fetchMore_userLiked }] = useLazyQuery(GET_USER_LIKED_POSTS, {
+        variables: {
             selectedTagIds: null,
             offset: 0,
         },
     })
     const handleFetchLiked = async () => {
         getPostsUserLiked().then(res => {
-            console.log(res.data);
-            //to omit overrapping of response data, likes array which is used to check login user is liked is not fetched, so that altanatively fake id is added
-            const posts_addedFakeLikes = res.data.get_posts_user_liked.map((post: Post)=> {
-                return ({ ...post, likes:  [{uuid_pid: "fake_uuid_pid", uuid_uid: "fake_uuid_uid"}]})
-            })
-            setDisplayPosts(posts_addedFakeLikes)
+            setDisplayPosts(res.data.get_posts_user_liked)
             setAllPostsCount(res.data.count_posts_user_liked)
         })
     }
     const handleFetchMoreUserLiked = async () => {
-        
         const res = await fetchMore_userLiked({ variables: { offset: displayPosts.length }})
-        //to omit overrapping of response data, likes array which is used to check login user is liked is not fetched, so that altanatively fake id is added
-        const posts_addedFakeLikes = res.data.get_posts_user_liked.map((post: Post)=> {
-            return ({ ...post, likes:  [{uuid_pid: "fake_uuid_pid", uuid_uid: "fake_uuid_uid"}]})
-        })
-        setDisplayPosts([...displayPosts, ...posts_addedFakeLikes])
+        setDisplayPosts([...displayPosts, ...res.data.get_posts_user_liked])
     }
+    
+    useEffect(() => {
+        if (tabIndex==0) {
+            setDisplayPosts(data_userMade?.get_posts_made_by_user)
+            setAllPostsCount(data_userMade?.count_posts_made_by_user)
+        }
+        else if (tabIndex==1) {
+            setDisplayPosts(data_userLiked?.get_posts_user_liked)
+            setAllPostsCount(data_userLiked?.count_posts_user_liked)
+        }
+    },[data_userMade, data_userLiked])
     
     return (
     <>
-    <Head><title>Tipsy | マイページ</title></Head>
+    <Head><title>マイページ</title></Head>
         <Flex flexDir={"column"} align={"center"} mt={5} className="page">
             <SharpBoard 
             maxW={"1100px"} w={"90%"} justifyContent={"start"} p={5} borderRadius={"30px"} 
@@ -107,8 +112,21 @@ const Mypage: NextPage  = () => {
                 <Box ms={5} flexGrow={1}>
                     <Heading size={"lg"} m={1}>{userInfo?.user_name}</Heading>
                     <Text size={"lg"} fontSize={".75rem"} m={1} as={Flex} flexDir={"row"} gap={2}>
-                        <Box>フォロー : {userInfo?.followee_num}</Box>
-                        <Box>フォロワー : {userInfo?.follower_num}</Box>
+                        {
+                            userInfo?.uuid_uid && userInfo?.followee_num!=null && userInfo?.followee_num!=undefined && 
+                            <FollowListModal
+                            follow_num={userInfo.followee_num} 
+                            uuid_uid={userInfo.uuid_uid}
+                            />
+                        }
+                        {
+                            userInfo?.uuid_uid && userInfo?.follower_num!=null && userInfo?.follower_num!=undefined && 
+                            <FollowListModal 
+                            is_follower_list 
+                            follow_num={userInfo.follower_num} 
+                            uuid_uid={userInfo.uuid_uid}
+                            />
+                        }
                     </Text>
                     <Text size={"lg"} fontSize={".75rem"} m={1}>{userInfo?.comment}</Text>
                 </Box>
@@ -126,7 +144,7 @@ const Mypage: NextPage  = () => {
             <Tabs 
             isFitted variant="unstyled" isLazy
             maxW={"1100px"} w={["100%", "100%", "90%"]} my={10}
-            onChange={handleTabChange}
+            onChange={handleTabChange} index={tabIndex}
             >
                 <TabList>
                     <NeumTab>My Posts</NeumTab>

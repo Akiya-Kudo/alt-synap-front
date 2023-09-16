@@ -13,6 +13,7 @@ import { auth } from '../util/firebase/init';
 import { BasicHeader } from '../component/layout/Header';
 import { useRouter } from 'next/router';
 import { Follow, LinkCollection, Post, PostRef, User } from '../type/global';
+import { isLikeToggledWithCacheExistVar } from '../component/atom/likes';
 
 // import '../style/atom/my-simple-image.css'
 
@@ -30,11 +31,11 @@ const apollo_cache_option = {
         },
       },
     },
-    PostWithTagsAndUser: {
-      keyFields: ["uuid_pid"],
-    },
+    // PostWithTagsAndUser: {
+    //   keyFields: ["uuid_pid"],
+    // },
     Post: {
-      keyFields: ["uuid_pid"]
+      keyFields: ["uuid_pid"],
     },
     Tag: {
       keyFields: ["tid"]
@@ -84,15 +85,21 @@ const apollo_cache_option = {
         get_posts_user_liked: {
           keyArgs: ["selectedTagIds"],
           merge(existing: PostRef[] = [], incoming: PostRef[]) {
-            const mergedPosts = [...existing];
-            
-            // Remove duplicates from incoming data before merging
-            incoming.forEach((newPost) => {
-              if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
-                mergedPosts.push(newPost);
+            let mergedPosts = [...existing];
+            incoming.forEach((newPost: PostRef) => {
+              if (isLikeToggledWithCacheExistVar()!=null && isLikeToggledWithCacheExistVar()?.isLiked==false) {
+                mergedPosts = mergedPosts.filter((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) !== isLikeToggledWithCacheExistVar()?.uuid_pid)
+                isLikeToggledWithCacheExistVar(null)
+              } else if (isLikeToggledWithCacheExistVar()!=null && isLikeToggledWithCacheExistVar()?.isLiked==true) {
+                mergedPosts.unshift(newPost)
+                isLikeToggledWithCacheExistVar(null)
+              } else {
+                if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
+                  mergedPosts.push(newPost);
+                }
               }
-            });
-            return mergedPosts;
+            })
+            return mergedPosts
           }
         },
         //updateQuery時 : 新しく編集された配列を返す
