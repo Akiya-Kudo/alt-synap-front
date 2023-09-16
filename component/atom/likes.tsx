@@ -1,11 +1,15 @@
-import { useMutation } from "@apollo/client"
+import { makeVar, useMutation } from "@apollo/client"
 import { Box, Center, Flex, Icon, IconButton, Image, keyframes } from "@chakra-ui/react"
 import { motion, useAnimation, useDragControls } from "framer-motion"
 import { useEffect, useState } from "react"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import { LikeButtonProps } from "../../type/atom"
-import { POSTS_LIKE_FRAG } from "../../util/graphql/fragment/fragment.scheme"
+import { Post } from "../../type/global"
+import { POSTS_LIKE_FRAG, POST_ALL_FIELD_FRAG } from "../../util/graphql/fragment/fragment.scheme"
 import { TOGGLE_LIKE } from "../../util/graphql/mutation/likes.mutation.scheme"
+import { GET_USER_LIKED_POSTS } from "../../util/graphql/queries/posts.query.scheme"
+
+export const isLikeToggledWithCacheExistVar = makeVar(null as { isLiked: boolean, uuid_pid: string } | null)
 
 export const LikeButton = ({ 
     likes_num, defaultIsLiked,
@@ -19,6 +23,7 @@ export const LikeButton = ({
     const [toggleLike, { error, data, loading }] = useMutation(TOGGLE_LIKE, {
         variables: { uuid_pid: uuid_pid },
         update( cache, { data: { like_toggle } } ) {
+            // update post's likes_num & likes relation implying that login user is likeing
             cache.updateFragment(
                 { 
                     id: `Post:{"uuid_pid":"${like_toggle.uuid_pid}"}`,
@@ -39,6 +44,36 @@ export const LikeButton = ({
                     }
                 }
             )
+            
+            //update get_posts_user_liked query's result, if it've already fetched, this fetch's merge function is different from usual, check _app.ts
+            cache.updateQuery({
+                    query: GET_USER_LIKED_POSTS,
+                    variables: { selectedTagIds: null, offset: 0 }
+                },
+                (data) => {
+                    if (data?.get_posts_user_liked) {
+                        const postIncluded = data?.get_posts_user_liked?.find((post: Post) => post.uuid_pid == like_toggle.uuid_pid )
+                        if (!!postIncluded) {
+                            isLikeToggledWithCacheExistVar({isLiked: false, uuid_pid: like_toggle.uuid_pid})
+                            return ({ 
+                                get_posts_user_liked: [ postIncluded ], 
+                                count_posts_user_liked: data?.count_posts_user_liked - 1 
+                            })
+                        } else {
+                            isLikeToggledWithCacheExistVar({isLiked: true, uuid_pid: like_toggle.uuid_pid})
+                            const likedPost = cache.readFragment({
+                                id: `Post:{"uuid_pid":"${like_toggle.uuid_pid}"}`,
+                                fragment: POST_ALL_FIELD_FRAG,
+                            })
+                            return ({ 
+                                get_posts_user_liked: [likedPost],
+                                count_posts_user_liked: data?.count_posts_user_liked + 1 
+                            })
+                        }
+                    }
+                }
+            )
+            
         }
     })
     

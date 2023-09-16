@@ -15,7 +15,6 @@ const TipsyPostsDisplay = ({
     handleFetchMore, error, loading,
 }: TipsyPostsDisplayProps) => {
     const login_user_uuid = client.readQuery({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})?.user.uuid_uid
-
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
     if (error) {
@@ -29,6 +28,9 @@ const TipsyPostsDisplay = ({
         </Center>
         )
     }
+    console.log(displayPosts);
+    console.log(allPostsCount);
+    
     return (
         <>
             <Center mb={5} w={"100%"} flexDir={"column"} >
@@ -45,7 +47,7 @@ const TipsyPostsDisplay = ({
                             { displayPosts.map((post: Post) => {
                                 const is_login_user_post: boolean = login_user_uuid && login_user_uuid == post.uuid_uid 
                                 ? true : false
-
+                                
                                 if (post.top_image) {
                                     return (
                                         <TipsyCard_image

@@ -28,7 +28,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
             searchString: query_text,
             selectedTagId: selectedTid,
             offset: 0,
-            sortType: 0
+            sortType: sortType=="人気順" ? 0 : 1
         },
         pollInterval: 600000, // 600秒間はキャッシュからフェッチされる
     })
@@ -69,8 +69,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
         }
     }
     
-    // reload時のlike state更新
-    // this is needed only when reloading search page, so reactive var will updated when this is called or the other page roaded in context. 
+    // reload時のlike state更新 : this is needed only when reloading search page, so reactive var will updated when this is called or the other page roaded in context. 
     useEffect(()=>{
         if (userState=="isUser" && !IsAlreadyFetchedAsIsUser) {
             console.log("refetching to refresh like state");
@@ -87,6 +86,8 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
     },[userState])
     // set display posts by fetch
     useEffect(() => {setDisplayPosts(data?.search_post)}, [data])
+    
+    
 
     const login_user_uuid = client.readQuery({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})?.user.uuid_uid
 

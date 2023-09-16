@@ -85,11 +85,13 @@ const UsersPage: NextPage = () => {
             IsAlreadyFirstFetchedAsIsUserVar(true)
         }
     },[userState])
+
     useEffect(()=>{
         //the case linked to logined-user-page from search page before userState is not fetched, redirect to my-page
         const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
-        if (user_data?.user?.uuid_uid == uuid_uid ) router?.push({ pathname: '/user/my_page' })
+        if (uuid_uid && user_data?.user?.uuid_uid == uuid_uid ) router?.push({ pathname: '/user/my_page' })
     },[])
+
     if (error) console.log(error);
     return (
         <>
@@ -101,14 +103,14 @@ const UsersPage: NextPage = () => {
                         <Heading size={"lg"} m={1}>{userInfo?.user_name}</Heading>
                         <Text size={"lg"} fontSize={".75rem"} m={1} as={Flex} flexDir={"row"} gap={2}>
                             {
-                                userInfo?.followee_num && 
+                                userInfo?.followee_num!=null && userInfo?.followee_num!=undefined && 
                                 <FollowListModal 
                                 follow_num={userInfo.followee_num} 
                                 uuid_uid={uuid_uid}
                                 />
                             }
                             {
-                                userInfo?.follower_num && 
+                                userInfo?.follower_num!=null && userInfo?.follower_num!=undefined && 
                                 <FollowListModal 
                                 is_follower_list 
                                 follow_num={userInfo.follower_num} 
