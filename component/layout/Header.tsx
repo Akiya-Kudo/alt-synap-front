@@ -113,7 +113,7 @@ export const BasicHeader = () => {
                                 <Avatar size='sm' m={0} name={ data_user?.user?.user_name } src={ data_user?.user?.user_image }/>
                             </Box>
                         </Link>
-                        <HeaderMenu user_name={data_user.user.user_name} children={undefined}/>
+                        <HeaderMenu user_name={data_user?.user?.user_name} children={undefined}/>
                     </>
                 }
                 { userState == 'guest' &&

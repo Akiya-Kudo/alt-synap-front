@@ -29,7 +29,7 @@ export const HeaderMenu = ({
             backdropFilter={"blur(17px)"}
             backgroundColor={"bg_popover_switch"}
             >
-                <MenuGroup title={"- " + user_name?.slice(0, 10) + "..." + " -"}>
+                <MenuGroup title={"- " + ( user_name && user_name?.length > 10 ?  user_name?.slice(0, 10) + "..." : user_name )+ " -"}>
                     <Link href="/user/edit/my_profile" passHref>
                         <MenuItem
                         backgroundColor={"transparent"}
