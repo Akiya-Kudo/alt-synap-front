@@ -30,7 +30,8 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
             offset: 0,
             sortType: sortType=="人気順" ? 0 : 1
         },
-        pollInterval: 600000, // 600秒間はキャッシュからフェッチされる
+        fetchPolicy: 'network-only'
+        // pollInterval: 600000, // 600秒間はキャッシュからフェッチされる
     })
 
     const handleFetchMore = async () => {
