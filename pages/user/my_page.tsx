@@ -57,6 +57,7 @@ const Mypage: NextPage  = () => {
             uuid_uid: userInfo?.uuid_uid,
             selectedTagIds: null,
             offset: 0,
+            no_pagenation: false
         },
     })
     const handleFetchUserMade = async () => {

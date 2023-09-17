@@ -21,6 +21,7 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
             uuid_uid: uuid_uid,
             selectedTagIds: null,
             offset: 0,
+            no_pagenation: false
         },
     })
     const handleFetchMore = async () => {

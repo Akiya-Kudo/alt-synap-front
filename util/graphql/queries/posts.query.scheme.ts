@@ -42,11 +42,12 @@ export const POSTS_SEARCH = gql`
 `
 
 export const GET_USER_PUBLISHED_POSTS = gql`
-    query get_posts_made_by_user_and_count($uuid_uid: String!, $selectedTagIds: [Int], $offset: Int! ) {
+    query get_posts_made_by_user_and_count($uuid_uid: String!, $selectedTagIds: [Int], $offset: Int!, $no_pagenation: Boolean! ) {
         get_posts_made_by_user (
             uuid_uid: $uuid_uid, 
             selectedTagIds: $selectedTagIds,
             offset: $offset,
+            no_pagenation: $no_pagenation
         ) {
             uuid_uid
             uuid_pid
