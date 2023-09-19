@@ -1,4 +1,4 @@
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from "@chakra-ui/react"
+import { AlertDialog, AlertDialogBody, AlertDialogCloseButton, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from "@chakra-ui/react"
 import React, { useRef } from "react"
 import { GlassAlertProps } from "../../type/atom";
 import { GlassButton } from "./buttons";
@@ -25,18 +25,12 @@ export const GlassAlert = (
                     <AlertDialogHeader fontWeight='bold' borderTopRadius={20} fontSize={"sm"} >
                         {alertTitle}
                     </AlertDialogHeader>
-
+                    <AlertDialogCloseButton />
                     <AlertDialogBody fontSize={"sm"}>
                         {alertMessage}
                     </AlertDialogBody>
 
                     <AlertDialogFooter>
-                        <Button
-                        onClick={onClose} 
-                        size={"sm"} fontSize={".8rem"} borderRadius={"full"}
-                        >
-                            { cancelMessage }
-                        </Button>
                         <GlassButton
                         onClick={handleExecute}
                         size={"sm"} ml={3} fontSize={".8rem"}

@@ -238,6 +238,12 @@ export interface TipsyCardWithImageProps extends TipsyCardProps {
     top_image: string
 }
 
+export interface FolderCardProps extends BoxProps {
+    fid: number,
+    title: string,
+    top_image?: string,
+}
+
 //アラートダイアログ
 export interface GlassAlertProps extends BoxProps {
     isOpen: boolean, 

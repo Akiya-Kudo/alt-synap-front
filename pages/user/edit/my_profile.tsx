@@ -89,7 +89,7 @@ const MyProfile: NextPage  = () => {
           w="600px"
           >
             <Flex align={"end"} justify={"center"} mt={5} position={"relative"}>
-              <ImageSetPopover 
+              <ImageSetPopover
               id="user_image_upload" title="画像を変更" register={register} 
               setImage={handlePrevewImage} setImageFile={handleImageFile} setNoImageFile={handleNoImageFile}
               setNewImagePath={handleNewImagepath}

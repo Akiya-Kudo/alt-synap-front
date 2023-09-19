@@ -28,8 +28,6 @@ const TipsyPostsDisplay = ({
         </Center>
         )
     }
-    console.log(displayPosts);
-    console.log(allPostsCount);
     
     return (
         <>

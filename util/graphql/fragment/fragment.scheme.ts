@@ -72,6 +72,16 @@ fragment UserCollection on User {
     }
 }
 `
+export const USER_FRAGMENT_FOLDER_ONLY = gql`
+fragment UserFolder on User {
+    folders {
+        fid
+        title
+        top_image
+        timestamp
+    }
+}
+`
 
 export const USER_FRAG = gql`
     fragment UserFragment on User {
@@ -128,6 +138,18 @@ export const USER_FOLLOWEE_FRAG = gql`
         follows_follows_followee_uuidTousers {
             followee_uuid
             follower_uuid
+        }
+    }
+`
+
+export const USER_FOLDER_FRAG = gql`
+    fragment UserFolderFragment on User {
+        folders {
+            fid
+            uuid_uid
+            title
+            top_image
+            timestamp
         }
     }
 `

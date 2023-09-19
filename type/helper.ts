@@ -85,6 +85,7 @@ export interface ImageSetPopoverProps extends PostPopoverProps {
     setNoImageFile: React.Dispatch<React.SetStateAction<undefined>>,
     setNewImagePath: React.Dispatch<React.SetStateAction<string | undefined>>,
     beforeImage?: string,
+    isBgMocked?: boolean
 }
 
 export interface GlassTagListProps extends FlexProps {
