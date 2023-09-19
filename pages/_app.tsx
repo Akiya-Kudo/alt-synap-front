@@ -49,6 +49,9 @@ const apollo_cache_option = {
     LinkCollection: {
       keyFields: ["lid", "cid"]
     },
+    Folder: {
+      keyFields: ["fid"]
+    },
     Query: {
       fields: {
         //handle fetchMore

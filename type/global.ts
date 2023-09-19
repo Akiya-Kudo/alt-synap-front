@@ -13,10 +13,13 @@ export interface User {
     followee_num?: number,
     user_name?: string,
     user_image?: string,
+    top_collection?: number,
     links?: Link[],
     collections?: Collection[],
     follows_follows_followee_uuidTousers?: Follow[],
     follows_follows_follower_uuidTousers?: Follow[],
+    folders?: Folder[],
+    user_tags?: UserTag[]
 }
 
 export interface EditingUser {
@@ -99,6 +102,7 @@ export interface Tag {
     display_name: string,
     tag_image?: string,
     post_tags?: PostTag[],
+    user_tags?: UserTag[]
 }
 
 export interface TagEditing {
@@ -115,6 +119,40 @@ export interface Like  {
     timestamp?: Date,
 }
 
+export interface Folder {
+    fid: number,
+    title: string,
+    top_image?: string,
+    timestamp?: Date,
+    uuid_uid?: string,
+    folder_posts?: FolderPost,
+    users?: User
+}
+
+export interface EditingFolder {
+    fid?: number,
+    title?: string,
+    top_image?: string,
+    image_file?: File ,
+    new_image_url?: string, 
+}
+
+export interface FolderPost {
+    fid: number,
+    uuid_pid?: string,
+    timestamp?: Date,
+    folders?: Folder,
+    posts?:Post,
+}
+
+export interface UserTag {
+    uuid_uid: string,
+    tid: number,
+    timestamp?: Date,
+    tags?: Tag,
+    users?: User
+}
+
 export interface Post {
     uuid_pid: string,
     uuid_uid: string,
@@ -129,6 +167,7 @@ export interface Post {
     users: User,
     post_tags: PostTag[],
     likes: Like[],
+    folder_posts?: FolderPost[]
 }
 export interface ArticlePost extends Post {
     article_contents: {

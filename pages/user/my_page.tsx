@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
-import { Avatar, Box, Divider, Flex, Heading, List, ListItem, Tab, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
+import { Avatar, Box, Divider, Flex, Heading, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
 import { SharpBoard } from '../../component/atom/bords';
 import { AuthContext } from '../../util/hook/authContext';
 import { useRouter } from 'next/router';
@@ -10,12 +10,12 @@ import { auth } from '../../util/firebase/init';
 import { Post, User } from '../../type/global';
 import { ClickButton } from '../../component/atom/buttons';
 import Head from 'next/head';
-import { useNeumorphismColorMode } from '../../util/hook/useColor';
 import { NeumTab } from '../../component/atom/indicators';
 import dynamic from 'next/dynamic';
 import { GET_USER_LIKED_POSTS, GET_USER_PUBLISHED_POSTS } from '../../util/graphql/queries/posts.query.scheme';
 import { useLazyQuery } from '@apollo/client';
 import { FollowListModal } from '../../component/standalone/FollowListModal';
+import TipsyFolderBoard from '../../component/standalone/TipsyFolderBoard';
 
 const TipsyPostsDisplay = dynamic(
     () => import('../../component/helper/TipsyPostsDisplay'),
@@ -178,21 +178,9 @@ const Mypage: NextPage  = () => {
                         />
                     </TabPanel>
                     <TabPanel>
-                        
-                        <Heading>ここではフォルダーを管理します。</Heading>
-                        <Divider m={3}></Divider>
-                        <Heading size={"lg"}>0.データベース設計・api設計を考える</Heading>
-                        <Divider m={3}></Divider>
-                        <Heading size={"md"}>1.データベース設計 folder tableを生成</Heading>
-                        <Divider m={3}></Divider>
-                        <Heading size={"md"}>2.api schemeを構成</Heading>
-                        <Divider m={3}></Divider>
-                        <Heading size={"md"}>3.query mutationを構成</Heading>
-                        <Divider m={3}></Divider>
-                        <Heading size={"md"}>4.frontでそれれらの呼び出しschemeを作成</Heading>
-                        <Divider m={3}></Divider>
-                        <Heading size={"md"}>5.コンポーネントに実装しuiを作る</Heading>
-
+                        <TipsyFolderBoard
+                        uuid_uid={userInfo?.uuid_uid}
+                        />
                     </TabPanel>
                 </TabPanels>
             </Tabs>

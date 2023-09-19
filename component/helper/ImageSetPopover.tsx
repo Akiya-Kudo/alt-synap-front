@@ -17,9 +17,10 @@ export const ImageSetPopover = ({
     setNoImageFile,
     setNewImagePath,
     beforeImage,
+    isBgMocked=false,
     ...props
 }: ImageSetPopoverProps) => {
-    const {glass_bg_switch} = useGlassColorMode()
+    const {glass_bg_switch, mock_bg_switch} = useGlassColorMode()
     return (
         <Popover
         {...props}
@@ -31,7 +32,7 @@ export const ImageSetPopover = ({
             </PopoverTrigger>
             <PopoverContent
             backdropFilter={"blur(7px)"}
-            backgroundColor={glass_bg_switch}
+            backgroundColor={isBgMocked ? mock_bg_switch : glass_bg_switch}
             borderRadius={"15px"}
             >
                 <PopoverArrow 

@@ -99,6 +99,12 @@ export const Validation_comment = {
     maxLength: { value: 250, message: '250文字以下で入力してください | Please make Name less than 250 words' },
 }
 
+export const Validation_folder_name = {
+    required: "タイトルは必須です | Title is required",
+    maxLength: { value: 100, message: '100文字以下で入力してください | Please make title less than 50 words' },
+    minLength: { value: 2, message: "2文字以上で入力してください | Please make title more than 2 words" },
+}
+
 // export const Validation_word = {
 //     pattern: {
 //         value: /^[a-zA-Z0-9\u3040-\u309F\u30A0-\u30FF\uAC00-\uD7A3\u4E00-\u9FFF.]+$/,

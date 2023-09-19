@@ -470,6 +470,9 @@ export const GlassFloatFormInput = ({
         if (onFocus) onFocus(e)
         setIsFloat(true)
     } 
+    useEffect(() => {
+        if (defaultValue) setIsFloat(true)
+    },[])
     return (
         <FormControl
         {...props}

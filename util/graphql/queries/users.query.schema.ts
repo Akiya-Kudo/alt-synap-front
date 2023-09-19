@@ -12,6 +12,15 @@ export const USER_QUERY = gql`
             followee_num
             follower_num
             lang_type
+            top_collection
+
+            folders {
+                fid
+                uuid_uid
+                title
+                top_image
+                timestamp
+            }
 
             collections {
                 cid
