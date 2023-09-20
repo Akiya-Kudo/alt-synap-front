@@ -20,7 +20,7 @@ export const FlatText = ({
 }
 
 
-export const TruncatedText = ({ children, maxLength, ...props }: TruncatedTextProps) => {
+export const TruncatedText = ({ children, maxLength=50, ...props }: TruncatedTextProps) => {
     if ( children && children.length > maxLength) {
         const text = children.substring(0, maxLength)
         return (
@@ -35,7 +35,7 @@ export const TruncatedText = ({ children, maxLength, ...props }: TruncatedTextPr
     return <Text {...props}>{children}</Text>
 }
 
-export const TruncatedHeading = ({ children, maxLength, ...props }: TruncatedHeadingProps) => {
+export const TruncatedHeading = ({ children, maxLength=50, ...props }: TruncatedHeadingProps) => {
     if (children && children.length > maxLength) {
         const text = children.substring(0, maxLength)
         return (

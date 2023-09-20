@@ -225,3 +225,6 @@ export interface EditingLinkType {
 export interface PostRef {
     __ref: string
 }
+export interface FolderPostRef {
+    __ref: string
+}

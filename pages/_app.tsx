@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { auth } from '../util/firebase/init';
 import { BasicHeader } from '../component/layout/Header';
 import { useRouter } from 'next/router';
-import { Follow, LinkCollection, Post, PostRef, User } from '../type/global';
+import { Folder, FolderPost, FolderPostRef, Follow, LinkCollection, Post, PostRef, User } from '../type/global';
 import { isLikeToggledWithCacheExistVar } from '../component/atom/likes';
 
 // import '../style/atom/my-simple-image.css'
@@ -51,6 +51,9 @@ const apollo_cache_option = {
     },
     Folder: {
       keyFields: ["fid"]
+    },
+    FolderPost: {
+      keyFields: ["fid", "uuid_pid"]
     },
     Query: {
       fields: {
@@ -105,6 +108,19 @@ const apollo_cache_option = {
             return mergedPosts
           }
         },
+        //handle fetchMore
+        get_folder_posts: {
+          keyArgs: ["fid"],
+          merge(existing: FolderPostRef[]=[], incoming: FolderPostRef[]) {
+            let mergedFolderPost = [...existing];
+            incoming.forEach((newFPRef: FolderPostRef) => {
+              if (!existing.some((existingFPRef) => (newFPRef.__ref === existingFPRef.__ref))) {
+                mergedFolderPost.push(newFPRef)
+              }
+            })
+            return mergedFolderPost
+          }
+        },
         //updateQuery時 : 新しく編集された配列を返す
         get_link_collections_used: {
           keyArgs: ["uuid_uid"], // maybe false is also ok in this situation
@@ -147,7 +163,11 @@ export const client = new ApolloClient({
 function MyApp({ Component, pageProps }: AppProps) {
   //headerの表示切り替え用
   const router = useRouter()
-  const withoutBasicHeader = router.pathname == '/user/post_create' || router.pathname == '/user/link_create' || router.pathname == '/user/edit/my_profile'
+  const withoutBasicHeader 
+    = router.pathname == '/user/post_create' 
+    || router.pathname == '/user/link_create' 
+    || router.pathname == '/user/edit/my_profile'
+    || router.pathname == '/user/folders/[fid]'
   
   return (
     <ChakraProvider

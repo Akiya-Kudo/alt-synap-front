@@ -132,4 +132,5 @@ export interface TipsyPostsDisplayProps {
     handleFetchMore: any,
     loading: boolean,
     error: Error | undefined,
+    not_found_message?: string,
 }
