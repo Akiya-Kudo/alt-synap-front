@@ -1,6 +1,6 @@
 import { makeVar, useMutation } from "@apollo/client"
 import { Box, Center, Flex, Icon, IconButton, Image, keyframes } from "@chakra-ui/react"
-import { motion, useAnimation, useDragControls } from "framer-motion"
+import { motion, useAnimation } from "framer-motion"
 import { useEffect, useState } from "react"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import { LikeButtonProps } from "../../type/atom"
