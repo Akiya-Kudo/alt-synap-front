@@ -2,7 +2,7 @@ import React, { useState } from "react"
 // import Image from 'next/image';
 import NextLink from 'next/link'
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
-import { Avatar, Center,  Heading, Icon, Flex, Image, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Menu, MenuButton, MenuList, MenuItem, Text } from "@chakra-ui/react"
+import { Avatar, Center,  Heading, Icon, Flex, Image, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Menu, MenuButton, MenuList, MenuItem, Text, useBreakpointValue } from "@chakra-ui/react"
 import { FolderCardProps } from "../../type/atom";
 import { AddIcon, CloseIcon, EditIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { GlassFloatFormInput } from "./inputs";
@@ -17,6 +17,7 @@ import { useCustomToast } from "../../util/hook/useCustomToast";
 import { GlassAlert } from "./alerts";
 import { DELETE_FOLDER } from "../../util/graphql/mutation/folders.mutation.scheme";
 import { useMutation } from "@apollo/client";
+import { TruncatedHeading } from "./texts";
 
 export const FolderCreateCard = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -53,7 +54,7 @@ export const FolderCard = ({
 }: FolderCardProps) => {
     const { isOpen: isOpen_delete, onOpen: onOpen_delete, onClose: onClose_delete } = useDisclosure()
     const { isOpen: isOpen_editModal, onOpen: onOpen_editModal, onClose: onClose_editModal } = useDisclosure()
-
+    
     const [deleteFolder] = useMutation(DELETE_FOLDER, { 
         variables: { fid: fid },
         update( cache, { data: { delete_folder } } ) {
@@ -61,16 +62,17 @@ export const FolderCard = ({
             //userのfolder一覧のキャッシュは削除されないが、表示と機能的に問題がないためクエリの変更は見送る
         }
     })
-
+    
     const handleDeleteFolder = async () => {
         await deleteFolder()
         onClose_delete()
     }
-
+    
+    const breakpointValue = useBreakpointValue([20, 40, 60, 70]);
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <Flex
-        width={"100%"} height={70}
+        width={"100%"}
         p={3} 
         align={"center"}
         borderRadius={20}
@@ -81,7 +83,7 @@ export const FolderCard = ({
         }}
         {...props}
         >
-            <NextLink href={"/user/folder/" + fid}>
+            <NextLink href={"/user/folders/" + fid}>
                 {
                     top_image 
                     ? <Image src={ top_image } width={50} height={50} borderRadius={10}/>
@@ -89,8 +91,13 @@ export const FolderCard = ({
                 }
             </NextLink>
 
-            <NextLink href={"/user/folder/" + fid}>
-                <Heading ms={5} flexGrow={1} size={"md"}>{ title }</Heading>
+            <NextLink href={"/user/folders/" + fid}>
+                <TruncatedHeading
+                maxLength={breakpointValue} w={"100%"} color={"text_important"} 
+                ms={5} flexGrow={1} size={["sm", "sm", "md"]}
+                >
+                    { title }
+                </TruncatedHeading>
             </NextLink>
 
             <Menu>

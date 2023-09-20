@@ -13,6 +13,7 @@ const TipsyPostsDisplay = ({
     allPostsCount,
     displayPosts, 
     handleFetchMore, error, loading,
+    not_found_message="検索条件の投稿は見つかりませんでした",
 }: TipsyPostsDisplayProps) => {
     const login_user_uuid = client.readQuery({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})?.user.uuid_uid
     if (loading) return <Center mt={20}><CircleLoader/></Center>
@@ -122,7 +123,7 @@ const TipsyPostsDisplay = ({
                 { 
                 displayPosts && displayPosts.length == 0 && (
                     <VStack m={5}>
-                        <Text m={5}>検索条件の投稿は見つかりませんでした</Text>
+                        <Text m={5}>{not_found_message}</Text>
                         <Center p={5}><NeumLoader/></Center>
                     </VStack>
                 )}

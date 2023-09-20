@@ -3,10 +3,7 @@ import { client } from "../../pages/_app"
 import { Folder } from "../../type/global"
 import { USER_FRAGMENT_FOLDER_ONLY } from "../../util/graphql/fragment/fragment.scheme"
 import { CircleLoader, NeumLoader } from "../atom/loaders"
-import { FolderCard, FolderCreateCard, FolderEditModal } from "../atom/folders"
-import NextLink from 'next/link'
-import { AddIcon } from "@chakra-ui/icons"
-import { useNeumorphismColorMode } from "../../util/hook/useColor"
+import { FolderCard, FolderCreateCard } from "../atom/folders"
 
 const TipsyFolderBoard = ({uuid_uid}: {uuid_uid?: string}) => {
     const user = client.readFragment({

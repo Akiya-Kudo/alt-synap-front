@@ -15,7 +15,7 @@ export interface TruncatedTextProps extends TextProps {
 }
 export interface TruncatedHeadingProps extends HeadingProps {
     children?: string,
-    maxLength: number,
+    maxLength?: number,
 }
 export interface StepGuideProps extends FlexProps {
     guide: string,
