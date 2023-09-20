@@ -82,9 +82,9 @@ export const LinkPostForm = ({onClose}: any) => {
 }
 
 export const LinkPostModal = ({
+    isOpen, onOpen, onClose,
     children
 }: any) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
     return (
         <>
             <Box onClick={onOpen}>

@@ -1,17 +1,30 @@
 import React from "react";
-import { Avatar, AvatarGroup, Menu, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react"
+import { Avatar, AvatarGroup, Menu, MenuGroup, MenuItem, MenuList, useDisclosure } from "@chakra-ui/react"
 import { AddPostSelectMenuProps, LinkSelectBoardProps } from "../../type/helper";
 import { Collection } from "../../type/global";
 import { EditIcon, ExternalLinkIcon, LinkIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { LinkPostModal } from "../standalone/LinkPostFormModal";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useRouter } from "next/router";
 
 export const AddPostSelectMenu = ({
     children,
     ...props
 }:AddPostSelectMenuProps) => {
-    const onClick = (cid: number) => {
-    }
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const router = useRouter()
+    useHotkeys('mod+j', (e) => {
+        e.preventDefault()
+        if (isOpen) onClose()
+        else onOpen()
+    })
+    useHotkeys('mod+m', (e) => {
+        e.preventDefault()
+        router.push("/user/post_create")
+    })
     return (
         <Menu 
         {...props}
@@ -24,7 +37,11 @@ export const AddPostSelectMenu = ({
             backdropFilter={"blur(17px)"}
             backgroundColor={"bg_popover_switch"}
             >
-                <LinkPostModal>
+                <LinkPostModal
+                isOpen={isOpen}
+                onOpen={onOpen}
+                onClose={onClose}
+                >
                     <MenuItem 
                     icon={<LinkIcon fontSize={"1.2rem"}/>} command='⌘J'
                     backgroundColor={"transparent"} px={2} py={3} borderTopRadius={10}
@@ -33,6 +50,7 @@ export const AddPostSelectMenu = ({
                         リンクを保存
                     </MenuItem>
                 </LinkPostModal>
+
                 <Link href="/user/post_create" passHref>
                     <MenuItem
                     icon={<EditIcon fontSize={"1.2rem"} />} command='⌘M'
