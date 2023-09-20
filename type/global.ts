@@ -139,7 +139,8 @@ export interface EditingFolder {
 
 export interface FolderPost {
     fid: number,
-    uuid_pid?: string,
+    uuid_pid: string,
+    uuid_uid: string,
     timestamp?: Date,
     folders?: Folder,
     posts?:Post,

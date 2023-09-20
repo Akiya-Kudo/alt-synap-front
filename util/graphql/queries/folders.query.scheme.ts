@@ -11,6 +11,7 @@ export const GET_FOLDER_POSTS = gql`
         ) {
             fid
             uuid_pid
+            uuid_uid
             timestamp
             posts {
                 uuid_uid

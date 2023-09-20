@@ -29,12 +29,13 @@ export const AuthProvider = (props: any) => {
         onAuthStateChanged(auth, async (user)=>{
             try {
                 if (user) {
+                    console.log("firebase user info");
                     console.log(user);
                     
                     const result = await getLoginUserInfo( {
                         variables: {"uid" : user.uid}
                     })
-                    if(!result.data.user){
+                    if(result.data==undefined){
                         const result_m = await userRegister({
                             variables: {
                                 "userData": {
@@ -47,7 +48,7 @@ export const AuthProvider = (props: any) => {
                         console.log(result_m);
                     }
                     setUserState("isUser")
-                    console.log("is user");
+                    console.log("is user apollo user info");
                     console.log(result);
                     // the case under path page is rendering, the reactive value will changed in the PostsBoard's useEffect
                     const isPostsFetchPage = router.pathname=='/search' || router.pathname=='/users/[uuid_uid]' || router.pathname=='/posts/[uuid_pid]' 

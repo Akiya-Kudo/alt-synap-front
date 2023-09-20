@@ -10,6 +10,7 @@ import { TruncatedHeading, TruncatedText } from "./texts";
 import { LikeButton } from "./likes";
 import { GlassIconButton } from "./buttons";
 import { TfiUnlink } from "react-icons/tfi";
+import { BookMarkButton } from "./bookmarks";
 
 export const TipsyCard = ({
     uuid_pid,
@@ -100,6 +101,10 @@ export const TipsyCard = ({
                         <LikeButton 
                         likes_num={likes_num} defaultIsLiked={isLiked} 
                         uuid_pid={uuid_pid}
+                        size={4} ms={3} mt={1.5}
+                        />
+                        <BookMarkButton 
+                        uuid_pid={uuid_pid} defaultIsMarked
                         size={4} ms={3} mt={1.5}
                         />
                     </Stack>
@@ -234,6 +239,10 @@ export const TipsyCard_image = ({
                             uuid_pid={uuid_pid}
                             size={4} ms={3} mt={1.5}
                             />
+                            <BookMarkButton 
+                            uuid_pid={uuid_pid} defaultIsMarked
+                            size={4} ms={3} mt={1.5}
+                            />
                         </Stack>
                     </Stack>
                 </Box>
@@ -309,6 +318,10 @@ export const TipsyCard_link = ({
                     <LikeButton 
                     likes_num={likes_num} defaultIsLiked={isLiked} 
                     uuid_pid={uuid_pid}
+                    size={4} ms={3} mt={1.5}
+                    />
+                    <BookMarkButton 
+                    uuid_pid={uuid_pid} defaultIsMarked
                     size={4} ms={3} mt={1.5}
                     />
                 </Stack>

@@ -276,3 +276,9 @@ export interface LikeButtonProps extends IconProps{
     size?: number,
     uuid_pid: string,
 }
+//ブックマークボタン
+export interface BookMarkButtonProps extends IconProps{
+    defaultIsMarked: boolean,
+    size?: number,
+    uuid_pid: string,
+}

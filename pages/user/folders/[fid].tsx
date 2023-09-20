@@ -55,7 +55,6 @@ const TopicPage: NextPage = () => {
         }
     },[userState])
     
-    // console.log(displayPosts);
     // console.log(allPostsCount);
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
