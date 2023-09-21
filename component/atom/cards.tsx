@@ -1,8 +1,8 @@
 import React from "react"
 import Image from 'next/image';
 import NextLink from 'next/link'
-import { Image as ChakraImage, Avatar, Box, Center,  Heading, HStack, Icon, Link, Stack, Tag, Text, LinkBox, VStack, Grid, Flex, GridItem } from "@chakra-ui/react"
-import { TipsyCardProps, TipsyCardWithImageProps } from "../../type/atom"
+import { Image as ChakraImage, Avatar, Box, Center, Link, Stack, Tag } from "@chakra-ui/react"
+import { TipsyCardProps } from "../../type/atom"
 import { AiOutlineHeart } from "react-icons/ai"
 import { useColorOrderPick, useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useColor"
 import { ExternalLinkIcon } from "@chakra-ui/icons";
@@ -13,17 +13,12 @@ import { TfiUnlink } from "react-icons/tfi";
 import { BookMarkButton } from "./bookmarks";
 
 export const TipsyCard = ({
-    uuid_pid,
-    title,
-    top_link,
-    likes_num, 
-    timestamp,
-    content_type,
-    user,
-    post_tags,
-    isLiked,
-    isPostOrner
+    isPostOrner,
+    folder_posts,
+    folders,
+    post,
 }: TipsyCardProps) => {
+    const { uuid_pid, title, top_link, timestamp, likes_num, users, post_tags } = post
     const { highlight, shadow } = useNeumorphismColorMode()
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
     return (
@@ -81,15 +76,15 @@ export const TipsyCard = ({
                 <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
                     { !isPostOrner &&
                         <Stack direction={"row"}>
-                            <NextLink href={"/users/" + user.uuid_uid}>
+                            <NextLink href={"/users/" + users.uuid_uid}>
                                 <Center>
-                                    <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
+                                    <Avatar h={5} w={5} size={'xs'} name={users.user_name} src={users.user_image} cursor={"pointer"}/>
                                 </Center>
                             </NextLink>
-                            <NextLink href={"/users/" + user.uuid_uid}>
+                            <NextLink href={"/users/" + users.uuid_uid}>
                                 <Center>
                                     <TruncatedText maxLength={16} fontSize={".8rem"} cursor={"pointer"}>
-                                        { user.user_name}
+                                        { users.user_name}
                                     </TruncatedText>
                                 </Center>
                             </NextLink>
@@ -99,12 +94,12 @@ export const TipsyCard = ({
                     <Stack direction={"row"}>
                         <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
                         <LikeButton 
-                        likes_num={likes_num} defaultIsLiked={isLiked} 
+                        likes_num={likes_num} defaultIsLiked={post.likes && post.likes?.length!=0 ? true : false} 
                         uuid_pid={uuid_pid}
                         size={4} ms={3} mt={1.5}
                         />
                         <BookMarkButton 
-                        uuid_pid={uuid_pid} defaultIsMarked
+                        uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
                         size={4} ms={3} mt={1.5}
                         />
                     </Stack>
@@ -114,18 +109,13 @@ export const TipsyCard = ({
 }
 
 export const TipsyCard_image = ({
-    uuid_pid,
-    title,
-    top_image,
-    top_link,
-    likes_num, 
-    timestamp,
-    content_type,
-    user,
-    post_tags,
-    isLiked,
     isPostOrner,
-}: TipsyCardWithImageProps) => {
+    folder_posts,
+    folders,
+    post,
+}: TipsyCardProps) => {
+    const { uuid_pid, title, top_link, top_image, timestamp, likes_num, users, post_tags } = post
+
     const { highlight, shadow } = useNeumorphismColorMode()
     const {glass_bg_switch_deep} = useGlassColorMode()
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
@@ -217,15 +207,15 @@ export const TipsyCard_image = ({
                     <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
                         { !isPostOrner &&
                             <Stack direction={"row"}>
-                                <NextLink href={"/users/" + user.uuid_uid}>
+                                <NextLink href={"/users/" + users.uuid_uid}>
                                     <Center>
-                                        <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
+                                        <Avatar h={5} w={5} size={'xs'} name={users.user_name} src={users.user_image} cursor={"pointer"}/>
                                     </Center>
                                 </NextLink>
-                                <NextLink href={"/users/" + user.uuid_uid}>
+                                <NextLink href={"/users/" + users.uuid_uid}>
                                     <Center>
                                         <TruncatedText maxLength={16} fontSize={".8rem"} cursor={"pointer"}>
-                                            { user.user_name}
+                                            { users.user_name}
                                         </TruncatedText>
                                     </Center>
                                 </NextLink>
@@ -235,12 +225,12 @@ export const TipsyCard_image = ({
                         <Stack direction={"row"}>
                             <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1)}</Center>
                             <LikeButton 
-                            likes_num={likes_num} defaultIsLiked={isLiked} 
+                            likes_num={likes_num} defaultIsLiked={post.likes && post.likes?.length!=0 ? true : false} 
                             uuid_pid={uuid_pid}
                             size={4} ms={3} mt={1.5}
                             />
-                            <BookMarkButton 
-                            uuid_pid={uuid_pid} defaultIsMarked
+                            <BookMarkButton
+                            uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
                             size={4} ms={3} mt={1.5}
                             />
                         </Stack>
@@ -251,16 +241,13 @@ export const TipsyCard_image = ({
 }
 
 export const TipsyCard_link = ({
-    uuid_pid,
-    title,
-    top_link,
-    likes_num, 
-    timestamp,
-    content_type,
-    user,
-    isLiked,
-    isPostOrner
+    isPostOrner,
+    folder_posts,
+    folders,
+    post,
 }: TipsyCardProps) => {
+    const { uuid_pid, title, top_link, timestamp, likes_num, users } = post
+
     const { highlight, shadow } = useNeumorphismColorMode()
     const handleLinkButtonClick = () => window.open(top_link, '_blank')
     return (
@@ -298,15 +285,15 @@ export const TipsyCard_link = ({
             <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
                 { !isPostOrner &&
                     <Stack direction={"row"}>
-                        <NextLink href={"/users/" + user.uuid_uid}>
+                        <NextLink href={"/users/" + users.uuid_uid}>
                             <Center>
-                                <Avatar h={5} w={5} size={'xs'} name={user.user_name} src={user.user_image} cursor={"pointer"}/>
+                                <Avatar h={5} w={5} size={'xs'} name={users.user_name} src={users.user_image} cursor={"pointer"}/>
                             </Center>
                         </NextLink>
-                        <NextLink href={"/users/" + user.uuid_uid}>
+                        <NextLink href={"/users/" + users.uuid_uid}>
                             <Center>
                                 <TruncatedText maxLength={16} fontSize={".8rem"} cursor={"pointer"}>
-                                    { user.user_name}
+                                    { users.user_name}
                                 </TruncatedText>
                             </Center>
                         </NextLink>
@@ -316,12 +303,12 @@ export const TipsyCard_link = ({
                 <Stack direction={"row"}>
                     <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
                     <LikeButton 
-                    likes_num={likes_num} defaultIsLiked={isLiked} 
+                    likes_num={likes_num} defaultIsLiked={post.likes && post.likes?.length!=0 ? true : false} 
                     uuid_pid={uuid_pid}
                     size={4} ms={3} mt={1.5}
                     />
                     <BookMarkButton 
-                    uuid_pid={uuid_pid} defaultIsMarked
+                    uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
                     size={4} ms={3} mt={1.5}
                     />
                 </Stack>

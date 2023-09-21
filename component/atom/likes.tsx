@@ -54,12 +54,14 @@ export const LikeButton = ({
                     if (data?.get_posts_user_liked) {
                         const postIncluded = data?.get_posts_user_liked?.find((post: Post) => post.uuid_pid == like_toggle.uuid_pid )
                         if (!!postIncluded) {
+                            // filteringはtypePolicyのmerge関数で行う
                             isLikeToggledWithCacheExistVar({isLiked: false, uuid_pid: like_toggle.uuid_pid})
                             return ({ 
                                 get_posts_user_liked: [ postIncluded ], 
                                 count_posts_user_liked: data?.count_posts_user_liked - 1 
                             })
                         } else {
+                            // unshiftをtypePolicyのmerge関数で行う
                             isLikeToggledWithCacheExistVar({isLiked: true, uuid_pid: like_toggle.uuid_pid})
                             const likedPost = cache.readFragment({
                                 id: `Post:{"uuid_pid":"${like_toggle.uuid_pid}"}`,

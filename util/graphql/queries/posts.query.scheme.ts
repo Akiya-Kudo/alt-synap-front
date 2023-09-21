@@ -36,6 +36,12 @@ export const POSTS_SEARCH = gql`
                 uuid_pid
                 uuid_uid
             }
+            folder_posts {
+                fid
+                uuid_pid
+                uuid_uid
+                timestamp
+            }
         }
         count_total_posts ( searchString: $searchString, selectedTagId: $selectedTagId )
     }
@@ -76,6 +82,12 @@ export const GET_USER_PUBLISHED_POSTS = gql`
                 uuid_pid
                 uuid_uid
             }
+            folder_posts {
+                fid
+                uuid_pid
+                uuid_uid
+                timestamp
+            }
         }
         count_posts_made_by_user ( uuid_uid: $uuid_uid, selectedTagIds: $selectedTagIds )
     }
@@ -113,6 +125,12 @@ export const GET_USER_LIKED_POSTS = gql`
             likes {
                 uuid_pid
                 uuid_uid
+            }
+            folder_posts {
+                fid
+                uuid_pid
+                uuid_uid
+                timestamp
             }
         }
         count_posts_user_liked (selectedTagIds: $selectedTagIds)
@@ -155,6 +173,12 @@ export const POST_CONTENT_QUERY = gql`
             likes {
                 uuid_pid
                 uuid_uid
+            }
+            folder_posts {
+                fid
+                uuid_pid
+                uuid_uid
+                timestamp
             }
         }
     }
