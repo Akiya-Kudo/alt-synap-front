@@ -9,6 +9,9 @@ import { ClickButton } from "../atom/buttons";
 import { useContext, useEffect, useState } from "react";
 import { GET_USER_PUBLISHED_POSTS } from "../../util/graphql/queries/posts.query.scheme";
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from "../../util/hook/authContext";
+import { client } from "../../pages/_app";
+import { READ_USER_UUID_AND_FOLDERS } from "../../util/graphql/queries/users.query.schema";
+import { auth } from "../../util/firebase/init";
 
 const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: String, isHidePostCounter?: boolean }) => {
     const { userState } = useContext(AuthContext);
@@ -41,6 +44,8 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
     },[userState])
     // set display posts by fetch
     useEffect(() => {setDisplayPosts(data?.get_posts_made_by_user)}, [data])
+    
+    const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS, variables: { uid: auth.currentUser?.uid }})?.user
     
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
@@ -89,59 +94,28 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                                 if (post.top_image) {
                                     return (
                                         <TipsyCard_image
-                                        uuid_pid={post.uuid_pid}
-                                        title={post.title}
-                                        top_link={post.top_link }
-                                        top_image={post.top_image}
-                                        likes_num={post.likes_num}
-                                        timestamp={post.timestamp}
-                                        content_type={0}
-                                        user={{
-                                            uuid_uid: post.users?.uuid_uid,
-                                            user_name: post.users?.user_name,
-                                            user_image: post.users?.user_image
-                                        }}
-                                        post_tags={post.post_tags}
-                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
                                         isPostOrner={true}
+                                        folder_posts={post.folder_posts}
+                                        folders={login_user?.folders}
+                                        post={post}
                                         />
                                     )
                                 } else if (post.content_type==2) {
                                     return (
                                         <TipsyCard_link
-                                        uuid_pid={post.uuid_pid}
-                                        title={post.title}
-                                        top_link={post.top_link}
-                                        likes_num={post.likes_num}
-                                        timestamp={post.timestamp}
-                                        content_type={post.content_type}
-                                        user={{
-                                            uuid_uid: post.users?.uuid_uid,
-                                            user_name: post.users?.user_name,
-                                            user_image: post.users?.user_image
-                                        }}
-                                        post_tags={post.post_tags}
-                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
                                         isPostOrner={true}
+                                        folder_posts={post.folder_posts}
+                                        folders={login_user?.folders}
+                                        post={post}
                                         />
                                     )
                                 } else {
                                     return (
                                         <TipsyCard
-                                        uuid_pid={post.uuid_pid}
-                                        title={post.title}
-                                        top_link={post.top_link}
-                                        likes_num={post.likes_num}
-                                        timestamp={post.timestamp}
-                                        content_type={0}
-                                        user={{
-                                            uuid_uid: post.users?.uuid_uid,
-                                            user_name: post.users?.user_name,
-                                            user_image: post.users?.user_image
-                                        }}
-                                        post_tags={post.post_tags}
-                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
                                         isPostOrner={true}
+                                        folder_posts={post.folder_posts}
+                                        folders={login_user?.folders}
+                                        post={post}
                                         />
                                     )
                                 }

@@ -164,6 +164,17 @@ export const POSTS_LIKE_FRAG = gql`
     }
 `
 
+export const POSTS_FOLDER_POSTS_FRAG = gql`
+    fragment PostLikeFragment on Post {
+        folder_posts {
+            fid
+            uuid_pid
+            uuid_uid
+            timestamp
+        }
+    }
+`
+
 export const POST_ALL_FIELD_FRAG = gql`
     fragment PostAllFieldFragment on Post {
         uuid_uid

@@ -35,6 +35,7 @@ export const color_switchs =  {
     bg_editorjs_menu_hover: {default:"rgba(255,255,255,0.49)", _dark: "rgba(132,132,135,0.49)"},
     bg_editorjs_button: {default:"tipsy_light.200", _dark: "tipsy_dark.600"},
     bg_popover_switch: {default:"rgba(230,230,230, 0.6)", _dark: "rgba(130,130,130, 0.6)"},
+    bg_menu_mock: {default: "rgba(220,220,220, 0.9)", _dark: "rgba(100,100,100, 0.9)"},
 
     text_normal: {default: "tipsy_light.400", _dark: "tipsy_dark.400"},
     text_reverse: {default: "tipsy_dark.400", _dark: "tipsy_light.400"},

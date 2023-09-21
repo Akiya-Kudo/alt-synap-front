@@ -32,7 +32,7 @@ const TopicPage: NextPage = () => {
         variables: {
             fid: fid,
             offset: 0
-        },
+        }
     })
 
     const handleFetchMoreFolderPosts = async () => {
@@ -54,8 +54,6 @@ const TopicPage: NextPage = () => {
             })
         }
     },[userState])
-    
-    // console.log(allPostsCount);
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <>

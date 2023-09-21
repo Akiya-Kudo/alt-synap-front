@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { TabSwitchGroup } from "../helper/TabRadioGroup";
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar,  } from "../../util/hook/authContext";
 import { client } from "../../pages/_app";
-import { READ_USER_UUID } from "../../util/graphql/queries/users.query.schema";
+import { READ_USER_UUID, READ_USER_UUID_AND_FOLDERS } from "../../util/graphql/queries/users.query.schema";
 import { auth } from "../../util/firebase/init";
 
 const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, handleTagDisplay }: {query_text: string | null, selectedTid: number | null, isTagBoardDisplay?: boolean, handleTagDisplay?: any}) => {
@@ -87,10 +87,8 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
     },[userState])
     // set display posts by fetch
     useEffect(() => {setDisplayPosts(data?.search_post)}, [data])
-    
-    
 
-    const login_user_uuid = client.readQuery({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})?.user.uuid_uid
+    const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS, variables: { uid: auth.currentUser?.uid }})?.user
 
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
@@ -153,66 +151,35 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                         responsive={true}
                         >
                             { displayPosts.map((post: Post) => {
-                                const is_login_user_post: boolean = login_user_uuid && login_user_uuid == post.uuid_uid 
+                            const is_login_user_post: boolean = !!(login_user?.uuid_uid && login_user.uuid_uid == post.uuid_uid )
                                     ? true : false
                                 
                                 if (post.top_image) {
                                     return (
                                         <TipsyCard_image
-                                        uuid_pid={post.uuid_pid}
-                                        title={post.title}
-                                        top_link={post.top_link }
-                                        top_image={post.top_image}
-                                        likes_num={post.likes_num}
-                                        timestamp={post.timestamp}
-                                        content_type={post.content_type}
-                                        user={{
-                                            uuid_uid: post.users?.uuid_uid,
-                                            user_name: post.users?.user_name,
-                                            user_image: post.users?.user_image
-                                        }}
-                                        post_tags={post.post_tags}
-                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
                                         isPostOrner={is_login_user_post}
+                                        folder_posts={post.folder_posts}
+                                        folders={login_user?.folders}
+                                        post={post}
                                         />
                                     )
                                 } else if (post.content_type==2) {
                                     return (
                                         <TipsyCard_link
-                                        uuid_pid={post.uuid_pid}
-                                        title={post.title}
-                                        top_link={post.top_link}
-                                        likes_num={post.likes_num}
-                                        timestamp={post.timestamp}
-                                        content_type={post.content_type}
-                                        user={{
-                                            uuid_uid: post.users?.uuid_uid,
-                                            user_name: post.users?.user_name,
-                                            user_image: post.users?.user_image
-                                        }}
-                                        post_tags={post.post_tags}
-                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
                                         isPostOrner={is_login_user_post}
+                                        folder_posts={post.folder_posts}
+                                        folders={login_user?.folders}
+                                        post={post}
                                         />
                                     )
                                 }
                                 else {
                                     return (
                                         <TipsyCard
-                                        uuid_pid={post.uuid_pid}
-                                        title={post.title}
-                                        top_link={post.top_link}
-                                        likes_num={post.likes_num}
-                                        timestamp={post.timestamp}
-                                        content_type={post.content_type}
-                                        user={{
-                                            uuid_uid: post.users?.uuid_uid,
-                                            user_name: post.users?.user_name,
-                                            user_image: post.users?.user_image
-                                        }}
-                                        post_tags={post.post_tags}
-                                        isLiked={ post.likes && post.likes?.length!=0 ? true : false}
                                         isPostOrner={is_login_user_post}
+                                        folder_posts={post.folder_posts}
+                                        folders={login_user?.folders}
+                                        post={post}
                                         />
                                     )
                                 }

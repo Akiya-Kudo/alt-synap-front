@@ -34,7 +34,7 @@ return (
             {
                 user?.folders.length == 0 && (
                     <VStack m={5}>
-                        <Text m={5}>検索条件の投稿は見つかりませんでした</Text>
+                        <Text m={5}>Folderは見つかりませんでした</Text>
                         <Center p={5}><NeumLoader/></Center>
                     </VStack>
                 )

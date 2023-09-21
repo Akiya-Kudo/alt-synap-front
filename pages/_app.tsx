@@ -14,6 +14,7 @@ import { BasicHeader } from '../component/layout/Header';
 import { useRouter } from 'next/router';
 import { Folder, FolderPost, FolderPostRef, Follow, LinkCollection, Post, PostRef, User } from '../type/global';
 import { isLikeToggledWithCacheExistVar } from '../component/atom/likes';
+import { isBoopkMarkToggledWithCacheExistVar } from '../component/atom/bookmarks';
 
 // import '../style/atom/my-simple-image.css'
 
@@ -112,13 +113,24 @@ const apollo_cache_option = {
         get_folder_posts: {
           keyArgs: ["fid"],
           merge(existing: FolderPostRef[]=[], incoming: FolderPostRef[]) {
-            let mergedFolderPost = [...existing];
+            let mergedFolderPost = [...existing]
             incoming.forEach((newFPRef: FolderPostRef) => {
-              if (!existing.some((existingFPRef) => (newFPRef.__ref === existingFPRef.__ref))) {
-                mergedFolderPost.push(newFPRef)
-              }
-            })
-            return mergedFolderPost
+              //複数のtoggleには非対応　＝＞　あとで
+              if (isBoopkMarkToggledWithCacheExistVar()!=null) {
+                if (isBoopkMarkToggledWithCacheExistVar()?.isMarked==true) {
+                  mergedFolderPost.unshift(newFPRef)
+                } else {
+                  mergedFolderPost = mergedFolderPost.filter((existingFolderPost) => {
+                    //refの比較が一致しないものを返却
+                    return existingFolderPost.__ref !== 'FolderPost:{"fid":' + isBoopkMarkToggledWithCacheExistVar()?.fid + ',"uuid_pid":"' + isBoopkMarkToggledWithCacheExistVar()?.uuid_pid + '"}' 
+                  })
+                }
+                isBoopkMarkToggledWithCacheExistVar(null)
+              } else if (!existing.some((existingFPRef) => (newFPRef.__ref === existingFPRef.__ref))) {
+                    mergedFolderPost.push(newFPRef)
+                  }
+            });
+            return mergedFolderPost;
           }
         },
         //updateQuery時 : 新しく編集された配列を返す

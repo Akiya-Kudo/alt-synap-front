@@ -3,7 +3,7 @@ import { Dispatch, FormEventHandler, MouseEventHandler, ReactComponentElement, S
 import { UseFormRegisterReturn } from "react-hook-form"
 
 import { API, OutputData } from "@editorjs/editorjs";
-import { PostTag, Tag, User } from "./global";
+import { Folder, FolderPost, Post, PostTag, Tag, User } from "./global";
 
 //テキスト
 export interface NeumTextProps extends BoxProps {
@@ -221,21 +221,10 @@ export interface ArticleEditorProps {
 };
 
 export interface TipsyCardProps {
-    uuid_pid: string,
-    title: string,
-    likes_num: number,
-    top_image?: string,
-    top_link?: string,
-    content_type: number
-    timestamp: Date,
-    post_tags?: PostTag[],
-    user: User,
-    isLiked: boolean,
     isPostOrner: boolean,
-}
-
-export interface TipsyCardWithImageProps extends TipsyCardProps {
-    top_image: string
+    folder_posts?: FolderPost[],
+    folders?: Folder[]
+    post: Post,
 }
 
 export interface FolderCardProps extends BoxProps {
@@ -278,7 +267,9 @@ export interface LikeButtonProps extends IconProps{
 }
 //ブックマークボタン
 export interface BookMarkButtonProps extends IconProps{
-    defaultIsMarked: boolean,
+    folder_posts?: FolderPost[],
+    folders?: Folder[],
+    post?: Post,
     size?: number,
     uuid_pid: string,
 }

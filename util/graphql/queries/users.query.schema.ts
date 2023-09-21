@@ -60,6 +60,21 @@ export const READ_USER_UUID = gql`
     }
 `
 
+export const READ_USER_UUID_AND_FOLDERS = gql`
+    query login_user_uuid_query($uid: String!) {
+        user(uid: $uid) {
+            uuid_uid
+            folders {
+                fid
+                uuid_uid
+                title
+                top_image
+                timestamp
+            }
+        }
+    }
+`
+
 export const READ_USER_FOLDERS = gql`
     query login_user_uuid_query($uid: String!) {
         user(uid: $uid) {

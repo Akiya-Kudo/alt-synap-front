@@ -41,6 +41,12 @@ export const GET_FOLDER_POSTS = gql`
                     uuid_pid
                     uuid_uid
                 }
+                folder_posts {
+                    fid
+                    uuid_pid
+                    uuid_uid
+                    timestamp
+                }
             }
         }
         count_folder_posts(fid: $fid)

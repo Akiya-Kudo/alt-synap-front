@@ -165,6 +165,7 @@ const Mypage: NextPage  = () => {
                             allPostsCount={allPostsCount}
                             handleFetchMore={handleFetchMoreUserMade}
                             error={error_userMade} loading={loading_userMade || userState!="isUser"}
+                            not_found_message={"作成した投稿は見つかりませんでした"}
                             />
                         </Box>
                     </TabPanel>
@@ -175,6 +176,7 @@ const Mypage: NextPage  = () => {
                         allPostsCount={allPostsCount}
                         handleFetchMore={handleFetchMoreUserLiked}
                         error={error_userLiked} loading={loading_userLiked}
+                        not_found_message={"Likeした投稿は見つかりませんでした"}
                         />
                     </TabPanel>
                     <TabPanel>
