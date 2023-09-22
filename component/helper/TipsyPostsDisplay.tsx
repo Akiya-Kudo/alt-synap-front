@@ -51,7 +51,8 @@ const TipsyPostsDisplay = ({
                                 if (post.top_image) {
                                     return (
                                         <TipsyCard_image
-                                        isPostOrner={is_login_user_post}
+                                        isUserHidden={is_login_user_post}
+                                        isEditable={is_login_user_post}
                                         folder_posts={post.folder_posts}
                                         folders={login_user?.folders}
                                         post={post}
@@ -60,7 +61,8 @@ const TipsyPostsDisplay = ({
                                 } else if (post.content_type==2) {
                                     return (
                                         <TipsyCard_link
-                                        isPostOrner={is_login_user_post}
+                                        isUserHidden={is_login_user_post}
+                                        isEditable={is_login_user_post}
                                         folder_posts={post.folder_posts}
                                         folders={login_user?.folders}
                                         post={post}
@@ -69,7 +71,8 @@ const TipsyPostsDisplay = ({
                                 } else {
                                     return (
                                         <TipsyCard
-                                        isPostOrner={is_login_user_post}
+                                        isUserHidden={is_login_user_post}
+                                        isEditable={is_login_user_post}
                                         folder_posts={post.folder_posts}
                                         folders={login_user?.folders}
                                         post={post}

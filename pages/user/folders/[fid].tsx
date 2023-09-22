@@ -46,14 +46,18 @@ const TopicPage: NextPage = () => {
         if (userState == "isUser") {
             const cache = client.readQuery({ query: USER_QUERY, variables: { uid:  auth.currentUser?.uid }})
             setFolderInfo(cache?.user.folders?.find((folder: Folder) => folder.fid == fid))
-
-            getPostsOfFolder().then(res => {
-                const posts = res.data.get_folder_posts.map((fol_pos: FolderPost) => fol_pos.posts)
-                setDisplayPosts(posts)
-                setAllPostsCount(res.data.count_folder_posts)
-            })
+            getPostsOfFolder()
         }
     },[userState])
+    // set display posts by fetch
+    useEffect(() => {
+        if (data) {
+            const posts = data.get_folder_posts.map((fol_pos: FolderPost) => fol_pos.posts)
+            setDisplayPosts(posts)
+            setAllPostsCount(data.count_folder_posts)
+        }
+    }, [data])
+    
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <>

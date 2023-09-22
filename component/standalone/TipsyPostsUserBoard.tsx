@@ -91,10 +91,12 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                         responsive={true}
                         >
                             { displayPosts.map((post: Post) => {
+                                const is_login_user_post: boolean = (login_user.uuid_uid && login_user.uuid_uid == post.uuid_uid )
                                 if (post.top_image) {
                                     return (
                                         <TipsyCard_image
-                                        isPostOrner={true}
+                                        isUserHidden={true}
+                                        isEditable={false}
                                         folder_posts={post.folder_posts}
                                         folders={login_user?.folders}
                                         post={post}
@@ -103,7 +105,8 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                                 } else if (post.content_type==2) {
                                     return (
                                         <TipsyCard_link
-                                        isPostOrner={true}
+                                        isUserHidden={true}
+                                        isEditable={false}
                                         folder_posts={post.folder_posts}
                                         folders={login_user?.folders}
                                         post={post}
@@ -112,7 +115,8 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                                 } else {
                                     return (
                                         <TipsyCard
-                                        isPostOrner={true}
+                                        isUserHidden={true}
+                                        isEditable={false}
                                         folder_posts={post.folder_posts}
                                         folders={login_user?.folders}
                                         post={post}

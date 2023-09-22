@@ -1,19 +1,22 @@
 import React from "react"
 import Image from 'next/image';
 import NextLink from 'next/link'
-import { Image as ChakraImage, Avatar, Box, Center, Link, Stack, Tag } from "@chakra-ui/react"
+import { Image as ChakraImage, Avatar, Box, Center, Link, Stack, Tag, Flex, Icon } from "@chakra-ui/react"
 import { TipsyCardProps } from "../../type/atom"
-import { AiOutlineHeart } from "react-icons/ai"
 import { useColorOrderPick, useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useColor"
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { TruncatedHeading, TruncatedText } from "./texts";
 import { LikeButton } from "./likes";
 import { GlassIconButton } from "./buttons";
-import { TfiUnlink } from "react-icons/tfi";
 import { BookMarkButton } from "./bookmarks";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { AiOutlineHeart } from "react-icons/ai"
+import { TfiUnlink } from "react-icons/tfi";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { EditPostMenu } from '../helper/Menus'
 
 export const TipsyCard = ({
-    isPostOrner,
+    isUserHidden,
+    isEditable,
     folder_posts,
     folders,
     post,
@@ -74,7 +77,7 @@ export const TipsyCard = ({
                 </Stack>
 
                 <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
-                    { !isPostOrner &&
+                    { !isUserHidden &&
                         <Stack direction={"row"}>
                             <NextLink href={"/users/" + users.uuid_uid}>
                                 <Center>
@@ -91,25 +94,32 @@ export const TipsyCard = ({
                         </Stack>
                     }
 
-                    <Stack direction={"row"}>
-                        <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
-                        <LikeButton 
-                        likes_num={likes_num} defaultIsLiked={post.likes && post.likes?.length!=0 ? true : false} 
-                        uuid_pid={uuid_pid}
-                        size={4} ms={3} mt={1.5}
-                        />
-                        <BookMarkButton 
-                        uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
-                        size={4} ms={3} mt={1.5}
-                        />
-                    </Stack>
+                    <Flex direction={"row"} justify={"space-between"} flexGrow={1}>
+                        <Stack direction={"row"}>
+                            <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
+                            <LikeButton 
+                            likes_num={likes_num} defaultIsLiked={post.likes && post.likes?.length!=0 ? true : false} 
+                            uuid_pid={uuid_pid}
+                            size={4} ms={3} mt={1.5}
+                            />
+                            <BookMarkButton 
+                            uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
+                            size={4} ms={3} mt={1.5}
+                            />
+                        </Stack>
+                        {
+                            isEditable && 
+                            <EditPostMenu uuid_pid={uuid_pid}/>
+                        }
+                    </Flex>
                 </Stack>
             </Box>
     )
 }
 
 export const TipsyCard_image = ({
-    isPostOrner,
+    isUserHidden,
+    isEditable,
     folder_posts,
     folders,
     post,
@@ -205,7 +215,7 @@ export const TipsyCard_image = ({
                     </Stack>
 
                     <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
-                        { !isPostOrner &&
+                        { !isUserHidden &&
                             <Stack direction={"row"}>
                                 <NextLink href={"/users/" + users.uuid_uid}>
                                     <Center>
@@ -222,18 +232,24 @@ export const TipsyCard_image = ({
                             </Stack>
                         }
 
-                        <Stack direction={"row"}>
-                            <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1)}</Center>
-                            <LikeButton 
-                            likes_num={likes_num} defaultIsLiked={post.likes && post.likes?.length!=0 ? true : false} 
-                            uuid_pid={uuid_pid}
-                            size={4} ms={3} mt={1.5}
-                            />
-                            <BookMarkButton
-                            uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
-                            size={4} ms={3} mt={1.5}
-                            />
-                        </Stack>
+                        <Flex direction={"row"} justify={"space-between"} flexGrow={1}>
+                            <Stack direction={"row"}>
+                                <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1)}</Center>
+                                <LikeButton 
+                                likes_num={likes_num} defaultIsLiked={post.likes && post.likes?.length!=0 ? true : false} 
+                                uuid_pid={uuid_pid}
+                                size={4} ms={3} mt={1.5}
+                                />
+                                <BookMarkButton
+                                uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
+                                size={4} ms={3} mt={1.5}
+                                />
+                            </Stack>
+                            {
+                                isEditable && 
+                                <EditPostMenu uuid_pid={uuid_pid}/>
+                            }
+                        </Flex>
                     </Stack>
                 </Box>
             </Box>
@@ -241,7 +257,8 @@ export const TipsyCard_image = ({
 }
 
 export const TipsyCard_link = ({
-    isPostOrner,
+    isUserHidden,
+    isEditable,
     folder_posts,
     folders,
     post,
@@ -283,7 +300,7 @@ export const TipsyCard_link = ({
             </Stack>
 
             <Stack direction={"row"} w={"100%"} m={1} wrap={"wrap"}>
-                { !isPostOrner &&
+                { !isUserHidden &&
                     <Stack direction={"row"}>
                         <NextLink href={"/users/" + users.uuid_uid}>
                             <Center>
@@ -300,18 +317,24 @@ export const TipsyCard_link = ({
                     </Stack>
                 }
 
-                <Stack direction={"row"}>
-                    <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
-                    <LikeButton 
-                    likes_num={likes_num} defaultIsLiked={post.likes && post.likes?.length!=0 ? true : false} 
-                    uuid_pid={uuid_pid}
-                    size={4} ms={3} mt={1.5}
-                    />
-                    <BookMarkButton 
-                    uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
-                    size={4} ms={3} mt={1.5}
-                    />
-                </Stack>
+                <Flex direction={"row"} justify={"space-between"} flexGrow={1}>
+                    <Stack direction={"row"}>
+                        <Center fontSize={".8rem"}>{ timestamp?.toString().split("-", 3).join("/").split("T", 1) }</Center>
+                        <LikeButton 
+                        likes_num={likes_num} defaultIsLiked={post.likes && post.likes?.length!=0 ? true : false} 
+                        uuid_pid={uuid_pid}
+                        size={4} ms={3} mt={1.5}
+                        />
+                        <BookMarkButton 
+                        uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
+                        size={4} ms={3} mt={1.5}
+                        />
+                    </Stack>
+                    {
+                        isEditable && 
+                        <EditPostMenu uuid_pid={uuid_pid}/>
+                    }
+                </Flex>
             </Stack>
         </Box>
     )

@@ -61,7 +61,7 @@ export const color_switchs =  {
     tipsy_color_active_1: {default: "yellow.500", _dark: "blue.200"},
     tipsy_color_active_2: {default: "green.500", _dark: "purple.200"},
     tipsy_color_active_3: {default: "teal.500", _dark: "pink.200"},
-
+    
     tipsy_tag_1: {default: "rgba(154, 230, 180, 0.6)", _dark: "rgba(214, 188, 250, 0.7)"},
     tipsy_tag_2: {default: "rgba(144, 230, 205, 0.6)", _dark: "rgba(234, 188, 230, 0.7)"},
     tipsy_tag_3: {default: "rgba(129, 230, 217, 0.6)", _dark: "rgba(251, 182, 206, 0.7)"},

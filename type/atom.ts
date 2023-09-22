@@ -221,7 +221,8 @@ export interface ArticleEditorProps {
 };
 
 export interface TipsyCardProps {
-    isPostOrner: boolean,
+    isUserHidden: boolean,
+    isEditable: boolean,
     folder_posts?: FolderPost[],
     folders?: Folder[]
     post: Post,

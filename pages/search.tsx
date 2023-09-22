@@ -15,8 +15,7 @@ const TipsyPostsSearchBoard = dynamic(
 );
 const Search: NextPage  = () => {
     const router = useRouter()
-    const { query } = router
-    const query_text = query.words as string
+    const query_text = router.query.words as string
 
     const isTagBoardDisplay = useReactiveVar(isTagBoardDisplayVar)
     const handleTagDisplay = () => isTagBoardDisplayVar(!isTagBoardDisplay)

@@ -105,7 +105,7 @@ export const BookMarkButton = ({
                     uuid_pids: [uuid_pid]
                 }
             }).then(res => toastSuccess("削除が完了しました"))
-            .catch(error => toastError("に失敗しました。", error.message))
+            .catch(error => toastError("削除に失敗しました。", error.message))
         } else {
             await addBookmark({variables: {
                 fid,
@@ -137,9 +137,9 @@ export const BookMarkButton = ({
                     >
                         <Icon
                         as={ isMarked ? MdBookmark : MdBookmarkBorder }
-                        color={ isMarked ? "tipsy_color_active_2" : "text_light"}
+                        color={ isMarked ? "tipsy_color_3" : "text_light"}
                         borderRadius={borderRadius}
-                        h={size} w={size} 
+                        h={size} w={size}
                         mt={mt}
                         {...props}
                         />
