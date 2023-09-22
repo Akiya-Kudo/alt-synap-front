@@ -13,7 +13,6 @@ import { auth } from '../../util/firebase/init'
 import { client } from '../_app'
 import { READ_USER_UUID } from '../../util/graphql/queries/users.query.schema'
 import { useCustomToast } from '../../util/hook/useCustomToast'
-import { onAuthStateChanged } from 'firebase/auth'
 import Head from 'next/head'
 
 

@@ -41,3 +41,15 @@ export const LINK_POST_UPSERT_MUTATION = gql`
         }
     }
 `
+
+export const DELETE_POST = gql`
+    mutation ($uuid_pid: String!) {
+        delete_post(uuid_pid: $uuid_pid) {
+            uuid_pid
+            uuid_uid
+            content_type
+            publish
+            deleted
+        }
+    }
+`
