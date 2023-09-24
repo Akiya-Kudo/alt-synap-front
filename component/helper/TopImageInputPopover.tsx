@@ -32,6 +32,9 @@ export const TopImageInputPopover = ({
         setImageFile("DELETE")
         setPreViewImage(null)
     }
+    useEffect(() => {
+        setPreViewImage(image)
+    },[image])
     return (
         <Popover
         {...props}
