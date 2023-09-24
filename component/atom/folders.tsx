@@ -168,7 +168,7 @@ export const FolderEditModal = ({isOpen, onOpen, onClose, folder}: {isOpen: bool
                 p={1}
                 >
                     <ModalHeader borderTopRadius={20} fontSize="1rem">
-                        Folderを作成
+                        Folderを編集
                     </ModalHeader>
 
                     <ModalCloseButton />

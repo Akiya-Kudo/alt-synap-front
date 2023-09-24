@@ -1,3 +1,4 @@
+import { OutputData } from "@editorjs/editorjs";
 import { ArticlePostData } from "./global";
 
 export interface ArticlePostFormProps {
@@ -7,6 +8,7 @@ export interface ArticlePostFormProps {
     formState?: any,
     stateValue: ArticlePostData,
     setStateValue: React.Dispatch<React.SetStateAction<ArticlePostData>>, 
+    contentDefaultValue: OutputData | null,
 }
 
 export enum LinkGenre {

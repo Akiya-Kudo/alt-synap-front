@@ -109,7 +109,7 @@ export const TipsyCard = ({
                         </Stack>
                         {
                             isEditable && 
-                            <EditPostMenu uuid_pid={uuid_pid}/>
+                            <EditPostMenu uuid_pid={uuid_pid} content_type={post.content_type}/>
                         }
                     </Flex>
                 </Stack>
@@ -247,7 +247,9 @@ export const TipsyCard_image = ({
                             </Stack>
                             {
                                 isEditable && 
-                                <EditPostMenu uuid_pid={uuid_pid}/>
+                                <EditPostMenu 
+                                uuid_pid={uuid_pid} content_type={post.content_type} post={post}
+                                />
                             }
                         </Flex>
                     </Stack>
@@ -332,7 +334,7 @@ export const TipsyCard_link = ({
                     </Stack>
                     {
                         isEditable && 
-                        <EditPostMenu uuid_pid={uuid_pid}/>
+                        <EditPostMenu uuid_pid={uuid_pid} content_type={post.content_type} post={post}/>
                     }
                 </Flex>
             </Stack>

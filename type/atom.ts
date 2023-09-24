@@ -211,10 +211,10 @@ export interface NeumTagProps extends TagProps {
 
 //エディター
 export interface ArticleEditorProps {
-    defaultValue: OutputData,
+    // defaultValue: OutputData,
+    defaultValue: OutputData | null,
     setValue?: (e:any) => void,
     placeholder?: string,
-    readOnly?: boolean,
     maxWidth?: string | number,
     w?:  string | number,
     minHeight?: string | number,

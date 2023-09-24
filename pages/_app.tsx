@@ -177,7 +177,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const withoutBasicHeader 
     = router.pathname == '/user/post_create' 
-    || router.pathname == '_user_post_edit'
+    || router.pathname == '/user/post_edit'
     || router.pathname == '/user/link_create' 
     || router.pathname == '/user/edit/my_profile'
     || router.pathname == '/user/folders/[fid]'

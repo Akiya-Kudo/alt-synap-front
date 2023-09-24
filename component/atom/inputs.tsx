@@ -225,6 +225,10 @@ export const NeumFloatFormInput = ({
         if (onFocus) onFocus(e)
         setIsFloat(true)
     } 
+
+    useEffect(() => {
+        if (defaultValue) setIsFloat(true)
+    },[defaultValue])
     return (
         <FormControl
         {...props}
