@@ -61,6 +61,7 @@ const PostEdit: NextPage = () => {
         tags: [],
     })
     
+    
     // reload時のuserData取得 + isSaveButtonLoading　解除
     useEffect(()=>{
         if (userState=="isUser") {
@@ -80,7 +81,7 @@ const PostEdit: NextPage = () => {
                     articleContent: {
                         content: article_contents?.content 
                     },
-                    tags: post_tags.map((p_t: PostTag) => p_t.tags)
+                    tags: post_tags.map((p_t: PostTag) => ({ tag_name: p_t.tags?.tag_name, tid: undefined}))
                 })
             }).catch((error) => {
                 console.log(error);
