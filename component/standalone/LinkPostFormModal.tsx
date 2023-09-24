@@ -11,13 +11,15 @@ import { LinkPostData, Post } from "../../type/global"
 import { useCustomToast } from "../../util/hook/useCustomToast"
 
 // ログインフォームコンポーネント定義
-export const LinkPostForm = ({onClose}: any) => {
+export const LinkPostForm = ({onClose, onExecute, defaultPostValue = DefauldPostCreateData}: {
+    onClose: () => void, 
+    onExecute: (linkPostEditData: LinkPostData) => any,
+    defaultPostValue?: LinkPostData, 
+}) => {
     const { register, formState: { errors }, formState } = useForm({mode: "all"});
     const {toastSuccess, toastError} = useCustomToast()
 
-    const { upsertLinkPost } = usePost();
-    const [currentPost, setCurrentPost] = useState<LinkPostData>(DefauldPostCreateData)
-
+    const [currentPost, setCurrentPost] = useState<LinkPostData>(defaultPostValue)
     const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(false) 
 
     const handlePublish = (e: boolean) => setCurrentPost({...currentPost, publish: e})
@@ -27,12 +29,13 @@ export const LinkPostForm = ({onClose}: any) => {
         e.preventDefault()
 
         setIsSaveButtonLoading(true)
-        await upsertLinkPost(currentPost).then(res => {
+        await onExecute(currentPost).then((res: any) => {
             toastSuccess("保存が完了しました")
             onClose()
-        }).catch(error => toastError("保存に失敗しました。", error.message))
+        }).catch((error: Error) => toastError("保存に失敗しました。", error.message))
         .finally(() =>setIsSaveButtonLoading(false))
     }
+    
     return (
         <Flex
             as="form" 
@@ -47,6 +50,7 @@ export const LinkPostForm = ({onClose}: any) => {
                 isRequired borderRadius={15}
                 my={3}
                 onInput={handleTitle}
+                defaultValue={currentPost.title}
                 />
                 <GlassFormInput
                 id="top_link" errors={errors} register={register} validation={Validation_url_required}
@@ -54,6 +58,7 @@ export const LinkPostForm = ({onClose}: any) => {
                 isRequired
                 borderRadius={15} 
                 onInput={handleTopLink}
+                defaultValue={currentPost.top_link}
                 />
                 <Flex direction='row'  mb={5} mt={10} gap={5} align='center' justify='center'>
                     <GlassSwitchButton
@@ -66,7 +71,7 @@ export const LinkPostForm = ({onClose}: any) => {
                     公開する
                     </GlassSwitchButton>
                     <GlassButton
-                    isDisabled={ !formState.isDirty || !(!errors.title) || !(!errors.top_link)}
+                    isDisabled={ currentPost.title=="" || currentPost.top_link=="" || !(!errors.title) || !(!errors.top_link)}
                     isLoading={isSaveButtonLoading}
                     bg={"text_light"} type="submit"
                     px={10} fontSize={"0.8rem"} w={150}
@@ -83,8 +88,14 @@ export const LinkPostForm = ({onClose}: any) => {
 
 export const LinkPostModal = ({
     isOpen, onOpen, onClose,
-    children
-}: any) => {
+    children, 
+    onExecute, defaultPostValue,
+}: {
+    isOpen: boolean, onOpen: ()=>void, onClose: () => void, 
+    children?: any, 
+    onExecute: (linkPostEditData: LinkPostData)=>any,
+    defaultPostValue?: LinkPostData,
+}) => {
     return (
         <>
             <Box onClick={onOpen}>
@@ -114,7 +125,7 @@ export const LinkPostModal = ({
                         <ModalCloseButton color={"text_light"}/>
                     </ModalHeader>
 
-                    <LinkPostForm onClose={onClose}/>
+                    <LinkPostForm onClose={onClose} onExecute={onExecute} defaultPostValue={defaultPostValue}/>
 
                 </ModalContent>
             </Modal>

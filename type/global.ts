@@ -195,16 +195,21 @@ export interface EditingPostType {
 }
 export interface ArticlePostData extends EditingPostType {
     articleContent: {
-        content: OutputData,
+        content: OutputData | null,
     },
 }
-export interface LinkPostData extends EditingPostType {
-    top_image: never, 
+export interface LinkPostData {
+    uuid_pid?: string,
+    title: string,
+    // top_image: never, 
     top_link: string,
+    content_type: number,
+    likes_num?: number,
+    update_time?: Date,
     publish: boolean,
     deleted?: boolean,
-    tags: never, 
-    top_image_file: never,
+    // tags: never, 
+    // top_image_file: never,
 }
 
 export type SortType = "人気順" | "新着順"

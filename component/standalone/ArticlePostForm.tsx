@@ -22,6 +22,7 @@ const ArticleEditor = dynamic(
 export const ArticlePostForm = ({
     register, errors, formState, 
     stateValue, setStateValue, 
+    contentDefaultValue,
 }:ArticlePostFormProps) => {
     const handleContent = (e: any) => setStateValue((prev) => ({
         ...prev, articleContent: {
@@ -47,6 +48,7 @@ export const ArticlePostForm = ({
         newArray.splice(id,1)
         setStateValue((preV)=>({...preV, tags: newArray}))
     }
+    
     return (
         <>
         <Grid
@@ -65,6 +67,7 @@ export const ArticlePostForm = ({
                 borderRadius="15px"
                 fontWeight={"bold"}
                 onChange={handleTitle}
+                defaultValue={stateValue.title}
                 />
             </GridItem>
             <GridItem colSpan={1}/>
@@ -75,7 +78,8 @@ export const ArticlePostForm = ({
                 maxWidth={"1100px"} //editorの基準の幅( 調整する場合は他のスタイルも同様に変更する必要あり )
                 >
                     <ArticleEditor
-                    setValue={handleContent} defaultValue={stateValue.articleContent.content}
+                    setValue={handleContent} 
+                    defaultValue={ contentDefaultValue }
                     />
                 </FlatBord>
             </GridItem>

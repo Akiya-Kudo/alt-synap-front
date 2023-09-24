@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { PostHeader } from '../../component/layout/Header'
 import { GlassButton, GlassSwitchButton } from '../../component/atom/buttons'
 import { ArticlePostForm } from '../../component/standalone/ArticlePostForm'
-import { ArticlePostData } from '../../type/global'
+import { ArticlePostData, PostTag } from '../../type/global'
 import { useForm } from 'react-hook-form'
 import { AuthContext } from '../../util/hook/authContext'
 import { usePost } from '../../util/hook/usePost'
@@ -16,16 +16,17 @@ import { useCustomToast } from '../../util/hook/useCustomToast'
 import Head from 'next/head'
 import { POST_CONTENT_QUERY } from '../../util/graphql/queries/posts.query.scheme'
 import { useLazyQuery } from '@apollo/client'
+import { OutputData } from '@editorjs/editorjs'
 
 
 const PostEdit: NextPage = () => {
     // ログアウト時のリダイレクト処理
     const { userState } = useContext(AuthContext);
     const router = useRouter()
-    const query_text = router.query.words as string
+    const query_text = router.query.pid as string
     useEffect(() => { if (userState == 'guest')  router.replace('/') }, [userState])
     
-    const { upsertArticlePost } = usePost();
+    const { updateArticlePost } = usePost();
     const {toastSuccess, toastError} = useCustomToast()
     const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
 
@@ -36,8 +37,10 @@ const PostEdit: NextPage = () => {
     })
 
     //save button loading処理 (userStateChanging中 + save処理中)
-    const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(true) 
+    const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(true)
     
+    // article content default value
+    const [contentDefaultValue, setContentDefaultValue] = useState<OutputData | null>(null)
     //article post 投稿初期値設定 
     const [currentPost, setCurrentPost] = useState<ArticlePostData>({
         uuid_pid: undefined,
@@ -51,7 +54,7 @@ const PostEdit: NextPage = () => {
         articleContent: {
         content: {
             blocks:[],
-            time: undefined,
+            time: 1695525214999,
             version: "2.26.5",
         }
         },
@@ -67,6 +70,21 @@ const PostEdit: NextPage = () => {
         });
         if (data) {
             setIsSaveButtonLoading(false)
+            // for setting default value of editing page, when true default value is fetched
+            getPost().then((res) => {
+                const {uuid_pid, title, top_image, top_link, publish, deleted, article_contents, post_tags} = res.data.post
+                setContentDefaultValue(article_contents?.content)
+                setCurrentPost({
+                    ...currentPost,
+                    uuid_pid, title, top_image, top_link, publish, deleted,
+                    articleContent: {
+                        content: article_contents?.content 
+                    },
+                    tags: post_tags.map((p_t: PostTag) => p_t.tags)
+                })
+            }).catch((error) => {
+                console.log(error);
+            })
         }
         }
     },[userState])
@@ -76,7 +94,7 @@ const PostEdit: NextPage = () => {
         setIsSaveButtonLoading(true)
         //currentPostをサーバに保存
         try {
-        const res = await upsertArticlePost(currentPost);
+        const res = await updateArticlePost(currentPost);
         setCurrentPost((prev)=>({...prev, uuid_pid: res.data.upsert_article_post.post.uuid_pid}))
         toastSuccess("投稿を正常に保存しました");
 
@@ -134,6 +152,7 @@ const PostEdit: NextPage = () => {
             formState={formState}
             stateValue={currentPost}
             setStateValue={setCurrentPost}
+            contentDefaultValue={contentDefaultValue}
             />
         </Flex>
         </>

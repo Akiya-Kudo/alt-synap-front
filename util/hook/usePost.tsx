@@ -10,7 +10,7 @@ export const usePost = () => {
     const [upsertArticlePost_exe] = useMutation(ARTICLE_POST_UPSERT_MUTATION);
     const [upsertLinkPost_exe] = useMutation(LINK_POST_UPSERT_MUTATION);
 
-    const upsertArticlePost = async (articlePost: ArticlePostData) => {
+    const createArticlePost = async (articlePost: ArticlePostData) => {
         let storage_path = articlePost.top_image ? articlePost.top_image : null;
         try {
             //画像strage保存
@@ -44,7 +44,41 @@ export const usePost = () => {
         }
     }
 
-    const upsertLinkPost = async (linkPost: LinkPostData) => {
+    const updateArticlePost = async (articlePost: ArticlePostData) => {
+        let storage_path = articlePost.top_image ? articlePost.top_image : null;
+        try {
+            //画像strage保存
+            // the case new image is setted ( at the first save request, storage_path is "null", from second time it's before storage path )
+            if (articlePost.top_image_file && articlePost.top_image_file!=="DELETE") {
+                storage_path = articlePost.top_image ? articlePost.top_image : "posts/" + uuid_v4() + "/thumbnail/"
+                const storageRef = ref(storage, storage_path);
+                await uploadBytes(storageRef, articlePost.top_image_file)
+                storage_path = await getDownloadURL(storageRef)
+                console.log('strage Uploaded a blob or file! :', storage_path);
+            
+            // the case image deleted  (at the first save time if user don't set image, this will be gone through)
+            } else if (articlePost.top_image_file && articlePost.top_image_file==="DELETE" && storage_path) {
+                const storageRef = ref(storage, storage_path)
+                await deleteObject(storageRef)
+                storage_path = null
+            }
+
+            //graphql schemeに調整する(top_image_fileをtop_imageとしundefined)
+            articlePost.top_link = articlePost.top_link==""  ? null : articlePost.top_link
+            articlePost.top_image_file=null
+            articlePost.top_image = storage_path
+
+            const reqPost = articlePost as Post_with_imageFile
+            delete reqPost.top_image_file
+            //保存mutation
+            const result = await upsertArticlePost_exe({ variables: { postData: {...reqPost} }} )
+            return result
+        } catch (error) {
+            throw error
+        }
+    }
+
+    const createLinkPost = async (linkPost: LinkPostData) => {
         try {
             console.log(linkPost);
             const result = await upsertLinkPost_exe({ variables: { postData: {...linkPost} }} )
@@ -53,5 +87,14 @@ export const usePost = () => {
         } catch (error) { throw error }
     }
 
-    return { upsertArticlePost, upsertLinkPost }
+    const updateLinkPost = async (linkPost: LinkPostData) => {
+        try {
+            console.log(linkPost);
+            const result = await upsertLinkPost_exe({ variables: { postData: {...linkPost} }} )
+            console.log(result);
+            // return result
+        } catch (error) { throw error }
+    }
+
+    return { createArticlePost, updateArticlePost, createLinkPost, updateLinkPost }
 }

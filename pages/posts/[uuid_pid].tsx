@@ -21,8 +21,8 @@ import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
 import { LikeButton } from '../../component/atom/likes'
 
-const ArticleEditor = dynamic(
-    () => import("../../component/atom/ArticleEditor"),
+const ArticleEditorReadOnly = dynamic(
+    () => import("../../component/atom/ArticleEditorReadOnly"),
     { ssr: false }
 );
 
@@ -187,10 +187,9 @@ const PostPage: NextPage = () => {
                         }
                         {
                             post?.article_contents?.content ? (
-                                <ArticleEditor
+                                <ArticleEditorReadOnly
                                 defaultValue={post?.article_contents?.content} 
                                 maxWidth={"1100px"}
-                                readOnly 
                                 placeholder='本文はありません'
                                 />
                             )

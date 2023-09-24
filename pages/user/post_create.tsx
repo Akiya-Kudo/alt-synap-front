@@ -14,6 +14,7 @@ import { client } from '../_app'
 import { READ_USER_UUID } from '../../util/graphql/queries/users.query.schema'
 import { useCustomToast } from '../../util/hook/useCustomToast'
 import Head from 'next/head'
+import { OutputData } from '@editorjs/editorjs'
 
 
 const PostCreate: NextPage = () => {
@@ -22,13 +23,14 @@ const PostCreate: NextPage = () => {
   const router = useRouter()
   useEffect(() => { if (userState == 'guest')  router.replace('/') }, [userState])
 
-  const { upsertArticlePost } = usePost();
+  const { createArticlePost } = usePost();
   const {toastSuccess, toastError} = useCustomToast()
   const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
 
   //save button loading処理 (userStateChanging中 + save処理中)
   const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(true) 
-  
+  // article content default value
+  const [contentDefaultValue, setContentDefaultValue] = useState<OutputData | null>(null)
   //article post 投稿初期値設定 
   const [currentPost, setCurrentPost] = useState<ArticlePostData>({
     uuid_pid: undefined,
@@ -67,7 +69,7 @@ const PostCreate: NextPage = () => {
     setIsSaveButtonLoading(true)
     //currentPostをサーバに保存
     try {
-      const res = await upsertArticlePost(currentPost);
+      const res = await createArticlePost(currentPost);
       setCurrentPost((prev)=>({...prev, uuid_pid: res.data.upsert_article_post.post.uuid_pid}))
       toastSuccess("投稿を正常に保存しました");
 
@@ -125,6 +127,7 @@ const PostCreate: NextPage = () => {
         formState={formState}
         stateValue={currentPost}
         setStateValue={setCurrentPost}
+        contentDefaultValue={contentDefaultValue}
         />
       </Flex>
     </>
