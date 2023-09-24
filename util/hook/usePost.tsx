@@ -1,10 +1,14 @@
-import { useMutation } from "@apollo/client";
+import { makeVar, useMutation } from "@apollo/client";
 import { rejects } from "assert";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { ArticlePostData, LinkPostData, Post, Post_with_imageFile } from "../../type/global"
-import { storage } from "../../util/firebase/init";
+import { ArticlePostData, LinkPostData, Post, Post_with_imageFile, Tag, User } from "../../type/global"
+import { auth, storage } from "../../util/firebase/init";
 import { ARTICLE_POST_UPSERT_MUTATION, LINK_POST_UPSERT_MUTATION } from "../graphql/mutation/posts.mutation.scheme";
 import {v4 as uuid_v4} from 'uuid'
+import { GET_USER_PUBLISHED_POSTS } from "../graphql/queries/posts.query.scheme";
+import { READ_USER_UUID } from "../graphql/queries/users.query.schema";
+
+export const isPostCreateWithCacheExistVar = makeVar(false)
 
 export const usePost = () => {
     const [upsertArticlePost_exe] = useMutation(ARTICLE_POST_UPSERT_MUTATION);
@@ -37,7 +41,44 @@ export const usePost = () => {
             const reqPost = articlePost as Post_with_imageFile
             delete reqPost.top_image_file
             //保存mutation
-            const result = await upsertArticlePost_exe({ variables: { postData: {...reqPost} }} )
+            const result = await upsertArticlePost_exe({ 
+                variables: { postData: {...reqPost}},
+                update( cache, { data: { upsert_article_post } } ) {
+                    const data_user = cache.readQuery<{ user: User }>({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})
+                    //the duplicate post will removed in typePolicy, so only push new post in this func (if the selectedTag args are used, this have to be changed to handle all case)
+                    cache.updateQuery(
+                        {
+                            query: GET_USER_PUBLISHED_POSTS,
+                            variables: {
+                                uuid_uid: data_user?.user.uuid_uid,
+                                selectedTagIds: null,
+                                offset: 0,
+                                no_pagenation: false
+                            }
+                        },
+                        (data) => {
+                            //非解明校のdsave時にdataがnullになっているため、cache updateされていない => 結果オーライ
+                            // console.log(data);
+                            if (data!=null && data!=undefined) {
+                                const {post, tags} = upsert_article_post
+                                const isExist = data.get_posts_made_by_user.some((post_inArray: Post)=>post_inArray.uuid_pid===post.uuid_pid)
+                                isPostCreateWithCacheExistVar(true)
+                                return ({
+                                    get_posts_made_by_user: [{
+                                        ...post,
+                                        likes_num: 0,
+                                        post_tags: tags.map((tag: Tag) => ({
+                                            __typename: "PostTag",
+                                            tags: tag,
+                                        }))
+                                    }],
+                                    count_posts_made_by_user: isExist ? data.count_posts_made_by_user : data.count_posts_made_by_user + 1
+                                })
+                            }
+                        }
+                    )
+                }
+            })
             return result
         } catch (error) {
             throw error
@@ -80,18 +121,50 @@ export const usePost = () => {
 
     const createLinkPost = async (linkPost: LinkPostData) => {
         try {
-            console.log(linkPost);
-            const result = await upsertLinkPost_exe({ variables: { postData: {...linkPost} }} )
-            console.log(result);
+            const result = await upsertLinkPost_exe({ 
+                variables: { postData: {...linkPost}},
+                update( cache, { data: { upsert_link_post } } ) {
+                    const data_user = cache.readQuery<{ user: User }>({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})
+                    //the duplicate post will removed in typePolicy, so only push new post in this func (if the selectedTag args are used, this have to be changed to handle all case)
+                    cache.updateQuery(
+                        {
+                            query: GET_USER_PUBLISHED_POSTS,
+                            variables: {
+                                uuid_uid: data_user?.user.uuid_uid,
+                                selectedTagIds: null,
+                                offset: 0,
+                                no_pagenation: false
+                            }
+                        },
+                        (data) => {
+                            //非解明校のdsave時にdataがnullになっているため、cache updateされていない => 結果オーライ
+                            // console.log(data);
+                            if (data!=null && data!=undefined) {
+                                const {post} = upsert_link_post
+                                const isExist = data.get_posts_made_by_user.some((post_inArray: Post)=>post_inArray.uuid_pid===post.uuid_pid)
+                                isPostCreateWithCacheExistVar(true)
+                                return ({
+                                    get_posts_made_by_user: [{
+                                        ...post,
+                                        likes_num: 0,
+                                        top_image: null,
+                                        post_tags: []
+                                    }],
+                                    count_posts_made_by_user: isExist ? data.count_posts_made_by_user : data.count_posts_made_by_user + 1
+                                })
+                            }
+                        }
+                    )
+                }
+            } )
+
             // return result
         } catch (error) { throw error }
     }
 
     const updateLinkPost = async (linkPost: LinkPostData) => {
         try {
-            console.log(linkPost);
             const result = await upsertLinkPost_exe({ variables: { postData: {...linkPost} }} )
-            console.log(result);
             // return result
         } catch (error) { throw error }
     }

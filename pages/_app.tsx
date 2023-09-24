@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import { Folder, FolderPost, FolderPostRef, Follow, LinkCollection, Post, PostRef, User } from '../type/global';
 import { isLikeToggledWithCacheExistVar } from '../component/atom/likes';
 import { isBoopkMarkToggledWithCacheExistVar } from '../component/atom/bookmarks';
+import { isPostCreateWithCacheExistVar } from '../util/hook/usePost';
 
 // import '../style/atom/my-simple-image.css'
 
@@ -77,12 +78,16 @@ const apollo_cache_option = {
         get_posts_made_by_user: {
           keyArgs: ["uuid_uid", "selectedTagIds"],
           merge(existing: PostRef[] = [], incoming: PostRef[]) {
-            const mergedPosts = [...existing];
+            let mergedPosts = [...existing];
             
             // Remove duplicates from incoming data before merging
             incoming.forEach((newPost) => {
               if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
-                mergedPosts.push(newPost);
+                if (isPostCreateWithCacheExistVar()) {
+                  mergedPosts.unshift(newPost)
+                  isPostCreateWithCacheExistVar(false)
+                }
+                else mergedPosts.push(newPost)
               }
             });
             return mergedPosts;
