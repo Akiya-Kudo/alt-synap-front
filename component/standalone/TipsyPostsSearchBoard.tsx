@@ -152,40 +152,40 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                         >
                             { displayPosts.map((post: Post) => {
                             const is_login_user_post: boolean = !!(login_user?.uuid_uid && login_user.uuid_uid == post.uuid_uid )
-                                    ? true : false
-                                
-                                if (post.top_image) {
-                                    return (
-                                        <TipsyCard_image
-                                        isUserHidden={is_login_user_post}
-                                        isEditable={is_login_user_post}
-                                        folder_posts={post.folder_posts}
-                                        folders={login_user?.folders}
-                                        post={post}
-                                        />
-                                    )
-                                } else if (post.content_type==2) {
-                                    return (
-                                        <TipsyCard_link
-                                        isUserHidden={is_login_user_post}
-                                        isEditable={is_login_user_post}
-                                        folder_posts={post.folder_posts}
-                                        folders={login_user?.folders}
-                                        post={post}
-                                        />
-                                    )
-                                }
-                                else {
-                                    return (
-                                        <TipsyCard
-                                        isUserHidden={is_login_user_post}
-                                        isEditable={is_login_user_post}
-                                        folder_posts={post.folder_posts}
-                                        folders={login_user?.folders}
-                                        post={post}
-                                        />
-                                    )
-                                }
+                                ? true : false
+                            if (post.content_type==2) {
+                                return (
+                                    <TipsyCard_link
+                                    isUserHidden={is_login_user_post}
+                                    isEditable={is_login_user_post}
+                                    folder_posts={post.folder_posts}
+                                    folders={login_user?.folders}
+                                    post={post}
+                                    />
+                                )
+                            }
+                            else if (post.top_image) {
+                                return (
+                                    <TipsyCard_image
+                                    isUserHidden={is_login_user_post}
+                                    isEditable={is_login_user_post}
+                                    folder_posts={post.folder_posts}
+                                    folders={login_user?.folders}
+                                    post={post}
+                                    />
+                                )
+                            }
+                            else {
+                                return (
+                                    <TipsyCard
+                                    isUserHidden={is_login_user_post}
+                                    isEditable={is_login_user_post}
+                                    folder_posts={post.folder_posts}
+                                    folders={login_user?.folders}
+                                    post={post}
+                                    />
+                                )
+                            }
                             })}
                         </PinterestGrid>
                         {

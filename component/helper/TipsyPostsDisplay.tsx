@@ -48,9 +48,9 @@ const TipsyPostsDisplay = ({
                                 const is_login_user_post: boolean = (login_user.uuid_uid && login_user.uuid_uid == post.uuid_uid )
                                 ? true : false
                                 
-                                if (post.top_image) {
+                                if (post.content_type==2) {
                                     return (
-                                        <TipsyCard_image
+                                        <TipsyCard_link
                                         isUserHidden={is_login_user_post}
                                         isEditable={is_login_user_post}
                                         folder_posts={post.folder_posts}
@@ -58,9 +58,9 @@ const TipsyPostsDisplay = ({
                                         post={post}
                                         />
                                     )
-                                } else if (post.content_type==2) {
+                                } else if (post.top_image) {
                                     return (
-                                        <TipsyCard_link
+                                        <TipsyCard_image
                                         isUserHidden={is_login_user_post}
                                         isEditable={is_login_user_post}
                                         folder_posts={post.folder_posts}

@@ -92,9 +92,9 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                         >
                             { displayPosts.map((post: Post) => {
                                 const is_login_user_post: boolean = (login_user.uuid_uid && login_user.uuid_uid == post.uuid_uid )
-                                if (post.top_image) {
+                                if (post.content_type==2) {
                                     return (
-                                        <TipsyCard_image
+                                        <TipsyCard_link
                                         isUserHidden={true}
                                         isEditable={false}
                                         folder_posts={post.folder_posts}
@@ -102,9 +102,10 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                                         post={post}
                                         />
                                     )
-                                } else if (post.content_type==2) {
+                                }
+                                else if (post.top_image) {
                                     return (
-                                        <TipsyCard_link
+                                        <TipsyCard_image
                                         isUserHidden={true}
                                         isEditable={false}
                                         folder_posts={post.folder_posts}
