@@ -129,7 +129,7 @@ export interface TipsyPostsDisplayProps {
     displayPosts: Post[],
     // setDisplayPosts: Dispatch<SetStateAction<Post[]>>,
     allPostsCount: number,
-    handleFetchMore: any,
+    handleFetchMore?: any,
     loading: boolean,
     error: Error | undefined,
     not_found_message?: string,

@@ -6,34 +6,77 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { client } from './_app';
 import { POSTS_SEARCH } from '../util/graphql/queries/posts.query.scheme';
+import { Post } from '../type/global';
+import { useState } from 'react';
+import { useQuery } from '@apollo/client';
 
-const GsEngine = dynamic(
-  () => import("../component/layout/GsEngine"),
+// const GsEngine = dynamic(
+//   () => import("../component/layout/GsEngine"),
+//   { ssr: false }
+// );
+
+const TipsyPostsDisplay = dynamic(
+  () => import('../component/helper/TipsyPostsDisplay'),
   { ssr: false }
 );
 
-const Index: NextPage  = () => {
-  const handleTabGroup = (e:any) => {
-    console.log(e, "が選択されましした")
-  }
+const Index: NextPage<{}>  = () => {
+  const [displayContent, setDisplayContent] = useState<"NewArrived" | "Follow" | "FavoriteTopics">("NewArrived")
+  const handleTabGroup = (e:any) => setDisplayContent(e)
+
+  const { data, error, loading, fetchMore } = useQuery(POSTS_SEARCH, {
+    variables: {
+      searchString: null,
+      selectedTagId: null,
+      offset: 0,
+      sortType: 1
+    }
+  })
   return (
     <>
       <Head><title>Tipsy | Home</title></Head>
       <Box className="page">
         <TabButtonSelectGroup 
         onChange={ handleTabGroup} 
-        options={["TIpsyの投稿", "人気順", "新着順"]}  
-        defaultValue='人気順' 
+        options={["NewArrived", "Follow", "FavoriteTopics", ]}  
+        defaultValue={displayContent} 
+        Hcolor={"tipsy_color_2"} Acolor={"tipsy_color_active_2"}
         m={"20px"}
         />
-        <TabBord m={5} bg='bg_switch' neumH={"tall"} h={500}>
-          <h1>hello </h1>
-          <GsEngine></GsEngine>
-          <div className="gcse-searchbox-only">aaa</div>
-        </TabBord>
+
+        {/* { 
+          displayContent=="NewArrived" &&
+          <TipsyPostsDisplay
+          displayPosts={daily_posts}
+          allPostsCount={daily_posts.length}
+          error={undefined} loading={false}
+          />
+        } */}
       </Box>
     </>
   )
 }
 
 export default Index
+// export async function getStaticProps() {
+//   const {data, error, loading} = await client.query({
+//     query: POSTS_SEARCH,
+//     variables: {
+//       searchString: null,
+//       selectedTagId: null,
+//       offset: 0,
+//       sortType: 1
+//     }
+//   })
+
+//   if (error) {
+//     throw new Error(`Failed to fetch posts, received status ${error.message}`)
+//   }
+//   return {
+//     props: {
+//       daily_posts: data.search_post,
+//       daily_posts_count: data.count_total_posts
+//     },
+//     revalidate: 43200,
+//   }
+// }

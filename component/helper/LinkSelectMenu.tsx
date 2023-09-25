@@ -1,4 +1,6 @@
-import { Avatar, AvatarGroup, Menu, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react"
+import { AddIcon } from "@chakra-ui/icons";
+import { Avatar, AvatarGroup, Box, Menu, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react"
+import Link from "next/link";
 import { LinkSelectBoardProps } from "../../type/helper";
 
 export const LinkSelectMenu = ({
@@ -40,6 +42,18 @@ export const LinkSelectMenu = ({
                                 </MenuItem>
                             )
                         })
+                    }
+                    {
+                        collections?.length==0 && 
+                        <Link href="/user/edit/link_setting">
+                            <MenuItem 
+                            p={2} fontSize={".8rem"} color={"tipsy_color_2"} bg={"transparent"}
+                            _hover={{ backgroundColor: "rgba(130,130,130, 0.25)", color: "white" }}
+                            >
+                                <AddIcon mr='12px' fontSize={".6rem"}/>
+                                <span>新しいCollectionを作成する</span>
+                            </MenuItem>
+                        </Link>
                     }
                 </MenuGroup>
             </MenuList>
