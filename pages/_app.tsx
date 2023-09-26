@@ -57,6 +57,9 @@ const apollo_cache_option = {
     FolderPost: {
       keyFields: ["fid", "uuid_pid"]
     },
+    UserTag: {
+      keyFields: ["tid", "uuid_uid"]
+    },
     Query: {
       fields: {
         //handle fetchMore
