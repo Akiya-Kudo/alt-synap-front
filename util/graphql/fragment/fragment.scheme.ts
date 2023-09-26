@@ -154,6 +154,16 @@ export const USER_FOLDER_FRAG = gql`
     }
 `
 
+export const USER_TAG_FRAG = gql`
+    fragment UserTagFragment on User {
+        user_tags {
+            uuid_uid
+            tid
+            timestamp
+        }
+    }
+`
+
 export const POSTS_LIKE_FRAG = gql`
     fragment PostLikeFragment on Post {
         likes_num

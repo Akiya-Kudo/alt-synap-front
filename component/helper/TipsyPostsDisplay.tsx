@@ -14,8 +14,9 @@ const TipsyPostsDisplay = ({
     displayPosts, 
     handleFetchMore, error, loading,
     not_found_message="検索条件の投稿は見つかりませんでした",
+    mb=5, w="100%", flexDir="column",
+    ...props
 }: TipsyPostsDisplayProps) => {
-    const login_user_uuid = client.readQuery({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})?.user.uuid_uid
     const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS, variables: { uid: auth.currentUser?.uid }})?.user
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
@@ -33,7 +34,7 @@ const TipsyPostsDisplay = ({
     
     return (
         <>
-            <Center mb={5} w={"100%"} flexDir={"column"} >
+            <Center mb={mb} w={w} flexDir={flexDir} {...props}>
                 {
                 displayPosts && displayPosts?.length > 0 && (
                     <>
@@ -45,7 +46,7 @@ const TipsyPostsDisplay = ({
                         responsive={true}
                         >
                             { displayPosts.map((post: Post) => {
-                                const is_login_user_post: boolean = (login_user.uuid_uid && login_user.uuid_uid == post.uuid_uid )
+                                const is_login_user_post: boolean = (login_user?.uuid_uid && login_user.uuid_uid == post.uuid_uid )
                                 ? true : false
                                 
                                 if (post.content_type==2) {

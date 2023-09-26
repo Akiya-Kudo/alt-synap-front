@@ -36,6 +36,7 @@ const UsersPage: NextPage = () => {
         variables: { followee_uuid: uuid_uid },
         update( cache, { data: { follow_toggle } } ) {
             //correct cache's displaying user7s followee num
+            // update followee user's follow relation & num
             cache.updateFragment(
                 { 
                     id: `User:{"uuid_uid":"${follow_toggle.followee_uuid}"}`,
@@ -56,6 +57,7 @@ const UsersPage: NextPage = () => {
                     }
                 }
             )
+            //update login user's num
             cache.updateQuery({
                 query: USER_QUERY,
                 variables: {uid: auth.currentUser?.uid},
@@ -97,8 +99,12 @@ const UsersPage: NextPage = () => {
         <>
         <Head><title>{ userInfo?.user_name ? userInfo?.user_name : "Guest"}</title></Head>
             <Flex flexDir={"column"} align={"center"} mt={5} className="page">
-                <DentBord maxW={"1100px"} w={"90%"} justifyContent={"start"} p={5} borderRadius={"30px"} flexDir={["column", "column", "row"]}>
+                <DentBord 
+                maxW={"1100px"} w={"90%"} justifyContent={"start"} p={5} borderRadius={"30px"} 
+                flexDir={["column", "column", "row"]}
+                >
                     <Avatar src={userInfo?.user_image} name={userInfo?.user_name} size={"lg"} m={1}/>
+
                     <Box ms={5} flexGrow={1}>
                         <Heading size={"lg"} m={1}>{userInfo?.user_name}</Heading>
                         <Text size={"lg"} fontSize={".75rem"} m={1} as={Flex} flexDir={"row"} gap={2}>
@@ -120,6 +126,7 @@ const UsersPage: NextPage = () => {
                         </Text>
                         <Text size={"lg"} fontSize={".75rem"} m={1}>{userInfo?.comment}</Text>
                     </Box>
+
                     <Box>
                         {
                             userInfo?.follows_follows_followee_uuidTousers && 

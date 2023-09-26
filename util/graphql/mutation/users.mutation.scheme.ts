@@ -23,3 +23,13 @@ export const USER_INFO_MUTATION = gql`
     }
 }
 `
+
+export const TOGGLE_USER_TAG = gql`
+  mutation ($tid: Int!) {
+    favorite_tag_toggle(tid: $tid) {
+      uuid_uid
+      tid
+      timestamp
+    }
+  }
+`

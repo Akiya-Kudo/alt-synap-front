@@ -159,7 +159,7 @@ const Mypage: NextPage  = () => {
                 />
                 <TabPanels>
                     <TabPanel>
-                        <Box flexGrow={1}>
+                        {/* <Box flexGrow={1}> */}
                             <TipsyPostsDisplay
                             displayPosts={displayPosts}
                             allPostsCount={allPostsCount}
@@ -167,7 +167,7 @@ const Mypage: NextPage  = () => {
                             error={error_userMade} loading={loading_userMade || userState!="isUser"}
                             not_found_message={"作成した投稿は見つかりませんでした"}
                             />
-                        </Box>
+                        {/* </Box> */}
                     </TabPanel>
 
                     <TabPanel>

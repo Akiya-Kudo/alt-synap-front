@@ -1,5 +1,5 @@
 import { ApolloQueryResult, QueryResult } from "@apollo/client";
-import { BoxProps, FlexProps, MenuProps, ModalProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
+import { BoxProps, CenterProps, FlexProps, MenuProps, ModalProps, PopoverProps, RadioGroupProps, ResponsiveValue } from "@chakra-ui/react";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { NeumBordProps } from "./atom";
 import { Collection, Post, Tag, TagEditing } from "./global";
@@ -125,7 +125,7 @@ export interface AddPostSelectMenuProps extends MenuProps {
 
 }
 
-export interface TipsyPostsDisplayProps {
+export interface TipsyPostsDisplayProps extends CenterProps {
     displayPosts: Post[],
     // setDisplayPosts: Dispatch<SetStateAction<Post[]>>,
     allPostsCount: number,

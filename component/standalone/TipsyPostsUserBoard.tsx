@@ -91,7 +91,7 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                         responsive={true}
                         >
                             { displayPosts.map((post: Post) => {
-                                const is_login_user_post: boolean = (login_user.uuid_uid && login_user.uuid_uid == post.uuid_uid )
+                                const is_login_user_post: boolean = (login_user?.uuid_uid && login_user.uuid_uid == post.uuid_uid )
                                 if (post.content_type==2) {
                                     return (
                                         <TipsyCard_link

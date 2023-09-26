@@ -22,6 +22,19 @@ export const USER_QUERY = gql`
                 timestamp
             }
 
+            user_tags {
+                uuid_uid
+                tid
+                timestamp
+                
+                tags {
+                    tid
+                    tag_name
+                    display_name
+                    tag_image
+                }
+            }
+
             collections {
                 cid
                 collection_name
