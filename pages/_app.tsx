@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import { Folder, FolderPost, FolderPostRef, Follow, LinkCollection, Post, PostRef, User } from '../type/global';
 import { isLikeToggledWithCacheExistVar } from '../component/atom/likes';
 import { isBoopkMarkToggledWithCacheExistVar } from '../component/atom/bookmarks';
-import { isPostCreateWithCacheExistVar } from '../util/hook/usePost';
+import { isPostCreatedPublishToggleWithCacheExistVar, isPostCreateWithCacheExistVar_mypage } from '../util/hook/usePost';
 
 // import '../style/atom/my-simple-image.css'
 
@@ -66,12 +66,27 @@ const apollo_cache_option = {
         search_post: {
           keyArgs: ["searchString", "selectedTagId", "sortType"],
           merge(existing: PostRef[] = [], incoming: PostRef[]) {
-            const mergedPosts = [...existing];
+            let mergedPosts = [...existing];
+            console.log(isPostCreatedPublishToggleWithCacheExistVar())
+            console.log(incoming);
             
-            // Remove duplicates from incoming data before merging
             incoming.forEach((newPost) => {
-              if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
-                mergedPosts.push(newPost);
+              //consider the case only imcoming array with 1 record or fetchMore
+              if (isPostCreatedPublishToggleWithCacheExistVar()!=null && isPostCreatedPublishToggleWithCacheExistVar()?.isPublished==false) {
+                console.log("exe filter");
+                mergedPosts = mergedPosts.filter((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) !== isPostCreatedPublishToggleWithCacheExistVar()?.uuid_pid)
+                isPostCreatedPublishToggleWithCacheExistVar(null)
+              } else if (isPostCreatedPublishToggleWithCacheExistVar()!=null && isPostCreatedPublishToggleWithCacheExistVar()?.isPublished==true) {
+                console.log("exe upshift");
+                mergedPosts.unshift(newPost)
+                isPostCreatedPublishToggleWithCacheExistVar(null)
+              }
+              else {
+                if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
+                  console.log("exe push");
+                  
+                  mergedPosts.push(newPost)
+                }
               }
             });
             return mergedPosts;
@@ -86,9 +101,9 @@ const apollo_cache_option = {
             // Remove duplicates from incoming data before merging
             incoming.forEach((newPost) => {
               if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
-                if (isPostCreateWithCacheExistVar()) {
+                if (isPostCreateWithCacheExistVar_mypage()) {
                   mergedPosts.unshift(newPost)
-                  isPostCreateWithCacheExistVar(false)
+                  isPostCreateWithCacheExistVar_mypage(false)
                 }
                 else mergedPosts.push(newPost)
               }
@@ -102,6 +117,7 @@ const apollo_cache_option = {
           merge(existing: PostRef[] = [], incoming: PostRef[]) {
             let mergedPosts = [...existing];
             incoming.forEach((newPost: PostRef) => {
+              //consider the case only imcoming array with 1 record or fetchMore
               if (isLikeToggledWithCacheExistVar()!=null && isLikeToggledWithCacheExistVar()?.isLiked==false) {
                 mergedPosts = mergedPosts.filter((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) !== isLikeToggledWithCacheExistVar()?.uuid_pid)
                 isLikeToggledWithCacheExistVar(null)

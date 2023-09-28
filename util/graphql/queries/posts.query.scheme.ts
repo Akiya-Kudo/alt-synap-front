@@ -47,6 +47,51 @@ export const POSTS_SEARCH = gql`
     }
 `
 
+export const GET_POSTS_NEW = gql`
+    query post_search($searchString: String, $selectedTagId: Int, $offset: Int!, $sortType: Int!) {
+        search_post (
+            searchString: $searchString, 
+            selectedTagId: $selectedTagId,
+            offset: $offset,
+            sortType: $sortType
+        ) {
+            uuid_uid
+            uuid_pid
+            title
+            top_link
+            top_image
+            timestamp
+            likes_num
+            content_type
+            publish
+            deleted
+            post_tags {
+                tags {
+                    tid
+                    tag_name
+                    display_name
+                    tag_image
+                }
+            } 
+            users {
+                uuid_uid
+                user_name
+                user_image
+            }
+            likes {
+                uuid_pid
+                uuid_uid
+            }
+            folder_posts {
+                fid
+                uuid_pid
+                uuid_uid
+                timestamp
+            }
+        }
+    }
+`
+
 export const GET_USER_PUBLISHED_POSTS = gql`
     query get_posts_made_by_user_and_count($uuid_uid: String!, $selectedTagIds: [Int], $offset: Int!, $no_pagenation: Boolean! ) {
         get_posts_made_by_user (

@@ -5,10 +5,11 @@ import { ArticlePostData, LinkPostData, Post, Post_with_imageFile, Tag, User } f
 import { auth, storage } from "../../util/firebase/init";
 import { ARTICLE_POST_UPSERT_MUTATION, LINK_POST_UPSERT_MUTATION } from "../graphql/mutation/posts.mutation.scheme";
 import {v4 as uuid_v4} from 'uuid'
-import { GET_USER_PUBLISHED_POSTS } from "../graphql/queries/posts.query.scheme";
+import { GET_POSTS_NEW, GET_USER_PUBLISHED_POSTS, POSTS_SEARCH } from "../graphql/queries/posts.query.scheme";
 import { READ_USER_UUID } from "../graphql/queries/users.query.schema";
 
-export const isPostCreateWithCacheExistVar = makeVar(false)
+export const isPostCreateWithCacheExistVar_mypage = makeVar(false)
+export const isPostCreatedPublishToggleWithCacheExistVar = makeVar(null as { isPublished: boolean, uuid_pid: string } | null)
 
 export const usePost = () => {
     const [upsertArticlePost_exe] = useMutation(ARTICLE_POST_UPSERT_MUTATION);
@@ -57,12 +58,11 @@ export const usePost = () => {
                             }
                         },
                         (data) => {
-                            //非解明校のdsave時にdataがnullになっているため、cache updateされていない => 結果オーライ
-                            // console.log(data);
+                            //2回目以降のdsave時にdataがnullになっているため、cache updateされていない(なぜ) => 結果オーライ
                             if (data!=null && data!=undefined) {
                                 const {post, tags} = upsert_article_post
                                 const isExist = data.get_posts_made_by_user.some((post_inArray: Post)=>post_inArray.uuid_pid===post.uuid_pid)
-                                isPostCreateWithCacheExistVar(true)
+                                isPostCreateWithCacheExistVar_mypage(true)
                                 return ({
                                     get_posts_made_by_user: [{
                                         ...post,
@@ -74,6 +74,39 @@ export const usePost = () => {
                                     }],
                                     count_posts_made_by_user: isExist ? data.count_posts_made_by_user : data.count_posts_made_by_user + 1
                                 })
+                            }
+                        }
+                    )
+
+                    cache.updateQuery({
+                            query: GET_POSTS_NEW,
+                            variables: {
+                                searchString: null,
+                                selectedTagId: null,
+                                offset: 0,
+                                sortType: 1
+                            }
+                        },
+                        (data) => {
+                            if (data!=null && data!=undefined) {
+                                const {post, tags} = upsert_article_post
+                                const isExist = data.search_post.find((post_inArray: Post) => post_inArray.uuid_pid === post.uuid_pid )
+                                const isPublished = post.publish
+
+                                isPostCreatedPublishToggleWithCacheExistVar({isPublished: upsert_article_post.post.publish, uuid_pid: upsert_article_post.post.uuid_pid})
+                                if (!isPublished || !isExist) {
+                                    return ({
+                                        search_post: [{
+                                            ...post,
+                                            likes_num: 0,
+                                            post_tags: tags.map((tag: Tag) => ({
+                                                __typename: "PostTag",
+                                                tags: tag,
+                                            }))
+                                        }],
+                                    })
+                                }
+                                // next step is cahnge unshift to insert among the correct timestamp 
                             }
                         }
                     )
@@ -112,7 +145,40 @@ export const usePost = () => {
             const reqPost = articlePost as Post_with_imageFile
             delete reqPost.top_image_file
             //保存mutation
-            const result = await upsertArticlePost_exe({ variables: { postData: {...reqPost} }} )
+            const result = await upsertArticlePost_exe({ variables: { postData: {...reqPost} },
+                update(cache, { data: { upsert_article_post } }) {
+                    cache.updateQuery({
+                        query: GET_POSTS_NEW,
+                        variables: {
+                            searchString: null,
+                            selectedTagId: null,
+                            offset: 0,
+                            sortType: 1
+                        }
+                    },
+                    (data) => {
+                        if (data!=null && data!=undefined) {
+                            const {post, tags} = upsert_article_post
+                            const isExist = data.search_post.find((post_inArray: Post) => post_inArray.uuid_pid === post.uuid_pid )
+                            const isPublished = post.publish
+
+                            isPostCreatedPublishToggleWithCacheExistVar({isPublished: upsert_article_post.post.publish, uuid_pid: upsert_article_post.post.uuid_pid})
+                            if (!isPublished && isExist) {
+                                return ({
+                                    search_post: [{
+                                        ...post,
+                                        likes_num: 0,
+                                        post_tags: tags.map((tag: Tag) => ({
+                                            __typename: "PostTag",
+                                            tags: tag,
+                                        }))
+                                    }],
+                                })
+                            }
+                        }
+                    })
+                }
+            })
             return result
         } catch (error) {
             throw error
@@ -137,12 +203,11 @@ export const usePost = () => {
                             }
                         },
                         (data) => {
-                            //非解明校のdsave時にdataがnullになっているため、cache updateされていない => 結果オーライ
-                            // console.log(data);
+                            //2回目以降のsave時にdataがnullになっているため、cache updateされていない(なぜ) => 結果オーライ;
                             if (data!=null && data!=undefined) {
                                 const {post} = upsert_link_post
                                 const isExist = data.get_posts_made_by_user.some((post_inArray: Post)=>post_inArray.uuid_pid===post.uuid_pid)
-                                isPostCreateWithCacheExistVar(true)
+                                isPostCreateWithCacheExistVar_mypage(true)
                                 return ({
                                     get_posts_made_by_user: [{
                                         ...post,
@@ -153,10 +218,41 @@ export const usePost = () => {
                                     count_posts_made_by_user: isExist ? data.count_posts_made_by_user : data.count_posts_made_by_user + 1
                                 })
                             }
+                            // next step is cahnge unshift to insert among the correct timestamp 
                         }
                     )
+
+                    cache.updateQuery({
+                        query: GET_POSTS_NEW,
+                        variables: {
+                            searchString: null,
+                            selectedTagId: null,
+                            offset: 0,
+                            sortType: 1
+                        }
+                    },
+                    (data) => {
+                        if (data!=null && data!=undefined) {
+                            const {post} = upsert_link_post
+                            const isExist = data.search_post.find((post_inArray: Post) => post_inArray.uuid_pid === post.uuid_pid )
+                            const isPublished = post.publish
+                            
+                            isPostCreatedPublishToggleWithCacheExistVar({isPublished: upsert_link_post.post.publish, uuid_pid: upsert_link_post.post.uuid_pid})
+                            if (!isPublished || !isExist) {
+                                return ({
+                                    search_post: [{
+                                        ...post,
+                                        likes_num: 0,
+                                        top_image: null,
+                                        post_tags: []
+                                    }]
+                                })
+                            }
+                            // next step is cahnge unshift to insert among the correct timestamp 
+                        }
+                    })
                 }
-            } )
+            })
 
             // return result
         } catch (error) { throw error }
@@ -164,7 +260,39 @@ export const usePost = () => {
 
     const updateLinkPost = async (linkPost: LinkPostData) => {
         try {
-            const result = await upsertLinkPost_exe({ variables: { postData: {...linkPost} }} )
+            const result = await upsertLinkPost_exe({ variables: { postData: {...linkPost} },
+                update(cache, { data: { upsert_link_post } }) {
+                    cache.updateQuery({
+                        query: GET_POSTS_NEW,
+                        variables: {
+                            searchString: null,
+                            selectedTagId: null,
+                            offset: 0,
+                            sortType: 1
+                        }
+                    },
+                    (data) => {
+                        if (data!=null && data!=undefined) {
+                            const {post} = upsert_link_post
+                            const isExist = data.search_post.find((post_inArray: Post) => post_inArray.uuid_pid === post.uuid_pid )
+                            const isPublished = post.publish
+
+                            isPostCreatedPublishToggleWithCacheExistVar({isPublished: upsert_link_post.post.publish, uuid_pid: upsert_link_post.post.uuid_pid})
+                            if (!isPublished && isExist) {
+                                return ({
+                                    search_post: [{
+                                        ...post,
+                                        likes_num: 0,
+                                        top_image: null,
+                                        post_tags: []
+                                    }]
+                                })
+                            }
+                            //next step is pushing, among the correct timestamp,  when ispublish 
+                        }
+                    })
+                }
+            })
             // return result
         } catch (error) { throw error }
     }
