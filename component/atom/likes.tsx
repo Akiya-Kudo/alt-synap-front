@@ -23,6 +23,7 @@ export const LikeButton = ({
     const [toggleLike, { error, data, loading }] = useMutation(TOGGLE_LIKE, {
         variables: { uuid_pid: uuid_pid },
         update( cache, { data: { like_toggle } } ) {
+            let isLiked = false
             // update post's likes_num & likes relation implying that login user is likeing
             cache.updateFragment(
                 { 
@@ -37,6 +38,7 @@ export const LikeButton = ({
                         })
                     }
                     else {
+                        isLiked = true
                         return ({
                             likes_num: likes_num  + 1,
                             likes: [like_toggle]
@@ -52,21 +54,20 @@ export const LikeButton = ({
                 },
                 (data) => {
                     if (data?.get_posts_user_liked) {
-                        const postIncluded = data?.get_posts_user_liked?.find((post: Post) => post.uuid_pid == like_toggle.uuid_pid )
-                        if (!!postIncluded) {
+                        const likedPost = cache.readFragment({
+                            id: `Post:{"uuid_pid":"${like_toggle.uuid_pid}"}`,
+                            fragment: POST_ALL_FIELD_FRAG,
+                        })
+                        if (!isLiked) {
                             // filteringはtypePolicyのmerge関数で行う
                             isLikeToggledWithCacheExistVar({isLiked: false, uuid_pid: like_toggle.uuid_pid})
                             return ({ 
-                                get_posts_user_liked: [ postIncluded ], 
+                                get_posts_user_liked: [ likedPost ], 
                                 count_posts_user_liked: data?.count_posts_user_liked - 1 
                             })
                         } else {
                             // unshiftをtypePolicyのmerge関数で行う
                             isLikeToggledWithCacheExistVar({isLiked: true, uuid_pid: like_toggle.uuid_pid})
-                            const likedPost = cache.readFragment({
-                                id: `Post:{"uuid_pid":"${like_toggle.uuid_pid}"}`,
-                                fragment: POST_ALL_FIELD_FRAG,
-                            })
                             return ({ 
                                 get_posts_user_liked: [likedPost],
                                 count_posts_user_liked: data?.count_posts_user_liked + 1 
