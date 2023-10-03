@@ -24,3 +24,14 @@ export const GET_TAG = gql`
         }
     }
 `
+
+export const GET_HOT_TAGS = gql`
+    query {
+        hot_tags {
+            tid
+            display_name
+            tag_name
+            tag_image
+        }
+    }
+`

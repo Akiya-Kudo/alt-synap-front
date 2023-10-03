@@ -3,10 +3,12 @@ import { Center, TabIndicator, TabList, TabPanel, TabPanels, Tabs } from '@chakr
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
+import UsersPage from '../../pages/users/[uuid_uid]';
 import { client } from '../../pages/_app';
 import { Post, Tag, UserTag } from '../../type/global';
 import { auth } from '../../util/firebase/init';
 import { POSTS_SEARCH } from '../../util/graphql/queries/posts.query.scheme';
+import { GET_HOT_TAGS } from '../../util/graphql/queries/tags.query.scheme';
 import { USER_QUERY } from '../../util/graphql/queries/users.query.schema';
 import { AuthContext } from '../../util/hook/authContext';
 import { ClickButton } from '../atom/buttons';
@@ -17,19 +19,28 @@ const TipsyPostsDisplay = dynamic(
     { ssr: false }
 );
 
-const TipsyPostsFavoriteTagBoard = () => {
+const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" | "FavoriteTopics" }) => {
     const router = useRouter()
     const { userState } = useContext(AuthContext);
     
     //get favorite tag's new arrival posts
     const [getTagsNewPosts, {data, error, loading}] = useLazyQuery(POSTS_SEARCH)
+    const [getHotTags, {data: data_hot, error: error_hot, loading: loading_hot}] = useLazyQuery(GET_HOT_TAGS)
 
     const [displayPosts, setDisplayPosts] = useState<Post[]>([])
     const [topics, setTopics] = useState<Tag[]>([])
     const [tabIndex, setTabIndex] = useState(0)
 
     const handleTabChange = (index: number) => setTabIndex(index)
-
+    const handleTopicsChange = async (displayContent: "HotTopics" | "FavoriteTopics") => {
+        if (userState=="isUser" && displayContent=="FavoriteTopics" ) {
+            const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
+            setTopics(user_data?.user.user_tags.map((u_t: UserTag)=> u_t.tags))
+        }else if (displayContent=="HotTopics") {
+            const res = await getHotTags()
+        }
+    }
+    
     //when tab is cahnged by handleTabChange and first display(topics are setted), fetch the posts
     useEffect(() => {
         if (topics.length!=0)
@@ -44,16 +55,14 @@ const TipsyPostsFavoriteTagBoard = () => {
     },[tabIndex, topics])
     // when fetch is called chagne display Posts
     useEffect(() => setDisplayPosts(data?.search_post),[data])
+    useEffect(() => {
+        if (data_hot) {setTopics(data_hot?.hot_tags)}
+    },[data_hot])
 
     // read tags which login user is favariting, when first display and userState come to work
     useEffect(()=>{
-        if (userState=="isUser") {
-            const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
-            setTopics(user_data.user.user_tags.map((u_t: UserTag)=> u_t.tags))
-        }else if (userState=="guest") {
-            // ここで 注目トピックをfetchしてその投稿も取得する => 表示配列に格納
-        }
-    },[userState])
+        handleTopicsChange(displayContent)
+    },[userState, displayContent])
     
     return (
         <>
@@ -63,7 +72,7 @@ const TipsyPostsFavoriteTagBoard = () => {
             onChange={handleTabChange} index={tabIndex}
             >
                 <TabList>
-                    { topics.map((tag: Tag) => (<NeumTab>{ tag.display_name }</NeumTab>)) }
+                    { topics && topics.map((tag: Tag) => (<NeumTab>{ tag.display_name }</NeumTab>)) }
                 </TabList>
                 <TabIndicator
                 height="1.5px"
@@ -72,7 +81,7 @@ const TipsyPostsFavoriteTagBoard = () => {
                 />
                     <TabPanels>
                         { 
-                            topics.map((tag: Tag) => {
+                            topics && topics.map((tag: Tag) => {
                                 return (
                                     <TabPanel>
                                         <TipsyPostsDisplay
@@ -99,4 +108,4 @@ const TipsyPostsFavoriteTagBoard = () => {
     )
 }
 
-export default TipsyPostsFavoriteTagBoard
+export default TipsyPostsTagsTabBoard
