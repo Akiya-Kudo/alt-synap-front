@@ -20,7 +20,7 @@ export const setAuthContext = createContext({} as {setUserState : React.Dispatch
 
 export const AuthProvider = (props: any) => {
     const router = useRouter()
-    const [userState, setUserState] = useState<UserStateStringType>(undefined)
+    const [userState, setUserState] = useState<UserStateStringType>("loading") // if there is any discomfort, change def to undefined
     const [getLoginUserInfo] = useLazyQuery(USER_QUERY);
     const [userRegister] = useMutation(USER_MUTATION);
     const {toastNetDisconnectedError} = useCustomToast()

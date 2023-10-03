@@ -295,6 +295,7 @@ export const GlassSwitchButton = ({
         onClick(e)
         getState(!active)
     }
+    useEffect(() => {setActive(defStateValue)},[defStateValue])
 
     const bgGradientSwitch = active ? SBgGradient : bgGradient
     const colorSwitch = active ? Scolor : color

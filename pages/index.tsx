@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
@@ -9,6 +9,9 @@ import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client';
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from '../util/hook/authContext';
 import TipsyPostsFavoriteTagBoard from '../component/standalone/TipsyPostsFavoriteTagBoard'
 import { Post } from '../type/global';
+import { FlatBord } from '../component/atom/bords';
+import { GlassButton } from '../component/atom/buttons';
+import Link from 'next/link';
 
 const TipsyPostsDisplay = dynamic(
   () => import('../component/helper/TipsyPostsDisplay'),
@@ -19,7 +22,7 @@ const Index: NextPage<{}>  = () => {
   const { userState } = useContext(AuthContext);
   const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
-  const [displayContent, setDisplayContent] = useState<"Following" | "NewPosts" | "FavoriteTopics">("NewPosts")
+  const [displayContent, setDisplayContent] = useState<"Following" | "NewArrivals" | "FavoriteTopics" | "HotTopics">("NewArrivals")
   const [displayPosts, setDisplayPosts] = useState<Post[]>([])
   const handleTabGroup = (e:any) => {
     setDisplayContent(e)
@@ -30,7 +33,7 @@ const Index: NextPage<{}>  = () => {
       })
       .catch((error: Error) => console.log(error))
     }
-    else if (e=="NewPosts") {
+    else if (e=="NewArrivals") {
       setDisplayPosts(data_new?.search_post)
     }
   }
@@ -61,7 +64,7 @@ const Index: NextPage<{}>  = () => {
 
   //reset displayPosts for the first display when the page is loaded
   useEffect(() => {
-    if (displayContent=="NewPosts") {
+    if (displayContent=="NewArrivals") {
       setDisplayPosts(data_new?.search_post)
     }
   },[data_new])
@@ -82,15 +85,27 @@ const Index: NextPage<{}>  = () => {
         IsAlreadyFirstFetchedAsIsUserVar(true)
     }
 },[userState])
-console.log(displayPosts?.length);
 
   return (
     <>
       <Head><title>Tipsy | Home</title></Head>
       <Flex flexDir={"column"} align={"center"} mt={5} className="page">
+
+        {
+          userState=="guest" &&
+          <FlatBord mb={5} w={"90%"} h={100} bgGradient='linear(to-tr, tipsy_color_3, tipsy_color_1)' bg={""} color={"white"}>
+            {/* <FlatText fontSize={"2.5rem"} fontWeight="bold" color={"tipsy_color_2"}></FlatText> */}
+            <Heading fontSize={"2.5rem"}>Tipsy</Heading>
+            <Heading fontSize={"1.5rem"} ms={2} mt={2}>について</Heading>
+            <Link href={"/guide/explanation"}>
+              <GlassButton size={"sm"} color={"white"} ms={5} mt={2} border={"1px white solid"}>もっと見る</GlassButton>
+            </Link>
+          </FlatBord>
+        }
+
         <TabButtonSelectGroup 
         onChange={ handleTabGroup} 
-        options={["Following", "NewPosts", "FavoriteTopics", ]}  
+        options={userState=="isUser" ? ["Following", "NewArrivals", "FavoriteTopics", ] : ["NewArrivals", "HotTopics"]}
         defaultValue={displayContent} 
         Hcolor={"tipsy_color_2"} Acolor={"tipsy_color_active_2"}
         w={"90%"}
@@ -108,7 +123,7 @@ console.log(displayPosts?.length);
           />
         }
         { 
-          displayContent=="NewPosts" &&
+          displayContent=="NewArrivals" &&
           <TipsyPostsDisplay
           displayPosts={displayPosts}
           allPostsCount={displayPosts?.length + 1}
@@ -119,7 +134,7 @@ console.log(displayPosts?.length);
           />
         }
         {
-          displayContent=="FavoriteTopics" &&
+          displayContent=="FavoriteTopics" || displayContent=="HotTopics" &&
           <TipsyPostsFavoriteTagBoard />
         }
       </Flex>
