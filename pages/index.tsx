@@ -7,11 +7,11 @@ import { GET_FOLLOWEES_POSTS, GET_POSTS_NEW, POSTS_SEARCH } from '../util/graphq
 import { useContext, useEffect, useState } from 'react';
 import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client';
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from '../util/hook/authContext';
-import TipsyPostsFavoriteTagBoard from '../component/standalone/TipsyPostsFavoriteTagBoard'
 import { Post } from '../type/global';
 import { FlatBord } from '../component/atom/bords';
 import { GlassButton } from '../component/atom/buttons';
 import Link from 'next/link';
+import TipsyPostsTagsTabBoard from '../component/standalone/TipsyPostsTagsTabBoard';
 
 const TipsyPostsDisplay = dynamic(
   () => import('../component/helper/TipsyPostsDisplay'),
@@ -22,7 +22,7 @@ const Index: NextPage<{}>  = () => {
   const { userState } = useContext(AuthContext);
   const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
-  const [displayContent, setDisplayContent] = useState<"Following" | "NewArrivals" | "FavoriteTopics" | "HotTopics">("NewArrivals")
+  const [displayContent, setDisplayContent] = useState<"Following" | "NewArrivals" | "HotTopics" | "FavoriteTopics">("NewArrivals")
   const [displayPosts, setDisplayPosts] = useState<Post[]>([])
   const handleTabGroup = (e:any) => {
     setDisplayContent(e)
@@ -84,8 +84,7 @@ const Index: NextPage<{}>  = () => {
         )
         IsAlreadyFirstFetchedAsIsUserVar(true)
     }
-},[userState])
-
+  },[userState])
   return (
     <>
       <Head><title>Tipsy | Home</title></Head>
@@ -105,7 +104,7 @@ const Index: NextPage<{}>  = () => {
 
         <TabButtonSelectGroup 
         onChange={ handleTabGroup} 
-        options={userState=="isUser" ? ["Following", "NewArrivals", "FavoriteTopics", ] : ["NewArrivals", "HotTopics"]}
+        options={userState=="isUser" ? ["Following", "NewArrivals", "HotTopics", "FavoriteTopics"] : ["NewArrivals", "HotTopics"]}
         defaultValue={displayContent} 
         Hcolor={"tipsy_color_2"} Acolor={"tipsy_color_active_2"}
         w={"90%"}
@@ -134,8 +133,8 @@ const Index: NextPage<{}>  = () => {
           />
         }
         {
-          displayContent=="FavoriteTopics" || displayContent=="HotTopics" &&
-          <TipsyPostsFavoriteTagBoard />
+          (displayContent=="FavoriteTopics" || displayContent=="HotTopics") &&
+          <TipsyPostsTagsTabBoard displayContent={displayContent}/>
         }
       </Flex>
     </>
