@@ -38,6 +38,7 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
             setTopics(user_data?.user.user_tags.map((u_t: UserTag)=> u_t.tags))
         }else if (displayContent=="HotTopics") {
             const res = await getHotTags()
+            setTopics(res.data?.hot_tags)
         }
     }
     
