@@ -67,24 +67,17 @@ const apollo_cache_option = {
           keyArgs: ["searchString", "selectedTagId", "sortType"],
           merge(existing: PostRef[] = [], incoming: PostRef[]) {
             let mergedPosts = [...existing];
-            console.log(isPostCreatedPublishToggleWithCacheExistVar())
-            console.log(incoming);
-            
             incoming.forEach((newPost) => {
               //consider the case only imcoming array with 1 record or fetchMore
               if (isPostCreatedPublishToggleWithCacheExistVar()!=null && isPostCreatedPublishToggleWithCacheExistVar()?.isPublished==false) {
-                console.log("exe filter");
                 mergedPosts = mergedPosts.filter((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) !== isPostCreatedPublishToggleWithCacheExistVar()?.uuid_pid)
                 isPostCreatedPublishToggleWithCacheExistVar(null)
               } else if (isPostCreatedPublishToggleWithCacheExistVar()!=null && isPostCreatedPublishToggleWithCacheExistVar()?.isPublished==true) {
-                console.log("exe upshift");
                 mergedPosts.unshift(newPost)
                 isPostCreatedPublishToggleWithCacheExistVar(null)
               }
               else {
                 if (!existing.some((existingPost) => existingPost.__ref.split(':"')[1].slice(0, -2) === newPost.__ref.split(':"')[1].slice(0, -2))) {
-                  console.log("exe push");
-                  
                   mergedPosts.push(newPost)
                 }
               }

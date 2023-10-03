@@ -62,7 +62,7 @@ const TopicPage: NextPage = () => {
     return (
         <>
         <Head><title>{"Folder : " + folderInfo?.title}</title></Head>
-            <PostHeader title={"〜の投稿"}></PostHeader>
+            <PostHeader title={ folderInfo?.title + " の投稿"}></PostHeader>
 
             <Flex flexDir={"column"} align={"center"} mt={5} className="page" gap={10}>
                 <SharpBoard

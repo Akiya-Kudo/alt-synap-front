@@ -50,6 +50,8 @@ const TipsyPostsFavoriteTagBoard = () => {
         if (userState=="isUser") {
             const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
             setTopics(user_data.user.user_tags.map((u_t: UserTag)=> u_t.tags))
+        }else if (userState=="guest") {
+            // ここで 注目トピックをfetchしてその投稿も取得する => 表示配列に格納
         }
     },[userState])
     
