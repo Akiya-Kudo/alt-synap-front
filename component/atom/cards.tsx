@@ -42,7 +42,7 @@ export const TipsyCard = ({
                 </NextLink>
 
                 <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
-                    <Stack direction={"row"} flexWrap={"wrap"} justify={"center"}>
+                    <Stack direction={"row"} flexWrap={"wrap"} justify={"center"} align={"center"}>
                         { post_tags?.map((post_tag, _i) => {
                             return (
                                 <NextLink href={"/topics/" + post_tag.tags?.tid} key={post_tag.tags?.tid}>
@@ -50,7 +50,7 @@ export const TipsyCard = ({
                                     id={post_tag.tags?.tid?.toString()} 
                                     fontSize={".7rem"} cursor={"pointer"}
                                     px={1} py={.2} ms={.5}
-                                    size="xs" 
+                                    size="xs" h={3.5}
                                     borderRadius={10}
                                     color={"text_important"}
                                     bg={tag_colors[_i]} 
@@ -69,9 +69,11 @@ export const TipsyCard = ({
                     </Stack>
                     {
                         top_link &&
-                        <Link fontSize={".7rem"} color="text_light" href={top_link} isExternal>
+                        <Link fontSize={".7rem"} color="text_light" href={top_link} isExternal display={"flex"} alignItems={"center"}>
                             <ExternalLinkIcon color={"tipsy_color_active_2"} fontSize={".7rem"} me={1}/>
-                            {top_link.slice(0, 30) + "..."}
+                            <TruncatedText maxLength={16} fontSize={".8rem"} cursor={"pointer"}>
+                                {top_link}
+                            </TruncatedText>
                         </Link>
                     }
                 </Stack>
@@ -177,7 +179,7 @@ export const TipsyCard_image = ({
                     </NextLink>
 
                     <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
-                        <Stack direction={"row"} flexWrap={"wrap"} justify={"center"}>
+                        <Stack direction={"row"} flexWrap={"wrap"} justify={"center"} align={"center"}>
                             { post_tags?.map((post_tag, _i) => {
                                 return (
                                     <NextLink href={"/topics/" + post_tag.tags?.tid}  key={post_tag.tags?.tid}>
@@ -185,7 +187,7 @@ export const TipsyCard_image = ({
                                         id={post_tag.tags?.tid?.toString()}
                                         fontSize={".7rem"} cursor={"pointer"}
                                         px={1} py={.2} ms={.5}
-                                        size="xs" 
+                                        size="xs" h={3.5}
                                         borderRadius={10}
                                         color={"text_important"}
                                         bg={tag_colors[_i]} 
@@ -204,12 +206,12 @@ export const TipsyCard_image = ({
                         </Stack>
                         {
                         top_link &&
-                        <NextLink href={top_link} passHref>
-                            <Link fontSize={".7rem"} color="text_light" href={top_link} isExternal>
-                                <ExternalLinkIcon color={"tipsy_color_active_2"} fontSize={".7rem"} me={1}/>
-                                {top_link.slice(0, 30) + "..."}
-                            </Link>
-                        </NextLink>
+                        <Link fontSize={".7rem"} color="text_light" href={top_link} isExternal display={"flex"} alignItems={"center"}>
+                            <ExternalLinkIcon color={"tipsy_color_active_2"} fontSize={".7rem"} me={1}/>
+                            <TruncatedText maxLength={16} fontSize={".8rem"} cursor={"pointer"}>
+                                {top_link}
+                            </TruncatedText>
+                        </Link>
                         
                         }
                     </Stack>
@@ -295,9 +297,11 @@ export const TipsyCard_link = ({
             </Box>
 
             <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
-                <Link fontSize={".7rem"} color="text_light" href={top_link} isExternal>
+                <Link fontSize={".7rem"} color="text_light" href={top_link} isExternal display={"flex"} alignItems={"center"}>
                     <ExternalLinkIcon color={"tipsy_color_active_2"} fontSize={".7rem"} me={1}/>
-                    { top_link && top_link.slice(0, 30) + "..."}
+                    <TruncatedText maxLength={16} fontSize={".8rem"} cursor={"pointer"}>
+                        {top_link}
+                    </TruncatedText>
                 </Link>
             </Stack>
 

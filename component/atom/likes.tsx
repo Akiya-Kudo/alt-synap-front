@@ -1,13 +1,14 @@
 import { makeVar, useMutation } from "@apollo/client"
 import { Box, Center, Flex, Icon, IconButton, Image, keyframes } from "@chakra-ui/react"
 import { motion, useAnimation } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import { LikeButtonProps } from "../../type/atom"
 import { Post } from "../../type/global"
 import { POSTS_LIKE_FRAG, POST_ALL_FIELD_FRAG } from "../../util/graphql/fragment/fragment.scheme"
 import { TOGGLE_LIKE } from "../../util/graphql/mutation/likes.mutation.scheme"
 import { GET_USER_LIKED_POSTS } from "../../util/graphql/queries/posts.query.scheme"
+import { AuthContext, LoginToggleContext } from "../../util/hook/authContext"
 
 export const isLikeToggledWithCacheExistVar = makeVar(null as { isLiked: boolean, uuid_pid: string } | null)
 
@@ -17,6 +18,8 @@ export const LikeButton = ({
     uuid_pid,
     ...props
 }: LikeButtonProps) => {
+    const { userState } = useContext(AuthContext);
+    const { onOpen_login } = useContext(LoginToggleContext);
     //state
     const [isLiked, setIsLiked] = useState<boolean>(defaultIsLiked)
     //query setting
@@ -83,9 +86,13 @@ export const LikeButton = ({
     //animation setting
     const controls = useAnimation()
     const handleLike = async () => {
-        toggleLike()
-        setIsLiked(!isLiked)
-        controls.start({ scale: [1.15, 1.2, 1] })
+        if (userState=='isUser') {
+            toggleLike()
+            setIsLiked(!isLiked)
+            controls.start({ scale: [1.15, 1.2, 1] })
+        } else if (userState=='guest') {
+            onOpen_login()
+        }
     }
 
     //when the posts likes state change by refetch, change default isLike

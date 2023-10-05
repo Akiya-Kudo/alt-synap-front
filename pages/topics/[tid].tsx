@@ -14,7 +14,7 @@ import { USER_TAG_FRAG } from '../../util/graphql/fragment/fragment.scheme'
 import { TOGGLE_USER_TAG } from '../../util/graphql/mutation/users.mutation.scheme'
 import { GET_TAG } from '../../util/graphql/queries/tags.query.scheme'
 import { USER_QUERY } from '../../util/graphql/queries/users.query.schema'
-import { AuthContext } from '../../util/hook/authContext'
+import { AuthContext, LoginToggleContext } from '../../util/hook/authContext'
 import { useColorRandomPick } from '../../util/hook/useColor'
 import { client } from '../_app'
 
@@ -27,6 +27,7 @@ const TopicPage: NextPage = () => {
     const router = useRouter()
     const tid = parseInt( router.query.tid as string )
     const { userState } = useContext(AuthContext);
+    const { onOpen_login } = useContext(LoginToggleContext);
 
     const { loading, error, data } = useQuery(GET_TAG,  { variables: { tid: tid }})
 
@@ -52,8 +53,12 @@ const TopicPage: NextPage = () => {
     })
 
     const handleFavoriteButton = async (e:any) => {
-        await toggleUserTag()
-        .catch(error => console.log(error))
+        if (userState=='isUser') {
+            await toggleUserTag()
+            .catch(error => console.log(error))
+        } else if (userState=='guest') {
+            onOpen_login()
+        }
     }
     
     // read which login user is favariting the tag, when userState is work
@@ -100,6 +105,7 @@ const TopicPage: NextPage = () => {
                             defaultChecked={ isFavorite }
                             Schildren={"お気に入り"}
                             onClick={handleFavoriteButton}
+                            ActiveDisabled={userState!='isUser'}
                             >
                                 お気に入りに登録
                             </SwitchButton>

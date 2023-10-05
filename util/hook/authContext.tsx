@@ -2,7 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/init";
 
-import { Box, Toast, useToast } from "@chakra-ui/react";
+import { Box, Toast, useDisclosure, useToast } from "@chakra-ui/react";
 import { makeVar, useLazyQuery, useMutation } from "@apollo/client";
 import { USER_QUERY } from "../graphql/queries/users.query.schema";
 import { USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
@@ -10,6 +10,7 @@ import {v4 as uuid_v4} from 'uuid'
 import { useCustomToast } from "./useCustomToast";
 import { UserStateStringType } from "../../type/global";
 import { useRouter } from "next/router";
+import { LoginModal } from "../../component/standalone/LoginModal";
 
 // for the search page proccessing
 // to prevent refetching of useEffect(of IsUser in search page) : refetch of useQuery will difinitly fetch from server, so the cached data(search query's merged posts array will deleted)
@@ -17,6 +18,7 @@ export const IsAlreadyFirstFetchedAsIsUserVar = makeVar(false as boolean)
 
 export const AuthContext = createContext({} as {userState : UserStateStringType});
 export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<UserStateStringType>>});
+export const LoginToggleContext = createContext({} as { onOpen_login : () => void });
 
 export const AuthProvider = (props: any) => {
     const router = useRouter()
@@ -24,6 +26,7 @@ export const AuthProvider = (props: any) => {
     const [getLoginUserInfo] = useLazyQuery(USER_QUERY);
     const [userRegister] = useMutation(USER_MUTATION);
     const {toastNetDisconnectedError} = useCustomToast()
+    const { onOpen: onOpen_login, onClose: onClose_login, isOpen: isOpen_login } = useDisclosure()
     
     useEffect(()=>{
         onAuthStateChanged(auth, async (user)=>{
@@ -88,11 +91,14 @@ export const AuthProvider = (props: any) => {
         !isOnline && toastNetDisconnectedError()
     isOnline && toast.closeAll()
     },[isOnline])
-
+    
     return(
         <AuthContext.Provider value={{userState}}>
             <setAuthContext.Provider value={{setUserState}}>
-                        {props.children}
+                <LoginToggleContext.Provider value={{onOpen_login}}>
+                    { userState=='guest' && <LoginModal onClose={onClose_login} isOpen={isOpen_login}/> }
+                    {props.children}
+                </LoginToggleContext.Provider>
             </setAuthContext.Provider>
         </AuthContext.Provider>
     )

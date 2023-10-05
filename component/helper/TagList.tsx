@@ -4,6 +4,7 @@ import { GlassTagListProps, NeumTagListProps } from "../../type/helper"
 import { useColorOrderPick, useColorRandomPick } from "../../util/hook/useColor"
 import { GlassTag, GlassTag_edit, NeumTag } from "../atom/tags"
 import NextLink from 'next/link'
+import { useRouter } from "next/router"
 
 export const GlassTagList = ({
     tags,
@@ -66,7 +67,7 @@ export const NeumTagList = ({
     isDeletable,
     ...props
 }:NeumTagListProps) => {
-
+    const router = useRouter()
     let tags_conponents = [<></>]
     //削除可能なtagのリストが必要な時 ( onDeleteClick と isDeletable　　のpropsが必要 ) onDeleteClickで親コンポーネントで引数のidを使用して処理を実装する
     if (onDeleteClick && isDeletable) {
@@ -94,15 +95,14 @@ export const NeumTagList = ({
         tags_conponents = tags.map((tag, index)=> {
             let color_theme = colorList[index].split("_")[0]
             return (
-                <NextLink href={"/topics/" + tag?.tid} key={tag?.tid}>
                     <NeumTag
-                    id={tag?.tid.toString()}
+                    id={tag?.tid.toString()} key={tag?.tid}
                     display_name={tag?.display_name}
                     tag_image={tag?.tag_image && tag.tag_image}
                     colorScheme={color_theme}
-                    size={"sm"}
+                    size={"sm"} cursor={"pointer"}
+                    onClick={() => { router.push("/topics/" + tag?.tid) }}
                     />
-                </NextLink>
             )
         })
     }

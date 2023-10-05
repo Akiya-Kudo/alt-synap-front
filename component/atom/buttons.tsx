@@ -1,9 +1,10 @@
 import { BoxProps, Button, filter, Flex, forwardRef, IconButton, IconButtonProps, useColorMode } from "@chakra-ui/react";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps, NeumIconButtonProps, GlassIconButtonProps, GlassSwitchButtonProps, NeumButtonPropsFlat } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
 import { CiSun, CiCloudMoon } from 'react-icons/ci';
 import { useNeumStyle_dent, useNeumStyle_curve, useNeumStyle_flat } from "../../util/hook/useTheme";
+import { AuthContext } from "../../util/hook/authContext";
 
 export const ClickButton = ({
     fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
@@ -92,15 +93,17 @@ export const SwitchButton = ({
     getState=()=>undefined,
     fontSize=20, color="text_normal", borderRadius="full", bg="transparent",
     Hcolor="red_switch", Acolor="red.600", defaultChecked=false, Scolor="red.600",
-    children, Schildren,
+    children, Schildren, ActiveDisabled=false,
     ...props
 }: NeumButtonProps) => {
     const [active, setActive] = useState<boolean>(defaultChecked);
 
     const handleClick = (e: any) => {
-        setActive(!active)
         onClick(e)
-        getState(!active)
+        if (!ActiveDisabled) {
+            setActive(!active)
+            getState(!active)
+        }
     }
 
     const { highlight, shadow } = useNeumorphismColorMode()

@@ -2,7 +2,7 @@
 import type { AppProps } from 'next/app'
 
 import { AuthProvider } from '../util/hook/authContext';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, useDisclosure } from '@chakra-ui/react';
 import { theme } from '../style/global/theme';
 
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';

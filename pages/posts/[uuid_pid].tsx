@@ -20,6 +20,10 @@ import { ClickButtonFlat } from '../../component/atom/buttons'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Image from 'next/image'
 import { LikeButton } from '../../component/atom/likes'
+import { BookMarkButton } from '../../component/atom/bookmarks'
+import { client } from '../_app'
+import { READ_USER_UUID_AND_FOLDERS } from '../../util/graphql/queries/users.query.schema'
+import { auth } from '../../util/firebase/init'
 
 const ArticleEditorReadOnly = dynamic(
     () => import("../../component/atom/ArticleEditorReadOnly"),
@@ -30,6 +34,8 @@ const PostPage: NextPage = () => {
     const { userState } = useContext(AuthContext);
     const router = useRouter()
     const uuid_pid = router.query.uuid_pid
+
+    const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS, variables: { uid: auth.currentUser?.uid }})?.user
 
     const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
     
@@ -65,6 +71,7 @@ const PostPage: NextPage = () => {
             <Flex className="page" flexDir={"row-reverse"} >
                     <Box w={"450px"} >
                         <FlatBord
+                        zIndex={1}
                         position={"sticky"} top={"135px"}
                         w={"350px"} mx={5} px={3} py={5}
                         flexDirection="column" justifyContent={"start"} alignItems={"start"}
@@ -87,6 +94,10 @@ const PostPage: NextPage = () => {
                                 likes_num={post?.likes_num} 
                                 defaultIsLiked={ post?.likes && post?.likes?.length!=0 ? true : false} 
                                 uuid_pid={post?.uuid_pid}
+                                size={6} ms={3} mt={2}
+                                />
+                                <BookMarkButton
+                                uuid_pid={post?.uuid_pid} folder_posts={post?.folder_posts} folders={login_user?.folders} post={post}
                                 size={6} ms={3} mt={2}
                                 />
                             </Stack>
@@ -154,7 +165,7 @@ const PostPage: NextPage = () => {
                                                         fontSize={".7rem"} borderRadius={"full"}
                                                         px={3} py={1} mx={1}
                                                         color={"text_important"} bg={tag_colors[_i]} 
-                                                        transition={".2s"}
+                                                        transition={".2s"} cursor={"pointer"}
                                                         _hover={{ filter: 'brightness(1.2)' }}
                                                         >
                                                             { tag?.display_name }

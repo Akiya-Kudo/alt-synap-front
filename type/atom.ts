@@ -49,6 +49,7 @@ export interface NeumButtonProps extends ButtonProps {
     children: string,
     Schildren?: string,
     getState?: (e:boolean)=> void,
+    ActiveDisabled?: boolean
 }
 //ボタン
 export interface NeumButtonPropsFlat extends ButtonProps {

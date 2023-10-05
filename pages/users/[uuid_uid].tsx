@@ -12,7 +12,7 @@ import { GET_OTHER_USER_QUERY, USER_QUERY } from '../../util/graphql/queries/use
 import { TOGGLE_FOLLOW } from '../../util/graphql/mutation/follows.mutation.scheme'
 import { USER_FOLLOWEE_FRAG } from '../../util/graphql/fragment/fragment.scheme'
 import { FollowListModal } from '../../component/standalone/FollowListModal'
-import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from '../../util/hook/authContext'
+import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar, LoginToggleContext } from '../../util/hook/authContext'
 import { auth } from '../../util/firebase/init'
 import { client } from '../_app'
 
@@ -25,6 +25,7 @@ const UsersPage: NextPage = () => {
     
     const router = useRouter()
     const { userState } = useContext(AuthContext);
+    const { onOpen_login } = useContext(LoginToggleContext);
     const uuid_uid: string = router.query.uuid_uid as string
     const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
@@ -75,8 +76,12 @@ const UsersPage: NextPage = () => {
     })
 
     const handleFollowButton = async (e:any) => {
-        await toggleFollow()
-        .catch(error => console.log(error))
+        if (userState=='isUser') {
+            await toggleFollow()
+            .catch(error => console.log(error))
+        } else if (userState=='guest') {
+            onOpen_login()
+        }
     }
 
     // reload時のlike state更新
@@ -136,6 +141,7 @@ const UsersPage: NextPage = () => {
                             defaultChecked={ isFollowed }
                             Schildren={"フォロー中"}
                             onClick={handleFollowButton}
+                            ActiveDisabled={userState!='isUser'}
                             >
                                 フォローする
                             </SwitchButton>

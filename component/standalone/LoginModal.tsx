@@ -65,23 +65,12 @@ export const LoginForm = () => {
     )
 }
 
-export const LoginModal = ({
-    
-}: any) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+export const LoginModal = ({ isOpen, onClose}: { isOpen: boolean, onClose: () => void }) => {
     return (
         <>
-            <GlassButton 
-            onClick={onOpen}
-            fontSize={15} borderRadius={100} letterSpacing={5} px={5}
-            bgGradient={"linear(to-l, tipsy_color_1, tipsy_color_2)"} color="bg_switch" 
-            _hover={{bgGradient: "linear(to-l, tipsy_color_active_1, tipsy_color_active_2)"}}
-            >
-                ログイン
-            </GlassButton>
             <Modal
-                isOpen={isOpen}
-                onClose={onClose}
+            isOpen={isOpen}
+            onClose={onClose}
             >
                 <ModalOverlay 
                 backdropFilter={"blur(2px)"} 

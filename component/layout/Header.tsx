@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import Link from "next/link"
-import { AuthContext } from "../../util/hook/authContext"
+import { AuthContext, LoginToggleContext } from "../../util/hook/authContext"
 
 import { auth } from "../../util/firebase/init"
 import { Avatar, Box, Button, Center, Flex, Heading, IconButton, MenuButton, useDisclosure } from "@chakra-ui/react"
@@ -27,7 +27,10 @@ import { GET_GUEST_COLLECTIOINS } from "../../util/graphql/queries/links.query.s
 
 export const BasicHeader = () => {
     const router = useRouter()
+    
     const { userState } = useContext(AuthContext);
+    const { onOpen_login } = useContext(LoginToggleContext);
+
     const { onClose, isOpen, onToggle } = useDisclosure()
     //input value取得 & ページによる切り替え & 検索
     const defValue = router.query.words as string
@@ -131,7 +134,14 @@ export const BasicHeader = () => {
                                 新規登録
                             </GlassButton>
                         </Link>
-                        <LoginModal/>
+                        <GlassButton 
+                        onClick={onOpen_login}
+                        fontSize={15} borderRadius={100} letterSpacing={5} px={5}
+                        bgGradient={"linear(to-l, tipsy_color_1, tipsy_color_2)"} color="bg_switch" 
+                        _hover={{bgGradient: "linear(to-l, tipsy_color_active_1, tipsy_color_active_2)"}}
+                        >
+                            ログイン
+                        </GlassButton>
                     </>
                 }
             </Flex>

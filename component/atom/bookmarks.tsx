@@ -1,6 +1,6 @@
-import { Icon, Menu, MenuButton, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react"
+import { Icon, Menu, MenuButton, MenuGroup, MenuItem, MenuList, useDisclosure } from "@chakra-ui/react"
 import { motion, useAnimation } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { BookMarkButtonProps } from "../../type/atom"
 import { MdBookmark, MdBookmarkBorder, MdKingBed } from "react-icons/md"
 import { makeVar, useMutation } from "@apollo/client"
@@ -11,6 +11,7 @@ import { CheckIcon } from "@chakra-ui/icons"
 import { POSTS_FOLDER_POSTS_FRAG } from "../../util/graphql/fragment/fragment.scheme"
 import { GET_FOLDER_POSTS } from "../../util/graphql/queries/folders.query.scheme"
 import { useCustomToast } from "../../util/hook/useCustomToast"
+import { AuthContext, LoginToggleContext } from "../../util/hook/authContext"
 
 export const isBoopkMarkToggledWithCacheExistVar = makeVar(null as { isMarked: boolean, uuid_pid: string, fid: number } | null)
 
@@ -20,6 +21,10 @@ export const BookMarkButton = ({
     uuid_pid,
     ...props
 }: BookMarkButtonProps) => {
+    const { userState } = useContext(AuthContext);
+    const { onOpen_login } = useContext(LoginToggleContext);
+
+    const { isOpen, onToggle, onClose } = useDisclosure()
     //animation setting
     const controls = useAnimation()
     const {toastSuccess, toastError} = useCustomToast()
@@ -120,8 +125,18 @@ export const BookMarkButton = ({
     useEffect(()=>setIsMarked(!!(folder_posts && folder_posts.length>0)),[folder_posts])
     return (
         <>
-            <Menu>
-                <MenuButton onClick={() => {controls.start({ scale: [0.95, 0.85, 1] })}}>
+            <Menu
+            isOpen={isOpen}
+            onClose={onClose}
+            >
+                <MenuButton onClick={() => {
+                    if (userState=='isUser') {
+                        onToggle()
+                        controls.start({ scale: [0.95, 0.85, 1] })
+                    } else if (userState=='guest') {
+                        onOpen_login()
+                    }
+                    }}>
                     <motion.div
                     whileTap={{ scale: 1.1 }} // クリック時のアニメーションを定義
                     whileHover={{ scale: 0.95 }}
