@@ -92,7 +92,7 @@ const UsersPage: NextPage = () => {
         //the case linked to logined-user-page from search page before userState is not fetched, redirect to my-page
         const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
         if (uuid_uid && user_data?.user?.uuid_uid == uuid_uid ) router?.push({ pathname: '/user/my_page' })
-    },[])
+    },[uuid_uid])
 
     if (error) console.log(error);
     return (

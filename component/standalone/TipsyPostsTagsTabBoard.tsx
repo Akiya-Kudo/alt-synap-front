@@ -48,7 +48,7 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
         getTagsNewPosts({
             variables: {
                 searchString: null,
-                selectedTagId: topics[tabIndex].tid,
+                selectedTagId: topics[tabIndex]?.tid,
                 offset: 0,
                 sortType: 1
             }

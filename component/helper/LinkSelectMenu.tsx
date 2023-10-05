@@ -1,11 +1,13 @@
 import { AddIcon } from "@chakra-ui/icons";
-import { Avatar, AvatarGroup, Box, Menu, MenuGroup, MenuItem, MenuList } from "@chakra-ui/react"
+import { Avatar, AvatarGroup, Box, Menu, MenuGroup, MenuItem, MenuList, useDisclosure } from "@chakra-ui/react"
 import Link from "next/link";
 import { LinkSelectBoardProps } from "../../type/helper";
 
 export const LinkSelectMenu = ({
     collections, children, title,
+    onClose, isOpen,
     handleClick=(e: any)=>{},
+    menuDisplaymargin,
     ...props
 }:LinkSelectBoardProps) => {
     const onClick = (cid: number) => {
@@ -14,6 +16,8 @@ export const LinkSelectMenu = ({
     return (
         <Menu 
         {...props}
+        isOpen={isOpen}
+        onClose={onClose}
         >
             <>
             {children}
@@ -22,6 +26,7 @@ export const LinkSelectMenu = ({
             borderRadius={15}
             backdropFilter={"blur(17px)"}
             backgroundColor={"bg_popover_switch"}
+            m={menuDisplaymargin}
             >
                 <MenuGroup title={title} fontSize={".8rem"}>
                     {
