@@ -101,3 +101,32 @@ export const GET_HOT_LINKS = gql`
         }
     }
 `
+
+export const GET_GUEST_COLLECTIOINS = gql`
+    query {
+        get_guest_collections {
+            cid
+            collection_name
+            link_collections {
+                lid
+                cid
+                uuid_uid
+                deleted
+                links {
+                    lid
+                    link_name
+                    image_path
+                    explanation
+                    url_scheme
+                    query
+                    joint
+                    other_queries
+                    genre
+                    is_path_search
+                    publish
+                    timestamp
+                }
+            }
+        }
+    }
+`

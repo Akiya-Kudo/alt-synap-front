@@ -22,14 +22,14 @@ import { client } from "../../pages/_app"
 import { USER_QUERY } from "../../util/graphql/queries/users.query.schema"
 import { useLinkSearch } from "../../util/hook/useLink"
 import { AddPostSelectMenu } from "../helper/AddPostSelectNemu"
+import { useLazyQuery, useQuery } from "@apollo/client"
+import { GET_GUEST_COLLECTIOINS } from "../../util/graphql/queries/links.query.scheme"
 
 export const BasicHeader = () => {
-    const { onClose, isOpen, onToggle } = useDisclosure()
-
-    const [searchWords, setSearchWords] = useState<string>("")
-
-    //input value取得 & ページによる切り替え & 検索
     const router = useRouter()
+    const { userState } = useContext(AuthContext);
+    const { onClose, isOpen, onToggle } = useDisclosure()
+    //input value取得 & ページによる切り替え & 検索
     const defValue = router.query.words as string
     useEffect(() => {
         if (router.pathname == '/search') setSearchWords(defValue)
@@ -42,22 +42,25 @@ export const BasicHeader = () => {
         })
     }    
 
-    //header内user情報
-    const { userState } = useContext(AuthContext);
+    const [searchWords, setSearchWords] = useState<string>("")
+    const [collections, setCollections] = useState<Collection[]>([])
 
-    let collections = [] as Collection[]
+    const [getGuestCollections] = useLazyQuery(GET_GUEST_COLLECTIOINS)
     const data_user = client.readQuery({
         query: USER_QUERY,
         variables: {
             uid: auth.currentUser?.uid,
         },
     });
-    if (data_user) {
-        collections = data_user?.user?.collections
-    } 
-    if (userState == "guest") {
-        //サンプルコレクションを表示
-    }
+
+    useEffect(() => {
+        if (userState=="isUser") {
+            setCollections(data_user?.user?.collections ? data_user?.user?.collections : [])
+        } else if (userState=='guest') {
+            getGuestCollections().then(res => setCollections(res.data.get_guest_collections)).catch(error => console.log(error)
+            )
+        }
+    },[data_user, userState])
 
     const handleMultLink = (cid: number) => {
         const links = collections.find(col => col.cid == cid)?.link_collections?.map(li_col => {

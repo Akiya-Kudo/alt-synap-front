@@ -1,5 +1,5 @@
 import { Center, IconButton, InputGroup, InputRightElement, MenuButton, useDisclosure, VStack } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { TfiUnlink } from 'react-icons/tfi'
 import { client } from '../../pages/_app'
 import { auth } from '../../util/firebase/init'
@@ -11,16 +11,30 @@ import LinkBoard from './LinkBoard'
 import { useLinkSearch } from "../../util/hook/useLink"
 import { Collection } from '../../type/global';
 import { NeumIconButton } from '../atom/buttons'
+import { AuthContext } from '../../util/hook/authContext'
+import { useLazyQuery, useQuery } from '@apollo/client'
+import { GET_GUEST_COLLECTIOINS } from '../../util/graphql/queries/links.query.scheme'
 
 const LinkSearchableBoard = () => {
+    const { userState } = useContext(AuthContext);
     const { onClose, isOpen, onToggle, onOpen } = useDisclosure()
     const [word, setWord] = useState<string>("")
     const [collections, setCollections] = useState<Collection[]>([])
+
+    const [getGuestCollections] = useLazyQuery(GET_GUEST_COLLECTIOINS)
     const data_user = client.readQuery({
         query: USER_QUERY,
         variables: { uid: auth.currentUser?.uid }
     });
-    useEffect(() => { setCollections(data_user?.user?.collections) },[data_user])
+
+    useEffect(() => {
+        if (userState=="isUser") {
+            setCollections(data_user?.user?.collections ? data_user?.user?.collections : [])
+        } else if (userState=='guest') {
+            getGuestCollections().then(res => setCollections(res.data.get_guest_collections)).catch(error => console.log(error)
+            )
+        }
+    },[data_user, userState])
 
     const handleMultLink = (cid: number) => {
         collections.find(col => col.cid == cid)?.link_collections?.map(li_col => { useLinkSearch(li_col.links, word) })
