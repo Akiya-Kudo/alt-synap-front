@@ -1,7 +1,9 @@
 import { AddIcon } from "@chakra-ui/icons";
 import { Avatar, AvatarGroup, Box, Menu, MenuGroup, MenuItem, MenuList, useDisclosure } from "@chakra-ui/react"
 import Link from "next/link";
+import { useContext } from "react";
 import { LinkSelectBoardProps } from "../../type/helper";
+import { AuthContext, LoginToggleContext } from "../../util/hook/authContext";
 
 export const LinkSelectMenu = ({
     collections, children, title,
@@ -10,6 +12,9 @@ export const LinkSelectMenu = ({
     menuDisplaymargin,
     ...props
 }:LinkSelectBoardProps) => {
+    const { userState } = useContext(AuthContext);
+    const { onOpen_login } = useContext(LoginToggleContext);
+
     const onClick = (cid: number) => {
         handleClick(cid)
     }
@@ -50,7 +55,7 @@ export const LinkSelectMenu = ({
                         })
                     }
                     {
-                        (collections && collections?.length>=0)  &&
+                        (collections && collections?.length>=0 && userState=='isUser')  ?
                         <Link href="/user/edit/link_setting">
                             <MenuItem 
                             p={2} fontSize={".8rem"} color={"tipsy_color_2"} bg={"transparent"}
@@ -60,6 +65,15 @@ export const LinkSelectMenu = ({
                                 <span>新しいCollectionを作成する</span>
                             </MenuItem>
                         </Link>
+                        :
+                        <MenuItem 
+                        p={2} fontSize={".8rem"} color={"tipsy_color_2"} bg={"transparent"}
+                        _hover={{ backgroundColor: "rgba(130,130,130, 0.25)", color: "white" }}
+                        onClick={onOpen_login}
+                        >
+                            <AddIcon mr='12px' fontSize={".6rem"}/>
+                            <span>新しいCollectionを作成する</span>
+                        </MenuItem>
                     }
                 </MenuGroup>
             </MenuList>
