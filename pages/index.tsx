@@ -26,7 +26,6 @@ const Index: NextPage<{}>  = () => {
 
   const [displayContent, setDisplayContent] = useState<"Following" | "NewArrivals" | "HotTopics" | "FavoriteTopics">("NewArrivals")
   const [displayPosts, setDisplayPosts] = useState<Post[]>([])
-  const [displayLinks, setDisplayLinks] = useState<LinkType[]>([])
 
   const handleTabGroup = (e:any) => {
     setDisplayContent(e)
@@ -102,7 +101,7 @@ const Index: NextPage<{}>  = () => {
 
         {
           userState=="guest" &&
-          <FlatBord mb={5} w={"90%"} h={100} bgGradient='linear(to-tr, tipsy_color_3, tipsy_color_1)' bg={""} color={"white"}>
+          <FlatBord mb={4} w={"90%"} h={100} bgGradient='linear(to-tr, tipsy_color_3, tipsy_color_1)' bg={""} color={"white"}>
             {/* <FlatText fontSize={"2.5rem"} fontWeight="bold" color={"tipsy_color_2"}></FlatText> */}
             <Heading fontSize={"2.5rem"}>Tipsy</Heading>
             <Heading fontSize={"1.5rem"} ms={2} mt={2}>について</Heading>
@@ -113,7 +112,7 @@ const Index: NextPage<{}>  = () => {
         }
 
         {
-          userState=="isUser" &&
+          (userState=="isUser" || userState=="guest") &&
           <LinkSearchableBoard/>
         }
 

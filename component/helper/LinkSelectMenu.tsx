@@ -13,6 +13,7 @@ export const LinkSelectMenu = ({
     const onClick = (cid: number) => {
         handleClick(cid)
     }
+    
     return (
         <Menu 
         {...props}
@@ -49,7 +50,7 @@ export const LinkSelectMenu = ({
                         })
                     }
                     {
-                        collections?.length==0 && 
+                        (collections && collections?.length>=0)  &&
                         <Link href="/user/edit/link_setting">
                             <MenuItem 
                             p={2} fontSize={".8rem"} color={"tipsy_color_2"} bg={"transparent"}

@@ -13,8 +13,9 @@ import { AuthContext } from '../../util/hook/authContext';
 import { Collection, Link as LinkType } from '../../type/global';
 import { BiCategoryAlt } from 'react-icons/bi';
 import {useLinkSearch} from '../../util/hook/useLink'
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { SET_TOP_COLLECTION } from '../../util/graphql/mutation/collections.mutation.scheme';
+import { GET_GUEST_COLLECTIOINS } from '../../util/graphql/queries/links.query.scheme';
 
 const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, flexDirection?: ResponsiveValue<any> | undefined}) => {
     const { onClose, isOpen, onToggle } = useDisclosure()
@@ -24,24 +25,32 @@ const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, fl
     const [displayCid, setDlisplayCid] = useState<number | undefined>(undefined)
 
     const [setTopCollection] = useMutation(SET_TOP_COLLECTION)
+    const [getGuestCollections] = useLazyQuery(GET_GUEST_COLLECTIOINS)
     
     useEffect(() => {
-        const read_collections = client.readQuery({
-            query: USER_QUERY,
-            variables: {
-                uid: auth.currentUser?.uid,
-            },
-        });
-        setCollection(read_collections?.user?.collections)
-        // return index, if the collection is not find in array => return -1
-        const top_collection = read_collections?.user?.collections.find((collection: Collection) => collection.cid == read_collections?.user?.top_collection)
-        setDlisplayCid( top_collection ? top_collection.cid : read_collections?.user?.collections[0]?.cid )
+        if (userState=="isUser") {
+            const read_collections = client.readQuery({
+                query: USER_QUERY,
+                variables: {
+                    uid: auth.currentUser?.uid,
+                },
+            });
+            setCollection(read_collections?.user?.collections ? read_collections?.user?.collections : [])
+            // return index, if the collection is not find in array => return -1
+            const top_collection = read_collections?.user?.collections.find((collection: Collection) => collection.cid == read_collections?.user?.top_collection)
+            setDlisplayCid( top_collection ? top_collection.cid : read_collections?.user?.collections[0]?.cid )
+        } else if (userState=="guest") {
+            getGuestCollections().then(res => {
+                setCollection(res.data.get_guest_collections)
+                setDlisplayCid(res.data.get_guest_collections[0]?.cid)
+            })
+        }
     }, [userState]);
     
     
     const handleSelect = (cid: number) => {
         setDlisplayCid(cid)
-        setTopCollection({variables: { cid: cid }})
+        if (userState=="isUser") setTopCollection({variables: { cid: cid }})
     }
 
     const handleLink = (link: LinkType) => useLinkSearch(link, query_text)
