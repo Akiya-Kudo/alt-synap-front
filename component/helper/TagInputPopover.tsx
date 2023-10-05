@@ -124,7 +124,8 @@ export const TagInputPopover = ({
                             id={id}
                             validation={Validation_word(value)}
                             errors={errors} register={register}
-                            onKeyDown={handleKeyDown} onCompositionStart={ ()=>setComposition(true) } onCompositionEnd={ ()=>setComposition(false) }
+                            onKeyDown={handleKeyDown} 
+                            onCompositionStart={ ()=>setComposition(true) } onCompositionEnd={ ()=>setComposition(false) }
                             isDisabled={!(value && value.length < 5)}
 
                             h="40px" w={"300px"} fontSize={"0.8rem"}

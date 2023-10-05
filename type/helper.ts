@@ -106,6 +106,9 @@ export interface LinkSelectBoardProps extends MenuProps {
     collections?: Collection[],
     title: string,
     handleClick?: (e: any) =>any,
+    onClose: any, 
+    isOpen: boolean,
+    menuDisplaymargin?: string | number,
 }
 
 export interface CollectionItemModalProps extends BoxProps {

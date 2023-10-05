@@ -1,11 +1,12 @@
 import { NextPage } from 'next';
-import { AbsoluteCenter, Box, Flex } from '@chakra-ui/react';
+import { AbsoluteCenter, Box, Flex, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import TipsyTagsBoard from '../component/standalone/TipsyTagsBoard';
 import LinkBoard from '../component/standalone/LinkBoard';
 import { makeVar, useReactiveVar } from '@apollo/client';
 import Head from 'next/head';
+import { FlatBord } from '../component/atom/bords';
 
 export const isTagBoardDisplayVar = makeVar(true as boolean)
 
@@ -30,7 +31,16 @@ const Search: NextPage  = () => {
                 zIndex={100}  // collection選択menuが投稿一覧の下に表示されてしまうため設定
                 justify="end" align={"center"}
                 >
-                    <LinkBoard query_text={query_text}/>
+                    <VStack mt={10}>
+                        <FlatBord
+                        w={"70px"}
+                        px={1} py={3} borderRadius={"full"}
+                        flexDirection={"column"} gap={3}
+                        neumH="shallow"
+                        >
+                            <LinkBoard query_text={query_text}/>
+                        </FlatBord>
+                    </VStack>
                 </Flex>
                 <Box flexGrow={1}>
                     {

@@ -3,7 +3,7 @@ import Link from "next/link"
 import { AuthContext } from "../../util/hook/authContext"
 
 import { auth } from "../../util/firebase/init"
-import { Avatar, Box, Button, Center, Flex, Heading, IconButton, MenuButton } from "@chakra-ui/react"
+import { Avatar, Box, Button, Center, Flex, Heading, IconButton, MenuButton, useDisclosure } from "@chakra-ui/react"
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons"
 import { TfiUnlink } from "react-icons/tfi"
 
@@ -24,6 +24,7 @@ import { useLinkSearch } from "../../util/hook/useLink"
 import { AddPostSelectMenu } from "../helper/AddPostSelectNemu"
 
 export const BasicHeader = () => {
+    const { onClose, isOpen, onToggle } = useDisclosure()
 
     const [searchWords, setSearchWords] = useState<string>("")
 
@@ -61,11 +62,7 @@ export const BasicHeader = () => {
     const handleMultLink = (cid: number) => {
         const links = collections.find(col => col.cid == cid)?.link_collections?.map(li_col => {
             useLinkSearch(li_col.links, searchWords)
-            const joined_words = searchWords?.toLowerCase().replace(/　/g, ' ').replace(' ', li_col.links.joint)
-            const link_path = li_col.links.url_scheme + "?" + li_col.links.query + "=" + joined_words
-            return link_path
         })
-        // links?.map(link => window.open(link, '_blank'))
     }
 
     return (
@@ -78,13 +75,17 @@ export const BasicHeader = () => {
                 <TitleLink fontSize={"1.3rem"}>tipsy</TitleLink>
                 <ColorModeButton />
                 <GlassInput_search 
-                id="search"
+                id="search" placeholder="Tipsyで検索"
                 value={searchWords}
                 setValue={ setSearchWords }
                 onSearch={ handleSearch }
                 right_element={(                
                     <Center>
-                            <LinkSelectMenu title={"- Mult Link Search -"} collections={collections} handleClick={handleMultLink}>
+                            <LinkSelectMenu 
+                            title={"- Mult Link Search -"} collections={collections} handleClick={handleMultLink}
+                            onClose={onClose} isOpen={isOpen}
+                            placement={'bottom'}
+                            >
                                 <MenuButton 
                                 as={IconButton} icon={<TfiUnlink/>} aria-label="multi-link-search"
                                 _hover={{ filter: 'brightness(1.2)' }} 
@@ -92,6 +93,7 @@ export const BasicHeader = () => {
                                 bg={"bg_popover_switch"}
                                 borderRadius={"full"}
                                 fontSize={"1.3rem"} size={"sm"}
+                                onClick={onToggle}
                                 />
                             </LinkSelectMenu>
                     </Center>

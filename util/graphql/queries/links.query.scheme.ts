@@ -76,3 +76,28 @@ export const GET_LINKCOLLECTION_HISTORY = gql`
         }
     }
 `
+
+export const GET_HOT_LINKS = gql`
+    query {
+        hot_links {
+            lid
+            uuid_uid
+            link_name
+            image_path
+            explanation
+            genre
+            is_path_search
+            publish
+            timestamp
+            url_scheme
+            query
+            joint
+            other_queries
+            users {
+                uuid_uid
+                user_name
+                user_image
+            }
+        }
+    }
+`

@@ -7,11 +7,13 @@ import { GET_FOLLOWEES_POSTS, GET_POSTS_NEW, POSTS_SEARCH } from '../util/graphq
 import { useContext, useEffect, useState } from 'react';
 import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client';
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from '../util/hook/authContext';
-import { Post } from '../type/global';
+import { Link as LinkType, Post } from '../type/global';
 import { FlatBord } from '../component/atom/bords';
 import { GlassButton } from '../component/atom/buttons';
 import Link from 'next/link';
 import TipsyPostsTagsTabBoard from '../component/standalone/TipsyPostsTagsTabBoard';
+import LinkSearchableBoard from '../component/standalone/LinkSearchableBoard'
+import { GET_HOT_LINKS } from '../util/graphql/queries/links.query.scheme';
 
 const TipsyPostsDisplay = dynamic(
   () => import('../component/helper/TipsyPostsDisplay'),
@@ -24,6 +26,8 @@ const Index: NextPage<{}>  = () => {
 
   const [displayContent, setDisplayContent] = useState<"Following" | "NewArrivals" | "HotTopics" | "FavoriteTopics">("NewArrivals")
   const [displayPosts, setDisplayPosts] = useState<Post[]>([])
+  const [displayLinks, setDisplayLinks] = useState<LinkType[]>([])
+
   const handleTabGroup = (e:any) => {
     setDisplayContent(e)
     if (e=="Following") {
@@ -62,17 +66,19 @@ const Index: NextPage<{}>  = () => {
     setDisplayPosts([...displayPosts, ...res.data.get_posts_user_follow])
   }
 
+  //fetch HotLinks 
+  const [getHotLinks] = useLazyQuery(GET_HOT_LINKS)
+
   //reset displayPosts for the first display when the page is loaded
   useEffect(() => {
-    if (displayContent=="NewArrivals") {
-      setDisplayPosts(data_new?.search_post)
-    }
+    if (displayContent=="NewArrivals") { setDisplayPosts(data_new?.search_post) }
   },[data_new])
   
 
   // reload時のlike & bookmark state更新 : this is needed only when reloading the page, so reactive var will updated when this is called or the other page roaded in context. 
   useEffect(()=>{
-    if (userState=="isUser" && !IsAlreadyFetchedAsIsUser) {
+    if (userState=="isUser") {
+      if (!IsAlreadyFetchedAsIsUser) {
         console.log("refetching to refresh like & bookmark state");
         refetch_new(
             {
@@ -83,8 +89,12 @@ const Index: NextPage<{}>  = () => {
             },
         )
         IsAlreadyFirstFetchedAsIsUserVar(true)
+      }
+      //fetchLinks
+      //readFragment
     }
   },[userState])
+
   return (
     <>
       <Head><title>Tipsy | Home</title></Head>
@@ -102,12 +112,17 @@ const Index: NextPage<{}>  = () => {
           </FlatBord>
         }
 
+        {
+          userState=="isUser" &&
+          <LinkSearchableBoard/>
+        }
+
         <TabButtonSelectGroup 
         onChange={ handleTabGroup} 
         options={userState=="isUser" ? ["Following", "NewArrivals", "HotTopics", "FavoriteTopics"] : ["NewArrivals", "HotTopics"]}
         defaultValue={displayContent} 
         Hcolor={"tipsy_color_2"} Acolor={"tipsy_color_active_2"}
-        w={"90%"}
+        w={"90%"} borderRadius={"full"}
         />
 
         { 
@@ -118,7 +133,7 @@ const Index: NextPage<{}>  = () => {
           error={error_f} loading={loading_f}
           not_found_message={"投稿が見つかりませんでした"}
           handleFetchMore={handleFetchMoreUserFollow}
-          my={10}
+          my={7}
           />
         }
         { 
@@ -129,7 +144,7 @@ const Index: NextPage<{}>  = () => {
           error={error_new} loading={loading_new}
           not_found_message={"投稿が見つかりませんでした"}
           handleFetchMore={handleFetchMoreNewPosts}
-          my={10}
+          my={7}
           />
         }
         {

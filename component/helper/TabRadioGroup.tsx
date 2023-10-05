@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react"
-import { Children, useState } from "react"
+import { Children, useEffect, useState } from "react"
 import { MyTabGroupProps, SwitchGroupProps } from "../../type/helper"
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
 import { TabBord } from "../atom/bords"
@@ -18,6 +18,7 @@ export const TabButtonSelectGroup = ({
         setSelected(e.target.id)
         onChange(e.target.id)
     }
+    
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <Box
@@ -29,7 +30,7 @@ export const TabButtonSelectGroup = ({
             { options.map((name: string, index: number) => {
                 return (
                     <SwitchButton_tab
-                    id={name} key={index}
+                    id={name} key={name}
                     selectedValue={selected} onClick={handleClick} 
                     Hcolor={Hcolor} Acolor={Acolor} 
                     borderRadius={chBorderRadius} w={chW} h={chH} fontSize={fontSize}
