@@ -26,3 +26,12 @@ export const CREATE_COLLECTION = gql`
         }
     }
 `
+
+export const SET_TOP_COLLECTION = gql`
+    mutation($cid: Int! ) {
+        set_top_collection(cid: $cid) {
+            uuid_uid
+            top_collection
+        }
+    }
+`

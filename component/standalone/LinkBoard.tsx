@@ -1,8 +1,7 @@
-import { Avatar, Box, Center, Icon, IconButton, MenuButton, ResponsiveValue, Spinner, useDisclosure, VStack } from '@chakra-ui/react';
+import { Avatar, Box, Center, Icon, MenuButton, ResponsiveValue, useDisclosure } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { IoMdSettings } from 'react-icons/io';
-import { FaQuestion } from 'react-icons/fa';
-import { DentBord, FlatBord, FullfyBord } from '../../component/atom/bords';
+import { DentBord } from '../../component/atom/bords';
 import { ClickButtonFlat } from '../../component/atom/buttons';
 import Link from 'next/link';
 import { useNeumorphismColorMode } from '../../util/hook/useColor';
@@ -14,6 +13,8 @@ import { AuthContext } from '../../util/hook/authContext';
 import { Collection, Link as LinkType } from '../../type/global';
 import { BiCategoryAlt } from 'react-icons/bi';
 import {useLinkSearch} from '../../util/hook/useLink'
+import { useMutation } from '@apollo/client';
+import { SET_TOP_COLLECTION } from '../../util/graphql/mutation/collections.mutation.scheme';
 
 const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, flexDirection?: ResponsiveValue<any> | undefined}) => {
     const { onClose, isOpen, onToggle } = useDisclosure()
@@ -21,6 +22,8 @@ const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, fl
     const { userState } = useContext(AuthContext);
     const [collection, setCollection] = useState<Collection[]>([])
     const [displayCid, setDlisplayCid] = useState<number | undefined>(undefined)
+
+    const [setTopCollection] = useMutation(SET_TOP_COLLECTION)
     
     useEffect(() => {
         const read_collections = client.readQuery({
@@ -30,10 +33,16 @@ const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, fl
             },
         });
         setCollection(read_collections?.user?.collections)
-        setDlisplayCid(read_collections?.user?.collections[0]?.cid)
+        // return index, if the collection is not find in array => return -1
+        const top_collection = read_collections?.user?.collections.find((collection: Collection) => collection.cid == read_collections?.user?.top_collection)
+        setDlisplayCid( top_collection ? top_collection.cid : read_collections?.user?.collections[0]?.cid )
     }, [userState]);
     
-    const handleSelect = (cid: number) => setDlisplayCid(cid)
+    
+    const handleSelect = (cid: number) => {
+        setDlisplayCid(cid)
+        setTopCollection({variables: { cid: cid }})
+    }
 
     const handleLink = (link: LinkType) => useLinkSearch(link, query_text)
 
