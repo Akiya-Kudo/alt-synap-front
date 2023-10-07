@@ -17,14 +17,14 @@ export const ChangePassword: NextPage = () => {
             <Flex
             className="page"
             direction="column" 
-            justify="center" 
-            align="center" 
+            justify={["start", "center"]}
+            align="center" mt={[10, 0]}
             >
-                <Heading m={5} size="lg">パスワード変更</Heading>
+                <Heading m={2} size="lg">パスワード変更</Heading>
                 <Center
                 fontSize='sm'  
                 color={"text_light"}
-                m={3}
+                my={3} mx={10}
                 >
                     アカウントに登録したメールアドレスを入力し送信されたメールからパスワードを変更してください。
                 </Center>

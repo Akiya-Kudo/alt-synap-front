@@ -40,7 +40,12 @@ const TipsyPostsDisplay = ({
                     <>
                         <PinterestGrid
                         columns={3}      
-                        columnWidth={window.innerWidth > 550 ? 550 : 350}
+                        columnWidth={
+                            (window.innerWidth < 480) ? 300 
+                            : (window.innerWidth < 1000) ? 360 
+                                : (window.innerWidth < 1500) ? 550 
+                                    : 650
+                        }
                         gutterWidth={30} 
                         gutterHeight={20}
                         responsive={true}
@@ -86,7 +91,7 @@ const TipsyPostsDisplay = ({
                             displayPosts.length < allPostsCount && 
                             (<Center m={10}>
                                 <ClickButton
-                                size={"md"} fontSize={16}
+                                size={"md"} fontSize={[16]}
                                 Hcolor={"tipsy_color_3"}
                                 onClick={handleFetchMore}
                                 >もっと見る</ClickButton>

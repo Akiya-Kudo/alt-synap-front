@@ -19,7 +19,6 @@ export const NeumInputDefault = ({
     borderRadius="full", 
     border="none",
     color="text_normal", 
-    fontSize=20, 
     placeholder='📝',
     PHcolor="text_very_light",
     register,
@@ -33,11 +32,8 @@ export const NeumInputDefault = ({
         placeholder={placeholder}
         _placeholder={{ color: PHcolor }}
         border={border}
-        _focus={{
-            boxShadow: flat_tall,
-            fontSize: fontSize / 0.95,
-        }}
-        borderRadius={borderRadius} bg={bg} color={color} fontSize={fontSize}
+        _focus={{ boxShadow: flat_tall }}
+        borderRadius={borderRadius} bg={bg} color={color}
         boxShadow={dent}
         {...register}
         />
@@ -241,7 +237,7 @@ export const NeumFloatFormInput = ({
             <FormLabel 
             position="absolute" transition={".25s"}
             color={isFloat ? focusColor : "text_normal"}
-            top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
+            top={isFloat ? [2, 3] : ["17px", "23px", "30px"]} left={7}
             fontSize={isFloat ? "0.7rem" : undefined} fontWeight={fontWeight}
             >
                 {labelName}
@@ -250,7 +246,7 @@ export const NeumFloatFormInput = ({
             register={register(id , validation)} defaultValue={defaultValue}
             bg={bg} border={border} borderRadius={borderRadius} color={color} 
             fontWeight={fontWeight}
-            placeholder="" h="70px" ps={"33px"} my={2}
+            placeholder="" h={["40px", "55px", "70px"]} ps={"33px"} my={2}
             maxLength={maxLength}
             />
             <FormErrorMessage ms={5}>
@@ -298,7 +294,7 @@ export const NeumFloatFormInput_password = ({
             <FormLabel 
             position="absolute" transition={".25s"}
             color={isFloat ? focusColor : "text_normal"}
-            top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
+            top={isFloat ? [2, 3] : ["17px", "23px", "30px"]} left={7}
             fontSize={isFloat ? "0.7rem" : undefined}
             >{labelName}</FormLabel>
             <InputGroup>
@@ -306,7 +302,7 @@ export const NeumFloatFormInput_password = ({
                 register={register(id , validation)} defaultValue={defaultValue} maxLength={maxLength}
                 bg={bg} border={border} borderRadius={borderRadius} color={color} 
 
-                placeholder="" h="70px" my={2}
+                placeholder="" h={["40px", "55px", "70px"]} ps={"33px"} my={2}
                 type={show ? 'text' : 'password'}
                 />
                 <InputRightElement 
@@ -318,7 +314,7 @@ export const NeumFloatFormInput_password = ({
                     icon={show ? <FaEyeSlash/> : <FaEye/>}
                     onClick={handleClick} 
                     size={relementSize} 
-                    top={4}
+                    top={["12px", "16px", "22px"]}
                     />
                 </InputRightElement>
             </InputGroup>
@@ -489,7 +485,7 @@ export const GlassFloatFormInput = ({
             <FormLabel 
             position="absolute" transition={".25s"}
             color={isFloat ? focusColor : "text_normal"}
-            top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
+            top={isFloat ? [2, 3] : ["17px", "23px", "30px"]} left={7}
             fontSize={isFloat ? "0.7rem" : undefined}
             zIndex={10}
             >
@@ -500,7 +496,7 @@ export const GlassFloatFormInput = ({
             focusBorderColor={focusBC}            
             bg={bg} border={border} borderRadius={borderRadius} color={color} 
 
-            placeholder="" h="70px" ps={"33px"} my={2}
+            placeholder="" h={["40px", "55px", "70px"]} ps={"33px"} my={2}
             />
             <FormErrorMessage ms={5}>
                 {errors[id] && <div role="alert">{errors[id]?.message + " "}</div>}
@@ -549,7 +545,7 @@ export const GlassFloatFormInput_password = ({
             <FormLabel 
             position="absolute" transition={".25s"}
             color={isFloat ? focusColor : "text_normal"}
-            top={isFloat ? 3 : "30px"} left={isFloat ? 7 : 7}
+            top={isFloat ? [2, 3] : ["17px", "23px", "30px"]} left={7}
             fontSize={isFloat ? "0.7rem" : undefined}
             zIndex={10}
             >
@@ -562,11 +558,11 @@ export const GlassFloatFormInput_password = ({
                 bg={bg} border={border} borderRadius={borderRadius} color={color} 
                 focusBorderColor={focusBC}
 
-                placeholder="" h="70px" my={2}
+                placeholder="" h={["40px", "55px", "70px"]} my={2}
                 type={show ? 'text' : 'password'}
                 />
                 <InputRightElement 
-                mx={2}
+                mx={3}
                 position="absolute"
                 >
                     <IconButton
@@ -575,7 +571,7 @@ export const GlassFloatFormInput_password = ({
                     onClick={handleClick} 
                     size={relementSize} 
 
-                    top={4}
+                    top={["13px", "17px", "22px"]}
                     fontWeight={"normal"} 
                     variant='outline' 
                     color="text_normal" 

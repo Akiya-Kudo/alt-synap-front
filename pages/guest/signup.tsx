@@ -1,7 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-
-import { useSignUpFunc, useSocialLoginFunc } from '../../util/hook/useAuth';
-import { BoxProps, Button, Center, Divider, Flex, Grid, GridItem, Heading, HStack } from '@chakra-ui/react'
+import { Box, Center, Flex, Grid, GridItem, Heading } from '@chakra-ui/react'
 
 import { AuthContext } from '../../util/hook/authContext';
 import { NextPage } from 'next';
@@ -21,53 +19,47 @@ const SignUp: NextPage  = () => {
     return (
         <>
         <Head><title>Tipsy | 新規登録</title></Head>
-            <Grid
-            className="page"
-            gridTemplateRows={'100px 100px 1fr'}
-            gridTemplateColumns={'100px 1fr 1fr 100px'}
-            h='100vh'
-            >
-                <GridItem colSpan={4}/>
-                <GridItem mt={3} colSpan={4} >
-                    <Center>
-                        <Heading size="lg">新規登録</Heading>
-                    </Center>
-                </GridItem>
-                <GridItem colSpan={1}/>
-                <GridItem colSpan={1}>
+            <Box className="page">
+                <Center m={10}>
+                    <Heading size={["xl", "xl", "lg"]}>新規登録</Heading>
+                </Center>
+                <Flex
+                direction={["column", "column", "row"]}
+                justify="center"
+                align={["center", "center", "start"]}
+                >
+                    <Flex 
+                    direction="column" align='center' justify='center' 
+                    gap={5} p={3}
+                    w={["100%","100%", "45%"]}
+                    >
+                        <Heading size="md">サービスアカウントでログイン</Heading>
+                        <Center
+                        fontSize='sm'  
+                        color={"text_light"}
+                        >
+                            必要な情報を入力して新しくアカウントを作ろう！
+                        </Center>
+                        <NeumSocialLoginButtons/>
+                    </Flex>
+
                     <Flex
-                    direction="column" 
-                    justify="center" 
-                    align="center"
+                    direction="column" justify="center" align="center"
+                    p={3}
+                    w={["100%","100%", "45%"]}
                     >
                         <Heading size="md">メールアドレスでログイン</Heading>
                         <Center
                         fontSize='sm'  
                         color={"text_light"}
-                        m={1}
+                        my={5}
                         >
                             必要な情報を入力して新しくアカウントを作ろう！
                         </Center>
                         <SignupForm />
                     </Flex>
-                </GridItem >
-                <GridItem colSpan={1}>
-                    <Flex 
-                    direction="column"
-                    align='center' justify='center' 
-                    >
-                        <Heading size="md">他のアカウントでログイン</Heading>
-                        <Center
-                        fontSize='sm'  
-                        color={"text_light"}
-                        >
-                            必要な情報を入力して新しくアカウントを作ろう！
-                        </Center>
-                        <NeumSocialLoginButtons />
-                    </Flex>
-                </GridItem>
-                <GridItem colSpan={1}/>
-            </Grid>
+                </Flex>
+            </Box>
         </>
     )
 }

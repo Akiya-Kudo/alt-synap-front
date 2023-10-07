@@ -66,7 +66,7 @@ export const FollowListModal = ({
             <Modal
             isOpen={isOpen}
             onClose={handleModalClose}
-            size={"sm"}
+            size={["md", "sm"]}
             >
                 <ModalOverlay
                 backdropFilter={"blur(2px)"} 
@@ -75,11 +75,11 @@ export const FollowListModal = ({
                 <ModalContent
                 backdropFilter={"blur(15px)"}
                 bg="bg_transparent"
-                borderRadius={20}
-                p={1}
+                borderRadius={[13, 17, 20]}
+                p={.5}
                 >
                     <ModalHeader
-                    borderTopRadius={20}
+                    borderTopRadius={[13, 17, 20]}
                     >
                         <Flex fontSize="1rem">
                             <Box>{ title }</Box>

@@ -6,7 +6,7 @@ import PinterestGrid from 'rc-pinterest-grid';
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, Heading, Highlight, Text, VStack } from "@chakra-ui/react";
 import { CircleLoader, NeumLoader } from "../atom/loaders";
 import { DentBord, TabBord } from "../atom/bords";
-import { ClickButton, SwitchButtonConcave, SwitchButton_tab } from "../atom/buttons";
+import { ClickButton, SwitchButtonConcave } from "../atom/buttons";
 import { useContext, useEffect, useState } from "react";
 import { TabSwitchGroup } from "../helper/TabRadioGroup";
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar,  } from "../../util/hook/authContext";
@@ -107,7 +107,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
         <>
             <Center my={1} w={"100%"} maxW={1100} flexDir={"column"} marginX="auto">
                 <DentBord 
-                w={130} h={"40px"} 
+                px={[6, 7, 8]} py={[3, 4, 4]} 
                 justifyContent="center" alignItems={"center"} 
                 my={3} borderRadius={"full"} 
                 position={"relative"}
@@ -122,7 +122,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                         <SwitchButtonConcave 
                         onClick={handleTagDisplay}
                         position={"absolute"} left={-120} top={1.5} h={6} 
-                        fontSize={10} Ashadow={false}
+                        fontSize={[10]} Ashadow={false}
                         color={"white"} Hcolor={"whiteAlpha.600"} Acolor={"whiteAlpha.100"}
                         bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} 
                         HbgGradient={"linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}
@@ -136,7 +136,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                     defaultValue="人気順"
                     onChange={ handleChangeSort }
                     position={"absolute"} left={200} top={-0.5}
-                    fontSize={10} gap={1} p={1} borderRadius={"full"}/>
+                    gap={1} p={1} borderRadius={"full"}/>
                 </DentBord>
             </Center>
             <Center mb={5} w={"100%"} flexDir={"column"} >
@@ -145,7 +145,12 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                     <>
                         <PinterestGrid
                         columns={3}      
-                        columnWidth={window.innerWidth > 550 ? 550 : 350}
+                        columnWidth={
+                            (window.innerWidth < 480) ? 300 
+                            : (window.innerWidth < 1000) ? 360 
+                                : (window.innerWidth < 1500) ? 550 
+                                    : 650
+                        }
                         gutterWidth={30} 
                         gutterHeight={20}
                         responsive={true}
@@ -192,7 +197,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                             displayPosts.length < data.count_total_posts &&
                             (<Center m={10}>
                                 <ClickButton
-                                size={"md"} fontSize={16}
+                                size={"md"}
                                 Hcolor={"tipsy_color_3"}
                                 onClick={handleFetchMore}
                                 >もっと見る</ClickButton>

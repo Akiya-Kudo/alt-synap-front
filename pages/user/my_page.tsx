@@ -133,7 +133,7 @@ const Mypage: NextPage  = () => {
                 </Box>
                 <Box>
                     <ClickButton
-                    fontSize={15} w={"200px"} m={1}
+                    fontSize={[15]} w={"200px"} m={1}
                     Hcolor={"tipsy_color_1"} Acolor={"tipsy_color_1v2"}
                     onClick={() => {router.push("/user/edit/my_profile")}}
                     >

@@ -43,7 +43,7 @@ export interface NeumButtonProps extends ButtonProps {
     Scolor?: string, // switch_on{color}
     Hbg?: string,
     HbgGradient?: string,
-    fontSize?: number,
+    fontSize?: number[],
     formState?: any,
     Ashadow?: boolean,
     children: string,
@@ -134,7 +134,6 @@ export interface GlassSwitchProps extends SwitchProps {
 //インプット
 export interface NeumInputProps extends InputProps {
     PHcolor?: string,
-    fontSize?: number,
     register?:  UseFormRegisterReturn,
 }
 export interface NeumTextareaProps extends TextareaProps {

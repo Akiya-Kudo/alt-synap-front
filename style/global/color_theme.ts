@@ -42,6 +42,7 @@ export const color_switchs =  {
     text_reverse: {default: "tipsy_dark.400", _dark: "tipsy_light.400"},
     text_light: {default: "tipsy_light.500", _dark: "tipsy_dark.500"},
     text_very_light: {default: "tipsy_light.600", _dark: "tipsy_dark.600"},
+    text_topic_important: {default: "blackAlpha.700", _dark: "tipsy_dark.900"},
     text_important: {default: "tipsy_light.900", _dark: "tipsy_dark.900"},
     
     red_switch: {default: "red.400", _dark: "red.300",},

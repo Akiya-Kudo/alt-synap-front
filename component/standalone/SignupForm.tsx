@@ -22,9 +22,9 @@ export const SignupForm = () => {
     }
     return (
         <Flex
-        as="form" 
+        as="form"
         direction="column" 
-        w={700} maxW={"80%"}
+        w={[400, 700, "100%"]} maxW={"90vw"}
         justify="center" 
         align="center" 
         onSubmit={handleSubmit}
@@ -35,7 +35,8 @@ export const SignupForm = () => {
             validation={Validation_email}
             errors={errors} register={register} 
             isRequired
-            my={1}
+            my={2}
+            fontSize={"1rem"}
             />
             <NeumFloatFormInput
             id={"input_username"} 
@@ -43,7 +44,7 @@ export const SignupForm = () => {
             validation={Validation_username} maxLength={50}
             errors={errors} register={register} 
             isRequired
-            my={1}
+            my={2}
             />
             <NeumFloatFormInput_password
             id={"input_password"} 
@@ -51,7 +52,7 @@ export const SignupForm = () => {
             validation={Validation_password}
             errors={errors} register={register} 
             isRequired
-            my={1}
+            my={2}
             onBlur={ (e:any) => {
                 trigger("input_password_re", { shouldFocus: true }) 
             }}
@@ -63,14 +64,14 @@ export const SignupForm = () => {
             validation={Validation_password_re(PassWatch)}
             errors={errors} register={register}
             isRequired
-            my={1}
+            my={2}
             />
             <ClickButton_submit
             type="submit"
             formState={formState} 
-            fontSize={15}
+            fontSize={[7, 13, 17]}
             mt={4} mb={10}
-            size={"md"}
+            w={[150, 200]} py={[7,6,3]}
             >
                 登録する
             </ClickButton_submit>

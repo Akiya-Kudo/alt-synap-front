@@ -36,23 +36,27 @@ export const TipsyCard = ({
             }}
             >
                 <NextLink href={"/posts/" + uuid_pid}>
-                    <TruncatedHeading maxLength={60} size={"sm"} w={"100%"} p={1} color={"text_important"}>
+                    <TruncatedHeading 
+                    fontSize={["1.2rem", "1rem"]}
+                    maxLength={60} w={"100%"} p={1} color={"text_topic_important"}
+                    >
                         { title }
                     </TruncatedHeading>
                 </NextLink>
 
                 <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
-                    <Stack direction={"row"} flexWrap={"wrap"} justify={"center"} align={"center"}>
+                    <Stack direction={"row"} flexWrap={"wrap"} justify={"start"} align={"center"}>
                         { post_tags?.map((post_tag, _i) => {
                             return (
                                 <NextLink href={"/topics/" + post_tag.tags?.tid} key={post_tag.tags?.tid}>
                                     <Tag 
                                     id={post_tag.tags?.tid?.toString()} 
-                                    fontSize={".7rem"} cursor={"pointer"}
-                                    px={1} py={.2} ms={.5}
-                                    size="xs" h={3.5}
-                                    borderRadius={10}
-                                    color={"text_important"}
+                                    fontSize={[".9rem", ".8rem"]} 
+                                    cursor={"pointer"}
+                                    px={2} py={[.2, .4]} ms={.5}
+                                    size="xs"
+                                    borderRadius={"full"}
+                                    color={"text_topic_important"}
                                     bg={tag_colors[_i]} 
                                     transition={".2s"}
                                     _hover={{ filter: 'brightness(1.2)' }}
@@ -134,8 +138,8 @@ export const TipsyCard_image = ({
     return (
             <Box 
             width={"100%"}
-            height={350} 
-            borderRadius={20}
+            height={[ 180, 240, 300, 350]} 
+            borderRadius={[15, 18, 20]}
             className='image_box'
             position="relative" 
             overflow="hidden"
@@ -162,7 +166,7 @@ export const TipsyCard_image = ({
                 <Box 
                 position="absolute" left="0" right="0" bottom="0"
                 backgroundColor={glass_bg_switch_deep}
-                borderBottomRadius={20}
+                borderBottomRadius={[15, 18, 20]}
                 backdropFilter='auto'
                 backdropBlur={"10px"}
                 px={4} pb={2} pt={4}
@@ -173,23 +177,29 @@ export const TipsyCard_image = ({
                 }}
                 >
                     <NextLink href={"/posts/" + uuid_pid}>
-                        <TruncatedHeading maxLength={60} size={"sm"} w={"100%"} p={1} color={"text_important"}>
+                        <TruncatedHeading 
+                        fontSize={["1.2rem", "1rem"]}
+                        maxLength={60}  w={"100%"} p={1} color={"text_topic_important"}
+                        >
                             { title }
                         </TruncatedHeading>
                     </NextLink>
 
                     <Stack direction={"row"} w={"100%"} ms={1} my={2} flexWrap={"wrap"} gap={1}>
-                        <Stack direction={"row"} flexWrap={"wrap"} justify={"center"} align={"center"}>
+                        <Stack 
+                        direction={"row"} flexWrap={"wrap"} justify={"start"} align={"center"}
+                        >
                             { post_tags?.map((post_tag, _i) => {
                                 return (
                                     <NextLink href={"/topics/" + post_tag.tags?.tid}  key={post_tag.tags?.tid}>
                                         <Tag 
                                         id={post_tag.tags?.tid?.toString()}
-                                        fontSize={".7rem"} cursor={"pointer"}
-                                        px={1} py={.2} ms={.5}
-                                        size="xs" h={3.5}
-                                        borderRadius={10}
-                                        color={"text_important"}
+                                        fontSize={[".9rem", ".8rem"]} 
+                                        cursor={"pointer"}
+                                        px={2} py={[.2, .4]} ms={.5}
+                                        size="xs" 
+                                        borderRadius={"full"}
+                                        color={"text_topic_important"}
                                         bg={tag_colors[_i]} 
                                         transition={".2s"}
                                         _hover={{ filter: 'brightness(1.2)' }}
@@ -289,7 +299,8 @@ export const TipsyCard_link = ({
                 onClick={handleLinkButtonClick}
                 />
                 <TruncatedHeading 
-                maxLength={60} size={"sm"} w={"100%"} p={2} color={"text_important"} 
+                fontSize={["1.2rem", "1rem"]}
+                maxLength={60} w={"100%"} p={2} color={"text_topic_important"} 
                 maxWidth={window.innerWidth > 550 ? "470px" : "270px"}
                 >
                     { title }
