@@ -272,13 +272,13 @@ export const NeumIconButton = ({
 // )
 
 export const GlassButton = ({
-    fontSize=20, color="text_normal", borderRadius="full", bg="transparent", bgGradient,
+    color="text_normal", borderRadius="full", bg="transparent", bgGradient,
     ...props
 }: GlassButtonProps) => {
     return (
         <Button
         {...props}
-        fontSize={fontSize} color={color} bg={bg} borderRadius={borderRadius} bgGradient={bgGradient}
+        color={color} bg={bg} borderRadius={borderRadius} bgGradient={bgGradient}
         />
     )
 }
@@ -352,7 +352,7 @@ export const GlassButton_submit = ({
 
 
 export const ColorModeButton = ({
-    fontSize=20, color="tipsy_color_3", 
+    fontSize="1em", color="tipsy_color_3", 
     borderRadius="full", bg="transparent", p=0,variant='outline',
     ...props
 }: GlassColorModeButtonProps) => {

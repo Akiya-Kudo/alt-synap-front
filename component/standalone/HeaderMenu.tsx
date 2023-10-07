@@ -25,11 +25,14 @@ export const HeaderMenu = ({
             <MenuList 
             pos={"relative"}
             fontSize={itemFontSize}
-            borderRadius={15}
+            borderRadius={[8, 10, 15]} 
             backdropFilter={"blur(17px)"}
             backgroundColor={"bg_popover_switch"}
             >
-                <MenuGroup title={"- " + ( user_name && user_name?.length > 10 ?  user_name?.slice(0, 10) + "..." : user_name )+ " -"}>
+                <MenuGroup 
+                title={"- " + ( user_name && user_name?.length > 10 ?  user_name?.slice(0, 10) + "..." : user_name )+ " -"}
+                pr={[20, 0]}
+                >
                     <Link href="/user/edit/my_profile" passHref>
                         <MenuItem
                         backgroundColor={"transparent"}

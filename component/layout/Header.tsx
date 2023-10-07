@@ -3,7 +3,7 @@ import Link from "next/link"
 import { AuthContext, LoginToggleContext } from "../../util/hook/authContext"
 
 import { auth } from "../../util/firebase/init"
-import { Avatar, Box, Button, Center, Flex, Heading, IconButton, MenuButton, useDisclosure } from "@chakra-ui/react"
+import { Avatar, Box, Center, Flex, Heading, IconButton, MenuButton, useBreakpointValue, useDisclosure } from "@chakra-ui/react"
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons"
 import { TfiUnlink } from "react-icons/tfi"
 
@@ -12,7 +12,6 @@ import { BasicHeaderStyleContainer } from "../atom/containers"
 import { GlassInput_search } from "../atom/inputs"
 import { TitleLink } from "../atom/links"
 import { HeaderMenu } from "../standalone/HeaderMenu"
-import { LoginModal } from "../standalone/LoginModal"
 import { PostHeaderProps } from "../../type/layout"
 import { useRouter } from "next/router"
 import { useLoading } from "../../util/hook/useAuth"
@@ -26,6 +25,9 @@ import { useLazyQuery, useQuery } from "@apollo/client"
 import { GET_GUEST_COLLECTIOINS } from "../../util/graphql/queries/links.query.scheme"
 
 export const BasicHeader = () => {
+    const breakpoint = useBreakpointValue(["base", "sm", "md", "lg", "xl", "2xl"]);
+    console.log(breakpoint);
+    
     const router = useRouter()
     
     const { userState } = useContext(AuthContext);
@@ -78,10 +80,10 @@ export const BasicHeader = () => {
             alignItems='center' 
             gap={5}
             >
-                <TitleLink fontSize={"1.3rem"}>tipsy</TitleLink>
+                <TitleLink fontSize={"1.5rem"}>tipsy</TitleLink>
                 <ColorModeButton />
                 <GlassInput_search 
-                id="search" placeholder="Tipsyで検索"
+                id="search" placeholder="tipsyで検索"
                 value={searchWords}
                 setValue={ setSearchWords }
                 onSearch={ handleSearch }
@@ -98,7 +100,7 @@ export const BasicHeader = () => {
                                 color="tipsy_color_2"
                                 bg={"bg_popover_switch"}
                                 borderRadius={"full"}
-                                fontSize={"1.3rem"} size={"sm"}
+                                fontSize={"1.3em"} size={"sm"}
                                 onClick={onToggle}
                                 />
                             </LinkSelectMenu>
@@ -125,9 +127,8 @@ export const BasicHeader = () => {
                     <>
                         <Link href="/guest/signup" passHref>
                             <GlassButton 
-                            fontSize={15} 
                             color="bg_switch" 
-                            borderRadius={100} letterSpacing={5} px={5}
+                            borderRadius={"full"} letterSpacing={5} px={[9, 10, 7]}
                             bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} 
                             _hover={{bgGradient: "linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}}
                             >
@@ -136,7 +137,7 @@ export const BasicHeader = () => {
                         </Link>
                         <GlassButton 
                         onClick={onOpen_login}
-                        fontSize={15} borderRadius={100} letterSpacing={5} px={5}
+                        borderRadius={"full"} letterSpacing={5} px={[9, 10, 7]}
                         bgGradient={"linear(to-l, tipsy_color_1, tipsy_color_2)"} color="bg_switch" 
                         _hover={{bgGradient: "linear(to-l, tipsy_color_active_1, tipsy_color_active_2)"}}
                         >

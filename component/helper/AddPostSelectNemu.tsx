@@ -36,7 +36,7 @@ export const AddPostSelectMenu = ({
             {children}
             <MenuList 
             fontSize={".8rem"} p={0}
-            borderRadius={10}
+            borderRadius={[8, 10, 15]}
             backdropFilter={"blur(17px)"}
             backgroundColor={"bg_popover_switch"}
             >

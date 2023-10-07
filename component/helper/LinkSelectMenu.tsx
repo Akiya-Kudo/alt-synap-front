@@ -28,7 +28,7 @@ export const LinkSelectMenu = ({
             <>
             {children}
             <MenuList 
-            fontSize={".8rem"} mx={4}
+            fontSize={".8em"} mx={4}
             borderRadius={15}
             backdropFilter={"blur(17px)"}
             backgroundColor={"bg_popover_switch"}

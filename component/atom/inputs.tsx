@@ -660,7 +660,6 @@ export const GlassInput_search = ({
             <InputLeftElement
             pointerEvents='none'
             color='text_light'
-            fontSize={"0.85rem"}
             children={<Search2Icon/>}
             />
             <Input 
@@ -670,11 +669,12 @@ export const GlassInput_search = ({
             onCompositionStart={ ()=>setComposition(true) }
             onCompositionEnd={ ()=>setComposition(false) }
             value={value}
-            placeholder={placeholder}
+            placeholder={placeholder} 
             _placeholder={{ opacity: 1, color: 'text_light' }}
             backgroundColor={"rgba(150,150,150, 0.25)"}
             focusBorderColor={border_switch}
             borderRadius={"full"}
+            fontSize={"1em"}
             />
             <InputRightElement 
             >
