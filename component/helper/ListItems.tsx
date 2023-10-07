@@ -218,7 +218,7 @@ export const UserListItemWithFollow = ({user, onClose}: {user?: User, onClose: a
     return (
         <>
         <Flex
-        w={"100%"} p={2}
+        w={"100%"} py={2}
         direction={"row"} justify={"space-between"} align={"center"}
         borderRadius={10}
         >
@@ -229,10 +229,10 @@ export const UserListItemWithFollow = ({user, onClose}: {user?: User, onClose: a
                 _hover={{ filter: 'brightness(1.3)' }}
                 >
                     <Avatar name={user?.user_name} src={user?.user_image} size={"xs"}/>
-                    <Heading size={"xs"} ms={10} overflow={"hidden"} minW={100}>
+                    <Heading ms={3} overflow={"hidden"} minW={100} fontSize={[".5rem", ".8rem"]}>
                         {
-                            user?.user_name && user?.user_name.length > 20
-                            ? user?.user_name.slice(0, 20) + "..."
+                            user?.user_name && user?.user_name.length > 15
+                            ? user?.user_name.slice(0, 15) + "..."
                             : user?.user_name
                         }
                     </Heading>
@@ -241,7 +241,8 @@ export const UserListItemWithFollow = ({user, onClose}: {user?: User, onClose: a
             <GlassSwitchButton
             onClick={() => {toggleFollow()}}
             defStateValue={ isFollowed }
-            fontSize={".7rem"}  size="sm" h={7} w={100}
+            w={[70, 100]} fontSize={[".3rem", ".8rem"]}
+            size="sm" h={[7,7,8,10]} 
             SBgGradient={"linear(to-tl, tipsy_color_2, tipsy_color_3)"} SHBgGradient={"linear(to-tl, tipsy_color_active_2, tipsy_color_active_3)"}
             Scolor={"bg_switch"} Acolor={"tipsy_color_active_3"} Hcolor={"tipsy_color_3"}
             Schildren={"フォロー中"}

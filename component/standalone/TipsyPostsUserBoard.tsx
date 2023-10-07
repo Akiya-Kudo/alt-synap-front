@@ -66,7 +66,7 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                 {
                     !isHidePostCounter && 
                     <DentBord 
-                    w={130} h={"40px"} 
+                    px={[6, 7, 8]} py={[3, 4, 4]} 
                     justifyContent="center" alignItems={"center"} 
                     my={3} borderRadius={"full"} 
                     position={"relative"}
@@ -85,7 +85,13 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                     <>
                         <PinterestGrid
                         columns={3}      
-                        columnWidth={window.innerWidth > 550 ? 550 : 350}
+                        columnWidth={
+                            (window.innerWidth < 480) ? 300 
+                            : (window.innerWidth < 1000) ? 360 
+                                : (window.innerWidth < 1500) ? 550 
+                                    : 650
+                        }
+                        // columnWidth={window.innerWidth > 550 ? 550 : 350}
                         gutterWidth={30} 
                         gutterHeight={20}
                         responsive={true}
@@ -130,7 +136,7 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                             displayPosts.length < data.count_posts_made_by_user && 
                             (<Center m={10}>
                                 <ClickButton
-                                size={"md"} fontSize={16}
+                                size={"md"}
                                 Hcolor={"tipsy_color_3"}
                                 onClick={handleFetchMore}
                                 >もっと見る</ClickButton>

@@ -10,7 +10,7 @@ export const TabButtonSelectGroup = ({
     borderRadius=20, 
     display="flex", justifyContent="center", alignItems="center",
     Hcolor="red_switch", Acolor="red.600", 
-    chBorderRadius=10, chW=200, chH, chP="0 3px", chM=1, fontSize=15, 
+    chBorderRadius=10, chW=200, chH, chP="0 3px", chM=1, fontSize=[15], 
     ...props
 }: MyTabGroupProps) => {
     const [selected, setSelected] = useState(defaultValue)
@@ -47,7 +47,7 @@ export const TabButtonSelectGroup = ({
 export const TabSwitchGroup = (
     {
         optionLeft, optionRight, onChange, defaultValue, 
-        chH=7, chFontSize=12,
+        chH=7, chFontSize=[12],
         ...props
     }: SwitchGroupProps
 ) => {
@@ -90,7 +90,7 @@ export const TabSwitchGroup_3 = (
     {
         optionLeft, optionRight, optionCenter="center_button",
         onChange, defaultValue, 
-        chH=7, chFontSize=12,
+        chH=7, chFontSize=[12],
         isDisabledLeft, isDisabledRight, isDisabledCenter,
         children,
         ...props

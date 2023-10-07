@@ -48,7 +48,7 @@ export const UrlAnalyzeStep = (
             <Box my={5}>
                 <StepGuide stepNum={1} guide={"コピーボタンを押して文字をコピーし、作成したいサイトで貼り付けて検索を行う"}/>
                 <Flex my={5}>
-                    <ClickButton fontSize={15} h={8} borderRadius={10} onClick={handleCopy}>コピー</ClickButton>
+                    <ClickButton fontSize={[15]} h={8} borderRadius={10} onClick={handleCopy}>コピー</ClickButton>
                     <Flex mx={5} bg={"bg_transparent_reverse_deep"} align={"center"} isTruncated w={200} borderRadius={10}>
                         <Text isTruncated>{ analyzeUrlString }</Text>
                     </Flex>
@@ -296,7 +296,7 @@ export const UrlLabelingStep = (
                     bottom={0} right={"70px"}
                     >    
                         <ImagePathInputPopover handleImagePath={handleImagePath} defValue={currentLink.image_path} placement='top-start'>
-                            <ClickButton fontSize={15} h={"40px"}>アイコンを追加</ClickButton>
+                            <ClickButton fontSize={[15]} h={"40px"}>アイコンを追加</ClickButton>
                         </ImagePathInputPopover>
                     </Box>
                 </Center>

@@ -86,7 +86,7 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
             optionRight="作成済み"
             defaultValue={displayMode}
             onChange={ handleMode }
-            fontSize={10} gap={1} p={1} w={250}
+            gap={1} p={1} w={250}
             position={"relative"}
             isDisabledCenter={!uuid_uid} isDisabledRight={!uuid_uid}
             >

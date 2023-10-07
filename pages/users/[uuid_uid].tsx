@@ -4,7 +4,7 @@ import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { DentBord } from '../../component/atom/bords'
 import { SwitchButton } from '../../component/atom/buttons'
 import { Post, User } from '../../type/global'
@@ -105,38 +105,41 @@ const UsersPage: NextPage = () => {
         <Head><title>{ userInfo?.user_name ? userInfo?.user_name : "Guest"}</title></Head>
             <Flex flexDir={"column"} align={"center"} mt={5} className="page">
                 <DentBord 
-                maxW={"1100px"} w={"90%"} justifyContent={"start"} p={5} borderRadius={"30px"} 
+                maxW={"1100px"} w={"90%"} justifyContent={"start"} p={7} borderRadius={"30px"} 
                 flexDir={["column", "column", "row"]}
                 >
-                    <Avatar src={userInfo?.user_image} name={userInfo?.user_name} size={"lg"} m={1}/>
+                    <Flex flexDir={["column", "row"]} flexGrow={1} alignItems={"center"}>
+                        <Avatar src={userInfo?.user_image} name={userInfo?.user_name} size={["xl", "lg"]} m={1}/>
 
-                    <Box ms={5} flexGrow={1}>
-                        <Heading size={"lg"} m={1}>{userInfo?.user_name}</Heading>
-                        <Text size={"lg"} fontSize={".75rem"} m={1} as={Flex} flexDir={"row"} gap={2}>
-                            {
-                                userInfo?.followee_num!=null && userInfo?.followee_num!=undefined && 
-                                <FollowListModal 
-                                follow_num={userInfo.followee_num} 
-                                uuid_uid={uuid_uid}
-                                />
-                            }
-                            {
-                                userInfo?.follower_num!=null && userInfo?.follower_num!=undefined && 
-                                <FollowListModal 
-                                is_follower_list 
-                                follow_num={userInfo.follower_num} 
-                                uuid_uid={uuid_uid}
-                                />
-                            }
-                        </Text>
-                        <Text size={"lg"} fontSize={".75rem"} m={1}>{userInfo?.comment}</Text>
-                    </Box>
+                        <Box ms={5} flexGrow={1}>
+                            <Heading size={"lg"} m={1}>{userInfo?.user_name}</Heading>
+                            <Text size={"lg"} fontSize={".75rem"} m={1} as={Flex} flexDir={"row"} gap={2}>
+                                {
+                                    userInfo?.followee_num!=null && userInfo?.followee_num!=undefined && 
+                                    <FollowListModal 
+                                    follow_num={userInfo.followee_num} 
+                                    uuid_uid={uuid_uid}
+                                    />
+                                }
+                                {
+                                    userInfo?.follower_num!=null && userInfo?.follower_num!=undefined && 
+                                    <FollowListModal 
+                                    is_follower_list 
+                                    follow_num={userInfo.follower_num} 
+                                    uuid_uid={uuid_uid}
+                                    />
+                                }
+                            </Text>
+                            <Text size={"lg"} fontSize={".75rem"} m={1}>{userInfo?.comment}</Text>
+                        </Box>
+                    </Flex>
 
                     <Box>
                         {
                             userInfo?.follows_follows_followee_uuidTousers && 
                             <SwitchButton
-                            fontSize={15} w={"200px"} m={1}
+                            fontSize={[10, 12, 15, 22, 30, 40]}
+                            mx={1} my={[8,8,0]} px={10} py={[7, 5, 4]}
                             Hcolor={"tipsy_color_1"} Acolor={"tipsy_color_1v2"} Scolor={"tipsy_color_1v2"}
                             defaultChecked={ isFollowed }
                             Schildren={"フォロー中"}

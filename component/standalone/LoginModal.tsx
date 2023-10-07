@@ -9,7 +9,7 @@ import { FaGithub, FaGoogle } from "react-icons/fa"
 import { GlassSocialLoginButtons } from "../helper/SocialLoginButtons"
 
 // ログインフォームコンポーネント定義
-export const LoginForm = () => {
+export const LoginForm = ({onClose}: {onClose: () => void}) => {
 
     const { register, formState: { errors }, formState } = useForm({mode: "all"});
 
@@ -51,15 +51,15 @@ export const LoginForm = () => {
                     <GlassButton_submit 
                     formState={formState}
                     bg={"text_light"}
-                    px={10} fontSize={"0.8rem"} w={200} mt={5}
+                    px={10} fontSize={"0.8rem"} w={[200, 300, 200]} mt={5}
                     bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} color="bg_switch"
                     _hover={{bgGradient: "linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}}
                     >
                         ログイン
                     </GlassButton_submit>
                     <GlassSocialLoginButtons/>
-                    <BasicLink color="tipsy_color_active_2" href="/guest/changePassword" my={3}>パスワードを忘れた場合</BasicLink>
-                    <BasicLink color="tipsy_color_active_3" href="/guest/changePassword" my={1}>新しくアカウントを作成</BasicLink>
+                    <BasicLink onClick={onClose} color="tipsy_color_active_2" href="/guest/changePassword" my={3}>パスワードを忘れた場合</BasicLink>
+                    <BasicLink onClick={onClose} color="tipsy_color_active_3" href="/guest/signup" my={1}>新しくアカウントを作成</BasicLink>
                 </Flex>
             </ModalBody>
         </Flex>
@@ -80,11 +80,11 @@ export const LoginModal = ({ isOpen, onClose}: { isOpen: boolean, onClose: () =>
                 <ModalContent
                 backdropFilter={"blur(17px)"}
                 bg="bg_popover_switch_lignt"
-                borderRadius={40}
+                borderRadius={[20, 30, 40]}
                 p={5}
                 >
                     <ModalHeader 
-                    borderTopRadius={40}
+                    borderTopRadius={[10, 30, 40]}
                     >
                         <Flex fontSize="1.2rem">
                             <Box>ログインする</Box>
@@ -92,7 +92,7 @@ export const LoginModal = ({ isOpen, onClose}: { isOpen: boolean, onClose: () =>
                         <ModalCloseButton color={"text_light"}/>
                     </ModalHeader>
 
-                    <LoginForm/>
+                    <LoginForm onClose={onClose}/>
 
                 </ModalContent>
             </Modal>

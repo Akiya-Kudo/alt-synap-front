@@ -35,8 +35,9 @@ export const PasswordChangeForm = () => {
             <ClickButton_submit 
             type="submit"
             formState={formState} 
-            fontSize={15}
+            fontSize={[7, 13, 17]}
             my={5} 
+            w={[150, 200]} py={[7,6,3]}
             >
                 変更する
             </ClickButton_submit>

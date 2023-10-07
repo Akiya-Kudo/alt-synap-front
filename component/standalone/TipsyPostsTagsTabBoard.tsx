@@ -94,7 +94,7 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
                                         />
                                         <Center m={10}>
                                             <ClickButton
-                                            size={"md"} fontSize={16}
+                                            size={"md"}
                                             Hcolor={"tipsy_color_3"}
                                             onClick={() => router.push(`/topics/${topics[tabIndex].tid}`)}
                                             >Topic ページへ</ClickButton>

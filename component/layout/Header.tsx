@@ -26,7 +26,6 @@ import { GET_GUEST_COLLECTIOINS } from "../../util/graphql/queries/links.query.s
 
 export const BasicHeader = () => {
     const breakpoint = useBreakpointValue(["base", "sm", "md", "lg", "xl", "2xl"]);
-    console.log(breakpoint);
     
     const router = useRouter()
     
@@ -128,7 +127,7 @@ export const BasicHeader = () => {
                         <Link href="/guest/signup" passHref>
                             <GlassButton 
                             color="bg_switch" 
-                            borderRadius={"full"} letterSpacing={5} px={[9, 10, 7]}
+                            borderRadius={"full"} letterSpacing={5} px={[10, 10, 7]}
                             bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} 
                             _hover={{bgGradient: "linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}}
                             >
@@ -137,7 +136,7 @@ export const BasicHeader = () => {
                         </Link>
                         <GlassButton 
                         onClick={onOpen_login}
-                        borderRadius={"full"} letterSpacing={5} px={[9, 10, 7]}
+                        borderRadius={"full"} letterSpacing={5} px={[10, 10, 7]}
                         bgGradient={"linear(to-l, tipsy_color_1, tipsy_color_2)"} color="bg_switch" 
                         _hover={{bgGradient: "linear(to-l, tipsy_color_active_1, tipsy_color_active_2)"}}
                         >
