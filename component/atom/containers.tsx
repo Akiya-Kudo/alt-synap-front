@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Grid, GridItem, HStack, WrapItem } from "@chakra-ui/react"
+import { Box } from "@chakra-ui/react"
 import { ForwardedRef, forwardRef } from "react"
 import { GlassContainerProps } from "../../type/atom"
 import { useGlassColorMode } from "../../util/hook/useColor"
@@ -9,7 +9,8 @@ export const BasicHeaderStyleContainer = ({children}: GlassContainerProps) => {
         <Box
         zIndex={1100} 
         w="100%" 
-        h="100px" 
+        // h="100px" 
+        h={["50px", "70px", "90px"]}
         position={"fixed" }
         top={0}
         p={5}
@@ -27,13 +28,13 @@ export const BasicHeaderStyleContainer = ({children}: GlassContainerProps) => {
                 left:0,
                 zIndex: -10,
                 borderBottom: "0.3px solid rgba(200,200,200, 0.7)",
-                borderBottomEndRadius: 30,
-                borderBottomStartRadius: 30,
+                borderBottomEndRadius: [15, 20, 30],
+                borderBottomStartRadius: [15, 20, 30],
                 boxShadow:'xl',
             }
         }}
-        borderBottomEndRadius={30}
-        borderBottomStartRadius={30}
+        borderBottomEndRadius={[15, 20, 30]}
+        borderBottomStartRadius={[15, 20, 30]}
         >
             {children}
         </Box>

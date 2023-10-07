@@ -47,7 +47,7 @@ export const LoginForm = () => {
                 isRequired
                 my={3}
                 />
-                <Flex direction='column'  my={5} align='center' justify='center'>
+                <Flex direction='column'  my={1} align='center' justify='center'>
                     <GlassButton_submit 
                     formState={formState}
                     bg={"text_light"}
@@ -57,8 +57,9 @@ export const LoginForm = () => {
                     >
                         ログイン
                     </GlassButton_submit>
-                    <BasicLink color="tipsy_color_2" href="/guest/changePassword" my={3}>パスワードを忘れた場合</BasicLink>
                     <GlassSocialLoginButtons/>
+                    <BasicLink color="tipsy_color_active_2" href="/guest/changePassword" my={3}>パスワードを忘れた場合</BasicLink>
+                    <BasicLink color="tipsy_color_active_3" href="/guest/changePassword" my={1}>新しくアカウントを作成</BasicLink>
                 </Flex>
             </ModalBody>
         </Flex>
@@ -77,8 +78,8 @@ export const LoginModal = ({ isOpen, onClose}: { isOpen: boolean, onClose: () =>
                 bg="bg_transparent_reverse"
                 />
                 <ModalContent
-                backdropFilter={"blur(7px)"}
-                bg="bg_transparent"
+                backdropFilter={"blur(17px)"}
+                bg="bg_popover_switch_lignt"
                 borderRadius={40}
                 p={5}
                 >

@@ -7,12 +7,12 @@ export const theme = extendTheme({
     // カラーモード設定項目  https://chakra-ui.com/docs/styled-system/color-mode
     initialColorMode: 'system',
     useSystemColorMode: false,
-    breakpoints: {
-        sm: '30em',
-        md: '48em',
-        lg: '62em',
-        xl: '90em',
-        '2xl': '120em',
+    breakpoints: {        // ( 0px ~ 480px ) スマホ用 (isMobile)
+        sm: '480px',      // ( 480px ~ 約1000px )    タブレット用        
+        md: '1000px',     // ( 約1000px ~ 約1500px ) タブレット用(横) & ラップトップ（小・中）
+        lg: '1500px',     // ( 約1500px ~ 約3000px ) ラップトップ(大)
+        xl: '3000px',     // ( 約3000px ~ 約5000px) ディスプレイ(大)
+        '2xl': '5000px',  //（　約5000px　~ ）  ディスプレイxdr
     },
     semanticTokens: {
         colors: color_switchs
@@ -32,7 +32,14 @@ export const theme = extendTheme({
         global: (props: any) => ({
             'html, body': {
                 //基本はremでルートとの相対サイズでフォントを描画させ、親のサイズによって変更したい場合(一つの構成が完結しているlayout)のみemを用いる
-                fontSize: '20px',
+                fontSize: {
+                    "base": "10px",
+                    sm: "14px",
+                    md: "18px",
+                    lg: "22px",
+                    xl: "30px",
+                    "2xl": "40px"
+                },
                 color: mode('tipsy_light.400', "tipsy_dark.400")(props),
                 backgroundColor: mode('tipsy_light.100', 'tipsy_dark.100')(props),
                 margin: 0,
@@ -43,7 +50,7 @@ export const theme = extendTheme({
             '.page': {
                 minHeight: '100vh',
                 width: '100vw',
-                pt: "100px",
+                pt: ["50px", "70px", "90px"],
             },
             '*': {
                 boxSizing: 'border-box',
@@ -68,11 +75,4 @@ export const theme = extendTheme({
             ...editorjs_styles,
         }),
     },
-    // layerStyles: {
-    //     glass_menu_item: {
-    //         backgroundColor: "transparent",
-    //         // backdropFilter: "blur(5px)",
-    //         _hover: {backgroundColor: "rgba(130,130,130, 0.25)"},
-    //     }
-    // },
 })
