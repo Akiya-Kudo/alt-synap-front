@@ -29,14 +29,13 @@ export const TopLinkInputPopover = ({
     return (
         <Popover
         {...props}
-        placement="left"
         returnFocusOnClose={false} 
         isOpen={isOpen} onClose={onClose}
         >
             <PopoverTrigger>
                 <Box 
                 className="tooltip_hover_trigger" position={"relative"} 
-                onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose} pb={3}
+                onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
                 
                 >
                     <NeumIconButton
@@ -49,11 +48,11 @@ export const TopLinkInputPopover = ({
                     <Collapse in={T_isOpen}>
                         <Box
                         className="tooltip_top_link"
-                        position={"absolute"} top={-50} right={70}
-                        minW={"350px"} p={"20px 30px"} 
-                        fontSize={".7rem"}
+                        position={"absolute"} top={["35px", "45px", -50]} right={[-300, -350, 70]}
+                        minW={["280px", "350px"]} p={"20px 30px"} 
+                        fontSize={".85rem"}
                         flexDirection="column"
-                        borderRadius={15}
+                        borderRadius={[10, 15]}
                         backgroundColor={mock_bg_switch}
                         >
                             <Heading  size={"sm"} color={"tipsy_color_2"}>
@@ -64,7 +63,7 @@ export const TopLinkInputPopover = ({
                                 ? !errors[id]
                                     ? <Text>{value}</Text>
                                     : <Box role="alert" color="red_switch">有効なURLを入力してください</Box>
-                                : <Box >{tooltipContent}</Box>
+                                : <Box>{tooltipContent}</Box>
                             }
                         </Box>
                     </Collapse>
@@ -73,7 +72,8 @@ export const TopLinkInputPopover = ({
             <PopoverContent
             backdropFilter={"blur(7px)"}
             backgroundColor={glass_bg_switch}
-            borderRadius={"15px"}
+            borderRadius={[10, 15]}
+            minW={["250px", "320px", "350px"]}
             >
                 <PopoverArrow 
                 backgroundColor={glass_bg_switch}
@@ -86,10 +86,10 @@ export const TopLinkInputPopover = ({
                 </PopoverHeader>
                 <PopoverBody>
                     <Center
-                    py={2}
+                    p={5}
+                    flexDir={"column"} justifyContent={"center"}
                     >
-                        <Box>
-                            <Text fontSize={".75rem"} pb={2}>
+                            <Text fontSize={".8rem"} pb={2}>
                                 内容を参照したwebページのURLを入力
                             </Text>
                             <GlassFormInput_nolabel
@@ -99,10 +99,11 @@ export const TopLinkInputPopover = ({
                             errors={errors} register={register} 
                             onChange={handleChange} defaultValue={value!=null ? value : undefined}
 
-                            h="35px" w={"300px"} fontSize={"0.8rem"}
+                            h={["20px", "30px"]} 
+                            w={"100%"} 
+                            fontSize={".8rem"}
                             placeholder={"https://"} PHcolor={"text_light"} focusBorderColor={"border_light_switch"}
                             />
-                        </Box>
                     </Center>
                 </PopoverBody>
             </PopoverContent>

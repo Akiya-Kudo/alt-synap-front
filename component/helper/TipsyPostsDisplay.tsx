@@ -91,7 +91,7 @@ const TipsyPostsDisplay = ({
                             displayPosts.length < allPostsCount && 
                             (<Center m={10}>
                                 <ClickButton
-                                size={"md"} fontSize={[16]}
+                                size={"md"} py={3} px={5}
                                 Hcolor={"tipsy_color_3"}
                                 onClick={handleFetchMore}
                                 >もっと見る</ClickButton>
