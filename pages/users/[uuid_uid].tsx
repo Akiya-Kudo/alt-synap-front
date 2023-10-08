@@ -111,7 +111,7 @@ const UsersPage: NextPage = () => {
                     <Flex flexDir={["column", "row"]} flexGrow={1} alignItems={"center"}>
                         <Avatar src={userInfo?.user_image} name={userInfo?.user_name} size={["xl", "lg"]} m={1}/>
 
-                        <Box ms={5} flexGrow={1}>
+                        <Box ms={[0, 5, 5]}>
                             <Heading size={"lg"} m={1}>{userInfo?.user_name}</Heading>
                             <Text size={"lg"} fontSize={".75rem"} m={1} as={Flex} flexDir={"row"} gap={2}>
                                 {

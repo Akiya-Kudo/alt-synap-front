@@ -21,7 +21,7 @@ import { client } from "../../pages/_app"
 import { USER_QUERY } from "../../util/graphql/queries/users.query.schema"
 import { useLinkSearch } from "../../util/hook/useLink"
 import { AddPostSelectMenu } from "../helper/AddPostSelectNemu"
-import { useLazyQuery, useQuery } from "@apollo/client"
+import { useLazyQuery } from "@apollo/client"
 import { GET_GUEST_COLLECTIOINS } from "../../util/graphql/queries/links.query.scheme"
 
 export const BasicHeader = () => {
@@ -71,7 +71,6 @@ export const BasicHeader = () => {
             useLinkSearch(li_col.links, searchWords)
         })
     }
-
     return (
         <BasicHeaderStyleContainer>
             {userState=="loading" && useLoading()}

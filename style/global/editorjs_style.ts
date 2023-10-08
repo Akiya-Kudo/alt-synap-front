@@ -2,8 +2,14 @@ export const editorjs_styles = {
 // Editorの全体レイアウト
 //親コンポーネント(ArticleEditor)のsizeにより完全に影響を受ける
     ".codex-editor": {
-        margin: "30px 70px",
-        fontSize: ".85rem",
+        margin: "10px 15px",
+        fontSize: "1rem",
+        "@media (min-width: 480px)": {
+            margin: "20px 30px",
+        },
+        "@media (min-width: 1200px)": {
+            margin: "20px 70px",
+        },
     },
     ".ce-block__content": {
         margin: 0,

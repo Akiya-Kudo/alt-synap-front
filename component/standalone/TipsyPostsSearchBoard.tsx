@@ -45,7 +45,6 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
         
     }
 
-    //これを呼び出すとmerge関数との兼ね合いによって重複した投稿がマージされる => ??? 重複を制御するマージ関数が機能していない？
     const handleChangeSort = async (e: SortType) => {
         if (e != sortType) {
             setSortType(e)
@@ -133,10 +132,13 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                     <TabSwitchGroup
                     optionLeft="人気順"
                     optionRight="新着順"
-                    defaultValue="人気順"
+                    defaultValue={sortType}
                     onChange={ handleChangeSort }
-                    position={"absolute"} left={200} top={-0.5}
-                    gap={1} p={1} borderRadius={"full"}/>
+                    position={"absolute"} 
+                    left={[70, 150, 200]} top={[1, 3.5]}
+                    chFontSize={[5, 10, 12]}
+                    gap={1} p={1} borderRadius={"full"}
+                    />
                 </DentBord>
             </Center>
             <Center mb={5} w={"100%"} flexDir={"column"} >
