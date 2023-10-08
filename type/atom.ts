@@ -250,6 +250,7 @@ export interface GlassAlertProps extends BoxProps {
     exeMessage?: string, 
     handleExecute:()=>void,
     exeButtonBg?: string,
+    size?: string[] | string,
 }
 
 //ステッパーズ

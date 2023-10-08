@@ -1,4 +1,4 @@
-import { Button, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -116,10 +116,9 @@ const PostCreate: NextPage = () => {
 
       <Flex 
       className="page"
-      direction="column" 
-      justify="center" 
+      direction="column"
       align="center"
-      my={2}
+      mt={5}
       >
         <ArticlePostForm 
         register={register} 

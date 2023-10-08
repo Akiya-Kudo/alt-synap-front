@@ -199,7 +199,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                             displayPosts.length < data.count_total_posts &&
                             (<Center m={10}>
                                 <ClickButton
-                                size={"md"}
+                                size={"md"} py={3} px={5}
                                 Hcolor={"tipsy_color_3"}
                                 onClick={handleFetchMore}
                                 >もっと見る</ClickButton>

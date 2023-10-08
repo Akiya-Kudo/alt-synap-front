@@ -49,14 +49,13 @@ export const TagInputPopover = ({
     return (
         <Popover
         {...props}
-        placement="left"
         returnFocusOnClose={false} 
         isOpen={isOpen} onClose={onClose}
         >
             <PopoverTrigger >
                 <Box 
                 className="tooltip_hover_trigger" position={"relative"} 
-                onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose} pb={3}
+                onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
                 >
                     <NeumIconButton
                     icon={icon} 
@@ -68,7 +67,7 @@ export const TagInputPopover = ({
                     <Collapse in={T_isOpen}>
                         <Box
                         className="tooltip_tags"
-                        position={"absolute"} top={-50} right={70}
+                        position={"absolute"} top={["35px", "45px", -50]} right={[-300, -350, 70]}
                         minW={"350px"} p={"20px 30px"} 
                         fontSize={".7rem"}
                         flexDirection="column"
@@ -115,9 +114,11 @@ export const TagInputPopover = ({
                     </Heading>
                 </PopoverHeader>
                 <PopoverBody >
-                    <VStack py={2}>
-                        <Box>
-                            <Text fontSize={".75rem"} pb={2}>
+                    <VStack p={[5, 1]} >
+                        <Center
+                        flexDir={"column"} justifyContent={"center"}
+                        >
+                            <Text fontSize={".75rem"} pb={3}>
                                 投稿に関連するトピックを単語で追加
                             </Text>
                             <GlassFormInput_nolabel
@@ -128,15 +129,17 @@ export const TagInputPopover = ({
                             onCompositionStart={ ()=>setComposition(true) } onCompositionEnd={ ()=>setComposition(false) }
                             isDisabled={!(value && value.length < 5)}
 
-                            h="40px" w={"300px"} fontSize={"0.8rem"}
+                            h={["20px", "30px"]} 
+                            w={"100%"} 
+                            fontSize={".8rem"}
                             placeholder={"Illustrator, GPT4, React..."} PHcolor={"text_light"} focusBorderColor={"border_light_switch"}
                             maxLength={50}
                             />
-                        </Box>
+                        </Center>
                         <GlassTagList 
                         tags={value}
                         colorList={colorList}
-                        mt={5}
+                        mt={1}
                         onDeleteClick={onDeleteClick}
                         isDeletable
                         />

@@ -136,7 +136,7 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
                             displayPosts.length < data.count_posts_made_by_user && 
                             (<Center m={10}>
                                 <ClickButton
-                                size={"md"}
+                                size={"md"} py={3} px={5}
                                 Hcolor={"tipsy_color_3"}
                                 onClick={handleFetchMore}
                                 >もっと見る</ClickButton>

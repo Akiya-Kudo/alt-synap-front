@@ -39,8 +39,8 @@ export const Validation_password_re = (password: string) => {
 
 export const Validation_post_title = {
     required: "タイトルは必須です | Title is required",
-    maxLength: { value: 100, message: '100文字以下で入力してください | Please make User Name less than 100 words' },
-    minLength: { value: 2, message: "2文字以上で入力してください | Please make User Name more than 2 words" },
+    maxLength: { value: 100, message: '100文字以下で入力してください | less than 100 words' },
+    minLength: { value: 2, message: "2文字以上で入力してください | more than 2 words" },
 }
 
 export const Validation_url = {

@@ -57,10 +57,11 @@ export const LinkPostForm = ({onClose, onExecute, defaultPostValue = DefauldPost
                 labelName={"URL"} placeholder={"http://"} 
                 isRequired
                 borderRadius={15} 
+                my={3}
                 onInput={handleTopLink}
                 defaultValue={currentPost.top_link}
                 />
-                <Flex direction='row'  mb={5} mt={10} gap={5} align='center' justify='center'>
+                <Flex direction='row'  mb={5} my={5} gap={5} align='center' justify='center'>
                     <GlassSwitchButton
                     getState={handlePublish} defStateValue={currentPost.publish}
                     variant={"outline"} fontSize={".9rem"} 
@@ -74,7 +75,7 @@ export const LinkPostForm = ({onClose, onExecute, defaultPostValue = DefauldPost
                     isDisabled={ currentPost.title=="" || currentPost.top_link=="" || !(!errors.title) || !(!errors.top_link)}
                     isLoading={isSaveButtonLoading}
                     bg={"text_light"} type="submit"
-                    px={10} fontSize={"0.8rem"} w={150}
+                    px={10} fontSize={"0.9rem"} w={[100, 150]}
                     bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} color="bg_switch"
                     _hover={{bgGradient: "linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}}
                     >
@@ -104,16 +105,16 @@ export const LinkPostModal = ({
             <Modal
                 isOpen={isOpen}
                 onClose={onClose}
-                size={"sm"}
+                size={["xl", "lg","md"]}
             >
                 <ModalOverlay 
                 backdropFilter={"blur(2px)"} 
                 bg="bg_transparent_reverse"
                 />
                 <ModalContent
+                borderRadius={[10, 15, 20]}
                 backdropFilter={"blur(15px)"}
                 bg="bg_transparent"
-                borderRadius={20}
                 p={1}
                 >
                     <ModalHeader 

@@ -739,13 +739,12 @@ export const PostImageInput = ({
     return (
         <FormControl
         id={id}
-        {...props}
         >
-            <Box display={"flex"} justifyContent="center" alignItems={"center"} m={2}>
                 <Box 
+                {...props}
                 pos="relative" display={"flex"} flexDirection="column" alignItems={"center"} justifyContent="center" 
                 textAlign={"center"}
-                borderRadius={15} 
+                borderRadius={[10, 15]}
                 backgroundColor={"rgba(150,150,150, 0.25)"}
                 transition={"0.2s"}
                 _hover={{
@@ -764,7 +763,7 @@ export const PostImageInput = ({
                         <NextImage alt="" src={ ImageThumnail } width={100} height={100} layout={'responsive'} />
                     </Box>
                     }
-                    <Text m={2} mx={20}>{image ? "画像を変更する" : "画像を追加する" }</Text>
+                    <Text m={2} mx={20} whiteSpace={"nowrap"}>{image ? "画像を変更する" : "画像を追加する" }</Text>
                     <Input   
                     {...register(id)}
                     type={"file"} 
@@ -774,7 +773,6 @@ export const PostImageInput = ({
                     cursor={"pointer"} w="100%" h="100%" pos={"absolute"} left={0} right={0} opacity={0} 
                     />
                 </Box>
-            </Box>
         </FormControl>
     )
 }

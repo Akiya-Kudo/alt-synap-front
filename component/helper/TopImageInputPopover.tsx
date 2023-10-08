@@ -38,14 +38,13 @@ export const TopImageInputPopover = ({
     return (
         <Popover
         {...props}
-        placement="left"
         returnFocusOnClose={false} 
         isOpen={isOpen} onClose={onClose}
         >
             <PopoverTrigger>
                 <Box 
                 className="tooltip_hover_trigger" position={"relative"} 
-                onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose} pb={3}
+                onMouseOver={()=>{!isOpen && T_onOpen()}} onMouseOut={T_onClose} onClick={T_onClose}
                 >
                     <NeumIconButton
                     icon={icon} 
@@ -57,11 +56,11 @@ export const TopImageInputPopover = ({
                     <Collapse in={T_isOpen}>
                         <Box
                         className="tooltip_top_image"
-                        position={"absolute"} top={-50} right={70}
-                        minW={"350px"} p={"20px 30px"} 
-                        fontSize={".7rem"}
+                        position={"absolute"} top={["35px", "45px", -50]} right={[-300, -350, 70]}
+                        minW={["280px", "350px"]} p={"20px 30px"} 
+                        fontSize={".8rem"}
                         flexDirection="column"
-                        borderRadius={15}
+                        borderRadius={[10, 15]}
                         backgroundColor={mock_bg_switch}
                         >
                             <Heading  size={"sm"} color={"tipsy_color_3"}>
@@ -79,7 +78,8 @@ export const TopImageInputPopover = ({
             <PopoverContent
             backdropFilter={"blur(7px)"}
             backgroundColor={glass_bg_switch}
-            borderRadius={"15px"}
+            borderRadius={[10, 15]}
+            minW={["250px", "320px", "350px"]}
             >
                 <PopoverArrow 
                 backgroundColor={glass_bg_switch}
@@ -94,19 +94,19 @@ export const TopImageInputPopover = ({
                     <Center
                     py={2}
                     >
-                        <Box>
-                            <Text fontSize={".75rem"} pb={2}>
+                        <Flex align={"center"} direction={"column"}>
+                            <Text fontSize={".8rem"} pb={1}>
                                 投稿のトップページに表示する画像を追加する
                             </Text>
                             <PostImageInput
-                            id={id}
+                            id={id} mx={[1, 2, 5]} my={1}
                             register={ register } 
                             image={  preViewImage } 
                             setImage={ handleImage } 
                             setImageFile={ setImageFile }
                             onChangeNoImageset={handleTopImageDelete}
                             />
-                        </Box>
+                        </Flex>
                     </Center>
                 </PopoverBody>
             </PopoverContent>
