@@ -10,7 +10,6 @@ import { DentBord } from '../../component/atom/bords'
 import { SwitchButton } from '../../component/atom/buttons'
 import { UserTag } from '../../type/global'
 import { auth } from '../../util/firebase/init'
-import { USER_TAG_FRAG } from '../../util/graphql/fragment/fragment.scheme'
 import { TOGGLE_USER_TAG } from '../../util/graphql/mutation/users.mutation.scheme'
 import { GET_TAG } from '../../util/graphql/queries/tags.query.scheme'
 import { USER_QUERY } from '../../util/graphql/queries/users.query.schema'
@@ -74,33 +73,37 @@ const TopicPage: NextPage = () => {
         <Head><title>Tipsy | タグ:{}</title></Head>
             <Flex flexDir={"column"} align={"center"} mt={5} className="page">
                 <DentBord 
-                maxW={"1100px"} w={"90%"} justifyContent={"start"} p={5} borderRadius={"30px"} 
+                maxW={"1100px"} w={"90%"} justifyContent={"start"} p={7} borderRadius={"30px"} 
                 flexDir={["column", "column", "row"]}
                 >
-                    { data?.tag?.tag_image ? 
-                    <Avatar h={100} w={100} src={data?.tag?.tag_image} name={data?.tag.display_name} m={1}/> 
-                    : 
-                    <Box mr={.5} ps={1}><FaHashtag color={colorList[0].split("_")[0]} opacity={0.7} fontSize={"60px"}/></Box>
-                    }
+                    <Flex flexDir={["column", "row"]} flexGrow={1} alignItems={"center"}>
+                        { data?.tag?.tag_image ? 
+                            <Avatar src={data?.tag?.tag_image} name={data?.tag.display_name} m={1} size={["xl", "lg"]}/> 
+                            : 
+                            <Box mr={.5} ps={1}><FaHashtag color={colorList[0].split("_")[0]} opacity={0.7} fontSize={"60px"}/></Box>
+                        }
 
-                    <Box flexGrow={1}>
-                        <Heading ml={3} my={1}>{data?.tag.display_name}</Heading>
-                        <Flex align={"center"}>
-                            <Heading ml={3} my={1} fontSize={".75rem"}>Googleで調べる : </Heading>
+                        <Flex ms={[0, 5, 5]} direction="column" alignItems={["center", "start"]}>
+                            <Heading size={"lg"} m={1}>{data?.tag.display_name}</Heading>
+                            <Flex align={"center"} flexWrap={"wrap"}>
+                                <Heading size={"sm"} mx={3} my={1} whiteSpace={"nowrap"}>Googleで調べる : </Heading>
                                 <Link 
+                                whiteSpace={"nowrap"}
                                 color={"tipsy_color_2"} fontSize={".75rem"} isExternal
                                 href={`https://www.google.co.jp/search?q=${data?.tag.display_name}`}
                                 >
                                     {`https://www.google.co.jp/search?q=${data?.tag.display_name}`}
                                 </Link>
+                            </Flex>
                         </Flex>
-                    </Box>
+                    </Flex>
 
                     <Box>
                         {
                             data?.tag &&
                             <SwitchButton
-                            fontSize={15} w={"200px"} m={1}
+                            fontSize={[10, 12, 15, 22, 30, 40]}
+                            mx={1} my={[8,8,0]} px={10} py={[7, 5, 4]}
                             Hcolor={"tipsy_color_1"} Acolor={"tipsy_color_1v2"} Scolor={"tipsy_color_1v2"}
                             defaultChecked={ isFavorite }
                             Schildren={"お気に入り"}

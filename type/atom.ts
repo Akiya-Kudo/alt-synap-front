@@ -43,13 +43,16 @@ export interface NeumButtonProps extends ButtonProps {
     Scolor?: string, // switch_on{color}
     Hbg?: string,
     HbgGradient?: string,
-    fontSize?: number[],
+    fontSize?: (string | number)[],
     formState?: any,
     Ashadow?: boolean,
     children: string,
     Schildren?: string,
     getState?: (e:boolean)=> void,
     ActiveDisabled?: boolean
+}
+export interface NeumButtonNumberFontSizeProps extends NeumButtonProps {
+    fontSize?: number[],
 }
 //ボタン
 export interface NeumButtonPropsFlat extends ButtonProps {
@@ -195,7 +198,9 @@ export interface ImageInputDefaultProps extends GlassInputProps {
     onChangeNoImageset: (e:any) => void
 } 
 //コンテイナー
-export interface GlassContainerProps extends FlexProps{}
+export interface GlassContainerProps extends FlexProps{
+    isOpen?: boolean
+}
 
 //タグ
 export interface GlassTagProps extends TagProps{
@@ -216,7 +221,7 @@ export interface ArticleEditorProps {
     setValue?: (e:any) => void,
     placeholder?: string,
     maxWidth?: string | number,
-    w?:  string | number,
+    w?: string |number,
     minHeight?: string | number,
 };
 

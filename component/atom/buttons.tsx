@@ -1,6 +1,6 @@
 import { BoxProps, Button, filter, Flex, forwardRef, IconButton, IconButtonProps, useBreakpointValue, useColorMode } from "@chakra-ui/react";
 import { ReactNode, useContext, useEffect, useState } from "react";
-import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps, NeumIconButtonProps, GlassIconButtonProps, GlassSwitchButtonProps, NeumButtonPropsFlat } from "../../type/atom";
+import { NeumButtonProps, GlassButtonProps, GlassColorModeButtonProps, NeumSwitchButtonTabProps, NeumIconButtonProps, GlassIconButtonProps, GlassSwitchButtonProps, NeumButtonPropsFlat, NeumButtonNumberFontSizeProps } from "../../type/atom";
 import { useNeumorphismColorMode } from "../../util/hook/useColor";
 import { CiSun, CiCloudMoon } from 'react-icons/ci';
 import { useNeumStyle_dent, useNeumStyle_curve, useNeumStyle_flat } from "../../util/hook/useTheme";
@@ -10,7 +10,7 @@ export const ClickButton = ({
     fontSize=[10, 14, 18, 22, 30, 40], color="text_normal", borderRadius="full", bg="transparent",
     Hcolor="red_switch",Acolor="red.600", isDisabled=false,
     ...props
-}: NeumButtonProps) => {
+}: NeumButtonNumberFontSizeProps) => {
     const fontSize_bp = useBreakpointValue([...fontSize]);
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
@@ -63,7 +63,7 @@ export const ClickButton_submit = ({
     fontSize=[10, 14, 18, 22, 30, 40], color="text_normal", borderRadius="full", bg="transparent",
     Hcolor="red_switch",Acolor="red.600", formState,
     ...props
-}: NeumButtonProps) => {
+}: NeumButtonNumberFontSizeProps) => {
     const fontSize_bp = useBreakpointValue([...fontSize]);
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
@@ -97,7 +97,7 @@ export const SwitchButton = ({
     Hcolor="red_switch", Acolor="red.600", defaultChecked=false, Scolor="red.600",
     children, Schildren, ActiveDisabled=false,
     ...props
-}: NeumButtonProps) => {
+}: NeumButtonNumberFontSizeProps) => {
     const [active, setActive] = useState<boolean>(defaultChecked);
     
     const handleClick = (e: any) => {
@@ -142,7 +142,7 @@ export const SwitchButtonConcave = ({
     fontSize=[10, 14, 18, 22, 30, 40], color="text_normal", borderRadius="full", bg="transparent",
     Hcolor="red_switch", Acolor="red.600", bgGradient, HbgGradient, Ashadow=true,
     ...props
-}: NeumButtonProps) => {
+}: NeumButtonNumberFontSizeProps) => {
     const [active, setActive] = useState(false);
 
     const handleClick = (e: any) => {
@@ -179,7 +179,7 @@ export const SwitchButton_tab = ({
     onClick=()=>undefined, 
     selectedValue, 
     children, id,
-    fontSize=[10, 14, 18, 22, 30, 40], color="text_normal", bg="transparent",
+    color="text_normal", bg="transparent",
     Hcolor="red_switch", Acolor="red.600",
     ...props
 }: NeumSwitchButtonTabProps) => {
@@ -196,8 +196,7 @@ export const SwitchButton_tab = ({
         if (selectedValue!=children) setActive(false)
         if (selectedValue==children) setActive(true)
     },[selectedValue])
-    
-    const fontSize_bp = useBreakpointValue([...fontSize]);
+
     const color_switch = active ? Hcolor : color
     const { highlight, shadow } = useNeumorphismColorMode()
     const neumState = active ? `inset 5px 5px 10px -5px ${shadow}, inset -5px -5px 10px -5px ${highlight};` :  ``;
@@ -213,12 +212,11 @@ export const SwitchButton_tab = ({
         {...props}
         onClick={ handleClick }
         id={id} children={children}
-        fontSize={fontSize} color={color_switch} bg={bg}
+        color={color_switch} bg={bg}
         boxShadow={neumState}
         _hover={{
             boxShadow: neumHover, 
             color: Hcolor,
-            fontSize: (selectedValue!=children && fontSize_bp) ? fontSize_bp / 1.02 : 20 / 1.02,
         }}
         _active={{
             boxShadow: selectedValue!=children && `inset 8px 8px 15px -5px ${shadow}, inset -8px -8px 15px -5px ${highlight};`,

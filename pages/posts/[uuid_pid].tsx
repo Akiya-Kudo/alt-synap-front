@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useQuery, useReactiveVar } from '@apollo/client'
-import { Avatar, Box, Center, Flex, Heading, HStack, Link, Stack, Text, Image as ChakraImage, Tag } from '@chakra-ui/react'
+import { Avatar, Box, Center, Flex, Heading, HStack, Link, Stack, Text, Image as ChakraImage, Tag, useBreakpoint, useBreakpointValue } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -24,6 +24,7 @@ import { BookMarkButton } from '../../component/atom/bookmarks'
 import { client } from '../_app'
 import { READ_USER_UUID_AND_FOLDERS } from '../../util/graphql/queries/users.query.schema'
 import { auth } from '../../util/firebase/init'
+import { PostDisplayFooterMobile } from '../../component/layout/Footer'
 
 const ArticleEditorReadOnly = dynamic(
     () => import("../../component/atom/ArticleEditorReadOnly"),
@@ -55,8 +56,10 @@ const PostPage: NextPage = () => {
     },[userState])
     
 
+    const isMobile = useBreakpointValue([true, true, false])
+    
     const colorList = useColorRandomPick( undefined, 5 )
-    const {glass_bg_switch_deep} = useGlassColorMode()
+    const {glass_bg_switch_deep, glass_bg_switch_natural, glass_bg_switch} = useGlassColorMode()
     const tag_colors = useColorOrderPick(["tipsy_tag_1","tipsy_tag_2", "tipsy_tag_3", "tipsy_tag_4", "tipsy_tag_5"], 5)
 
     // exception case of content_type or 
@@ -69,6 +72,8 @@ const PostPage: NextPage = () => {
         <>
             <Head><title>{post?.title}</title></Head>
             <Flex className="page" flexDir={"row-reverse"} >
+                {
+                    !isMobile ?
                     <Box w={"450px"} >
                         <FlatBord
                         zIndex={1}
@@ -78,10 +83,10 @@ const PostPage: NextPage = () => {
                         >
                             <Flex direction={"row"} gap={2} align={"center"}>
                                 <NextLink href={"/users/" + post?.users.uuid_uid}>
-                                        <Avatar h={10} w={10} size={'xs'} name={post?.users.user_name} src={post?.users.user_image} />
+                                        <Avatar size={'sm'} name={post?.users.user_name} src={post?.users.user_image} />
                                 </NextLink>
                                 <NextLink href={"/users/" + post?.users.uuid_uid}>
-                                        <TruncatedHeading maxLength={15} size={"md"}>{post?.users.user_name}</TruncatedHeading>
+                                        <TruncatedHeading maxLength={40} size={"sm"}>{post?.users.user_name}</TruncatedHeading>
                                 </NextLink>
                             </Flex>
                             {
@@ -123,9 +128,15 @@ const PostPage: NextPage = () => {
                             </Text>
                         </FlatBord>
                     </Box>
+                    
+                    :
+                    <PostDisplayFooterMobile
+                    post={post} login_user={login_user}
+                    />
+                }
 
                     <FlatBord 
-                    m={3} my={7} ml={10}
+                    m={3} my={7} ml={[3, 3, 10]} mb={"80px"}
                     w={"100%"}
                     maxW={"1300px"}
                     flexDirection="column" justifyContent={"start"} 
@@ -135,8 +146,8 @@ const PostPage: NextPage = () => {
                             post?.top_image ?
                             <Box
                             width={"100%"}
-                            height={300} 
-                            borderTopRadius={20}
+                            height={[150, 200, 300]} 
+                            borderTopRadius={[10, 15, 20]}
                             className='image_box'
                             position="relative" 
                             overflow="hidden"
@@ -153,7 +164,7 @@ const PostPage: NextPage = () => {
                                 px={4} pb={2} pt={4}
                                 display={"flex"} flexDirection="column" justifyContent={"start"} alignItems={"center"}
                                 >
-                                    <Heading my={2}>{post?.title}</Heading>
+                                    <Heading my={2} mx={2} size={["lg", "lg", "lg"]}>{post?.title}</Heading>
                                     <Stack direction={"row"} flexWrap={"wrap"} justify={"start"} w={"100%"} mb={1}>
                                         {
                                             post?.post_tags?.map((ps_tg: PostTag) => ps_tg.tags)
@@ -181,7 +192,7 @@ const PostPage: NextPage = () => {
 
                             : 
                             <>
-                                <Heading my={5}>{post?.title}</Heading>
+                                <Heading my={5} mx={2} size={["lg", "lg", "lg"]}>{post?.title}</Heading>
                                 {
                                     <Box w={"100%"}>
                                         {
@@ -195,6 +206,26 @@ const PostPage: NextPage = () => {
                                     </Box>
                                 }
                             </>
+                        }
+                        {
+                            isMobile &&
+                            <Flex gap={[0, 10]} direction={["row", "row"]} w={"90%"} wrap={"wrap"}>
+                                <Text mt={3} fontSize={".8rem"} color={"text_light"} whiteSpace={"nowrap"} mr={5}>
+                                    { "更新日 : " + post?.timestamp?.toString().split("-", 3).join("/").split("T", 1) }
+                                </Text>
+                                {
+                                    post?.top_link && 
+                                        <>
+                                        <HStack fontSize={".8rem"} mt={3} whiteSpace={"nowrap"}>
+                                            <Box>参照 : </Box>
+                                            <Link href={post?.top_link} isExternal color={"text_light"}>
+                                                <ExternalLinkIcon color={"tipsy_color_active_2"} fontSize={".7rem"} me={1}/>
+                                                {post?.top_link.slice(0, 25) + "..."}
+                                            </Link>
+                                        </HStack>
+                                        </>
+                                }
+                            </Flex>
                         }
                         {
                             post?.article_contents?.content ? (

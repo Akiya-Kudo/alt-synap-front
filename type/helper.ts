@@ -44,7 +44,7 @@ export interface SwitchGroupProps extends NeumBordProps {
     defaultValue: string,
     onChange: (value:any)=>any,
     chH?: string | number,
-    chFontSize?: number[],
+    chFontSize?: (number | string)[],
     isDisabledCenter?: boolean, 
     isDisabledRight?: boolean, 
     isDisabledLeft?: boolean, 
