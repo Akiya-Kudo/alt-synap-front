@@ -102,7 +102,7 @@ const LinkCreate : NextPage  = () => {
             direction={"column"}
             w="600px"
             >
-                <BasicStepper steps={steps} activeStep={activeStep} setActiveStep={setActiveStep} my={5}/>
+                <BasicStepper steps={steps} activeStep={activeStep} setActiveStep={setActiveStep} my={5} mx={[5,5, 1]}/>
                 {
                     activeStep == 0 &&
                     <UrlAnalyzeStep 

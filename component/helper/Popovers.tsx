@@ -7,7 +7,7 @@ import { GlassInputDefault } from "../atom/inputs"
 
 export const ImagePathInputPopover = (
     {handleImagePath, defValue, children, placement}
-    : {handleImagePath: (e: any) => void, defValue?: string, children: ReactNode, placement: PlacementWithLogical | undefined }
+    : {handleImagePath: (e: any) => void, defValue?: string, children: ReactNode, placement?: PlacementWithLogical | undefined }
     ) => {
     const { onOpen, onClose, isOpen } = useDisclosure()
     const { isOpen: T_isOpen, onOpen: T_onOpen, onClose: T_onClose } = useDisclosure()
@@ -25,15 +25,14 @@ export const ImagePathInputPopover = (
                 backdropFilter={"blur(7px)"}
                 backgroundColor={mock_bg_switch}
                 borderRadius={"15px"}
-                w={"500px"} maxWidth={"100vw"}
-                as="form" 
+                w={["300px", "400px"]} maxWidth={"100vw"}
+                as="form" left={[-200, -250]} top={"60px"}
                 >
                     <PopoverArrow
                     backgroundColor={mock_bg_switch}
                     />
                     <PopoverBody 
                     as={Flex} alignItems={"center"} justifyContent="center" 
-                    flexDirection={["column", "row"]} 
                     gap={1}
                     >
                         <Heading fontSize={".7rem"} w={"80px"}>WEB画像URL</Heading>

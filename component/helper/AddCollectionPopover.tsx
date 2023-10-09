@@ -57,7 +57,7 @@ export const AddCollectionPopover = ({uuid_uid}: {uuid_uid: string}) => {
         >
             <PopoverTrigger>
                 <Flex
-                w={"100%"} my={2} px={3} h={"50px"} align={"center"} borderRadius={10}
+                w={"100%"} my={2} px={4}  h={["30px", "40px", "50px"]} align={"center"} borderRadius={10}
                 fontSize={".8rem"}
                 _hover={{ 
                     filter: 'brightness(1.2)',
@@ -71,7 +71,7 @@ export const AddCollectionPopover = ({uuid_uid}: {uuid_uid: string}) => {
             backdropFilter={"blur(7px)"}
             backgroundColor={glass_bg_switch}
             borderRadius={"15px"}
-            w={"500px"} maxWidth={"100vw"}
+            w={"500px"} maxWidth={"90vw"}
             as="form" 
             onSubmit={ handleSubmit }
             >
@@ -94,8 +94,8 @@ export const AddCollectionPopover = ({uuid_uid}: {uuid_uid: string}) => {
                         <GlassButton_submit
                         formState={formState}
                         bg={"text_light"} 
-                        w={["100%", 100]} h="70px"
-                        fontSize={"0.7rem"} borderRadius={15}
+                        w={["100%", 100]} h={["30px", "40px", "70px"]}
+                        fontSize={"0.7rem"} borderRadius={[10, 10, 15]}
                         bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} color="bg_switch"
                         _hover={{bgGradient: "linear(to-l, tipsy_color_active_2, tipsy_color_active_3)"}}
                         >

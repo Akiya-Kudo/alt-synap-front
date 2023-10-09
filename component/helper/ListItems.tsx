@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client"
 import { CloseIcon } from "@chakra-ui/icons"
-import { Avatar, AvatarBadge, AvatarGroup, Box, Center, Flex, Grid, GridItem, Heading, HStack, IconButton,  Link,  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Text, useDisclosure, VStack } from "@chakra-ui/react"
+import { Avatar, AvatarBadge, AvatarGroup, Box, Center, Flex, Grid, GridItem, Heading, HStack, IconButton,  Link,  Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Text, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react"
 import React from "react"
 import { Collection, Follow, Link as LinkType, LinkDisplaySwitchType, User } from "../../type/global"
 import { LINK_COLLECTION_FRAGMENT, USER_FOLLOWEE_FRAG } from "../../util/graphql/fragment/fragment.scheme"
@@ -20,7 +20,7 @@ export const CollectionListItem = ({collection}: {collection: Collection}) => {
         <>
         <Flex
         onClick={onOpen}
-        w={"100%"} h={"45px"} p={1} key={collection.cid} id={collection.cid.toString()}
+        w={"100%"} py={2} px={1} key={collection.cid} id={collection.cid.toString()}
         direction={"row"} align={"center"}
         borderRadius={10} transition={".3s"}
         _hover={{ 
@@ -33,7 +33,7 @@ export const CollectionListItem = ({collection}: {collection: Collection}) => {
                     return (<Avatar name={li_col.links.link_name} src={li_col.links.image_path} key={_i}/>)
                 })}
             </AvatarGroup>
-            <Center flexGrow={1}><Heading size={"xs"} overflow={"hidden"}>{collection.collection_name}</Heading></Center>
+            <Center flexGrow={1}><Heading size={"sm"} overflow={"hidden"}>{collection.collection_name}</Heading></Center>
         </Flex>
         <CollectionEditModal  
         collection={collection}
@@ -112,13 +112,14 @@ export const LinkListItem = (
     {link, badgeLidArray, displayMode, uuid_uid}: 
     {link: LinkType, badgeLidArray: string[], displayMode: LinkDisplaySwitchType, uuid_uid: string}
 ) => {
+    const isMobile = useBreakpointValue([true, true, false])
     const { isOpen, onOpen, onClose } = useDisclosure()
     
     return (
         <>
         <Grid
         onClick={onOpen}
-        templateColumns={"10% 25% 25% 25% 15%"}
+        templateColumns={!isMobile ? "10% 25% 25% 20% 15%" : "10% 30% 35% 20%"}
         p={2} key={link.lid.toString()}
         borderRadius={10} transition={".3s"}
         _hover={{ 
@@ -133,31 +134,33 @@ export const LinkListItem = (
             </GridItem>
 
             <GridItem display={"flex"} alignItems={"center"}>
-                <Heading size={"sm"} ps={5} isTruncated>{link.link_name}</Heading>
+                <Heading size={"sm"} ps={1} isTruncated>{link.link_name}</Heading>
             </GridItem>
 
-            <GridItem display={"flex"} alignItems={"center"}>
-                <Link 
-                href={ link.url_scheme } isExternal onClick={(e:any)=>e.stopPropagation()}
-                color={"tipsy_color_3"} isTruncated fontSize={".7rem"} pe={5}
-                >
-                    { link.url_scheme }
-                </Link>
-            </GridItem>
+            {
+                !isMobile && 
+                <GridItem display={"flex"} alignItems={"center"}>
+                    <Link 
+                    href={ link.url_scheme } isExternal onClick={(e:any)=>e.stopPropagation()}
+                    color={"tipsy_color_3"} isTruncated fontSize={".7rem"} pe={2}
+                    >
+                        { link.url_scheme }
+                    </Link>
+                </GridItem>
+            }
 
             <GridItem display={"flex"} alignItems={"center"} >
-                <NextLink href={"/posts/" + link.uuid_uid}>
+                <NextLink href={"/users/" + link.uuid_uid}>
                     <Avatar name={ link.users?.user_name } src={link.users?.user_image} size={"2xs"} onClick={(e:any)=>e.stopPropagation()}/>
                 </NextLink>
-                <NextLink href={"/posts/" + link.uuid_uid} >
-                    <Text ps={2} fontSize={"sm"} isTruncated _hover={{ textDecoration: "underline" }} onClick={(e:any)=>e.stopPropagation()} >
+                <NextLink href={"/users/" + link.uuid_uid} >
+                    <Text pe={1} fontSize={"xs"} isTruncated _hover={{ textDecoration: "underline" }} onClick={(e:any)=>e.stopPropagation()} >
                         {link.users?.user_name ? link.users?.user_name : "Guest" }
                     </Text>
                 </NextLink>
             </GridItem>
-
             <GridItem display={"flex"} alignItems={"center"} justifyContent={"space-evenly"}>
-                <HStack h={"100%"}><Tag size={"sm"} h={1} fontSize={".7rem"}>{LinkGenreNames[link.genre]}</Tag></HStack>
+                <HStack><Tag size={"xs"} p={1} fontSize={".5rem"} whiteSpace={"nowrap"}>{LinkGenreNames[link.genre]}</Tag></HStack>
             </GridItem>
         </Grid>
         <LinkEditModal

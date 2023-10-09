@@ -105,7 +105,7 @@ export const FolderCard = ({
                 as={MenuButton}
                 icon={<HamburgerIcon/>} aria-label="edit-button"
                 transition={".3s"} color="text_normal"
-                h={"45px"} w={"45px"} borderRadius={"full"} p={3}
+                h={["30px", "35px", "45px"]} w={["30px", "40px", "45px"]} borderRadius={"full"} 
                 boxShadow={`5px 5px 15px ${shadow}, -5px -5px 15px  ${highlight}, inset -5px -5px 15px -3px ${shadow}, inset 5px 5px 15px -3px  ${highlight};`}
                 _hover={{
                     boxShadow: `2px 2px 10px ${shadow}, -2px -2px 10px  ${highlight}, inset -2px -2px 10px -3px ${shadow}, inset 2px 2px 10px -3px  ${highlight};`,
@@ -114,7 +114,7 @@ export const FolderCard = ({
                 />
                 <MenuList
                 pos={"relative"}
-                borderRadius={15}
+                borderRadius={[10, 12, 15]}
                 backdropFilter={"blur(17px)"}
                 backgroundColor={"bg_popover_switch"}
                 fontSize="0.8rem"

@@ -105,14 +105,14 @@ const Mypage: NextPage  = () => {
     <Head><title>マイページ</title></Head>
         <Flex flexDir={"column"} align={"center"} mt={5} className="page">
             <SharpBoard 
-            maxW={"1100px"} w={"90%"} justifyContent={"start"} p={5} borderRadius={"30px"} 
-            flexDir={["column", "column", "row"]}
-            neumH={"shallow"}
+            maxW={"1100px"} w={"90%"} justifyContent={"center"} borderRadius={"30px"} 
+            flexDirection={["column", "column", "row"]} flexWrap={"wrap"}
+            neumH={"shallow"} gap={5} p={[5, 7, 10]}
             >
-                <Avatar src={userInfo?.user_image} name={userInfo?.user_name} size={"lg"} m={1}/>
+                <Avatar src={userInfo?.user_image} name={userInfo?.user_name} size={"lg"}/>
                 <Box ms={5} flexGrow={1}>
-                    <Heading size={"lg"} m={1}>{userInfo?.user_name}</Heading>
-                    <Text size={"lg"} fontSize={".75rem"} m={1} as={Flex} flexDir={"row"} gap={2}>
+                    <Heading size={"lg"} m={2}>{userInfo?.user_name}</Heading>
+                    <Text size={"lg"} fontSize={".75rem"} m={2} as={Flex} flexDir={"row"} gap={2}>
                         {
                             userInfo?.uuid_uid && userInfo?.followee_num!=null && userInfo?.followee_num!=undefined && 
                             <FollowListModal
@@ -133,7 +133,7 @@ const Mypage: NextPage  = () => {
                 </Box>
                 <Box>
                     <ClickButton
-                    fontSize={[15]} w={"200px"} m={1}
+                    fontSize={[10, 12, 15]} w={["150px", "170px", "200px"]} m={1}
                     Hcolor={"tipsy_color_1"} Acolor={"tipsy_color_1v2"}
                     onClick={() => {router.push("/user/edit/my_profile")}}
                     >
@@ -144,7 +144,7 @@ const Mypage: NextPage  = () => {
 
             <Tabs 
             isFitted variant="unstyled" isLazy
-            maxW={"1100px"} w={["100%", "100%", "90%"]} my={10}
+            maxW={"1100px"} w={["95%", "95%", "90%"]} my={10}
             onChange={handleTabChange} index={tabIndex}
             >
                 <TabList>

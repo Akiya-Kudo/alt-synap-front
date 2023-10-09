@@ -79,28 +79,30 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
     const handleSelectGenre = (event: React.ChangeEvent<HTMLSelectElement>) => setDispayGenre(event.target.value ? parseInt(event.target.value) : null)
     return (
     <>
-        <Center>
-            <TabSwitchGroup_3
-            optionLeft="公開中"
-            optionCenter="履歴"
-            optionRight="作成済み"
-            defaultValue={displayMode}
-            onChange={ handleMode }
-            gap={1} p={1} w={250}
-            position={"relative"}
-            isDisabledCenter={!uuid_uid} isDisabledRight={!uuid_uid}
-            >
-                <BasicSelect
+        <TabSwitchGroup_3
+        optionLeft="公開中"
+        optionCenter="履歴"
+        optionRight="作成済み"
+        defaultValue={displayMode}
+        onChange={ handleMode }
+        gap={1} p={1} mb={1} mt={-2.5}
+        chFontSize={[5, 10, 12]} chH={["30px", "30px", "40px"]} chW={[100]}
+        isDisabledCenter={!uuid_uid} isDisabledRight={!uuid_uid}
+        />
+        <FlatBord 
+        h={"90%"} 
+        w={["100%", "500px", "100%"]} maxW={"95%"}
+        flexDirection={"column"} my={3} mx={2}
+        >
+            <Flex w={"100%"} justify="start" p={3}>
+                <BasicSelect 
+                w={[100, 100, 150]}
                 placeholder='条件なし' 
-                position={"absolute"}
-                left={300} top={3}
                 onChange={handleSelectGenre}
                 >
                     { Object.entries(LinkGenreNames).map( ([key, name]) => <option value={parseInt(key)} key={parseInt(key)} >{name}</option>)}
                 </BasicSelect>
-            </TabSwitchGroup_3>
-        </Center>
-        <FlatBord h={"90%"} flexDirection={"column"} m={3}>
+            </Flex>
             <Box flexGrow={1} w={"100%"} h={"100px"} overflowY={"scroll"} p={2}>
                 {displayLinks && 
                 displayLinks?.filter((link: Link) => {
@@ -123,9 +125,9 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
             </Box>
 
             <NextLink href={"/user/link_create/"} >
-                <Flex w={"100%"} my={2} px={2} h={"50px"} align={"center"} borderRadius={10}
+                <Flex w={"100%"} my={2} px={4} h={["30px", "40px", "50px"]} align={"center"} borderRadius={10}
                 fontSize={".8rem"}
-                _hover={{ 
+                _hover={{
                     filter: 'brightness(1.2)',
                     bg: "whiteAlpha.500"
                 }}

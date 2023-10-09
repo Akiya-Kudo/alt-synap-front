@@ -16,6 +16,7 @@ import { ADD_LINK_TO_COLLECTION, DELETE_LINK, DELETE_LINK_COLLECTION } from "../
 import { GlassAlert } from "../atom/alerts";
 import { LinkGenreNames } from "../../type/standalone";
 import { GET_LINKCOLLECTION_HISTORY, GET_PUBLISHED_LINKS, GET_USER_MADE_LINKS } from "../../util/graphql/queries/links.query.scheme";
+import { useColorOrderPick } from "../../util/hook/useColor";
 
 export const CollectionEditModal = (
     {
@@ -55,7 +56,7 @@ export const CollectionEditModal = (
         <Modal 
         isOpen={isOpen} 
         onClose={onClose} 
-        size={"sm"}
+        size={["lg", "md", "sm"]}
         >
             <ModalOverlay 
             backdropFilter={"blur(2px)"} 
@@ -104,11 +105,13 @@ export const CollectionEditModal = (
 export const LinkDetailModal = (
     {isOpen, onOpen, onClose, link}: {isOpen: any, onClose: any, onOpen: any, link: LinkType}
 ) => {
+    const tag_colors = useColorOrderPick(["red","orange", "green", "blue", "pink", "teal"], 6)
+    
     return (
         <Modal
         isOpen={isOpen} 
         onClose={onClose} 
-        size={"sm"}
+        size={["lg", "md", "sm"]}
         >
             <ModalOverlay
             backdropFilter={"blur(2px)"} 
@@ -126,7 +129,7 @@ export const LinkDetailModal = (
                     <Flex fontSize="1rem" align={"center"} gap={4}>
                         <Avatar name={link.link_name} src={link.image_path} size={"sm"}/>
                         <Box>{link.link_name}</Box>
-                        <GlassTag id="link_genre">{LinkGenreNames[link.genre]}</GlassTag>
+                        <GlassTag id="link_genre" colorScheme={tag_colors[link.genre]}>{LinkGenreNames[link.genre]}</GlassTag>
                     </Flex>
                     <ModalCloseButton color={"text_light"}/>
                 </ModalHeader>
@@ -269,11 +272,12 @@ export const LinkEditModal = (
         onClose()
     }
     
+    const tag_colors = useColorOrderPick(["red","orange", "green", "blue", "pink", "teal"], 6)
     return (
         <Modal
         isOpen={isOpen} 
         onClose={onClose} 
-        size={"sm"}
+        size={["lg", "md", "sm"]}
         >
             <ModalOverlay
             backdropFilter={"blur(2px)"}  bg="bg_transparent_reverse"
@@ -288,7 +292,7 @@ export const LinkEditModal = (
                     <Flex fontSize="1rem" align={"center"} gap={4}>
                         <Avatar name={link.link_name} src={link.image_path} size={"sm"}/>
                         <Box>{link.link_name}</Box>
-                        <GlassTag id="link_genre">{LinkGenreNames[link.genre]}</GlassTag>
+                        <GlassTag id="link_genre" colorScheme={tag_colors[link.genre]}>{LinkGenreNames[link.genre]}</GlassTag>
                     </Flex>
                     <ModalCloseButton color={"text_light"}/>
                 </ModalHeader>
@@ -331,7 +335,7 @@ export const LinkEditModal = (
                             fontSize={".8rem"} p={1}
                             borderRadius={10}
                             bg="mock_glass_bg_switch"
-                            position={"absolute"} top={"70px"} 
+                            position={"absolute"} top={20} left={[150, 160, 140]}
                             >
                                 {
                                     collections.map(( col: Collection ) => {
