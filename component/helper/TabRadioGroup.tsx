@@ -90,7 +90,7 @@ export const TabSwitchGroup_3 = (
     {
         optionLeft, optionRight, optionCenter="center_button",
         onChange, defaultValue, 
-        chH=7, chFontSize=[12],
+        chH=[7], chFontSize=[12], chW,
         isDisabledLeft, isDisabledRight, isDisabledCenter,
         children,
         ...props
@@ -108,7 +108,7 @@ export const TabSwitchGroup_3 = (
             >
                 <SwitchButton_tab 
                 id={optionLeft}
-                fontSize={chFontSize} height={chH}
+                fontSize={chFontSize} height={chH} w={chW}
                 borderLeftRadius={"full"}
                 selectedValue={selected} onClick={handleClick} 
                 Hcolor={"tipsy_color_2"}
@@ -120,7 +120,7 @@ export const TabSwitchGroup_3 = (
                 <SwitchButton_tab 
                 id={optionCenter}
                 borderRadius={0}
-                fontSize={chFontSize} height={chH}
+                fontSize={chFontSize} height={chH} w={chW}
                 selectedValue={selected} onClick={handleClick} 
                 Hcolor={"tipsy_color_2"}
                 Acolor={"tipsy_color_active_2"}
@@ -130,7 +130,7 @@ export const TabSwitchGroup_3 = (
                 </SwitchButton_tab>
                 <SwitchButton_tab 
                 id={optionRight}
-                fontSize={chFontSize} height={chH}
+                fontSize={chFontSize} height={chH} w={chW}
                 borderRightRadius={"full"}
                 selectedValue={selected} onClick={handleClick} 
                 Hcolor={"tipsy_color_2"}

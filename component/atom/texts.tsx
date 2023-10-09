@@ -50,7 +50,7 @@ export const TruncatedHeading = ({ children, maxLength=50, ...props }: Truncated
     return <Heading {...props}>{children}</Heading>
 }
 
-export const StepGuide = ({guide, stepNum, ...props}: StepGuideProps) => {
+export const StepGuide = ({guide, stepNum, bg="tipsy_color_3", ...props}: StepGuideProps) => {
     return (
         <Flex flexWrap={"nowrap"}  align={"center"} gap={3} {...props}>
             <Flex justify="center" align={"center"}>
@@ -58,7 +58,7 @@ export const StepGuide = ({guide, stepNum, ...props}: StepGuideProps) => {
                 width={5}
                 height={5}
                 borderRadius="full"
-                backgroundColor={"tipsy_color_3"}
+                backgroundColor={bg}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"

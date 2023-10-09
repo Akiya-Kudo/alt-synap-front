@@ -44,21 +44,33 @@ export const UrlAnalyzeStep = (
         ).finally(()=> setIsLoading(false))
     }
     return (
-        <>
-            <Box my={5}>
-                <StepGuide stepNum={1} guide={"コピーボタンを押して文字をコピーし、作成したいサイトで貼り付けて検索を行う"}/>
-                <Flex my={5}>
+        <Box mx={[6,6,3]}>
+            <Box mb={10}>
+                <StepGuide stepNum={1} guide={"作成したいリンクのサイトを開く"}/>
+            </Box>
+
+            <Box my={10}>
+                <StepGuide stepNum={2} guide={"以下のコピーボタンを押して文字をコピーする"}/>
+                <Flex m={5}>
                     <ClickButton fontSize={[15]} h={8} borderRadius={10} onClick={handleCopy}>コピー</ClickButton>
                     <Flex mx={5} bg={"bg_transparent_reverse_deep"} align={"center"} isTruncated w={200} borderRadius={10}>
                         <Text isTruncated>{ analyzeUrlString }</Text>
                     </Flex>
                 </Flex>
             </Box>
+
+            <Box my={10}>
+                <StepGuide stepNum={3} guide={"作成するサイトの検索バーにコピーした文字列をペーストし検索を行う"}/>
+            </Box>
             
-            <Box my={5}>
-                <StepGuide stepNum={2} guide={"検索を行った結果が表示された画面のURLを貼り付けて次へ進む"}/>
+            <Box my={10}>
+                <StepGuide stepNum={4} guide={"検索を行い、結果が表示された画面のURLをコピーする"}/>
+            </Box>
+            
+            <Box my={10}>
+                <StepGuide stepNum={3} guide={"以下のURLバーにコピーしたURLを貼り付けて次へ進む"}/>
                 <NeumFormInput
-                my={5}
+                m={5}
                 id={"input_url"} 
                 register={register} errors={errors} validation={Validation_url_required}
                 labelName={"URL"} placeholder={"http://"}
@@ -77,7 +89,7 @@ export const UrlAnalyzeStep = (
                     次へ
                 </ClickButton>
             </Flex>
-        </>
+        </Box>
     )
 }
 
@@ -191,9 +203,28 @@ export const UrlTestStep = ({setCurrentLink, currentLink, setActiveStep}: {setCu
     const handleSearchExecute = () => window.open(testLink, '_blank')
     
     return (
-        <>
-            <Box my={5}>
-                <StepGuide stepNum={1} guide={"必要なクエリ・パラメータを設定する"}/>
+        <Box mx={[6,6,3]}>
+            <Box mb={10}>
+                <StepGuide stepNum={1} guide={"実際に検索をしてみる"}/>
+                <Heading size={"xs"} mx={5} mt={4} mb={1}>作成されたリンク</Heading>
+                <Link mx={5} my={4} fontSize={".8rem"} color={"tipsy_color_2"}>{testLink}</Link>
+                <Flex flexDir={"row"} alignItems={"center"} gap={5} mx={5} my={4}>
+                    <NeumInputDefault 
+                    id={"input_test"} onChange={handleCreateLinkWord}
+                    placeholder={defaultSearchWord} defaultValue={defaultSearchWord}
+                    />
+                    <ClickButton
+                    color={"bg_switch"} Hcolor={"bg_switch"}
+                    bg={"tipsy_color_3"}
+                    onClick={handleSearchExecute}
+                    >
+                        検索
+                    </ClickButton>
+                </Flex>
+            </Box>
+
+            <Box my={10}>
+                <StepGuide stepNum={2} guide={"必要なクエリ・パラメータを設定する ( 省略可 )"}/>
                 <FlatBord my={5} p={2}>
                     <Flex w={"100%"} maxH={"150px"} overflowX={"hidden"} overflowY={"scroll"} flexDir={"column"}>
                         {
@@ -213,33 +244,14 @@ export const UrlTestStep = ({setCurrentLink, currentLink, setActiveStep}: {setCu
                     </Flex>
                 </FlatBord>
             </Box>
-                
-            <Box mt={1} mb={6}>
-                <StepGuide stepNum={2} guide={"実際に検索をしてみる"}/>
-                <Heading size={"xs"} mt={5}>作成されたリンク</Heading>
-                <Link mt={3} fontSize={".8rem"} color={"tipsy_color_2"}>{testLink}</Link>
-                <Flex flexDir={"row"} alignItems={"center"} gap={5} mt={5}>
-                    <NeumInputDefault 
-                    id={"input_test"} onChange={handleCreateLinkWord}
-                    placeholder={defaultSearchWord} defaultValue={defaultSearchWord}
-                    />
-                    <ClickButton
-                    color={"bg_switch"} Hcolor={"bg_switch"}
-                    bg={"tipsy_color_3"}
-                    onClick={handleSearchExecute}
-                    >
-                        検索
-                    </ClickButton>
-                </Flex>
-            </Box>
-
+            
             <Flex justify={"center"} my={2} gap={20}>
                 <ClickButton onClick={() => setActiveStep(0)} >戻る</ClickButton>
                 <ClickButton
                 onClick={() => setActiveStep(2)}
                 >次へ</ClickButton>
             </Flex>
-        </>
+        </Box>
     )
 }
 
@@ -284,19 +296,21 @@ export const UrlLabelingStep = (
     }
     
     return (
-        <>
-            <Box my={5}>
-                <StepGuide stepNum={1} guide={"名前とその他の概要を埋めよう"}/>
+        <Box mx={[6,6,3]}>
+            <Box mb={10}>
+                <StepGuide stepNum={1} guide={"名前とその他の概要を埋めよう ( 必須項目 : 名前・ジャンル )"}/>
                 <Center
                 position={"relative"}
                 >
-                    <Avatar src={currentLink.image_path} name={currentLink.link_name} h={"100px"} w={"100px"} mt={5}/>
+                    <Avatar src={currentLink.image_path} name={currentLink.link_name} size={"xl"} mt={5}/>
                     <Box
                     position={"absolute"}
-                    bottom={0} right={"70px"}
+                    bottom={0} right={["10px", "40px", "70px"]}
                     >    
-                        <ImagePathInputPopover handleImagePath={handleImagePath} defValue={currentLink.image_path} placement='top-start'>
-                            <ClickButton fontSize={[15]} h={"40px"}>アイコンを追加</ClickButton>
+                        <ImagePathInputPopover 
+                        handleImagePath={handleImagePath} defValue={currentLink.image_path} 
+                        >
+                            <ClickButton fontSize={[10, 12, 15]}>アイコンを追加</ClickButton>
                         </ImagePathInputPopover>
                     </Box>
                 </Center>
@@ -310,18 +324,19 @@ export const UrlLabelingStep = (
 
                 <Flex
                 justify={"space-between"}
+                flexWrap={"wrap"}
                 >
-                    <FormControl isRequired w={250}>
-                        <FormLabel size={"xs"} mt={5} fontWeight={"bold"} >ジャンル</FormLabel>
-                        <BasicSelect defaultValue={currentLink.genre} mt={3} onChange={handleGenre}>
+                    <FormControl isRequired w={[250]} my={5}>
+                        <FormLabel size={"xs"} fontWeight={"bold"} mb={7}>ジャンル</FormLabel>
+                        <BasicSelect defaultValue={currentLink.genre} onChange={handleGenre}>
                             { Object.entries(LinkGenreNames).map( ([key, name]) => <option value={parseInt(key)} key={parseInt(key)}>{name}</option>)}
                         </BasicSelect>
                     </FormControl>
 
-                    <Box w={250}>
-                        <FormLabel size={"xs"} mt={5} fontWeight={"bold"} >公開設定</FormLabel>
+                    <Box w={[250]} my={5}>
+                        <FormLabel size={"xs"}  fontWeight={"bold"} mb={7}>公開設定</FormLabel>
                         <ClickButton 
-                        w={200} h={30} mt={1} 
+                        w={200} h={30}
                         onClick={handlePublish}
                         color={currentLink.publish ? "tipsy_color_2" : "text_normal"}
                         Hcolor={"tipsy_color_2"} Acolor={"tipsy_color_2"}
@@ -337,7 +352,7 @@ export const UrlLabelingStep = (
                 onChange={handleExplanation}
                 />
             </Box>
-            <Flex justify={"center"} my={5} gap={20}>
+            <Flex justify={"center"} my={5} gap={20} mx={3}>
                 <ClickButton onClick={() => setActiveStep(1)} >戻る</ClickButton>
                 <ClickButton
                 w={"200px"}
@@ -348,6 +363,6 @@ export const UrlLabelingStep = (
                 isLoading={isSaveButtonLoading}
                 >完成</ClickButton>
             </Flex>
-        </>
+        </Box>
     )
 }

@@ -1,4 +1,4 @@
-import { Center, Grid, GridItem } from "@chakra-ui/react";
+import { Center, Flex, Grid, GridItem, useBreakpointValue } from "@chakra-ui/react";
 import { NextPage } from "next";
 import React, { useContext, useEffect } from "react";
 import { USER_QUERY } from "../../../util/graphql/queries/users.query.schema";
@@ -11,9 +11,10 @@ import LinkSettingBoard from "../../../component/standalone/LinkSettingBoard";
 import Head from "next/head";
 
 const LinkSetting: NextPage  = () => {
+    const isMobile = useBreakpointValue([true, true, false])
     const { userState } = useContext(AuthContext);
     const router = useRouter()
-    useEffect(() => { if (userState == 'guest')  router.replace('/') }, [userState])
+    // useEffect(() => { if (userState == 'guest')  router.replace('/') }, [userState])
     
     const { data: user_data } = useQuery(USER_QUERY, {
         fetchPolicy: 'network-only',
@@ -25,22 +26,29 @@ const LinkSetting: NextPage  = () => {
         <Head><title>Tipsy | リンク設定</title></Head>
             <Center><Grid
             className="page" 
-            templateAreas={`"multi select"`}
-            gridTemplateRows={'1fr'}
-            gridTemplateColumns={'350px 1fr'}
-            gap={5}
-            px={10} pt={"150px"} pb={5}
+            templateAreas={!isMobile ? `"multi select"` : `"multi" "select"`}
+            gridTemplateRows={!isMobile ? '1fr' : '250px 1fr'}
+            gridTemplateColumns={!isMobile ? '350px 1fr' : '1fr'}
+            gap={[5, 5, 2]}
+            px={3} pt={["70px", "100px", "150px"]} pb={5}
             maxW={"2500px"}
             >
                 <GridItem area={'multi'}>
-                    <CollectionSettingBoard 
-                    collections={user_data?.user?.collections}
-                    uuid_uid={user_data?.user?.uuid_uid}
-                    />
+                    <Flex direction={"column"} w={"100%"} align="center">
+                        <CollectionSettingBoard 
+                        collections={user_data?.user?.collections}
+                        uuid_uid={user_data?.user?.uuid_uid}
+                        />
+                    </Flex>
                 </GridItem>
 
-                <GridItem area={'select'} >
-                    <LinkSettingBoard uuid_uid={user_data?.user?.uuid_uid}/>
+                <GridItem area={'select'}>
+                    <Flex 
+                    h={"100%"}
+                    align="center" direction={"column"} 
+                    >
+                        <LinkSettingBoard uuid_uid={user_data?.user?.uuid_uid}/>
+                    </Flex>
                 </GridItem>
             </Grid></Center>
         </>

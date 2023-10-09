@@ -141,7 +141,7 @@ export interface NeumInputProps extends InputProps {
 }
 export interface NeumTextareaProps extends TextareaProps {
     PHcolor?: string,
-    fontSize?: number,
+    fontSize?: number[],
     register?:  UseFormRegisterReturn,
 
 }

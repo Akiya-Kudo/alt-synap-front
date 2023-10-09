@@ -28,7 +28,7 @@ export const TipsyCard = ({
             <Box
             width={"100%"}
             px={4} pb={2} pt={4}
-            borderRadius={20}
+            borderRadius={[15, 18, 20]}
             transition={".3s"}
             boxShadow={`inset 6px 6px 13px -5px ${shadow}, inset -6px -6px 15px -5px ${highlight};`}
             _hover={{
@@ -285,7 +285,7 @@ export const TipsyCard_link = ({
         <Box
         width={"100%"}
         px={4} pb={2} pt={4}
-        borderRadius={20}
+        borderRadius={[15, 18, 20]}
         transition={".3s"}
         boxShadow={`inset 6px 6px 13px -5px ${shadow}, inset -6px -6px 15px -5px ${highlight};`}
         _hover={{

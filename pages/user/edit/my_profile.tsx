@@ -124,7 +124,7 @@ const MyProfile: NextPage  = () => {
             mt={5}
             id="comment" register={register} errors={errors} validation={Validation_comment}
             defaultValue={currentUser?.comment} placeholder={"Comment..."} labelName={"コメント"}
-            fontSize={18} rows={6} 
+            fontSize={[18]} rows={6}
             onChange={handleComment}
             />
             <Center mt={5}>

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import NextImage from 'next/image';
-import { Box, Button, ButtonProps, Center, ChakraComponent, Flex, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, Textarea, Tooltip, useCheckbox, useColorMode } from '@chakra-ui/react'
+import { Box, Button, ButtonProps, Center, ChakraComponent, Flex, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, Textarea, Tooltip, useBreakpointValue, useCheckbox, useColorMode } from '@chakra-ui/react'
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
 import { FaEye, FaEyeSlash, FaQuestion } from 'react-icons/fa';
 import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, GlassSearchInputProps, ImageInputDefaultProps, NeumFormInputProps, NeumFormTextareaProps, NeumInputProps, NeumTextareaProps } from "../../type/atom";
@@ -46,12 +46,13 @@ export const NeumTextAreaDefault = ({
     borderRadius="10px", 
     border="none",
     color="text_normal", 
-    fontSize=20, 
+    fontSize=[10, 15, 20], 
     placeholder='📝',
     PHcolor="text_very_light",
     register, onChange,
     ...props
 }: NeumTextareaProps ) => {
+    const fontSize_bp = useBreakpointValue([...fontSize]);
     const { dent } = useNeumStyle_dent()
     const {flat_tall} = useNeumStyle_flat()
     if (register) {
@@ -69,7 +70,7 @@ export const NeumTextAreaDefault = ({
         border={border}
         _focus={{
             boxShadow: flat_tall,
-            fontSize: fontSize / 0.95,
+            fontSize: fontSize_bp ? fontSize_bp / 1.02 : 20 / 1.02,
         }}
         borderRadius={borderRadius} bg={bg} color={color} fontSize={fontSize}
         boxShadow={dent}
