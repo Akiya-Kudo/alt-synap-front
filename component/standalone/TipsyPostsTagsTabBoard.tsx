@@ -68,7 +68,7 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
         <>
             <Tabs
             variant="unstyled" isLazy
-            maxW={"1100px"} w={["100%", "95%", "90%"]} my={5}
+            w={["100%", "95%", "90%"]} my={5}
             onChange={(index: number) => setDisplayTabIndex(index)}
             isFitted
             index={displayTabIndex}

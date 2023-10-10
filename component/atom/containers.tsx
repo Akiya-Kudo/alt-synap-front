@@ -1,5 +1,5 @@
-import { Box, Flex } from "@chakra-ui/react"
-import { ForwardedRef, forwardRef } from "react"
+import { Box, Center, Collapse, Flex, Heading, Tooltip, TooltipProps, useDisclosure } from "@chakra-ui/react"
+import { ForwardedRef, forwardRef, useState } from "react"
 import { GlassContainerProps } from "../../type/atom"
 import { useGlassColorMode } from "../../util/hook/useColor"
 
@@ -10,7 +10,7 @@ export const BasicHeaderStyleContainer = ({children}: GlassContainerProps) => {
         zIndex={1100} 
         w="100%" 
         // h="100px" 
-        h={["50px", "70px", "90px"]}
+        h={["50px", "70px", "90px", "110px"]}
         position={"fixed" }
         top={0}
         p={5}
@@ -47,7 +47,7 @@ export const BasicFooterStyleContainer = ({isOpen, children, ...props}: GlassCon
         {...props}
         zIndex={1100} 
         w={"100%"} 
-        h={["50px", "70px", "90px"]}
+        h={["50px", "70px", "90px", "110px"]}
         position={"fixed" }
         bottom={0}
         p={5}

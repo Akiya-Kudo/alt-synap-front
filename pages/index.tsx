@@ -103,14 +103,20 @@ const Index: NextPage<{}>  = () => {
 
         {
           userState=="guest" &&
-          <FlatBord mb={4} w={"90%"} h={100} bgGradient='linear(to-tr, tipsy_color_3, tipsy_color_1)' bg={""} color={"white"}>
-            {/* <FlatText fontSize={"2.5rem"} fontWeight="bold" color={"tipsy_color_2"}></FlatText> */}
-            <Heading fontSize={"2.5rem"}>Tipsy</Heading>
-            <Heading fontSize={"1.5rem"} ms={2} mt={2}>について</Heading>
-            <Link href={"/guide/explanation"}>
+          <Link href={"/guide/explanation"}>
+            <FlatBord 
+            mb={4} w={"90%"} h={100} 
+            bgGradient='linear(to-tr, tipsy_color_3, tipsy_color_1)' 
+            bg={""} color={"white"}
+            _hover={{ filter: 'brightness(1.2)' }} transition={".3s"}
+            _focus={{ filter: 'brightness(1.2)' }}
+            >
+              {/* <FlatText fontSize={"2.5rem"} fontWeight="bold" color={"tipsy_color_2"}></FlatText> */}
+              <Heading fontSize={"2.5rem"}>Tipsy</Heading>
+              <Heading fontSize={"1.5rem"} ms={2} mt={2}>について</Heading>
               <GlassButton size={"sm"} color={"white"} ms={5} mt={2} border={"1px white solid"}>もっと見る</GlassButton>
-            </Link>
-          </FlatBord>
+            </FlatBord>
+          </Link>
         }
 
         {
