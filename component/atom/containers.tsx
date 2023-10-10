@@ -47,7 +47,6 @@ export const BasicFooterStyleContainer = ({isOpen, children, ...props}: GlassCon
         {...props}
         zIndex={1100} 
         w={"100%"} 
-        // h="100px" 
         h={["50px", "70px", "90px"]}
         position={"fixed" }
         bottom={0}

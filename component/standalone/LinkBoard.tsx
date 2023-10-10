@@ -1,8 +1,8 @@
-import { Avatar, Box, Center, Icon, MenuButton, ResponsiveValue, useDisclosure } from '@chakra-ui/react';
+import { Avatar, Box, Center, Flex, Icon, MenuButton, ResponsiveValue, useDisclosure } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { IoMdSettings } from 'react-icons/io';
 import { DentBord } from '../../component/atom/bords';
-import { ClickButtonFlat } from '../../component/atom/buttons';
+import { ClickButtonFlat, GlassIconButton } from '../../component/atom/buttons';
 import Link from 'next/link';
 import { useNeumorphismColorMode } from '../../util/hook/useColor';
 import { LinkSelectMenu } from '../helper/LinkSelectMenu';
@@ -16,12 +16,18 @@ import {useLinkSearch} from '../../util/hook/useLink'
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { SET_TOP_COLLECTION } from '../../util/graphql/mutation/collections.mutation.scheme';
 import { GET_GUEST_COLLECTIOINS } from '../../util/graphql/queries/links.query.scheme';
+import { GlassLinkDisplay, NeumLinkDisplay } from '../helper/LinkDisplay'
+import { FaQuestion } from 'react-icons/fa';
 
-const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, flexDirection?: ResponsiveValue<any> | undefined}) => {
+export const NeumLinkBoard = ({
+    query_text, flexDirection="column", direction="column",
+}: {
+    query_text: string, flexDirection?: ResponsiveValue<any> | undefined, direction?: "column" | "row",
+}) => {
     const { onClose, isOpen, onToggle } = useDisclosure()
 
     const { userState } = useContext(AuthContext);
-    const [collection, setCollection] = useState<Collection[]>([])
+    const [collections, setCollections] = useState<Collection[]>([])
     const [displayCid, setDlisplayCid] = useState<number | undefined>(undefined)
 
     const [setTopCollection] = useMutation(SET_TOP_COLLECTION)
@@ -35,13 +41,13 @@ const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, fl
                     uid: auth.currentUser?.uid,
                 },
             });
-            setCollection(read_collections?.user?.collections ? read_collections?.user?.collections : [])
+            setCollections(read_collections?.user?.collections ? read_collections?.user?.collections : [])
             // return index, if the collection is not find in array => return -1
             const top_collection = read_collections?.user?.collections.find((collection: Collection) => collection.cid == read_collections?.user?.top_collection)
             setDlisplayCid( top_collection ? top_collection.cid : read_collections?.user?.collections[0]?.cid )
         } else if (userState=="guest") {
             getGuestCollections().then(res => {
-                setCollection(res.data.get_guest_collections)
+                setCollections(res.data.get_guest_collections)
                 setDlisplayCid(res.data.get_guest_collections[0]?.cid)
             })
         }
@@ -59,7 +65,7 @@ const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, fl
     return(
         <>
             <LinkSelectMenu 
-            title={"- COLLECTIONを選択 -"} collections={collection} handleClick={handleSelect}
+            title={"- COLLECTIONを選択 -"} collections={collections} handleClick={handleSelect}
             onClose={onClose} isOpen={isOpen}
             placement={'bottom'}
             >
@@ -76,22 +82,14 @@ const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, fl
                     <Center><Icon aria-label='link_setting' as={BiCategoryAlt} color="tipsy_color_2" /></Center>
                 </MenuButton>
             </LinkSelectMenu>
-
-            <Center flexDirection={flexDirection}>
-                {
-                    collection && displayCid && collection.find(col => col.cid == displayCid)?.link_collections?.map((li_col, _i )=> {
-                        return (
-                            <ClickButtonFlat
-                            id={li_col.lid?.toString()} key={_i}
-                            onClick={() => handleLink(li_col.links)}
-                            p={1}
-                            >
-                                <Avatar src={li_col.links.image_path} name={li_col.links.link_name} size={"sm"}/>
-                            </ClickButtonFlat>
-                        )
-                    })
-                }
-            </Center>
+            
+            <NeumLinkDisplay 
+            collection={collections && collections.find(col => col.cid == displayCid)} 
+            handleLink={handleLink}
+            direction={direction}
+            h={direction=="column" ? 270 : undefined } 
+            w={direction=="row" ? 390 : undefined}
+            />
 
             <Link href={"/user/edit/link_setting"}>
                 <DentBord 
@@ -104,4 +102,86 @@ const LinkBoard = ({query_text, flexDirection="column"}: {query_text: string, fl
     )
 }
 
-export default LinkBoard
+export const GlassLinkBoard = ({
+    query_text, flexDirection="column", direction="column", flexGrow,
+}: {
+    query_text: string, flexDirection?: ResponsiveValue<any> | undefined, direction?: "column" | "row", flexGrow?: number,
+}) => {
+    const { onClose, isOpen, onToggle } = useDisclosure()
+
+    const { userState } = useContext(AuthContext);
+    const [collections, setCollections] = useState<Collection[]>([])
+    const [displayCid, setDlisplayCid] = useState<number | undefined>(undefined)
+
+    const [setTopCollection] = useMutation(SET_TOP_COLLECTION)
+    const [getGuestCollections] = useLazyQuery(GET_GUEST_COLLECTIOINS)
+    
+    useEffect(() => {
+        if (userState=="isUser") {
+            const read_collections = client.readQuery({
+                query: USER_QUERY,
+                variables: {
+                    uid: auth.currentUser?.uid,
+                },
+            });
+            setCollections(read_collections?.user?.collections ? read_collections?.user?.collections : [])
+            // return index, if the collection is not find in array => return -1
+            const top_collection = read_collections?.user?.collections.find((collection: Collection) => collection.cid == read_collections?.user?.top_collection)
+            setDlisplayCid( top_collection ? top_collection.cid : read_collections?.user?.collections[0]?.cid )
+        } else if (userState=="guest") {
+            getGuestCollections().then(res => {
+                setCollections(res.data.get_guest_collections)
+                setDlisplayCid(res.data.get_guest_collections[0]?.cid)
+            })
+        }
+    }, [userState]);
+    
+    
+    const handleSelect = (cid: number) => {
+        setDlisplayCid(cid)
+        if (userState=="isUser") setTopCollection({variables: { cid: cid }})
+    }
+
+    const handleLink = (link: LinkType) => useLinkSearch(link, query_text)
+    return (
+        <Flex align={"center"} flexGrow={flexGrow} mx={1}>
+            <LinkSelectMenu 
+            title={"- COLLECTIONを選択 -"} collections={collections} handleClick={handleSelect}
+            onClose={onClose} isOpen={isOpen}
+            position={"absolute"} bottom={10} left={10}
+            >
+                <MenuButton
+                as={GlassIconButton}
+                transition={".3s"}
+                onClick={onToggle}
+                >
+                    <Center><Icon aria-label='link_setting' as={BiCategoryAlt} color="tipsy_color_2" /></Center>
+                </MenuButton>
+            </LinkSelectMenu>
+
+            <GlassLinkDisplay 
+            collection={collections && collections.find(col => col.cid == displayCid)} 
+            handleLink={handleLink}
+            direction={direction}
+            />
+
+            {
+                userState=="isUser" ?
+                <Link href={"/user/edit/link_setting"}>
+                    <GlassIconButton 
+                    aria-label='link_setting_link'
+                    >
+                        <Icon aria-label='link_setting' as={IoMdSettings} color="tipsy_color_2" />
+                    </GlassIconButton>
+                </Link>
+                :
+                <GlassIconButton 
+                    aria-label='link_setting_link'
+                    >
+                        <Icon aria-label='link_setting' as={FaQuestion} color="orange" />
+                    </GlassIconButton>
+            }
+            
+        </Flex>
+    )
+}

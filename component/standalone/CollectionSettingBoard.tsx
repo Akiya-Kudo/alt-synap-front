@@ -6,11 +6,12 @@ import { AddCollectionPopover } from "../helper/AddCollectionPopover";
 import { CollectionListItem } from "../helper/ListItems";
 
 const CollectionSettingBoard = ({collections, uuid_uid}: {collections: Collection[], uuid_uid: string}) => {
+    
     return (
         <>
             <Center mb={4}>
                 <DentBord 
-                w={[150, 200, 250]} 
+                w={[150, 200, 250]}
                 h={["20px", "30px", "40px"]} 
                 justifyContent="center" alignItems={"center"} borderRadius={"full"}
                 >
@@ -19,7 +20,7 @@ const CollectionSettingBoard = ({collections, uuid_uid}: {collections: Collectio
             </Center>
             <DentBord 
             h={["200px", "200px", "350px"]} borderRadius={"15px"} w={[ "90%","500px", "90%"]}
-            
+            maxW={"95%"}
             flexDirection={"column"} justifyContent={"space-between"}
             >
                 <Box overflowY={"scroll"} borderRadius={15} w={"100%"} p={3}>

@@ -43,7 +43,7 @@ export const DentBord = ({
     bg="transparent",color="text_normal", borderRadius="50",
     display="flex", justifyContent="center", alignItems="center",
     ...props
-}) => {
+}: NeumBordProps) => {
     const { highlight, shadow } = useNeumorphismColorMode()
     const neumHeight = neumH=="shallow" ? `inset -5px -5px 15px -3px ${highlight}, inset 5px 5px 15px -3px  ${shadow};` : `inset -15px -15px 30px -10px ${highlight}, inset 15px 15px 30px -10px  ${shadow};`
     return (

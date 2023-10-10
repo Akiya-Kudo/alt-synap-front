@@ -30,7 +30,7 @@ const LinkSetting: NextPage  = () => {
             gridTemplateRows={!isMobile ? '1fr' : '250px 1fr'}
             gridTemplateColumns={!isMobile ? '350px 1fr' : '1fr'}
             gap={[5, 5, 2]}
-            px={3} pt={["70px", "100px", "150px"]} pb={5}
+            px={[0, 0, 3]} pt={["70px", "100px", "150px"]} pb={5}
             maxW={"2500px"}
             >
                 <GridItem area={'multi'}>

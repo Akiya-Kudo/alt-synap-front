@@ -91,7 +91,7 @@ const LinkSettingBoard = ({uuid_uid}: {uuid_uid: string}) => {
         />
         <FlatBord 
         h={"90%"} 
-        w={["100%", "500px", "100%"]} maxW={"95%"}
+        w={["100%", "500px", "60vw"]} maxW={"95vw"}
         flexDirection={"column"} my={3} mx={2}
         >
             <Flex w={"100%"} justify="start" p={3}>

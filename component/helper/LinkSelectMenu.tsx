@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useContext } from "react";
 import { LinkSelectBoardProps } from "../../type/helper";
 import { AuthContext, LoginToggleContext } from "../../util/hook/authContext";
+import { TruncatedHeading } from "../atom/texts";
 
 export const LinkSelectMenu = ({
     collections, children, title,
     onClose, isOpen,
     handleClick=(e: any)=>{},
     menuDisplaymargin,
+    position, top, bottom, left, right,
     ...props
 }:LinkSelectBoardProps) => {
     const { userState } = useContext(AuthContext);
@@ -28,8 +30,9 @@ export const LinkSelectMenu = ({
             <>
             {children}
             <MenuList 
-            fontSize={".8em"} mx={4}
-            borderRadius={15}
+            position={position} bottom={bottom} top={top} left={left} right={right}
+            fontSize={".9em"} w={[180, 230, 270]}
+            borderRadius={[10, 13, 15]}
             backdropFilter={"blur(17px)"}
             backgroundColor={"bg_popover_switch"}
             m={menuDisplaymargin}
@@ -49,7 +52,10 @@ export const LinkSelectMenu = ({
                                             col.link_collections?.map(li_col => <Avatar name={li_col.links?.link_name} src={li_col.links?.image_path} id={li_col.lid?.toString()} key={li_col.lid}/>)
                                         }
                                     </AvatarGroup>
-                                    <span>{col.collection_name}</span>
+
+                                    <TruncatedHeading maxLength={20} size={"xs"}>
+                                        {col.collection_name}
+                                    </TruncatedHeading>
                                 </MenuItem>
                             )
                         })

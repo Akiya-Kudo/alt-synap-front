@@ -13,6 +13,7 @@ import { LinkGenreNames } from "../../type/standalone"
 import { TOGGLE_FOLLOW } from "../../util/graphql/mutation/follows.mutation.scheme"
 import { USER_QUERY } from "../../util/graphql/queries/users.query.schema"
 import { auth } from "../../util/firebase/init"
+import { TruncatedHeading } from "../atom/texts"
 
 export const CollectionListItem = ({collection}: {collection: Collection}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -33,7 +34,7 @@ export const CollectionListItem = ({collection}: {collection: Collection}) => {
                     return (<Avatar name={li_col.links.link_name} src={li_col.links.image_path} key={_i}/>)
                 })}
             </AvatarGroup>
-            <Center flexGrow={1}><Heading size={"sm"} overflow={"hidden"}>{collection.collection_name}</Heading></Center>
+            <Center flexGrow={1}><TruncatedHeading maxLength={20} size={"sm"} overflow={"hidden"}>{collection.collection_name}</TruncatedHeading></Center>
         </Flex>
         <CollectionEditModal  
         collection={collection}
@@ -90,7 +91,7 @@ export const LinkListItemDeletable = ({link, cid}: {link: LinkType, cid: number}
         >
             <Flex align={"center"}>
                 <Avatar name={link.link_name} src={link.image_path} size={"xs"}/>
-                <Heading size={"xs"} ms={10} overflow={"hidden"}>{link.link_name}</Heading>
+                <TruncatedHeading maxLength={20} size={"xs"} ms={10} overflow={"hidden"}>{link.link_name}</TruncatedHeading>
             </Flex>
             <IconButton 
             onClick={handleDelete}
@@ -118,6 +119,7 @@ export const LinkListItem = (
     return (
         <>
         <Grid
+        w={"100%"}
         onClick={onOpen}
         templateColumns={!isMobile ? "10% 25% 25% 20% 15%" : "10% 30% 35% 20%"}
         p={2} key={link.lid.toString()}
@@ -154,7 +156,7 @@ export const LinkListItem = (
                     <Avatar name={ link.users?.user_name } src={link.users?.user_image} size={"2xs"} onClick={(e:any)=>e.stopPropagation()}/>
                 </NextLink>
                 <NextLink href={"/users/" + link.uuid_uid} >
-                    <Text pe={1} fontSize={"xs"} isTruncated _hover={{ textDecoration: "underline" }} onClick={(e:any)=>e.stopPropagation()} >
+                    <Text pe={[6, 1]} fontSize={"xs"} isTruncated _hover={{ textDecoration: "underline" }} onClick={(e:any)=>e.stopPropagation()} >
                         {link.users?.user_name ? link.users?.user_name : "Guest" }
                     </Text>
                 </NextLink>

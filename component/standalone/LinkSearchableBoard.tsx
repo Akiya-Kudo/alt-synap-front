@@ -7,7 +7,7 @@ import { USER_QUERY } from '../../util/graphql/queries/users.query.schema'
 import { FlatBord } from '../atom/bords'
 import { NeumInputDefault } from '../atom/inputs'
 import { LinkSelectMenu } from '../helper/LinkSelectMenu'
-import LinkBoard from './LinkBoard'
+import {NeumLinkBoard} from './LinkBoard'
 import { useLinkSearch } from "../../util/hook/useLink"
 import { Collection } from '../../type/global';
 import { NeumIconButton } from '../atom/buttons'
@@ -100,7 +100,7 @@ const LinkSearchableBoard = () => {
                         </InputRightElement>
                     </InputGroup>
 
-                    <LinkBoard query_text={word} flexDirection="row"/>
+                    <NeumLinkBoard query_text={word} flexDirection="row" direction='row'/>
                 </FlatBord>
             </VStack>
         </>
