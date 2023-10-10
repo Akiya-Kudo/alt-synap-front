@@ -2,14 +2,14 @@ import { Avatar, Box, Center, Flex, Icon, MenuButton, ResponsiveValue, useDisclo
 import React, { useContext, useEffect, useState } from 'react';
 import { IoMdSettings } from 'react-icons/io';
 import { DentBord } from '../../component/atom/bords';
-import { ClickButtonFlat, GlassIconButton } from '../../component/atom/buttons';
+import { ClickButtonFlat, GlassIconButton, NeumIconButton } from '../../component/atom/buttons';
 import Link from 'next/link';
 import { useNeumorphismColorMode } from '../../util/hook/useColor';
 import { LinkSelectMenu } from '../helper/LinkSelectMenu';
 import { client } from '../../pages/_app';
 import { auth } from '../../util/firebase/init';
 import { USER_QUERY } from '../../util/graphql/queries/users.query.schema';
-import { AuthContext } from '../../util/hook/authContext';
+import { AuthContext, LoginToggleContext } from '../../util/hook/authContext';
 import { Collection, Link as LinkType } from '../../type/global';
 import { BiCategoryAlt } from 'react-icons/bi';
 import {useLinkSearch} from '../../util/hook/useLink'
@@ -25,6 +25,7 @@ export const NeumLinkBoard = ({
     query_text: string, flexDirection?: ResponsiveValue<any> | undefined, direction?: "column" | "row",
 }) => {
     const { onClose, isOpen, onToggle } = useDisclosure()
+    const { onOpen_login,  } = useContext(LoginToggleContext);
 
     const { userState } = useContext(AuthContext);
     const [collections, setCollections] = useState<Collection[]>([])
@@ -91,13 +92,22 @@ export const NeumLinkBoard = ({
             w={direction=="row" ? 390 : undefined}
             />
 
-            <Link href={"/user/edit/link_setting"}>
+            {
+                userState=="isUser" ?
+                <Link href={"/user/edit/link_setting"}>
+                    <DentBord 
+                    h={"45px"} w={"45px"} p={3}
+                    >
+                        <Icon aria-label='link_setting' as={IoMdSettings} color="tipsy_color_2" />
+                    </DentBord>
+                </Link>
+                :
                 <DentBord 
-                h={"45px"} w={"45px"} p={3}
+                h={"30px"} w={"30px"} p={3}
                 >
-                    <Icon aria-label='link_setting' as={IoMdSettings} color="tipsy_color_2" />
+                    <Icon fontSize={".9rem"} aria-label='link_setting' as={FaQuestion} color="orange" />
                 </DentBord>
-            </Link>
+            }
         </>
     )
 }
@@ -176,10 +186,10 @@ export const GlassLinkBoard = ({
                 </Link>
                 :
                 <GlassIconButton 
-                    aria-label='link_setting_link'
-                    >
-                        <Icon aria-label='link_setting' as={FaQuestion} color="orange" />
-                    </GlassIconButton>
+                aria-label='link_setting_link'
+                >
+                    <Icon aria-label='link_setting' as={FaQuestion} color="orange" />
+                </GlassIconButton>
             }
             
         </Flex>

@@ -15,7 +15,7 @@ const CollectionSettingBoard = ({collections, uuid_uid}: {collections: Collectio
                 h={["20px", "30px", "40px"]} 
                 justifyContent="center" alignItems={"center"} borderRadius={"full"}
                 >
-                    <Heading size={"xs"}>LINK - COLLECTIONS</Heading>
+                    <Heading size={"xs"}>LINK - COLLECTIONS - </Heading>
                 </DentBord>
             </Center>
             <DentBord 

@@ -29,12 +29,12 @@ export const CollectionListItem = ({collection}: {collection: Collection}) => {
             bg: "whiteAlpha.500"
         }}
         >
-            <AvatarGroup size='xs' max={3} fontSize={".7rem"} w={"80px"}>
+            <AvatarGroup size='xs' max={3} w={"80px"}>
                 {collection.link_collections?.map((li_col, _i) => {
                     return (<Avatar name={li_col.links.link_name} src={li_col.links.image_path} key={_i}/>)
                 })}
             </AvatarGroup>
-            <Center flexGrow={1}><TruncatedHeading maxLength={20} size={"sm"} overflow={"hidden"}>{collection.collection_name}</TruncatedHeading></Center>
+            <Center flexGrow={1} ms={2}><TruncatedHeading maxLength={20} fontSize={["1rem", "1rem", ".8rem"]} overflow={"hidden"}>{collection.collection_name}</TruncatedHeading></Center>
         </Flex>
         <CollectionEditModal  
         collection={collection}
