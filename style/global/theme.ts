@@ -50,7 +50,7 @@ export const theme = extendTheme({
             '.page': {
                 minHeight: '100vh',
                 width: '100vw',
-                pt: ["50px", "70px", "90px"],
+                pt: ["50px", "70px", "90px", "110px"],
             },
             '*': {
                 boxSizing: 'border-box',

@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client"
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Center, Heading, IconButton } from "@chakra-ui/react"
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Center, Heading, IconButton } from "@chakra-ui/react"
 import { isTagBoardDisplayVar } from "../../pages/search"
 import { TAG_SEARCH } from "../../util/graphql/queries/tags.query.scheme"
 import { useColorRandomPick } from "../../util/hook/useColor"
@@ -39,6 +39,7 @@ const TipsyTagsBoard = ({ query_text, isDisplay }: {query_text: string, isDispla
                 mx={10} mt={5} mb={1} p={4}
                 borderRadius={[15, 20, 30]}
                 position={"relative"}
+                w={[300, 400, 700]}
                 >
                     <DentBord 
                     px={[6, 7, 8]} py={[3, 2, 2]} 
