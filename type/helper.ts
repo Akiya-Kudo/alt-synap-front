@@ -110,6 +110,11 @@ export interface LinkSelectBoardProps extends MenuProps {
     onClose: any, 
     isOpen: boolean,
     menuDisplaymargin?: string | number,
+    position?: ResponsiveValue<any> ,
+    top?: number | string | (string | number)[],
+    bottom?: number | string | (string | number)[],
+    right?: number | string | (string | number)[],
+    left?: number | string | (string | number)[],
 }
 
 export interface CollectionItemModalProps extends BoxProps {

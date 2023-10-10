@@ -58,6 +58,12 @@ export const USER_QUERY = gql`
                         is_path_search
                         publish
                         timestamp
+
+                        users {
+                            uuid_uid
+                            user_name
+                            user_image
+                        }
                     }
                 }
             }

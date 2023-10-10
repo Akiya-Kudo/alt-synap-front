@@ -17,6 +17,7 @@ import { GlassAlert } from "../atom/alerts";
 import { LinkGenreNames } from "../../type/standalone";
 import { GET_LINKCOLLECTION_HISTORY, GET_PUBLISHED_LINKS, GET_USER_MADE_LINKS } from "../../util/graphql/queries/links.query.scheme";
 import { useColorOrderPick } from "../../util/hook/useColor";
+import { TruncatedHeading, TruncatedText } from "../atom/texts";
 
 export const CollectionEditModal = (
     {
@@ -126,10 +127,16 @@ export const LinkDetailModal = (
                 <ModalHeader
                 borderTopRadius={20}
                 >
-                    <Flex fontSize="1rem" align={"center"} gap={4}>
-                        <Avatar name={link.link_name} src={link.image_path} size={"sm"}/>
+                    <Flex fontSize="1rem" align={"start"} gap={3} flexWrap={"wrap"} direction={"column"}>
+                        <Flex gap={3} >    
+                            {
+                                link.image_path && 
+                                <Avatar name={link.link_name} src={link.image_path} size={"sm"}/>
+                            }
+                            <GlassTag id="link_genre" colorScheme={tag_colors[link.genre]}>{LinkGenreNames[link.genre]}</GlassTag>
+                        </Flex>
+
                         <Box>{link.link_name}</Box>
-                        <GlassTag id="link_genre" colorScheme={tag_colors[link.genre]}>{LinkGenreNames[link.genre]}</GlassTag>
                     </Flex>
                     <ModalCloseButton color={"text_light"}/>
                 </ModalHeader>
@@ -137,9 +144,9 @@ export const LinkDetailModal = (
                 <ModalBody fontSize={".8rem"}>
                     <Text m={2}>作成：
                         <NextLink href={"/users/" + link.uuid_uid}>
-                            <Box as={"span"} cursor={"pointer"} color={"tipsy_color_3"} _hover={{ textDecoration: "underline" }}>
+                            <TruncatedText maxLength={30} as={"span"} cursor={"pointer"} color={"tipsy_color_3"} _hover={{ textDecoration: "underline" }}>
                                 { link.users?.user_name ? link.users?.user_name : "Guest" }
-                            </Box>
+                            </TruncatedText>
                         </NextLink>
                     </Text>
                     <Text m={2}>説明：<Box as={"span"}>{ link.explanation }</Box></Text>
@@ -289,10 +296,16 @@ export const LinkEditModal = (
                 <ModalHeader
                 borderTopRadius={20}
                 >
-                    <Flex fontSize="1rem" align={"center"} gap={4}>
-                        <Avatar name={link.link_name} src={link.image_path} size={"sm"}/>
-                        <Box>{link.link_name}</Box>
-                        <GlassTag id="link_genre" colorScheme={tag_colors[link.genre]}>{LinkGenreNames[link.genre]}</GlassTag>
+                    <Flex fontSize="1rem" align={"start"} gap={3} flexWrap={"wrap"} direction={"column"}>
+                        <Flex gap={3} >    
+                            {
+                                link.image_path && 
+                                <Avatar name={link.link_name} src={link.image_path} size={"sm"}/>
+                            }
+                            <GlassTag id="link_genre" colorScheme={tag_colors[link.genre]}>{LinkGenreNames[link.genre]}</GlassTag>
+                        </Flex>
+
+                        <Box me={3}>{link.link_name}</Box>
                     </Flex>
                     <ModalCloseButton color={"text_light"}/>
                 </ModalHeader>
@@ -300,9 +313,9 @@ export const LinkEditModal = (
                 <ModalBody fontSize={".8rem"}>
                     <Text m={2}>作成：
                         <NextLink href={"/users/" + link.uuid_uid}>
-                            <Box as={"span"} cursor={"pointer"} color={"tipsy_color_3"} _hover={{ textDecoration: "underline" }}>
+                            <TruncatedText maxLength={30} as={"span"} cursor={"pointer"} color={"tipsy_color_3"} _hover={{ textDecoration: "underline" }}>
                                 { link.users?.user_name ? link.users?.user_name : "Guest" }
-                            </Box>
+                            </TruncatedText>
                         </NextLink>
                     </Text>
                     <Text m={2}>説明：<Box as={"span"}>{ link.explanation }</Box></Text>
@@ -322,7 +335,8 @@ export const LinkEditModal = (
                 <ModalFooter gap={4} position={"relative"}>
                     {
                         collections.length != 0 &&
-                        <Menu>
+                        <Menu
+                        >
                             <MenuButton 
                             as={GlassButton} rightIcon={<ChevronDownIcon />}
                             size={"sm"} fontSize={".8rem"} 
@@ -347,7 +361,7 @@ export const LinkEditModal = (
                                             display={"flex"} justifyContent={"center"}
                                             onClick={() => handleAddLink(col.cid)}
                                             >
-                                                <Heading size={"xs"} isTruncated>{ col.collection_name }</Heading>
+                                                <TruncatedHeading maxLength={20} size={"xs"} isTruncated>{ col.collection_name }</TruncatedHeading>
                                             </MenuItem>
                                         )
                                     })

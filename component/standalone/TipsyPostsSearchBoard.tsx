@@ -104,7 +104,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
     }
     return (
         <>
-            <Center my={1} w={"100%"} maxW={1100} flexDir={"column"} marginX="auto">
+            <Center my={[5, 5]} w={"100%"} maxW={1100} flexDir={"column"} marginX="auto">
                 <DentBord 
                 px={[6, 7, 8]} py={[3, 4, 4]} 
                 justifyContent="center" alignItems={"center"} 
@@ -120,7 +120,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                         isTagBoardDisplay ||
                         <SwitchButtonConcave 
                         onClick={handleTagDisplay}
-                        position={"absolute"} left={-120} top={1.5} h={6} 
+                        position={"absolute"} left={[-90, -110,  -150]} top={[ 3, 5, "23px"]} h={6} 
                         fontSize={[10]} Ashadow={false}
                         color={"white"} Hcolor={"whiteAlpha.600"} Acolor={"whiteAlpha.100"}
                         bgGradient={"linear(to-l, tipsy_color_2, tipsy_color_3)"} 
@@ -135,8 +135,8 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                     defaultValue={sortType}
                     onChange={ handleChangeSort }
                     position={"absolute"} 
-                    left={[70, 150, 200]} top={[1, 3.5]}
-                    chFontSize={[5, 10, 12]}
+                    left={["80px", 130, 200]} top={[-1, 1, "11px"]}
+                    chFontSize={[5, 10, 12]} chH={[10, 10, 8]}
                     gap={1} p={1} borderRadius={"full"}
                     />
                 </DentBord>
