@@ -31,11 +31,11 @@ export interface MyTabGroupProps extends BoxProps {
     fontSize?: number[],
     Hcolor?: string, 
     Acolor?: string,
-    chBorderRadius?: string | number,
-    chW?: string | number,
-    chH?: string | number,
-    chP?: string | number,
-    chM?: string | number,
+    chBorderRadius?: string | number | (string | number)[],
+    chW?: string | number | (string | number)[],
+    chH?: string | number | (string | number)[],
+    chP?: string | number | (string | number)[],
+    chM?: string | number | (string | number)[],
 }
 export interface SwitchGroupProps extends NeumBordProps {
     optionRight: string,

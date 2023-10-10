@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, useBreakpointValue } from '@chakra-ui/react';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
@@ -14,6 +14,7 @@ import Link from 'next/link';
 import TipsyPostsTagsTabBoard from '../component/standalone/TipsyPostsTagsTabBoard';
 import LinkSearchableBoard from '../component/standalone/LinkSearchableBoard'
 import { GET_HOT_LINKS } from '../util/graphql/queries/links.query.scheme';
+import { LinkCollectionFooter } from '../component/layout/Footer';
 
 const TipsyPostsDisplay = dynamic(
   () => import('../component/helper/TipsyPostsDisplay'),
@@ -23,6 +24,7 @@ const TipsyPostsDisplay = dynamic(
 const Index: NextPage<{}>  = () => {
   const { userState } = useContext(AuthContext);
   const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
+  const isMobile = useBreakpointValue([true, true, false])
 
   const [displayContent, setDisplayContent] = useState<"Following" | "NewArrivals" | "HotTopics" | "FavoriteTopics">("NewArrivals")
   const [displayPosts, setDisplayPosts] = useState<Post[]>([])
@@ -112,7 +114,7 @@ const Index: NextPage<{}>  = () => {
         }
 
         {
-          (userState=="isUser" || userState=="guest") &&
+          ((userState=="isUser" || userState=="guest") && !isMobile ) &&
           <LinkSearchableBoard/>
         }
 
@@ -121,7 +123,9 @@ const Index: NextPage<{}>  = () => {
         options={userState=="isUser" ? ["Following", "NewArrivals", "HotTopics", "FavoriteTopics"] : ["NewArrivals", "HotTopics"]}
         defaultValue={displayContent} 
         Hcolor={"tipsy_color_2"} Acolor={"tipsy_color_active_2"}
-        w={"90%"} borderRadius={"full"}
+        w={["100%", "100%", "90%"]} 
+        borderRadius={[0, 0, "full"]} chBorderRadius={[2, 5, 10]} chH={[10, "50px", 10]}
+        fontSize={[10, 12, 15]}
         />
 
         { 
@@ -147,34 +151,21 @@ const Index: NextPage<{}>  = () => {
           />
         }
         {
-          (displayContent=="FavoriteTopics" || displayContent=="HotTopics") &&
+          displayContent=="FavoriteTopics" &&
+          <TipsyPostsTagsTabBoard displayContent={displayContent}/>
+        }
+        {
+          displayContent=="HotTopics" &&
           <TipsyPostsTagsTabBoard displayContent={displayContent}/>
         }
       </Flex>
+
+      {
+        isMobile && 
+        <LinkCollectionFooter query_text={""}/>
+      }
     </>
   )
 }
 
 export default Index
-// export async function getStaticProps() {
-//   const {data, error, loading} = await client.query({
-//     query: POSTS_SEARCH,
-//     variables: {
-//       searchString: null,
-//       selectedTagId: null,
-//       offset: 0,
-//       sortType: 1
-//     }
-//   })
-
-//   if (error) {
-//     throw new Error(`Failed to fetch posts, received status ${error.message}`)
-//   }
-//   return {
-//     props: {
-//       daily_posts: data.search_post,
-//       daily_posts_count: data.count_total_posts
-//     },
-//     revalidate: 43200,
-//   }
-// }

@@ -1,7 +1,7 @@
 import { ChevronRightIcon, InfoIcon } from "@chakra-ui/icons"
-import { HStack, Stack, Step, StepIcon, StepIndicator, Stepper, StepSeparator, StepStatus, Tab, TabProps, Text, useColorMode, useSteps } from "@chakra-ui/react"
+import { Box, Flex, HStack, Stack, Step, StepIcon, StepIndicator, Stepper, StepSeparator, StepStatus, Tab, TabProps, Text, useColorMode, useSteps } from "@chakra-ui/react"
 import React from "react"
-import { BasicStepperProps, StepsType } from "../../type/atom"
+import { BasicStepperProps, StepsType, TabPagenationSwitchProps } from "../../type/atom"
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
 
 export const  BasicStepper = ({
@@ -38,6 +38,7 @@ export const NeumTab = ({
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <Tab
+        {...props}
         borderTopRadius={15}
         boxShadow={`inset -1px -1px 5px -2px ${highlight}, inset 1px 1px 5px -3px  ${shadow}`}
         _hover={{ 
@@ -51,5 +52,29 @@ export const NeumTab = ({
         >
             { children }
         </Tab>
+    )
+}
+
+export const NeumTabaPagenationSwitch = ({
+    children,
+    ...props
+}: TabPagenationSwitchProps) => {
+    const { highlight, shadow } = useNeumorphismColorMode()
+    return (
+        <Flex
+        borderTopRadius={15}
+        boxShadow={`inset -1px -1px 5px -2px ${highlight}, inset 1px 1px 5px -3px  ${shadow}`}
+        _hover={{ 
+            boxShadow: `inset -2px -2px 10px -4px ${highlight}, inset 3px 3px 10px -6px  ${shadow};` ,
+            color: "tipsy_color_3"
+        }}
+        _selected={{ 
+            boxShadow: `inset -5px -5px 15px -8px ${highlight}, inset 7px 7px 12px -8px  ${shadow};`,
+            color: "tipsy_color_3"
+        }}
+        {...props}
+        >
+            { children }
+        </Flex>
     )
 }

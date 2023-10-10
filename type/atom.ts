@@ -280,3 +280,6 @@ export interface BookMarkButtonProps extends IconProps{
     size?: number,
     uuid_pid: string,
 }
+
+//インディケーター
+export interface TabPagenationSwitchProps extends FlexProps {}

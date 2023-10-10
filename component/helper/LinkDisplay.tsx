@@ -47,7 +47,7 @@ export const GlassLinkDisplay =({collection, handleLink, direction, h, w}: {
                         <GlassButton
                         id={li_col.lid?.toString()} key={_i}
                         onClick={() => handleLink(li_col.links)}
-                        p={2} m={direction=="column" ? "3px 0" : "0 3px"}
+                        p={1} m={direction=="column" ? "3px 0" : "0 3px"}
                         >
                             <Avatar src={li_col.links.image_path} name={li_col.links.link_name} size={"sm"}/>
                         </GlassButton>
