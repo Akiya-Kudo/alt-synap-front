@@ -1,4 +1,4 @@
-import { Avatar, Box, Center, Flex, Icon, MenuButton, ResponsiveValue, useDisclosure } from '@chakra-ui/react';
+import { Avatar, Box, Center, Flex, Icon, MenuButton, PlacementWithLogical, ResponsiveValue, useDisclosure } from '@chakra-ui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { IoMdSettings } from 'react-icons/io';
 import { DentBord } from '../../component/atom/bords';
@@ -20,9 +20,9 @@ import { GlassLinkDisplay, NeumLinkDisplay } from '../helper/LinkDisplay'
 import { FaQuestion } from 'react-icons/fa';
 
 export const NeumLinkBoard = ({
-    query_text, flexDirection="column", direction="column",
+    query_text, flexDirection="column", direction="column", placement="bottom",
 }: {
-    query_text: string, flexDirection?: ResponsiveValue<any> | undefined, direction?: "column" | "row",
+    query_text: string, flexDirection?: ResponsiveValue<any> | undefined, direction?: "column" | "row", placement?: PlacementWithLogical,
 }) => {
     const { onClose, isOpen, onToggle } = useDisclosure()
     const { onOpen_login,  } = useContext(LoginToggleContext);
@@ -68,7 +68,7 @@ export const NeumLinkBoard = ({
             <LinkSelectMenu 
             title={"- COLLECTIONを選択 -"} collections={collections} handleClick={handleSelect}
             onClose={onClose} isOpen={isOpen}
-            placement={'bottom'}
+            placement={placement}
             >
                 <MenuButton
                 transition={".3s"}
@@ -102,11 +102,13 @@ export const NeumLinkBoard = ({
                     </DentBord>
                 </Link>
                 :
-                <DentBord 
-                h={"30px"} w={"30px"} p={3}
-                >
-                    <Icon fontSize={".9rem"} aria-label='link_setting' as={FaQuestion} color="orange" />
-                </DentBord>
+                <Link href={"/guide/explanation/#about-tipsy-search"}>
+                    <DentBord
+                    h={"30px"} w={"30px"} p={3} me={direction=="row" ? 2 : undefined} mb={direction=="column" ? 2 : undefined}
+                    >
+                        <Icon fontSize={".9rem"} aria-label='link_setting' as={FaQuestion} color="orange" />
+                    </DentBord>
+                </Link>
             }
         </>
     )
@@ -185,11 +187,13 @@ export const GlassLinkBoard = ({
                     </GlassIconButton>
                 </Link>
                 :
-                <GlassIconButton 
-                aria-label='link_setting_link'
-                >
-                    <Icon aria-label='link_setting' as={FaQuestion} color="orange" />
-                </GlassIconButton>
+                <Link href={"/guide/explanation/#about-tipsy-search"}>
+                    <GlassIconButton 
+                    aria-label='link_setting_link'
+                    >
+                        <Icon aria-label='link_setting' as={FaQuestion} color="orange" />
+                    </GlassIconButton>
+                </Link>
             }
             
         </Flex>

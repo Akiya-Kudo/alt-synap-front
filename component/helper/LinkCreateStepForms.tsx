@@ -40,7 +40,7 @@ export const UrlAnalyzeStep = (
             setActiveStep(1)
             // console.log(res)
 
-        }).catch( (error) => toastError("Search-Linkの作成しに失敗しました", error.message)
+        }).catch( (error) => toastError("Search-Linkの作成に失敗しました", error.message)
         ).finally(()=> setIsLoading(false))
     }
     return (

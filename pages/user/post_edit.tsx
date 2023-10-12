@@ -36,6 +36,8 @@ const PostEdit: NextPage = () => {
         },
     })
 
+    //for back button alert validation
+    const [isSaved, setIsSaved] = useState<boolean>(false)
     //save button loading処理 (userStateChanging中 + save処理中)
     const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(true)
     
@@ -98,7 +100,7 @@ const PostEdit: NextPage = () => {
         const res = await updateArticlePost(currentPost);
         setCurrentPost((prev)=>({...prev, uuid_pid: res.data.upsert_article_post.post.uuid_pid}))
         toastSuccess("投稿を正常に保存しました");
-
+        setIsSaved(true)
         } catch (error) {
         toastError("保存に失敗しました", "ネットワーク環境や投稿の内容を確認してください");
         console.log(error);
@@ -112,7 +114,7 @@ const PostEdit: NextPage = () => {
     return (
         <>
         <Head><title>Tipsy | 投稿作成</title></Head>
-        <PostHeader title={"文章で記録"}>
+        <PostHeader title={"文章で記録"}  isBackAlertOn={!isSaved}>
             <GlassSwitchButton
             getState={handleClick_publish} defStateValue={currentPost.publish}
             variant={"outline"} fontSize={".9rem"} 

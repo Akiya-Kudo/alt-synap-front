@@ -9,9 +9,7 @@ import { LikeButton } from "./likes";
 import { GlassIconButton } from "./buttons";
 import { BookMarkButton } from "./bookmarks";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { AiOutlineHeart } from "react-icons/ai"
-import { TfiUnlink } from "react-icons/tfi";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+import { IoIosLink } from "react-icons/io"
 import { EditPostMenu } from '../helper/Menus'
 
 export const TipsyCard = ({
@@ -294,8 +292,8 @@ export const TipsyCard_link = ({
         >
             <Box display={"flex"} alignItems={"center"}>
                 <GlassIconButton 
-                icon={<TfiUnlink/>} aria-label="link-go"
-                color={"tipsy_color_active_1"} size={"md"}
+                icon={<IoIosLink/>} aria-label="link-go"
+                color={"tipsy_color_active_1"} size={"md"} fontSize={"1.3rem"}
                 onClick={handleLinkButtonClick}
                 />
                 <TruncatedHeading 

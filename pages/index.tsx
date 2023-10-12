@@ -91,8 +91,6 @@ const Index: NextPage<{}>  = () => {
         )
         IsAlreadyFirstFetchedAsIsUserVar(true)
       }
-      //fetchLinks
-      //readFragment
     }
   },[userState])
 

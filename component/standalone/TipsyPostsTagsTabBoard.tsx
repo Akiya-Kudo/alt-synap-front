@@ -63,7 +63,6 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
         if (data_hot) {setTopics(data_hot?.hot_tags)}
     },[data_hot])
     
-    
     return (
         <>
             <Tabs

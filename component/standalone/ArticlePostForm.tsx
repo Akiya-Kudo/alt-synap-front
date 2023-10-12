@@ -101,27 +101,24 @@ export const ArticlePostForm = ({
             as={Flex} flexDirection={["row", "row", "column"]}  gap={3} m={[1, 1, 4]} align="center"
             >
                 <TopLinkInputPopover
-                id={"input_top_link"} title="WEBブックマーク" icon={<FaLink/>} setValue={handleTopLink} value={stateValue.top_link}
-                tooltipContent={<Text fontSize={".8rem"}>WEBブックマークを付けると、投稿を開かずにリンクに飛ぶことができます。すぐ確認し直したい時に便利です！</Text>}
+                id={"input_top_link"} title="参照リンク" icon={<FaLink/>} setValue={handleTopLink} value={stateValue.top_link}
+                tooltipContent={<Text fontSize={".8rem"}>参照リンクを追加することで元情報をすぐ確認することができます。</Text>}
                 errors={errors} register={register} formState={formState}
                 placement={popoverPlacement}
                 />
                 <TopImageInputPopover
                 id="input_top_image" title="サムネイル" icon={<FaImage/>} 
                 image={stateValue.top_image} imageFile={stateValue.top_image_file} setImage={handleTopImage} setImageFile={handleTopImageFile}
-                tooltipContent={<Text fontSize={".8rem"}>投稿のトップに画像を追加できます。投稿の内容に沿った画像を表示することで、わかりやすい投稿になります。</Text>}
+                tooltipContent={<Text fontSize={".8rem"}>投稿のサムネイルを追加できます。わかりやすく特徴的な投稿にすることができます。</Text>}
                 errors={errors} register={register} formState={formState}
                 placement={popoverPlacement}
                 />
                 <TagInputPopover 
                 id="input_tags" title="タグ" icon={<FaTags/>} setValue={handleTagsAdd} value={stateValue.tags} onDeleteClick={handleTagDelete}
-                tooltipContent={<Box fontSize={".8rem"}>投稿にタグを最大で５つまで指定することができます。関連する名前のタグを追加すると検索で探しやすくなります。</Box>}
+                tooltipContent={<Box fontSize={".8rem"}>投稿にタグを最大で５つまで指定することができます。関連する名前のタグを追加すると検索に役立ち、投稿を整理することができます。</Box>}
                 errors={errors} register={register} formState={formState}
                 placement={popoverPlacement}
                 />
-                <DentBord h={"30px"} w={"30px"} >
-                    <FaQuestion fontSize={".6rem"} color="orange" />
-                </DentBord>
             </GridItem>
         </Grid>
     </>
