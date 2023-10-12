@@ -43,7 +43,7 @@ const Search: NextPage  = () => {
                             neumH="shallow"
                             alignItems={"center"}
                             >
-                                <NeumLinkBoard query_text={query_text}/>
+                                <NeumLinkBoard query_text={query_text} placement="right-end"/>
                             </FlatBord>
                         </VStack>
                     </Flex>

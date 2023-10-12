@@ -62,7 +62,7 @@ export const AddPostSelectMenu = ({
                     backgroundColor={"transparent"} px={2} py={3} borderBottomRadius={10}
                     _hover={{backgroundColor: "rgba(170,170,170, 0.35)", color: "tipsy_color_active_3"}}
                     >
-                            投稿を作成
+                            文章を作成
                     </MenuItem>
                 </Link>
             </MenuList>

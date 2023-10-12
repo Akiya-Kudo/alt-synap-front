@@ -64,12 +64,14 @@ export const HeaderMenu = ({
                 </MenuGroup>
                 <MenuDivider />
                 <MenuGroup title='- その他 -'>
-                    <MenuItem
-                    backgroundColor={"transparent"}
-                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)" , color: "white"}}
-                    >
-                        ヘルパー
-                    </MenuItem>
+                    <Link href="/guide/explanation" passHref>
+                        <MenuItem
+                        backgroundColor={"transparent"}
+                        _hover={{backgroundColor: "rgba(130,130,130, 0.25)" , color: "white"}}
+                        >
+                            tipsyについて
+                        </MenuItem>
+                    </Link>
                     <MenuItem
                     backgroundColor={"transparent"}
                     _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}

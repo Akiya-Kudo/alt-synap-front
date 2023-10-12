@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react'
+import { Flex, useDisclosure } from '@chakra-ui/react'
 import { NextPage } from 'next'
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -15,6 +15,7 @@ import { READ_USER_UUID } from '../../util/graphql/queries/users.query.schema'
 import { useCustomToast } from '../../util/hook/useCustomToast'
 import Head from 'next/head'
 import { OutputData } from '@editorjs/editorjs'
+import { GlassAlert } from '../../component/atom/alerts'
 
 
 const PostCreate: NextPage = () => {
@@ -27,8 +28,10 @@ const PostCreate: NextPage = () => {
   const {toastSuccess, toastError} = useCustomToast()
   const  { register, formState: { errors }, formState, } = useForm({mode: "all"});
 
+  //for back button alert validation
+  const [isSaved, setIsSaved] = useState<boolean>(false)
   //save button loading処理 (userStateChanging中 + save処理中)
-  const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(true) 
+  const [isSaveButtonLoading, setIsSaveButtonLoading] = useState<boolean>(true)
   // article content default value
   const [contentDefaultValue, setContentDefaultValue] = useState<OutputData | null>(null)
   //article post 投稿初期値設定 
@@ -72,6 +75,7 @@ const PostCreate: NextPage = () => {
       const res = await createArticlePost(currentPost);
       setCurrentPost((prev)=>({...prev, uuid_pid: res.data.upsert_article_post.post.uuid_pid}))
       toastSuccess("投稿を正常に保存しました");
+      setIsSaved(true)
 
     } catch (error) {
       toastError("保存に失敗しました", "ネットワーク環境や投稿の内容を確認してください");
@@ -79,14 +83,13 @@ const PostCreate: NextPage = () => {
 
     } finally {
       setIsSaveButtonLoading(false)
-
     }
   }
-
+  
   return (
     <>
     <Head><title>Tipsy | 投稿作成</title></Head>
-      <PostHeader title={"文章で記録"}>
+      <PostHeader title={"文章で記録"} isBackAlertOn={!isSaved && currentPost.articleContent.content?.time != undefined}>
         <GlassSwitchButton
         getState={handleClick_publish} defStateValue={currentPost.publish}
         variant={"outline"} fontSize={".9rem"} 

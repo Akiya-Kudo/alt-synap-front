@@ -23,6 +23,7 @@ import { useLinkSearch } from "../../util/hook/useLink"
 import { AddPostSelectMenu } from "../helper/AddPostSelectNemu"
 import { useLazyQuery } from "@apollo/client"
 import { GET_GUEST_COLLECTIOINS } from "../../util/graphql/queries/links.query.scheme"
+import { GlassAlert } from "../atom/alerts"
 
 export const BasicHeader = () => {
     const breakpoint = useBreakpointValue(["base", "sm", "md", "lg", "xl", "2xl"]);
@@ -149,10 +150,18 @@ export const BasicHeader = () => {
 }
 
 export const PostHeader = ({
-    children, title
+    children, title, isBackAlertOn=false,
 }: PostHeaderProps) => {
     const router = useRouter()
     const { userState } = useContext(AuthContext);
+    const { isOpen: isOpen_back, onOpen: onOpen_back, onClose: onClose_back } = useDisclosure()
+    const handleBack = () => {
+        if (isBackAlertOn) {
+            onOpen_back()
+        } else {
+            router.back()
+        }
+    }
     return (
         <BasicHeaderStyleContainer>
             {userState=="loading" && useLoading()}
@@ -164,7 +173,12 @@ export const PostHeader = ({
                 aria-label="ページを戻る"
                 icon={<ArrowBackIcon/>}
                 size={"md"} bg="transparent" color={"tipsy_color_2"} variant='outline'
-                onClick={() => {router.back()}}
+                onClick={handleBack}
+                />
+                <GlassAlert
+                isOpen={isOpen_back} onOpen={onOpen_back} onClose={onClose_back} 
+                alertTitle={"投稿がセーブされていません。"} alertMessage={"セーブせずに戻ると編集した内容がすべて削除されます。本当に戻りますか？"} 
+                exeMessage="はい" cancelMessage={"やめる"} handleExecute={() => {router.back()}}
                 />
                 <ColorModeButton variant='outline'/>
 
