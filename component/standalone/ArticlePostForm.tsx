@@ -1,10 +1,10 @@
 // import dynamic from "next/dynamic";
-import { Box, Flex, Grid, GridItem, PlacementWithLogical, Stack, Text, useBreakpointValue, VStack } from "@chakra-ui/react";
-import { DentBord, FlatBord } from "../atom/bords";
+import { Box, Flex, Grid, GridItem, PlacementWithLogical, Text, useBreakpointValue } from "@chakra-ui/react";
+import { FlatBord } from "../atom/bords";
 import { NeumFloatFormInput } from "../atom/inputs"
 
 import dynamic from "next/dynamic";
-import { FaImage, FaLink, FaQuestion, FaTags } from "react-icons/fa";
+import { FaImage, FaLink, FaTags } from "react-icons/fa";
 import { ArticlePostFormProps } from "../../type/standalone";
 import { Validation_post_title } from "../../util/form/validation";
 import { TopLinkInputPopover } from "../helper/TopLinkInputPopover";

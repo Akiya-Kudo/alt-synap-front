@@ -62,6 +62,7 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
     useEffect(() => {
         if (data_hot) {setTopics(data_hot?.hot_tags)}
     },[data_hot])
+    console.log(topics);
     
     return (
         <>
@@ -135,13 +136,16 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
                                         error={error} loading={loading}
                                         not_found_message={"投稿は見つかりませんでした"}
                                         />
-                                        <Center m={10}>
-                                            <ClickButton
-                                            size={"md"}
-                                            Hcolor={"tipsy_color_3"}
-                                            onClick={() => router.push(`/topics/${topics[pagenationMaxNum*topicPagenatrionIdx + displayTabIndex].tid}`)}
-                                            >Topic ページへ</ClickButton>
-                                        </Center>
+                                        {
+                                            topics.length > 0 &&
+                                            <Center m={10}>
+                                                <ClickButton
+                                                size={"md"}
+                                                Hcolor={"tipsy_color_3"}
+                                                onClick={() => router.push(`/topics/${topics[pagenationMaxNum*topicPagenatrionIdx + displayTabIndex].tid}`)}
+                                                >Topic ページへ</ClickButton>
+                                            </Center>
+                                        }
                                     </TabPanel>
                                 )
                             })
