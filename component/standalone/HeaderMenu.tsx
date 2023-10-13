@@ -72,12 +72,14 @@ export const HeaderMenu = ({
                             tipsyについて
                         </MenuItem>
                     </Link>
-                    <MenuItem
-                    backgroundColor={"transparent"}
-                    _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
-                    >
-                        お問い合わせ
-                    </MenuItem>
+                    <Link href="/guide/contact" passHref>
+                        <MenuItem
+                        backgroundColor={"transparent"}
+                        _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
+                        >
+                            お問い合わせ
+                        </MenuItem>
+                    </Link>
                 </MenuGroup>
             </MenuList>
         </Menu>

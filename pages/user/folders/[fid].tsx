@@ -57,12 +57,13 @@ const TopicPage: NextPage = () => {
             setAllPostsCount(data.count_folder_posts)
         }
     }, [data])
+    const truncatedTitle = folderInfo?.title && folderInfo?.title.length > 20 ? folderInfo?.title.slice(0, 20) + "..." : folderInfo?.title
     
     const { highlight, shadow } = useNeumorphismColorMode()
     return (
         <>
         <Head><title>{"Folder : " + folderInfo?.title}</title></Head>
-            <PostHeader title={ folderInfo?.title + " の投稿"}></PostHeader>
+            <PostHeader title={ truncatedTitle + " の投稿"}></PostHeader>
 
             <Flex flexDir={"column"} align={"center"} mt={5} className="page" gap={10}>
                 <SharpBoard

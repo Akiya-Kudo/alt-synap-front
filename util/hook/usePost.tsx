@@ -135,6 +135,8 @@ export const usePost = () => {
                 const storageRef = ref(storage, storage_path)
                 await deleteObject(storageRef)
                 storage_path = null
+                console.log("strage deleted");
+                
             }
 
             //graphql schemeに調整する(top_image_fileをtop_imageとしundefined)

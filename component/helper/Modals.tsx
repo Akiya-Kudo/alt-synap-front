@@ -73,7 +73,7 @@ export const CollectionEditModal = (
                 borderTopRadius={20}
                 >
                     <Flex fontSize="1rem">
-                        <Box>{collection.collection_name}</Box>
+                        <Box w={"90%"}>{collection.collection_name}</Box>
                     </Flex>
                     <ModalCloseButton color={"text_light"}/>
                 </ModalHeader>
@@ -136,7 +136,7 @@ export const LinkDetailModal = (
                             <GlassTag id="link_genre" colorScheme={tag_colors[link.genre]}>{LinkGenreNames[link.genre]}</GlassTag>
                         </Flex>
 
-                        <Box>{link.link_name}</Box>
+                        <Box w={"90%"}>{link.link_name}</Box>
                     </Flex>
                     <ModalCloseButton color={"text_light"}/>
                 </ModalHeader>
@@ -305,7 +305,7 @@ export const LinkEditModal = (
                             <GlassTag id="link_genre" colorScheme={tag_colors[link.genre]}>{LinkGenreNames[link.genre]}</GlassTag>
                         </Flex>
 
-                        <Box me={3}>{link.link_name}</Box>
+                        <Box me={3} w={"90%"}>{link.link_name}</Box>
                     </Flex>
                     <ModalCloseButton color={"text_light"}/>
                 </ModalHeader>

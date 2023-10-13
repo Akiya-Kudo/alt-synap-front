@@ -28,9 +28,14 @@ export const TopImageInputPopover = ({
     const handleImage = (photo:any) => {
         setPreViewImage(photo)
     }
-    const handleTopImageDelete = (e:any) => {
+    const handleTopImageNoselected = (e:any) => {
+        setImageFile(null)
+        setPreViewImage(image)
+    }
+    const handleImageDelete = () => {
         setImageFile("DELETE")
         setPreViewImage(null)
+        // setImage(null)
     }
     useEffect(() => {
         setPreViewImage(image)
@@ -104,8 +109,21 @@ export const TopImageInputPopover = ({
                             image={  preViewImage } 
                             setImage={ handleImage } 
                             setImageFile={ setImageFile }
-                            onChangeNoImageset={handleTopImageDelete}
+                            onChangeNoImageset={handleTopImageNoselected}
                             />
+                            {
+                                image &&
+                                <Flex
+                                justify={"center"} borderRadius={10}
+                                color={"red_switch"} w="300px" mt={2}
+                                borderColor={"red_switch"} border={"1px"}
+                                transition={".5s"}
+                                _hover={{ color: "red.200" }}
+                                onClick={handleImageDelete}
+                                >
+                                    画像を削除する
+                                </Flex>
+                            }
                         </Flex>
                     </Center>
                 </PopoverBody>
