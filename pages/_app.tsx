@@ -199,6 +199,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     || router.pathname == '/user/edit/my_profile'
     || router.pathname == '/user/folders/[fid]'
     || router.pathname == '/guide/explanation'
+    || router.pathname == '/guide/contact'
   
   return (
     <ChakraProvider

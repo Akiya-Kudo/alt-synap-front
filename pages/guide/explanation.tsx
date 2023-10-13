@@ -100,7 +100,7 @@ const Explanation: NextPage<{}>  = () => {
                         <GlassTag id="login-only" border="none" colorScheme={colorMode=='light' ? "teal" : "pink"}>Login限定</GlassTag>
                     </Flex>
                     <UnorderedList pt={3} fontSize={["1.3rem", "1.2rem", "1rem"]}>
-                        <ListItem mt={3}>"tipsyで検索"または"Linkで検索"で検索をする。</ListItem>
+                        <ListItem mt={3}>&quot;tipsyで検索&quot;または&quot;Linkで検索&quot;で検索をする。</ListItem>
                         <ListItem mt={3}>
                             検索をしたいサイトのLinkボタンを
                             <Link href={"#collection"}><Box as="span" mx={1} color={"tipsy_color_2"} _hover={{borderBottom: "1px"}}>Collection</Box></Link>
@@ -206,7 +206,7 @@ const Explanation: NextPage<{}>  = () => {
                         <GlassTag id="login-only" border="none" colorScheme={colorMode=='light' ? "teal" : "pink"}>Login限定</GlassTag>
                     </Flex>
                     <UnorderedList pt={3} fontSize={["1.3rem", "1.2rem", "1rem"]}>
-                        <ListItem mt={3}>画面上部の + ボタンを押し、"Linkを保存する"を選択 <Box fontSize={".8rem"}>( mac : command + j / windows : control + j )</Box></ListItem>
+                        <ListItem mt={3}>画面上部の + ボタンを押し、&quot;Linkを保存する&quot;を選択 <Box fontSize={".8rem"}>( mac : command + j / windows : control + j )</Box></ListItem>
                         <ListItem mt={0}>タイトルを入力</ListItem>
                         <ListItem mt={3} id="article-post">LinkのURLをコピーする</ListItem>
                         <ListItem mt={3}>公開設定を行う <Box fontSize={".8rem"}>( 公開すると他のユーザも閲覧することができます )</Box></ListItem>
@@ -258,7 +258,7 @@ const Explanation: NextPage<{}>  = () => {
                         <GlassTag id="login-only" border="none" colorScheme={colorMode=='light' ? "teal" : "pink"}>Login限定</GlassTag>
                     </Flex>
                     <UnorderedList  pt={3} fontSize={["1.3rem", "1.2rem", "1rem"]}>
-                        <ListItem mt={3}>画面上部の + ボタンを押し、"文章を作成"を選択 <Box fontSize={".8rem"}>( mac : command + m / windows : control + m )</Box></ListItem>
+                        <ListItem mt={3}>画面上部の + ボタンを押し、&quot;文章を作成&quot;を選択 <Box fontSize={".8rem"}>( mac : command + m / windows : control + m )</Box></ListItem>
                         <ListItem mt={0}>タイトルを入力</ListItem>
                         <ListItem mt={3}>文章を作成</ListItem>
                         <ListItem mt={3}>自由に参照リンク・サムネイル・タグを追加する <Box fontSize={".8rem"}>( 省略可 )</Box></ListItem>
@@ -285,7 +285,7 @@ const Explanation: NextPage<{}>  = () => {
                         <GlassTag id="login-only" border="none" colorScheme={colorMode=='light' ? "teal" : "pink"}>Login限定</GlassTag>
                     </Flex>
                     <Text pt={3} fontSize={["1.3rem", "1.2rem", "1rem"]}>
-                        マイページの"Folders"から作成することができます。サムネイルを設定することでFolderを特徴ずけ、見つけやすくすることができます。
+                        マイページの&quot;Folders&quot;から作成することができます。サムネイルを設定することでFolderを特徴ずけ、見つけやすくすることができます。
                     </Text>
 
                     <Flex pt={"2rem"} align={"center"} gap={4} flexWrap={"wrap"}>
@@ -307,7 +307,7 @@ const Explanation: NextPage<{}>  = () => {
                 </Flex>
                 <Box px={3}>
                     <Text id="create-link" pt={"3rem"} fontSize={["1.3rem", "1.2rem", "1rem"]}>
-                        気に入った投稿はハートボタンを押すことでいいねができます。マイページの"Likes"で良いねした投稿を確認できます。
+                        気に入った投稿はハートボタンを押すことでいいねができます。マイページの&quot;Likes&quot;で良いねした投稿を確認できます。
                     </Text>
                 </Box>
 
@@ -320,7 +320,7 @@ const Explanation: NextPage<{}>  = () => {
                         # 必要なクエリ・パラメータを設定する ( 省略可 )
                     </Text>
                     <UnorderedList  pt={3} fontSize={["1.2rem", "1.1rem", "0.9rem"]}>
-                        <ListItem mt={3}>クエリパラメータはURL内の"?"の後の部分のことです、多くのサイトの検索画面ではジャンルやカテゴリーなどの検索条件に使われています。</ListItem>
+                        <ListItem mt={3}>クエリパラメータはURL内の&quot;?&quot;の後の部分のことです、多くのサイトの検索画面ではジャンルやカテゴリーなどの検索条件に使われています。</ListItem>
                         <ListItem mt={3}>変更することで、検索結果が変わることがあります。ぜひLinkの作成時にいろんなクエリパラメータを試してみよう。</ListItem>
                     </UnorderedList>
 
