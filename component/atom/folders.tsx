@@ -2,7 +2,7 @@ import React, { useState } from "react"
 // import Image from 'next/image';
 import NextLink from 'next/link'
 import { useNeumorphismColorMode } from "../../util/hook/useColor"
-import { Avatar, Center,  Heading, Icon, Flex, Image, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, Menu, MenuButton, MenuList, MenuItem, Text, useBreakpointValue } from "@chakra-ui/react"
+import { Avatar, Center, Icon, Flex, Image, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Menu, MenuButton, MenuList, MenuItem, useBreakpointValue } from "@chakra-ui/react"
 import { FolderCardProps } from "../../type/atom";
 import { AddIcon, CloseIcon, EditIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { GlassFloatFormInput } from "./inputs";
@@ -21,26 +21,14 @@ import { TruncatedHeading } from "./texts";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "../../util/firebase/init";
 
-export const FolderCreateCard = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const { highlight, shadow } = useNeumorphismColorMode()
+export const FolderCreateCard = ({
+    children, onOpen, onClose, isOpen
+}: {
+    children: any, onOpen: () => void, onClose: () => void, isOpen: boolean
+}) => {
     return (
         <>
-            <Flex
-            width={"100%"} height={50}
-            p={3} 
-            align={"center"}
-            borderRadius={15}
-            transition={".3s"}
-            boxShadow={`inset 2px 2px 5px -2px ${shadow}, inset -2px -2px 5px -2px ${highlight};`}
-            _hover={{
-                boxShadow: `inset 0px 0px 2px ${shadow}, inset -0px -0px 2px ${highlight};`, 
-            }}
-            onClick={onOpen}
-            >
-                <AddIcon color={"tipsy_color_2"} ms={3}/>
-                <Text ms={3} fontSize={".9rem"} color={"tipsy_color_2"}>Folderを新規作成</Text>
-            </Flex>
+            { children }
             <FolderEditModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
         </>
     )

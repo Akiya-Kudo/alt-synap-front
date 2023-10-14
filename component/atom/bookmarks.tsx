@@ -6,11 +6,12 @@ import { MdBookmark, MdBookmarkBorder, MdKingBed } from "react-icons/md"
 import { makeVar, useMutation } from "@apollo/client"
 import { ADD_POSTS_TO_FOLDER, DELETE_POSTS_FROM_FOLDER } from "../../util/graphql/mutation/folders.mutation.scheme"
 import { Folder, FolderPost } from "../../type/global"
-import { CheckIcon } from "@chakra-ui/icons"
+import { AddIcon, CheckIcon } from "@chakra-ui/icons"
 import { POSTS_FOLDER_POSTS_FRAG } from "../../util/graphql/fragment/fragment.scheme"
 import { GET_FOLDER_POSTS } from "../../util/graphql/queries/folders.query.scheme"
 import { useCustomToast } from "../../util/hook/useCustomToast"
 import { AuthContext, LoginToggleContext } from "../../util/hook/authContext"
+import { FolderCreateCard } from "./folders"
 
 export const isBoopkMarkToggledWithCacheExistVar = makeVar(null as { isMarked: boolean, uuid_pid: string, fid: number } | null)
 
@@ -22,8 +23,9 @@ export const BookMarkButton = ({
 }: BookMarkButtonProps) => {
     const { userState } = useContext(AuthContext);
     const { onOpen_login } = useContext(LoginToggleContext);
-
+    
     const { isOpen, onToggle, onClose } = useDisclosure()
+    const { isOpen: isOpen_createfolder, onOpen: onOpen_createfolder, onClose: onClose_createfolder } = useDisclosure()
     //animation setting
     const controls = useAnimation()
     const {toastSuccess, toastError} = useCustomToast()
@@ -184,6 +186,18 @@ export const BookMarkButton = ({
                                 )
                             })
                         }
+                        <FolderCreateCard onOpen={onOpen_createfolder} isOpen={isOpen_createfolder} onClose={onClose_createfolder}>
+                            <MenuItem
+                            key={"create_folder"} id={"create_folder"} 
+                            backgroundColor={"transparent"} ps={3}
+                            color={"tipsy_color_2"}
+                            _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
+                            icon={<AddIcon ms={3}/>}
+                            onClick={onOpen_createfolder}
+                            >
+                                Folderを新規作成
+                            </MenuItem>
+                        </FolderCreateCard>
                     </MenuGroup>
                 </MenuList>
             </Menu>

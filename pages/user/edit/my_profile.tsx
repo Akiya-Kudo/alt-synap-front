@@ -11,7 +11,7 @@ import { ImageSetPopover } from "../../../component/helper/ImageSetPopover";
 import { LinkHeader } from "../../../component/layout/Header";
 import { EditingUser } from "../../../type/global";
 import { auth } from "../../../util/firebase/init";
-import { Validation_comment, Validation_username } from "../../../util/form/validation";
+import { CommentMaxValidationError, Validation_username } from "../../../util/form/validation";
 import { USER_QUERY } from "../../../util/graphql/queries/users.query.schema";
 import { AuthContext } from "../../../util/hook/authContext";
 import { useCustomToast } from "../../../util/hook/useCustomToast";
@@ -66,14 +66,25 @@ const MyProfile: NextPage  = () => {
   }
 
   const handleSubmit = async () => {
-    setIsSaveButtonLoading(true)
-    updateUserInfo(currentUser)
-    .then(res => {
+    try {
+      setIsSaveButtonLoading(true)
+      // escape when comment length　is over max length
+      if (currentUser.comment && currentUser.comment.length > 250) { 
+        throw new CommentMaxValidationError("コメントの最大文字数は250文字です。 | Comment have to be max 250 word", "CommentValidation")
+    }
+
+      const res = await updateUserInfo(currentUser)
       setCurrentUser(res)
+      
       toastSuccess("変更が保存されました")
-  })
-    .catch(error => toastError("変更が失敗しました", "インターネット状態や変更内容をもう一度見直してください"))
-    .finally(()=> setIsSaveButtonLoading(false))
+      setIsSaveButtonLoading(false)
+    } catch (error: any) {
+      if (error.type == "CommentValidation") toastError(error.name, error.message)
+      else {
+        toastError("変更が失敗しました", "インターネット状態や変更内容をもう一度見直してください")
+      }
+      setIsSaveButtonLoading(false)
+    }
   }
   return (
     <>
@@ -122,7 +133,7 @@ const MyProfile: NextPage  = () => {
             />
             <NeumFormTextArea
             mt={5}
-            id="comment" register={register} errors={errors} validation={Validation_comment}
+            id="comment" register={register} errors={errors} validation={undefined}
             defaultValue={currentUser?.comment} placeholder={"Comment..."} labelName={"コメント"}
             fontSize={[18]} rows={6}
             onChange={handleComment}

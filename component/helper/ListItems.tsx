@@ -156,7 +156,7 @@ export const LinkListItem = (
                     <Avatar name={ link.users?.user_name } src={link.users?.user_image} size={"2xs"} onClick={(e:any)=>e.stopPropagation()}/>
                 </NextLink>
                 <NextLink href={"/users/" + link.uuid_uid} >
-                    <Text pe={[6, 1]} fontSize={"xs"} isTruncated _hover={{ textDecoration: "underline" }} onClick={(e:any)=>e.stopPropagation()} >
+                    <Text ms={2} pe={[6, 1]} fontSize={"xs"} isTruncated _hover={{ textDecoration: "underline" }} onClick={(e:any)=>e.stopPropagation()} >
                         {link.users?.user_name ? link.users?.user_name : "Guest" }
                     </Text>
                 </NextLink>

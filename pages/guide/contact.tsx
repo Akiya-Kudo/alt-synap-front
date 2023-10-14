@@ -6,7 +6,7 @@ import { LinkHeader } from "../../component/layout/Header"
 import { useCustomToast } from "../../util/hook/useCustomToast";
 import { useForm } from "react-hook-form";
 import { NeumFormInput, NeumTextAreaDefault } from "../../component/atom/inputs";
-import { Validation_email, Validation_post_title } from "../../util/form/validation";
+import { CommentMaxValidationError, Validation_email, Validation_post_title } from "../../util/form/validation";
 import { useRef, useState } from "react";
 import { ClickButton } from "../../component/atom/buttons";
 import { useRouter } from "next/router";
@@ -26,19 +26,27 @@ const Contact: NextPage<{}>  = () => {
 
     const sendEmail = (e:any) => {
         e.preventDefault();
-        emailjs.sendForm('service_a4if6r8', 'template_63p7opb', formRef.current!=null ? formRef.current: "form undefined", 'aFiva8YD_oC_mZYTY')
-        .then((result) => {
-            toastSuccess("お問い合わせが完了しました。")
-            setIsSabeButtonLoading(true)
-            router.push("/")
-        }).catch((error) => {
-            toastError("お問い合わせを適切に受け取ることができませんでした。", "お問い合わせ内容を再度確認して送信ください。")
-        }).finally(() => {
-            setIsSabeButtonLoading(false)
-        })
+        try {
+            // escape when comment length　is over max length
+            if (contactForm.content.length > 1000) { 
+                throw new CommentMaxValidationError("コンテントの最大文字数は1000文字です。 | Content have to be max 1000 word", "CommentValidation")
+            }
+
+            emailjs.sendForm('service_a4if6r8', 'template_63p7opb', formRef.current!=null ? formRef.current: "form undefined", 'aFiva8YD_oC_mZYTY')
+            .then((result) => {
+                toastSuccess("お問い合わせが完了しました。")
+                setIsSabeButtonLoading(true)
+                router.push("/")
+            }).finally(() => {
+                setIsSabeButtonLoading(false)
+            })
+        } catch (error: any) {
+            if (error.type == "CommentValidation") toastError(error.name, error.message)
+            else {
+                toastError("お問い合わせを適切に受け取ることができませんでした。", "お問い合わせ内容を再度確認して送信ください。")
+            }
+        }
     };
-    console.log(formRef.current);
-    
     return (
         <>
             <Head><title>Tipsy | Home</title></Head>

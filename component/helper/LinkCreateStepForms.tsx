@@ -1,17 +1,14 @@
-import { Avatar, Box, Button, Center, Checkbox, Collapse, Flex, FormControl, FormLabel, Heading, IconButton, Link, List, ListIcon, ListItem, Popover, PopoverBody, PopoverContent, PopoverHeader, PopoverTrigger, Text, useColorMode, useDisclosure } from "@chakra-ui/react"
+import { Avatar, Box, Center, Checkbox, Flex, FormControl, FormLabel, Heading, Link, Text, useColorMode} from "@chakra-ui/react"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import { FaQuestion } from "react-icons/fa"
-import { IoMdCheckmarkCircle } from "react-icons/io"
 import { EditingLinkType, Link as LinkType } from "../../type/global"
 import { LinkAnalyzeStepType } from "../../type/helper"
 import { LinkGenreNames } from "../../type/standalone"
-import { Validation_linkname, Validation_url, Validation_url_required } from "../../util/form/validation"
-import { useGlassColorMode } from "../../util/hook/useColor"
+import { Validation_linkname, Validation_url_required } from "../../util/form/validation"
 import { useCustomToast } from "../../util/hook/useCustomToast"
 import { FlatBord } from "../atom/bords"
-import { ClickButton, GlassButton_submit, SwitchButton } from "../atom/buttons"
-import { GlassFloatFormInput, GlassInputDefault, NeumFloatFormInput, NeumFormInput, NeumInputDefault, NeumTextAreaDefault } from "../atom/inputs"
+import { ClickButton } from "../atom/buttons"
+import { NeumFormInput, NeumInputDefault, NeumTextAreaDefault } from "../atom/inputs"
 import { BasicSelect } from "../atom/select"
 import { StepGuide } from "../atom/texts"
 import { ImagePathInputPopover } from './Popovers'
@@ -202,6 +199,17 @@ export const UrlTestStep = ({setCurrentLink, currentLink, setActiveStep}: {setCu
     const handleCreateLinkWord = (e: any) => setSearchWordValue(e.target.value)
     const handleSearchExecute = () => window.open(testLink, '_blank')
     
+    useEffect(()=>{
+        let isInIndex: number[] = []
+        if (currentLink.other_queries_array && currentLink.other_queries ) {
+            currentLink.other_queries_array.forEach((param:string, _i) => {
+                if (currentLink.other_queries && currentLink.other_queries.includes(param)) {
+                    isInIndex.push(_i)
+                }
+            })
+        } 
+        setCheckedQueriesIndex(isInIndex)
+    },[])
     return (
         <Box mx={[6,6,3]}>
             <Box mb={10}>
@@ -236,6 +244,7 @@ export const UrlTestStep = ({setCurrentLink, currentLink, setActiveStep}: {setCu
                                     colorScheme={colorMode === 'light' ? 'teal' : 'pink'}
                                     size={"sm"} whiteSpace="nowrap" textOverflow="ellipsis"
                                     onChange={handleCheckQuery}
+                                    isChecked={currentLink.other_queries?.includes(param)}
                                     >{param}</Checkbox>
                                 )
                             })

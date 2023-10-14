@@ -129,7 +129,7 @@ const Mypage: NextPage  = () => {
                             />
                         }
                     </Text>
-                    <Text size={"lg"} fontSize={".75rem"} m={1}>{userInfo?.comment}</Text>
+                    <Text size={"lg"} fontSize={".75rem"} m={1} maxW={"450px"}>{userInfo?.comment}</Text>
                 </Box>
                 <Box>
                     <ClickButton
