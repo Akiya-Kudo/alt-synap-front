@@ -18,6 +18,8 @@ import { GlassAlert } from "./alerts";
 import { DELETE_FOLDER } from "../../util/graphql/mutation/folders.mutation.scheme";
 import { useMutation } from "@apollo/client";
 import { TruncatedHeading } from "./texts";
+import { deleteObject, ref } from "firebase/storage";
+import { storage } from "../../util/firebase/init";
 
 export const FolderCreateCard = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -52,6 +54,7 @@ export const FolderCard = ({
     fid, title, top_image,
     ...props
 }: FolderCardProps) => {
+    const {toastSuccess, toastError} = useCustomToast()
     const { isOpen: isOpen_delete, onOpen: onOpen_delete, onClose: onClose_delete } = useDisclosure()
     const { isOpen: isOpen_editModal, onOpen: onOpen_editModal, onClose: onClose_editModal } = useDisclosure()
     
@@ -64,7 +67,15 @@ export const FolderCard = ({
     })
     
     const handleDeleteFolder = async () => {
-        await deleteFolder()
+        try {
+            const res = await deleteFolder()
+            if (res?.data?.delete_folder?.top_image?.startsWith("https://firebasestorage.googleapis.com/v0/b/tipsy-c5831.appspot.com/o/folder%2F")) {
+                const storageRef = ref(storage, res.data.delete_folder.top_image)
+                console.log("strage deleted");
+                await deleteObject(storageRef)
+            }
+            toastSuccess("削除が完了しました。")
+        } catch (error: any) {toastError("削除に失敗しました。", error.message)}
         onClose_delete()
     }
     

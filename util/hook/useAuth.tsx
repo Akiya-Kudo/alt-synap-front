@@ -1,19 +1,18 @@
 import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, updateProfile } from "firebase/auth";
-import { useContext, useEffect } from "react";
-import { AuthContext, setAuthContext } from "./authContext";
+import { useContext } from "react";
+import { setAuthContext } from "./authContext";
 import { auth, githubProvider, googleProvider } from '../firebase/init';
 import { useUserInfoQuery } from "./useQuery";
-import { useMutation } from "@apollo/client";
+import { Flex, Spinner } from "@chakra-ui/react";
+import { client } from "../../pages/_app";
 import { USER_QUERY } from "../graphql/queries/users.query.schema";
-import { USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
-import {v4 as uuid_v4} from 'uuid'
-import { Box, Flex, Spinner } from "@chakra-ui/react";
-import { UserStateStringType } from "../../type/global";
-import { useRouter } from "next/router";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { USER_INFO_MUTATION } from "../graphql/mutation/users.mutation.scheme";
 
 export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);
-    const [userRegister, { data, loading, error }] = useMutation(USER_MUTATION);
+    const [getLoginUserInfo] = useLazyQuery(USER_QUERY);
+    const [updateUserName] = useMutation(USER_INFO_MUTATION)
 
     const VarifiedNotifySendEmail = async () => {
         if(auth.currentUser) {
@@ -26,22 +25,21 @@ export const useSignUpFunc = () => {
 
     const execute = async (email: string, password: string, user_name: string) => {
         setUserState('loading')
+        
         try {
             // Firebase　新規登録処理
             const result = await createUserWithEmailAndPassword(auth, email, password)
             const user = result.user
             //firebase user name　update
             await updateProfile(user, {displayName: user_name})
-            // back end server data store
-            const result_m = await userRegister({
-                variables: {
-                    "userData": {
-                        "uid": user.uid,
-                        "uuid_uid": uuid_v4(),
-                    }
+
+            // update user info (user name)
+            const res_with_user_name = await updateUserName({variables: {
+                userData: {
+                    user_name: user_name,
                 }
-            })
-            console.log('sign in server data store done')
+            }})
+            
             //firebase email send
             await VarifiedNotifySendEmail()
             setUserState('isUser')

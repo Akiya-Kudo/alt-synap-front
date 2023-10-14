@@ -29,35 +29,43 @@ export const AuthProvider = (props: any) => {
     const { onOpen: onOpen_login, onClose: onClose_login, isOpen: isOpen_login } = useDisclosure()
     
     useEffect(()=>{
+        // for load time auth check ( this func will called all the time when auth state is changed regurdless useEffect isn't called)
         onAuthStateChanged(auth, async (user)=>{
             try {
                 if (user) {
                     console.log("is user in firebase");
                     console.log(user);
-                    
                     const result = await getLoginUserInfo( {
                         variables: {"uid" : user.uid}
                     })
+                    
                     if(result.data==undefined){
+                        
+                        console.log("未設定のユーザ情報をサーバーに保存します。");
                         const result_m = await userRegister({
                             variables: {
                                 "userData": {
                                     "uid": user.uid,
                                     "uuid_uid": uuid_v4(),
+                                    "user_name": user.displayName,
+                                    "user_image": user.photoURL,
                                 }
                             }
                         })
-                        console.log("未設定のユーザ情報をサーバーに保存しました");
                         console.log(result_m);
                     }
                     setUserState("isUser")
                     console.log("is user in Apollo");
                     console.log(result);
+
+
+
                     // the case under path page is rendering, the reactive value will changed in the PostsBoard's useEffect
                     const isPostsFetchPage = 
                         router.pathname=='/search' 
                         || router.pathname=='/users/[uuid_uid]' 
                         || router.pathname=='/posts/[uuid_pid]' 
+                        || router.pathname=='/topics/[tid]' 
                         || router.pathname=='/'
                     if (!isPostsFetchPage) IsAlreadyFirstFetchedAsIsUserVar(true)
                 } else {

@@ -50,6 +50,7 @@ export const DELETE_POST = gql`
             content_type
             publish
             deleted
+            top_image
         }
     }
 `

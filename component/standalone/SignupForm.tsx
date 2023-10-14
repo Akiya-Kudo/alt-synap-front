@@ -18,7 +18,7 @@ export const SignupForm = () => {
             const email = await target.input_email.value as string;
             const user_name = await target.input_username.value as string;
             const password = await target.input_password.value as string;
-            execute(email, password, user_name );
+            await execute(email, password, user_name);
     }
     return (
         <Flex

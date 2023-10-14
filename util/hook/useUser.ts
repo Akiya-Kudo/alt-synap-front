@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { EditingUser } from "../../type/global";
 import { storage } from "../firebase/init";
 import { USER_INFO_MUTATION } from "../graphql/mutation/users.mutation.scheme";
@@ -28,6 +28,14 @@ export const useUser = () => {
                     }
                 }
             })
+            //delete strage image if (new image file wont be uploaded in strage & if pre image_path(currentUserInfo.user_image) is firebase strage)
+            const isPreImagePathisinStrage = currentUserInfo.user_image?.startsWith("https://firebasestorage.googleapis.com/v0/b/tipsy-c5831.appspot.com/o/user%2Fthumbnail%2F" + data.update_user_info.uuid_uid)
+            if (isPreImagePathisinStrage && !currentUserInfo.image_file && currentUserInfo.new_image_url && currentUserInfo.new_image_url!="") {
+                const storageRef = ref(storage, currentUserInfo.user_image)
+                await deleteObject(storageRef)
+                console.log("strage deleted");
+            }
+            
             return data.update_user_info
         } catch (error) {
             throw error

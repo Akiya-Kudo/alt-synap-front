@@ -1,10 +1,12 @@
 import { useMutation } from "@apollo/client";
 import { CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { Icon, Menu, MenuButton, MenuGroup, MenuItem, MenuList, useDisclosure } from "@chakra-ui/react"
+import { Icon, Menu, MenuButton, MenuItem, MenuList, useDisclosure } from "@chakra-ui/react"
+import { deleteObject, ref } from "firebase/storage";
 import { useRouter } from "next/router";
 import React from "react"
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { LinkPostData, Post } from "../../type/global";
+import { Post } from "../../type/global";
+import { storage } from "../../util/firebase/init";
 import { DELETE_POST } from "../../util/graphql/mutation/posts.mutation.scheme";
 import { useCustomToast } from "../../util/hook/useCustomToast";
 import { usePost } from "../../util/hook/usePost";
@@ -42,10 +44,17 @@ export const EditPostMenu = ({uuid_pid, content_type, post}: {
 
     const handleDeletePost = async () => {
         await deletePost()
-        .then(res => toastSuccess("削除が完了しました"))
+        .then(res => {
+            toastSuccess("削除が完了しました")
+            //delete strage image if (new image file wont be uploaded in strage & if pre image_path(currentUserInfo.user_image) is firebase strage)
+            if ( res?.data?.delete_post?.top_image  && res.data.delete_post?.top_image.startsWith("https://firebasestorage.googleapis.com/v0/b/tipsy-c5831.appspot.com/o/posts%2F" )) {
+                const storageRef = ref(storage, res?.data?.delete_post?.top_image)
+                deleteObject(storageRef).then(res => console.log("strage deleted")).catch(error => console.log(error))
+            }
+    })
         .catch(error => {
             console.log(error);
-            toastError("に失敗しました。", error.message)
+            toastError("削除に失敗しました。", error.message)
         })
         onClose_delete()
     }
