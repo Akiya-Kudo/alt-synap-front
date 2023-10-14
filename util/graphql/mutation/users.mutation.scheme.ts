@@ -5,6 +5,8 @@ export const USER_MUTATION = gql`
     create_user(userData: $userData) {
       uid
       uuid_uid
+      user_name
+      user_image
       comment
       followee_num
       follower_num

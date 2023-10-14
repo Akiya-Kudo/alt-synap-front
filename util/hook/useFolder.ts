@@ -1,10 +1,10 @@
 import { useMutation } from "@apollo/client";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { EditingFolder, Folder, User } from "../../type/global";
 import { storage } from "../firebase/init";
 import { UPSERT_FOLDER } from "../graphql/mutation/folders.mutation.scheme";
 import {v4 as uuid_v4} from 'uuid'
-import { USER_FOLDER_FRAG, USER_FOLLOWEE_FRAG } from "../graphql/fragment/fragment.scheme";
+import { USER_FOLDER_FRAG } from "../graphql/fragment/fragment.scheme";
 
 export const useFolder = () => {
     const [editFolder, { data, loading, error }] = useMutation(UPSERT_FOLDER, {
@@ -50,6 +50,16 @@ export const useFolder = () => {
                     }
                 }
             })
+
+            //delete strage image if (new image file wont be uploaded in strage & if pre image_path(currentUserInfo.user_image) is firebase strage)
+            const isPreImagePathisinStrage = currentFolder.top_image?.startsWith("https://firebasestorage.googleapis.com/v0/b/tipsy-c5831.appspot.com/o/folder%2F")
+            
+            if ( isPreImagePathisinStrage && ((currentFolder.new_image_url && currentFolder.new_image_url!="") || currentFolder.image_file) ) {
+                const storageRef = ref(storage, currentFolder.top_image)
+                console.log("strage deleted");
+                await deleteObject(storageRef)
+            }
+            
             return data.upsert_folder
         } catch (error) {
             throw error
