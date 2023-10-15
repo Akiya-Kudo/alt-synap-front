@@ -36,12 +36,7 @@ export const NeumLinkBoard = ({
     
     useEffect(() => {
         if (userState=="isUser") {
-            const read_collections = client.readQuery({
-                query: USER_QUERY,
-                variables: {
-                    uid: auth.currentUser?.uid,
-                },
-            });
+            const read_collections = client.readQuery({ query: USER_QUERY });
             setCollections(read_collections?.user?.collections ? read_collections?.user?.collections : [])
             // return index, if the collection is not find in array => return -1
             const top_collection = read_collections?.user?.collections.find((collection: Collection) => collection.cid == read_collections?.user?.top_collection)
@@ -130,12 +125,7 @@ export const GlassLinkBoard = ({
     
     useEffect(() => {
         if (userState=="isUser") {
-            const read_collections = client.readQuery({
-                query: USER_QUERY,
-                variables: {
-                    uid: auth.currentUser?.uid,
-                },
-            });
+            const read_collections = client.readQuery({ query: USER_QUERY });
             setCollections(read_collections?.user?.collections ? read_collections?.user?.collections : [])
             // return index, if the collection is not find in array => return -1
             const top_collection = read_collections?.user?.collections.find((collection: Collection) => collection.cid == read_collections?.user?.top_collection)

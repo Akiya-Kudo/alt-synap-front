@@ -17,7 +17,7 @@ const TipsyPostsDisplay = ({
     mb=5, w="100%", flexDir="column",
     ...props
 }: TipsyPostsDisplayProps) => {
-    const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS, variables: { uid: auth.currentUser?.uid }})?.user
+    const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS })?.user
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
     if (error) {

@@ -16,10 +16,7 @@ const LinkSetting: NextPage  = () => {
     const router = useRouter()
     // useEffect(() => { if (userState == 'guest')  router.replace('/') }, [userState])
     
-    const { data: user_data } = useQuery(USER_QUERY, {
-        fetchPolicy: 'network-only',
-        variables: { uid: auth.currentUser?.uid }
-    });
+    const { data: user_data } = useQuery(USER_QUERY, { fetchPolicy: 'network-only' });
     
     return (
         <>

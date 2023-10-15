@@ -25,7 +25,7 @@ const MyProfile: NextPage  = () => {
   // reload時のuserData取得 + isSaveButtonLoading　解除
   useEffect(()=>{
     if (userState=="isUser") {
-    const data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
+    const data = client.readQuery({ query: USER_QUERY });
     setPreViewImage(data?.user.user_image)
     setCurrentUser({
       uuid_uid: data?.user.uuid_uid,

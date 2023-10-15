@@ -204,10 +204,7 @@ export const UserListItemWithFollow = ({user, onClose}: {user?: User, onClose: a
                     }
                 }
             )
-            cache.updateQuery({
-                    query: USER_QUERY,
-                    variables: {uid: auth.currentUser?.uid},
-                },
+            cache.updateQuery({ query: USER_QUERY },
                 (data) => {
                     if (isFollowed) {
                         return ({ user: { follower_num: data.user.follower_num - 1 }})

@@ -28,12 +28,7 @@ export const CollectionEditModal = (
     const [removeCollection, { data, error}] = useMutation(REMOVE_COLLECTION,{
         update( cache, { data: { remove_collection } } ) {
             //userのcollection配列の　cacheの更新
-            const data: {user: User} | null = cache.readQuery({
-                query: USER_QUERY,
-                variables: {
-                    uid: auth?.currentUser?.uid,
-                },
-            })
+            const data: {user: User} | null = cache.readQuery({ query: USER_QUERY })
             if (data?.user?.uuid_uid) {
                 const newCollections = data?.user?.collections?.filter(col => col.cid != remove_collection.cid )
                 cache.writeFragment({

@@ -44,7 +44,7 @@ const TopicPage: NextPage = () => {
 
     useEffect(() => {
         if (userState == "isUser") {
-            const cache = client.readQuery({ query: USER_QUERY, variables: { uid:  auth.currentUser?.uid }})
+            const cache = client.readQuery({ query: USER_QUERY })
             setFolderInfo(cache?.user.folders?.find((folder: Folder) => folder.fid == fid))
             getPostsOfFolder()
         }

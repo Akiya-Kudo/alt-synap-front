@@ -87,7 +87,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
     // set display posts by fetch
     useEffect(() => {setDisplayPosts(data?.search_post)}, [data])
 
-    const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS, variables: { uid: auth.currentUser?.uid }})?.user
+    const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS })?.user
 
     if (loading) return <Center mt={20}><CircleLoader/></Center>
     
