@@ -22,10 +22,7 @@ const LinkSearchableBoard = () => {
     const [collections, setCollections] = useState<Collection[]>([])
 
     const [getGuestCollections] = useLazyQuery(GET_GUEST_COLLECTIOINS)
-    const data_user = client.readQuery({
-        query: USER_QUERY,
-        variables: { uid: auth.currentUser?.uid }
-    });
+    const data_user = client.readQuery({ query: USER_QUERY });
 
     useEffect(() => {
         if (userState=="isUser") {

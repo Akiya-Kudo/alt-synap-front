@@ -35,7 +35,7 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
 
         useEffect(() => {
             if (displayContent=="FavoriteTopics" ) {
-                const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
+                const user_data = client.readQuery({ query: USER_QUERY });
                 setTopics(user_data?.user.user_tags.map((u_t: UserTag)=> u_t.tags))
             }else if (displayContent=="HotTopics") {
                 // const res = await getHotTags()

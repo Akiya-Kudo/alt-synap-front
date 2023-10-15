@@ -29,7 +29,7 @@ const UsersPage: NextPage = () => {
     const uuid_uid: string = router.query.uuid_uid as string
     const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
-    const { loading, error, data, refetch } = useQuery(GET_OTHER_USER_QUERY,  { variables: { uuid_uid: uuid_uid }, skip: !uuid_uid })
+    const { loading, error, data, refetch } = useQuery(GET_OTHER_USER_QUERY,  { skip: !uuid_uid })
     const userInfo = data?.other_user as User
     const isFollowed = userInfo?.follows_follows_followee_uuidTousers && userInfo?.follows_follows_followee_uuidTousers.length!=0
 
@@ -60,9 +60,7 @@ const UsersPage: NextPage = () => {
             )
             //update login user's num
             cache.updateQuery({
-                query: USER_QUERY,
-                variables: {uid: auth.currentUser?.uid},
-            },
+                query: USER_QUERY },
             (data) => {
                 if (isFollowed) {
                     return ({ user: { follower_num: data.user.follower_num - 1 }})
@@ -95,7 +93,7 @@ const UsersPage: NextPage = () => {
 
     useEffect(()=>{
         //the case linked to logined-user-page from search page before userState is not fetched, redirect to my-page
-        const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
+        const user_data = client.readQuery({ query: USER_QUERY });
         if (uuid_uid && user_data?.user?.uuid_uid == uuid_uid ) router?.push({ pathname: '/user/my_page' })
     },[uuid_uid])
 

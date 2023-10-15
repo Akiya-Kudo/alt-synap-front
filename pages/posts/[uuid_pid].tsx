@@ -36,7 +36,7 @@ const PostPage: NextPage = () => {
     const router = useRouter()
     const uuid_pid = router.query.uuid_pid
 
-    const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS, variables: { uid: auth.currentUser?.uid }})?.user
+    const login_user = client.readQuery({ query: READ_USER_UUID_AND_FOLDERS })?.user
 
     const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
     

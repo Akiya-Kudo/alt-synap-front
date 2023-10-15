@@ -20,12 +20,7 @@ export const AddCollectionPopover = ({uuid_uid}: {uuid_uid: string}) => {
     const [createCollection] = useMutation(CREATE_COLLECTION, {
         update( cache, { data: { create_collection } } ) {
             //user のcolelction配列の更新
-            const data: {user: User} | null = cache.readQuery({
-                query: USER_QUERY,
-                variables: {
-                    uid: auth?.currentUser?.uid,
-                },
-            })
+            const data: {user: User} | null = cache.readQuery({ query: USER_QUERY })
             if (data?.user?.collections) {
                 const newCollections = [...data?.user?.collections, create_collection]
                 cache.writeFragment({

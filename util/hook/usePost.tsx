@@ -45,7 +45,7 @@ export const usePost = () => {
             const result = await upsertArticlePost_exe({ 
                 variables: { postData: {...reqPost}},
                 update( cache, { data: { upsert_article_post } } ) {
-                    const data_user = cache.readQuery<{ user: User }>({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})
+                    const data_user = cache.readQuery<{ user: User }>({ query: READ_USER_UUID })
                     //the duplicate post will removed in typePolicy, so only push new post in this func (if the selectedTag args are used, this have to be changed to handle all case)
                     cache.updateQuery(
                         {
@@ -192,7 +192,7 @@ export const usePost = () => {
             const result = await upsertLinkPost_exe({ 
                 variables: { postData: {...linkPost}},
                 update( cache, { data: { upsert_link_post } } ) {
-                    const data_user = cache.readQuery<{ user: User }>({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})
+                    const data_user = cache.readQuery<{ user: User }>({ query: READ_USER_UUID })
                     //the duplicate post will removed in typePolicy, so only push new post in this func (if the selectedTag args are used, this have to be changed to handle all case)
                     cache.updateQuery(
                         {

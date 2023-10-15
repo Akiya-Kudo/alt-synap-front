@@ -35,10 +35,7 @@ const TopicPage: NextPage = () => {
         variables: { tid: tid },
         update( cache, { data: { favorite_tag_toggle } } ) {
             //update login user's num
-            cache.updateQuery({
-                query: USER_QUERY,
-                variables: {uid: auth.currentUser?.uid},
-            },
+            cache.updateQuery({ query: USER_QUERY },
             (data) => {
                 if (isFavorite) {
                     return ({ user: { user_tags: data.user.user_tags.filter((userTag: UserTag) => userTag.tid !== favorite_tag_toggle.tid)}})
@@ -62,7 +59,7 @@ const TopicPage: NextPage = () => {
     
     // read which login user is favariting the tag, when userState is work
     useEffect(()=>{
-        const user_data = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
+        const user_data = client.readQuery({ query: USER_QUERY });
         setIsFavorite(user_data?.user.user_tags.some((userTag: UserTag) => userTag.tid === tid) )
     },[userState])
     

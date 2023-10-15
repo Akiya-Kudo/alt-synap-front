@@ -2,8 +2,8 @@ import { gql } from '@apollo/client';
 // import { User} from '../../../type/user'
 
 export const USER_QUERY = gql`
-    query login_user_info_query($uid: String!) {
-        user(uid: $uid) {
+    query login_user_info_query {
+        user {
             uid
             uuid_uid
             user_name
@@ -72,31 +72,17 @@ export const USER_QUERY = gql`
 `;
 
 export const READ_USER_UUID = gql`
-    query login_user_uuid_query($uid: String!) {
-        user(uid: $uid) {
+    query login_user_uuid_query {
+        user {
             uuid_uid
         }
     }
 `
 
 export const READ_USER_UUID_AND_FOLDERS = gql`
-    query login_user_uuid_query($uid: String!) {
-        user(uid: $uid) {
+    query login_user_uuid_query {
+        user {
             uuid_uid
-            folders {
-                fid
-                uuid_uid
-                title
-                top_image
-                timestamp
-            }
-        }
-    }
-`
-
-export const READ_USER_FOLDERS = gql`
-    query login_user_uuid_query($uid: String!) {
-        user(uid: $uid) {
             folders {
                 fid
                 uuid_uid

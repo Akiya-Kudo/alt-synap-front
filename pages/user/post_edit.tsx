@@ -67,10 +67,7 @@ const PostEdit: NextPage = () => {
     // reload時のuserData取得 + isSaveButtonLoading　解除
     useEffect(()=>{
         if (userState=="isUser") {
-        const data = client.readQuery({
-            query: READ_USER_UUID,
-            variables: { uid: auth.currentUser?.uid },
-        });
+        const data = client.readQuery({ query: READ_USER_UUID });
         if (data) {
             setIsSaveButtonLoading(false)
             // for setting default value of editing page, when true default value is fetched

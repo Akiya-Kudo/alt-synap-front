@@ -30,7 +30,7 @@ const LinkCreate : NextPage  = () => {
 
     const [createLink, { error, data, loading }] = useMutation(CREATE_LINK, { 
         update( cache, { data: { create_link } } ) { 
-            const data_user = client.readQuery({ query: READ_USER_UUID, variables: { uid: auth.currentUser?.uid }})
+            const data_user = client.readQuery({ query: READ_USER_UUID })
 
             const data_madeby = client.readQuery({ query: GET_USER_MADE_LINKS,
                 variables: { uuid_uid: data_user.user.uuid_uid }

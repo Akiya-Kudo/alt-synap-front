@@ -44,6 +44,7 @@ export const useSignUpFunc = () => {
             setUserState('isUser')
         } catch (error) {
             console.error("sign in error");
+            console.log(error);
             alert(error);
             setUserState('guest')
         }
@@ -80,10 +81,7 @@ export const useLogOutFunc = () => {
     const execute = async () => {
         setUserState('loading')
 
-        const data = client.readQuery({
-            query: READ_USER_UUID,
-            variables: { uid: auth.currentUser?.uid },
-        });
+        const data = client.readQuery({ query: READ_USER_UUID });
         if (data?.user) {
             const delete_user = client.cache.evict({id: client.cache.identify(data.user), broadcast: false})
         }

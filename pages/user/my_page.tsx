@@ -32,7 +32,7 @@ const Mypage: NextPage  = () => {
     // reload時のuserData取得 + isSaveButtonLoading　解除
     useEffect(()=>{
         if (userState=="isUser") {
-        const data_user = client.readQuery({ query: USER_QUERY, variables: { uid: auth.currentUser?.uid }});
+        const data_user = client.readQuery({ query: USER_QUERY });
         setUserInfo(data_user.user)
         handleFetchUserMade()
         }
