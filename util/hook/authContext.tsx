@@ -4,13 +4,14 @@ import { auth } from "../firebase/init";
 
 import { Box, Toast, useDisclosure, useToast } from "@chakra-ui/react";
 import { makeVar, useLazyQuery, useMutation } from "@apollo/client";
-import { USER_QUERY } from "../graphql/queries/users.query.schema";
+import { READ_USER_UUID, USER_QUERY } from "../graphql/queries/users.query.schema";
 import { USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
 import {v4 as uuid_v4} from 'uuid'
 import { useCustomToast } from "./useCustomToast";
 import { UserStateStringType } from "../../type/global";
 import { useRouter } from "next/router";
 import { LoginModal } from "../../component/standalone/LoginModal";
+import { client } from "../../pages/_app";
 
 // for the search page proccessing
 // to prevent refetching of useEffect(of IsUser in search page) : refetch of useQuery will difinitly fetch from server, so the cached data(search query's merged posts array will deleted)
@@ -40,7 +41,6 @@ export const AuthProvider = (props: any) => {
                     })
                     
                     if(result.data==undefined){
-                        
                         console.log("未設定のユーザ情報をサーバーに保存します。");
                         const result_m = await userRegister({
                             variables: {

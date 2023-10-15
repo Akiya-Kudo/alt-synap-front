@@ -1,11 +1,9 @@
-import { Avatar, Box, Button, Center, Flex, FormControl, FormLabel, Switch, Text, Textarea, Tooltip, useSteps } from "@chakra-ui/react";
+import { Flex, useSteps } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { GlassButton, GlassSwitchButton } from "../../component/atom/buttons";
 import { LinkHeader } from "../../component/layout/Header";
-import { EditingLinkType, Link } from "../../type/global";
+import { EditingLinkType } from "../../type/global";
 import { auth } from "../../util/firebase/init";
 import { READ_USER_UUID } from "../../util/graphql/queries/users.query.schema";
 import { AuthContext } from "../../util/hook/authContext";
@@ -18,6 +16,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_LINK } from "../../util/graphql/mutation/links.mutation.scheme";
 import { GET_PUBLISHED_LINKS, GET_USER_MADE_LINKS } from "../../util/graphql/queries/links.query.scheme";
 import Head from "next/head";
+import { CommentMaxValidationError } from "../../util/form/validation";
 
 const LinkCreate : NextPage  = () => {
     const { userState } = useContext(AuthContext);
@@ -59,30 +58,37 @@ const LinkCreate : NextPage  = () => {
     })
     
     const handleLinkCreateExecute = async () => {
-        setIsSaveButtonLoading(true)
-        await createLink({variables: {
-            linkData: {
-                link_name: currentLink.link_name,
-                explanation: currentLink.explanation!="" ? currentLink.explanation : null,
-                image_path: currentLink.image_path!="" ? currentLink.image_path : null,
-                url_scheme: currentLink.url_scheme,
-                query: currentLink.query,
-                joint: currentLink.joint,
-                other_queries: currentLink.other_queries,
-                genre: currentLink.genre,
-                is_path_search: currentLink.is_path_search,
-                publish: currentLink.publish
+        try {
+            setIsSaveButtonLoading(true)
+            // escape when comment length　is over max length
+            if (currentLink.explanation.length > 100) { 
+                throw new CommentMaxValidationError("コンテントの最大文字数は100文字です。 | Content have to be max 100 word", "CommentValidation")
             }
-        }})
-        .then((res) => {
-            router.back()
+
+            await createLink({variables: {
+                linkData: {
+                    link_name: currentLink.link_name,
+                    explanation: currentLink.explanation!="" ? currentLink.explanation : null,
+                    image_path: currentLink.image_path!="" ? currentLink.image_path : null,
+                    url_scheme: currentLink.url_scheme,
+                    query: currentLink.query,
+                    joint: currentLink.joint,
+                    other_queries: currentLink.other_queries,
+                    genre: currentLink.genre,
+                    is_path_search: currentLink.is_path_search,
+                    publish: currentLink.publish
+                }
+            }})
+            setIsSaveButtonLoading(false)
             toastSuccess("Linkを作成できました!")
+            router.back()
+        } catch (error: any) {
             setIsSaveButtonLoading(false)
-        })
-        .catch((error) => {
-            setIsSaveButtonLoading(false)
-            toastError("作成に失敗しました。", "インターネット状態や入力をもう一度お確かめください")
-        })
+            if (error.type == "CommentValidation") toastError(error.name, error.message)
+            else {
+                toastError("作成に失敗しました。", "インターネット状態や入力をもう一度お確かめください")
+            }
+        }
     }
 
     const { activeStep, setActiveStep } = useSteps({

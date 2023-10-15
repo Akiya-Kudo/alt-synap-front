@@ -7,7 +7,7 @@ import { LinkListItemDeletable } from "./ListItems";
 import { GlassButton } from "../atom/buttons";
 import { useMutation } from "@apollo/client";
 import { REMOVE_COLLECTION } from "../../util/graphql/mutation/collections.mutation.scheme";
-import { READ_USER_UUID, USER_QUERY } from "../../util/graphql/queries/users.query.schema";
+import { USER_QUERY } from "../../util/graphql/queries/users.query.schema";
 import { auth } from "../../util/firebase/init";
 import { COLLECTION_FRAGMENT_TO_LINKCOLLECTION, LINK_COLLECTION_FRAGMENT, USER_FRAGMENT_COLLECTION_ONLY } from "../../util/graphql/fragment/fragment.scheme";
 import { client } from "../../pages/_app";

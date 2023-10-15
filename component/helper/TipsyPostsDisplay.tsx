@@ -6,7 +6,7 @@ import { Alert, AlertDescription, AlertIcon, AlertTitle, Center, Text, VStack } 
 import { CircleLoader, NeumLoader } from "../atom/loaders";
 import { ClickButton } from "../atom/buttons";
 import { client } from "../../pages/_app";
-import { READ_USER_UUID, READ_USER_UUID_AND_FOLDERS } from "../../util/graphql/queries/users.query.schema";
+import { READ_USER_UUID_AND_FOLDERS } from "../../util/graphql/queries/users.query.schema";
 import { auth } from "../../util/firebase/init";
 
 const TipsyPostsDisplay = ({
