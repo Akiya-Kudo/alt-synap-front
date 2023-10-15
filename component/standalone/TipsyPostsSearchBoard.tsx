@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { TabSwitchGroup } from "../helper/TabRadioGroup";
 import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar,  } from "../../util/hook/authContext";
 import { client } from "../../pages/_app";
-import { READ_USER_UUID, READ_USER_UUID_AND_FOLDERS } from "../../util/graphql/queries/users.query.schema";
+import { READ_USER_UUID_AND_FOLDERS } from "../../util/graphql/queries/users.query.schema";
 import { auth } from "../../util/firebase/init";
 
 const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, handleTagDisplay }: {query_text: string | null, selectedTid: number | null, isTagBoardDisplay?: boolean, handleTagDisplay?: any}) => {

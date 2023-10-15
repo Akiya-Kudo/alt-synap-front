@@ -4,14 +4,13 @@ import { setAuthContext } from "./authContext";
 import { auth, githubProvider, googleProvider } from '../firebase/init';
 import { useUserInfoQuery } from "./useQuery";
 import { Flex, Spinner } from "@chakra-ui/react";
-import { client } from "../../pages/_app";
-import { USER_QUERY } from "../graphql/queries/users.query.schema";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { USER_INFO_MUTATION } from "../graphql/mutation/users.mutation.scheme";
+import { client } from "../../pages/_app";
+import { READ_USER_UUID } from "../graphql/queries/users.query.schema";
 
 export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);
-    const [getLoginUserInfo] = useLazyQuery(USER_QUERY);
     const [updateUserName] = useMutation(USER_INFO_MUTATION)
 
     const VarifiedNotifySendEmail = async () => {
@@ -80,11 +79,22 @@ export const useLogOutFunc = () => {
 
     const execute = async () => {
         setUserState('loading')
+
+        const data = client.readQuery({
+            query: READ_USER_UUID,
+            variables: { uid: auth.currentUser?.uid },
+        });
+        if (data?.user) {
+            const delete_user = client.cache.evict({id: client.cache.identify(data.user), broadcast: false})
+        }
+
         return signOut(auth)
         .then(() => {
             setUserState('guest');
             console.log('sign out successed');
-            // console.log(auth);
+
+            
+            console.log("cache reseted");
         }).catch((error) => {
             setUserState('isUser');
             console.log(error.message)
