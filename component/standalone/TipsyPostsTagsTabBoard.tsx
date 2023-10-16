@@ -62,7 +62,6 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
     useEffect(() => {
         if (data_hot) {setTopics(data_hot?.hot_tags)}
     },[data_hot])
-    console.log(topics);
     
     return (
         <>

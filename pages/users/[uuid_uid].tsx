@@ -29,7 +29,7 @@ const UsersPage: NextPage = () => {
     const uuid_uid: string = router.query.uuid_uid as string
     const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
-    const { loading, error, data, refetch } = useQuery(GET_OTHER_USER_QUERY,  { skip: !uuid_uid })
+    const { loading, error, data, refetch } = useQuery(GET_OTHER_USER_QUERY,  { variables: {uuid_uid: uuid_uid}, skip: !uuid_uid })
     const userInfo = data?.other_user as User
     const isFollowed = userInfo?.follows_follows_followee_uuidTousers && userInfo?.follows_follows_followee_uuidTousers.length!=0
 
@@ -97,8 +97,9 @@ const UsersPage: NextPage = () => {
         if (uuid_uid && user_data?.user?.uuid_uid == uuid_uid ) router?.push({ pathname: '/user/my_page' })
     },[uuid_uid])
 
-    if (error) {
-        console.log(error);
+    if (error ||  error_follow) {
+        if (error) console.log(error);
+        if (error_follow) console.log(error);
     }
     return (
         <>
