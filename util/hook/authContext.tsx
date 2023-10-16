@@ -1,20 +1,20 @@
 import { onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/init";
-
 import { Box, useDisclosure, useToast } from "@chakra-ui/react";
 import { makeVar, useLazyQuery, useMutation } from "@apollo/client";
 import { USER_QUERY } from "../graphql/queries/users.query.schema";
 import { USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
 import {v4 as uuid_v4} from 'uuid'
 import { useCustomToast } from "./useCustomToast";
-import { UserStateStringType } from "../../type/global";
+import { User, UserStateStringType } from "../../type/global";
 import { useRouter } from "next/router";
 import { LoginModal } from "../../component/standalone/LoginModal";
 
 // for the search page proccessing
 // to prevent refetching of useEffect(of IsUser in search page) : refetch of useQuery will difinitly fetch from server, so the cached data(search query's merged posts array will deleted)
 export const IsAlreadyFirstFetchedAsIsUserVar = makeVar(false as boolean)
+export const loginUserInfoVar = makeVar(null as User | null);
 
 export const AuthContext = createContext({} as {userState : UserStateStringType});
 export const setAuthContext = createContext({} as {setUserState : React.Dispatch<React.SetStateAction<UserStateStringType>>});
@@ -36,7 +36,10 @@ export const AuthProvider = (props: any) => {
                     console.log("is user in firebase");
                     console.log(user);
                     const result = await getLoginUserInfo()
-                    
+                    if (result?.data?.user) {
+                        loginUserInfoVar(result.data.user)
+                    }
+
                     if(result.data==undefined){
                         console.log("未設定のユーザ情報をサーバーに保存します。");
                         const result_m = await userRegister({
@@ -50,10 +53,12 @@ export const AuthProvider = (props: any) => {
                             }
                         })
                         console.log(result_m);
+                        if (result_m?.data?.create_user) {
+                            loginUserInfoVar(result_m.data.create_user)
+                        }
                     }
                     setUserState("isUser")
                     console.log("is user in Apollo");
-                    console.log(result);
 
 
 

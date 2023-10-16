@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import { Avatar, Box, Divider, Flex, Heading, TabIndicator, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react'
 import { SharpBoard } from '../../component/atom/bords';
-import { AuthContext } from '../../util/hook/authContext';
+import { AuthContext, loginUserInfoVar } from '../../util/hook/authContext';
 import { useRouter } from 'next/router';
 import { client } from '../_app';
 import { USER_QUERY } from '../../util/graphql/queries/users.query.schema';
@@ -13,7 +13,7 @@ import Head from 'next/head';
 import { NeumTab } from '../../component/atom/indicators';
 import dynamic from 'next/dynamic';
 import { GET_USER_LIKED_POSTS, GET_USER_PUBLISHED_POSTS } from '../../util/graphql/queries/posts.query.scheme';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useReactiveVar } from '@apollo/client';
 import { FollowListModal } from '../../component/standalone/FollowListModal';
 import TipsyFolderBoard from '../../component/standalone/TipsyFolderBoard';
 
@@ -25,18 +25,24 @@ const TipsyPostsDisplay = dynamic(
 const Mypage: NextPage  = () => {
     const { userState } = useContext(AuthContext);
     const router = useRouter()
+    const userInfoDataFetched = useReactiveVar(loginUserInfoVar);
     useEffect(() => { if (userState == 'guest')  router.replace('/') }, [userState])
 
     const [userInfo, setUserInfo] = useState<User>()
 
     // reload時のuserData取得 + isSaveButtonLoading　解除
     useEffect(()=>{
+        console.log(userState);
+        
         if (userState=="isUser") {
-        const data_user = client.readQuery({ query: USER_QUERY });
-        setUserInfo(data_user.user)
-        handleFetchUserMade()
+            const data_user = client.readQuery({ query: USER_QUERY });
+            setUserInfo(data_user?.user)
+            handleFetchUserMade()
+            console.log("userInfoDataFetched");
+            console.log(userInfoDataFetched);
+            
         }
-    },[userState])
+    },[userState, userInfoDataFetched])
 
 
     const [displayPosts, setDisplayPosts] = useState<Post[]>([])

@@ -5,13 +5,15 @@ import { auth, githubProvider, googleProvider } from '../firebase/init';
 import { useUserInfoQuery } from "./useQuery";
 import { Flex, Spinner } from "@chakra-ui/react";
 import { useMutation } from "@apollo/client";
-import { USER_INFO_MUTATION } from "../graphql/mutation/users.mutation.scheme";
+import { USER_INFO_MUTATION, USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
 import { client } from "../../pages/_app";
 import { READ_USER_UUID } from "../graphql/queries/users.query.schema";
+import {v4 as uuid_v4} from 'uuid'
 
 export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);
     const [updateUserName] = useMutation(USER_INFO_MUTATION)
+    const [userRegister] = useMutation(USER_MUTATION);
 
     const VarifiedNotifySendEmail = async () => {
         if(auth.currentUser) {
@@ -32,6 +34,16 @@ export const useSignUpFunc = () => {
             //firebase user name　update
             await updateProfile(user, {displayName: user_name})
 
+            const result_m = await userRegister({
+                variables: {
+                    "userData": {
+                        "uid": user.uid,
+                        "uuid_uid": uuid_v4(),
+                        "user_name": user.displayName,
+                        "user_image": user.photoURL,
+                    }
+                }
+            })
             // update user info (user name)
             const res_with_user_name = await updateUserName({variables: {
                 userData: {
