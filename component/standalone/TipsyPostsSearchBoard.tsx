@@ -9,13 +9,14 @@ import { DentBord, TabBord } from "../atom/bords";
 import { ClickButton, SwitchButtonConcave } from "../atom/buttons";
 import { useContext, useEffect, useState } from "react";
 import { TabSwitchGroup } from "../helper/TabRadioGroup";
-import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar,  } from "../../util/hook/authContext";
+import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar, loginUserInfoVar,  } from "../../util/hook/authContext";
 import { client } from "../../pages/_app";
 import { READ_USER_UUID_AND_FOLDERS } from "../../util/graphql/queries/users.query.schema";
 import { auth } from "../../util/firebase/init";
 
 const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, handleTagDisplay }: {query_text: string | null, selectedTid: number | null, isTagBoardDisplay?: boolean, handleTagDisplay?: any}) => {
     const { userState } = useContext(AuthContext)
+    const userInfoDataFetched = useReactiveVar(loginUserInfoVar);
     const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
     
 
@@ -71,7 +72,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
     
     // reload時のlike state更新 : this is needed only when reloading search page, so reactive var will updated when this is called or the other page roaded in context. 
     useEffect(()=>{
-        if (userState=="isUser" && !IsAlreadyFetchedAsIsUser) {
+        if (!IsAlreadyFetchedAsIsUser) {
             console.log("refetching to refresh like state");
             refetch(
                 {
@@ -83,7 +84,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
             )
             IsAlreadyFirstFetchedAsIsUserVar(true)
         }
-    },[userState])
+    },[userState, userInfoDataFetched])
     // set display posts by fetch
     useEffect(() => {setDisplayPosts(data?.search_post)}, [data])
 

@@ -3,7 +3,6 @@ import { gql } from "@apollo/client";
 export const USER_MUTATION = gql`
   mutation ($userData: createUserInput!) {
     create_user(userData: $userData) {
-      uid
       uuid_uid
       user_name
       user_image

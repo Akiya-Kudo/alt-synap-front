@@ -1,18 +1,20 @@
 import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut, updateProfile } from "firebase/auth";
 import { useContext } from "react";
-import { setAuthContext } from "./authContext";
+import { IsAlreadyFirstFetchedAsIsUserVar, loginUserInfoVar, setAuthContext } from "./authContext";
 import { auth, githubProvider, googleProvider } from '../firebase/init';
 import { useUserInfoQuery } from "./useQuery";
 import { Flex, Spinner } from "@chakra-ui/react";
-import { useMutation } from "@apollo/client";
-import { USER_INFO_MUTATION, USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
+import { makeVar, useLazyQuery, useMutation } from "@apollo/client";
+import { USER_MUTATION } from "../graphql/mutation/users.mutation.scheme";
 import { client } from "../../pages/_app";
-import { READ_USER_UUID } from "../graphql/queries/users.query.schema";
+import { READ_USER_UUID, USER_QUERY } from "../graphql/queries/users.query.schema";
 import {v4 as uuid_v4} from 'uuid'
+
+export const isInSignInVar = makeVar(false as boolean)
 
 export const useSignUpFunc = () => {
     const { setUserState } = useContext(setAuthContext);
-    const [updateUserName] = useMutation(USER_INFO_MUTATION)
+    const [getLoginUserInfo] = useLazyQuery(USER_QUERY, { fetchPolicy: "network-only" });
     const [userRegister] = useMutation(USER_MUTATION);
 
     const VarifiedNotifySendEmail = async () => {
@@ -26,34 +28,31 @@ export const useSignUpFunc = () => {
 
     const execute = async (email: string, password: string, user_name: string) => {
         setUserState('loading')
-        
         try {
-            // Firebase　新規登録処理
-            const result = await createUserWithEmailAndPassword(auth, email, password)
-            const user = result.user
-            //firebase user name　update
-            await updateProfile(user, {displayName: user_name})
-
-            const result_m = await userRegister({
-                variables: {
-                    "userData": {
-                        "uid": user.uid,
-                        "uuid_uid": uuid_v4(),
-                        "user_name": user.displayName,
-                        "user_image": user.photoURL,
+            isInSignInVar(true)
+            createUserWithEmailAndPassword(auth, email, password)
+            .then(res => {
+                const user = res.user
+                updateProfile(user, {displayName: user_name})
+                userRegister({
+                    variables: {
+                        "userData": {
+                            "uuid_uid": uuid_v4(),
+                            "user_name": user_name,
+                        }
                     }
-                }
-            })
-            // update user info (user name)
-            const res_with_user_name = await updateUserName({variables: {
-                userData: {
-                    user_name: user_name,
-                }
-            }})
-            
-            //firebase email send
-            await VarifiedNotifySendEmail()
-            setUserState('isUser')
+                })
+                .then(res => {
+                    getLoginUserInfo()
+                    .then(res => {
+                        loginUserInfoVar(res.data.user)
+                        IsAlreadyFirstFetchedAsIsUserVar(false)
+                    })
+                })
+                VarifiedNotifySendEmail()
+                setUserState('isUser')
+                isInSignInVar(false)
+            }).catch(error => console.log(error))
         } catch (error) {
             console.error("sign in error");
             console.log(error);
@@ -68,15 +67,12 @@ export const useLogInFunc = () => {
 
     const { setUserState } = useContext(setAuthContext);
 
-    const {getLoginUserInfo} = useUserInfoQuery();
-
     const execute = async (email: string, password: string) => {
         setUserState('loading')
         try {
+            console.log("login in");
+
             const result = await signInWithEmailAndPassword(auth, email, password)
-            const result_m = await getLoginUserInfo({
-                variables: {"uid": result.user.uid}
-            })
             setUserState("isUser")
         } catch (error) {
             console.error("log in error");
@@ -97,14 +93,12 @@ export const useLogOutFunc = () => {
         if (data?.user) {
             const delete_user = client.cache.evict({id: client.cache.identify(data.user), broadcast: false})
         }
-
+        loginUserInfoVar(null)
         return signOut(auth)
         .then(() => {
             setUserState('guest');
+            IsAlreadyFirstFetchedAsIsUserVar(false)
             console.log('sign out successed');
-
-            
-            console.log("cache reseted");
         }).catch((error) => {
             setUserState('isUser');
             console.log(error.message)

@@ -32,15 +32,10 @@ const Mypage: NextPage  = () => {
 
     // reload時のuserData取得 + isSaveButtonLoading　解除
     useEffect(()=>{
-        console.log(userState);
-        
-        if (userState=="isUser") {
+        if (userState=="isUser" && userInfoDataFetched?.uuid_uid) {
             const data_user = client.readQuery({ query: USER_QUERY });
             setUserInfo(data_user?.user)
             handleFetchUserMade()
-            console.log("userInfoDataFetched");
-            console.log(userInfoDataFetched);
-            
         }
     },[userState, userInfoDataFetched])
 
@@ -68,8 +63,8 @@ const Mypage: NextPage  = () => {
     })
     const handleFetchUserMade = async () => {
         getPostsUserMade().then(res => {
-            setDisplayPosts(res.data.get_posts_made_by_user)
-            setAllPostsCount(res.data.count_posts_made_by_user)
+            setDisplayPosts(res.data?.get_posts_made_by_user)
+            setAllPostsCount(res.data?.count_posts_made_by_user)
         })
     }
     const handleFetchMoreUserMade = async () => {

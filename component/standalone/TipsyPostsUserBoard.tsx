@@ -2,19 +2,19 @@ import { useQuery, useReactiveVar } from "@apollo/client"
 import { Post} from "../../type/global";
 import { TipsyCard, TipsyCard_image, TipsyCard_link } from '../atom/cards'
 import PinterestGrid from 'rc-pinterest-grid';
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Center, Heading, Highlight, Text, VStack } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Center, Heading, Highlight, Text, VStack } from "@chakra-ui/react";
 import { CircleLoader, NeumLoader } from "../atom/loaders";
 import { DentBord } from "../atom/bords";
 import { ClickButton } from "../atom/buttons";
 import { useContext, useEffect, useState } from "react";
 import { GET_USER_PUBLISHED_POSTS } from "../../util/graphql/queries/posts.query.scheme";
-import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from "../../util/hook/authContext";
+import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar, loginUserInfoVar } from "../../util/hook/authContext";
 import { client } from "../../pages/_app";
 import { READ_USER_UUID_AND_FOLDERS } from "../../util/graphql/queries/users.query.schema";
-import { auth } from "../../util/firebase/init";
 
 const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: String, isHidePostCounter?: boolean }) => {
     const { userState } = useContext(AuthContext);
+    const userInfoDataFetched = useReactiveVar(loginUserInfoVar);
     const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
 
     const [displayPosts, setDisplayPosts] = useState<Post[]>([])
@@ -36,12 +36,12 @@ const TipsyPostsUserBoard = ({ uuid_uid, isHidePostCounter=false }: { uuid_uid: 
 
     // reload時のlike state更新
     useEffect(()=>{
-        if (userState=="isUser" && !IsAlreadyFetchedAsIsUser) {
+        if (!IsAlreadyFetchedAsIsUser) {
             console.log("refetching to refresh like state");
             refetch() // same variables with first fetch of useQuery
             IsAlreadyFirstFetchedAsIsUserVar(true)
         }
-    },[userState])
+    },[userState, userInfoDataFetched])
     // set display posts by fetch
     useEffect(() => {setDisplayPosts(data?.get_posts_made_by_user)}, [data])
     
