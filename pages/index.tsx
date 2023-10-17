@@ -1,19 +1,18 @@
 import { NextPage } from 'next';
-import { Box, Flex, Heading, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Heading, useBreakpointValue } from '@chakra-ui/react';
 import { TabButtonSelectGroup } from '../component/helper/TabRadioGroup';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { GET_FOLLOWEES_POSTS, GET_POSTS_NEW, POSTS_SEARCH } from '../util/graphql/queries/posts.query.scheme';
+import { GET_FOLLOWEES_POSTS, GET_POSTS_NEW } from '../util/graphql/queries/posts.query.scheme';
 import { useContext, useEffect, useState } from 'react';
 import { useLazyQuery, useQuery, useReactiveVar } from '@apollo/client';
-import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar } from '../util/hook/authContext';
-import { Link as LinkType, Post } from '../type/global';
+import { AuthContext, IsAlreadyFirstFetchedAsIsUserVar, loginUserInfoVar } from '../util/hook/authContext';
+import { Post } from '../type/global';
 import { FlatBord } from '../component/atom/bords';
 import { GlassButton } from '../component/atom/buttons';
 import Link from 'next/link';
 import TipsyPostsTagsTabBoard from '../component/standalone/TipsyPostsTagsTabBoard';
 import LinkSearchableBoard from '../component/standalone/LinkSearchableBoard'
-import { GET_HOT_LINKS } from '../util/graphql/queries/links.query.scheme';
 import { LinkCollectionFooter } from '../component/layout/Footer';
 
 const TipsyPostsDisplay = dynamic(
@@ -23,12 +22,13 @@ const TipsyPostsDisplay = dynamic(
 
 const Index: NextPage<{}>  = () => {
   const { userState } = useContext(AuthContext);
+  const userInfoDataFetched = useReactiveVar(loginUserInfoVar);
   const IsAlreadyFetchedAsIsUser = useReactiveVar(IsAlreadyFirstFetchedAsIsUserVar)
   const isMobile = useBreakpointValue([true, true, false])
 
   const [displayContent, setDisplayContent] = useState<"Following" | "NewArrivals" | "HotTopics" | "FavoriteTopics">("NewArrivals")
   const [displayPosts, setDisplayPosts] = useState<Post[]>([])
-
+  
   const handleTabGroup = (e:any) => {
     setDisplayContent(e)
     if (e=="Following") {
@@ -67,9 +67,6 @@ const Index: NextPage<{}>  = () => {
     setDisplayPosts([...displayPosts, ...res.data.get_posts_user_follow])
   }
 
-  //fetch HotLinks 
-  const [getHotLinks] = useLazyQuery(GET_HOT_LINKS)
-
   //reset displayPosts for the first display when the page is loaded
   useEffect(() => {
     if (displayContent=="NewArrivals") { setDisplayPosts(data_new?.search_post) }
@@ -78,21 +75,19 @@ const Index: NextPage<{}>  = () => {
 
   // reload時のlike & bookmark state更新 : this is needed only when reloading the page, so reactive var will updated when this is called or the other page roaded in context. 
   useEffect(()=>{
-    if (userState=="isUser") {
-      if (!IsAlreadyFetchedAsIsUser) {
-        console.log("refetching to refresh like & bookmark state");
-        refetch_new(
-            {
-                searchString: null,
-                selectedTagId: null,
-                offset: 0,
-                sortType: 1
-            },
-        )
-        IsAlreadyFirstFetchedAsIsUserVar(true)
-      }
+    if (!IsAlreadyFetchedAsIsUser) {
+      console.log("refetching to refresh like & bookmark state");
+      refetch_new(
+          {
+              searchString: null,
+              selectedTagId: null,
+              offset: 0,
+              sortType: 1
+          },
+      )
+      IsAlreadyFirstFetchedAsIsUserVar(true)
     }
-  },[userState])
+  },[userState, userInfoDataFetched])
 
   return (
     <>
