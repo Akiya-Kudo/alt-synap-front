@@ -3,13 +3,15 @@ import NextImage from 'next/image';
 import { Box, Button, ButtonProps, Center, ChakraComponent, Flex, FormControl, FormErrorMessage, FormLabel, forwardRef, IconButton, Input, InputGroup, InputLeftElement, InputProps, InputRightElement, Switch, Text, Textarea, Tooltip, useBreakpointValue, useCheckbox, useColorMode } from '@chakra-ui/react'
 import { CloseIcon, Search2Icon } from '@chakra-ui/icons';
 import { FaEye, FaEyeSlash, FaQuestion } from 'react-icons/fa';
-import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, GlassSearchInputProps, ImageInputDefaultProps, NeumFormInputProps, NeumFormTextareaProps, NeumInputProps, NeumTextareaProps } from "../../type/atom";
+import { GlassFormImageInputProps, GlassFormInputProps, GlassInputProps, GlassSearchInputProps, ImageInputDefaultProps, ImageInputOnResizeProps, NeumFormInputProps, NeumFormTextareaProps, NeumInputProps, NeumTextareaProps } from "../../type/atom";
 import { useFormColorMode } from '../../util/hook/useColor';
 import { useOneSizeSmaller } from '../../util/hook/useSize';
 import { useNeumStyle_dent, useNeumStyle_flat } from '../../util/hook/useTheme';
 import { GlassIconButton, NeumIconButton } from './buttons';
 import ImageThumnail from "../../public/thumnailimage.svg";
 import { DentBord } from './bords';
+import { useResizer } from '../../util/hook/useResizer';
+import { useCustomToast } from '../../util/hook/useCustomToast';
 
 
 
@@ -714,6 +716,57 @@ export const ImageInputDefault = ({
     )
 }
 
+export const ImageInputOnResize = ({
+    id,
+    setImage, 
+    setImageFile, 
+    register,
+    defaultValue,
+    onChangeNoImageset,
+    resizeMaxFileSize=300000,
+    resizeDecrementRatio=0.3,
+    setIsLoading,
+    ...props
+}: ImageInputOnResizeProps) => {
+    const {toastInfo, toastError} = useCustomToast()
+    // 画像を選択したら画面に表示する処理
+    const handleChange = async (e: any) => {
+        try {
+            if (e.target.files[0]) {
+                if (setIsLoading) setIsLoading(true)
+                toastInfo("Image is now setting")
+
+                let file: Blob = e.target.files[0];
+                if (file.size > resizeMaxFileSize) {
+                    file = await useResizer(file, resizeMaxFileSize, resizeDecrementRatio)
+                }
+                setImageFile(file)
+
+                const photo = window.URL.createObjectURL(file)
+                setImage(photo)
+
+                if (setIsLoading) setIsLoading(false)
+                toastInfo("Image setting success!")
+            } else {
+                onChangeNoImageset(e)
+            }
+        } catch (error) {
+            console.log(error);
+            toastError("画像の設定に失敗しました。", "保存する画像サイズや画像形式を再度確認ください")
+        }
+    }
+    return (
+        <Input   
+        {...register(id)} {...props}
+        type={"file"} 
+        accept=" .png, .jpeg, .jpg, .svg, .webp"
+        onChange={ handleChange }
+        defaultValue={defaultValue}
+        cursor={"pointer"} w="100%" h="100%" pos={"absolute"} left={0} right={0} opacity={0} 
+        />
+    )
+}
+
 export const PostImageInput = ({
     id,
     image, 
@@ -722,18 +775,36 @@ export const PostImageInput = ({
     register,
     defaultValue,
     onChangeNoImageset,
+    resizeMaxFileSize=300000,
+    resizeDecrementRatio=0.3,
+    setIsLoading,
     ...props
 }: GlassFormImageInputProps) => {
-
+    const {toastInfo, toastError} = useCustomToast()
     // 画像を選択したら画面に表示する処理
-    const handleChange = (e: any) => {
-        if (e.target.files[0]) {
-        const file = e.target.files[0];
-        setImageFile(file)
-        const photo = window.URL.createObjectURL(file)
-        setImage(photo)
-        } else {
-            onChangeNoImageset(e)
+    const handleChange = async (e: any) => {
+        try {
+            if (e.target.files[0]) {
+                if (setIsLoading) setIsLoading(true)
+                toastInfo("Image is now setting")
+
+                let file: Blob = e.target.files[0];
+                if (file.size > resizeMaxFileSize) {
+                    file = await useResizer(file, resizeMaxFileSize, resizeDecrementRatio)
+                }
+                setImageFile(file)
+
+                const photo = window.URL.createObjectURL(file)
+                setImage(photo)
+
+                if (setIsLoading) setIsLoading(false)
+                toastInfo("Image setting success!")
+            } else {
+                onChangeNoImageset(e)
+            }
+        } catch (error) {
+            console.log(error);
+            toastError("画像の設定に失敗しました。", "保存する画像サイズや画像形式を再度確認ください")
         }
     }
     const {border_switch} = useFormColorMode()
@@ -768,7 +839,7 @@ export const PostImageInput = ({
                     <Input   
                     {...register(id)}
                     type={"file"} 
-                    accept=" .png, .jpeg, .jpg, .svg, .webp"
+                    accept=" .png, .jpeg, .jpg, .webp"
                     onChange={ handleChange }
                     defaultValue={defaultValue}
                     cursor={"pointer"} w="100%" h="100%" pos={"absolute"} left={0} right={0} opacity={0} 

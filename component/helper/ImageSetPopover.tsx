@@ -4,7 +4,7 @@ import { Box, Button, ButtonProps, Center, Flex, Heading, IconButton, Input, Pop
 import { ImageSetPopoverProps, PostPopoverProps, TopImagePopoverProps } from "../../type/helper"
 import { useGlassColorMode } from "../../util/hook/useColor"
 import { NeumIconButton } from "../atom/buttons"
-import { GlassFormInput_nolabel, ImageInputDefault, PostImageInput } from "../atom/inputs"
+import { GlassFormInput_nolabel, ImageInputDefault, ImageInputOnResize, PostImageInput } from "../atom/inputs"
 import { ImagePathInputPopover } from './Popovers'
 
 export const ImageSetPopover = ({
@@ -18,6 +18,9 @@ export const ImageSetPopover = ({
     setNewImagePath,
     beforeImage,
     isBgMocked=false,
+    resizeMaxFileSize,
+    resizeDecrementRatio,
+    setIsLoading,
     ...props
 }: ImageSetPopoverProps) => {
     const {glass_bg_switch, mock_bg_switch} = useGlassColorMode()
@@ -52,12 +55,15 @@ export const ImageSetPopover = ({
                     _hover={{backgroundColor: "rgba(130,130,130, 0.25)", color: "white"}}
                     >
                         画像をアップロード
-                        <ImageInputDefault
+                        <ImageInputOnResize
                         id={id}
                         register={ register } 
                         setImage={ setImage } 
                         setImageFile={ setImageFile }
                         onChangeNoImageset={setNoImageFile}
+                        resizeMaxFileSize={resizeMaxFileSize}
+                        resizeDecrementRatio={resizeDecrementRatio}
+                        setIsLoading={setIsLoading}
                         />
                     </Heading>
                     

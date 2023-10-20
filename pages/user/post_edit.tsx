@@ -152,6 +152,7 @@ const PostEdit: NextPage = () => {
             stateValue={currentPost}
             setStateValue={setCurrentPost}
             contentDefaultValue={contentDefaultValue}
+            setIsSaveButtonLoading={setIsSaveButtonLoading}
             />
         </Flex>
         </>

@@ -57,9 +57,8 @@ export const FolderCard = ({
     const handleDeleteFolder = async () => {
         try {
             const res = await deleteFolder()
-            if (res?.data?.delete_folder?.top_image?.startsWith("https://firebasestorage.googleapis.com/v0/b/tipsy-c5831.appspot.com/o/folder%2F")) {
+            if (res?.data?.delete_folder?.top_image?.startsWith("https://firebasestorage.googleapis.com/v0/b/tipsy-c5831.appspot.com/o/")) {
                 const storageRef = ref(storage, res.data.delete_folder.top_image)
-                console.log("strage deleted");
                 await deleteObject(storageRef)
             }
             toastSuccess("削除が完了しました。")
@@ -238,6 +237,7 @@ const CreateFolderForm = ({defFolderData, onClose}: {defFolderData?: Folder, onC
             setNewImagePath={handleNewImagepath}
             beforeImage={defFolderData?.top_image}
             isBgMocked
+            setIsLoading={setIsSaveButtonLoading}
             >
                 <Flex flexDir="column" cursor={"pointer"}>
                     {

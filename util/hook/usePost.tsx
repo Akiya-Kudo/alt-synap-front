@@ -21,7 +21,7 @@ export const usePost = () => {
             //画像strage保存
             // the case new image is setted ( at the first save request, storage_path is "null", from second time it's before storage path )
             if (articlePost.top_image_file && articlePost.top_image_file!=="DELETE") {
-                storage_path = articlePost.top_image ? articlePost.top_image : "posts/" + uuid_v4() + "/thumbnail/"
+                storage_path = articlePost.top_image ? articlePost.top_image : auth.currentUser?.uid + "/posts/" + uuid_v4()
                 const storageRef = ref(storage, storage_path);
                 await uploadBytes(storageRef, articlePost.top_image_file)
                 storage_path = await getDownloadURL(storageRef)
@@ -124,7 +124,7 @@ export const usePost = () => {
             //画像strage保存
             // the case new image is setted ( at the first save request, storage_path is "null", from second time it's before storage path )
             if (articlePost.top_image_file && articlePost.top_image_file!=="DELETE") {
-                storage_path = articlePost.top_image ? articlePost.top_image : "posts/" + uuid_v4() + "/thumbnail/"
+                storage_path = articlePost.top_image ? articlePost.top_image : auth.currentUser?.uid + "/posts/" + uuid_v4()
                 const storageRef = ref(storage, storage_path);
                 await uploadBytes(storageRef, articlePost.top_image_file)
                 storage_path = await getDownloadURL(storageRef)

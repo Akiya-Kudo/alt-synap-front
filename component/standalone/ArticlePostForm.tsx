@@ -22,6 +22,7 @@ export const ArticlePostForm = ({
     register, errors, formState, 
     stateValue, setStateValue, 
     contentDefaultValue,
+    setIsSaveButtonLoading,
 }:ArticlePostFormProps) => {
     const handleContent = (e: any) => setStateValue((prev) => ({
         ...prev, articleContent: {
@@ -112,6 +113,7 @@ export const ArticlePostForm = ({
                 tooltipContent={<Text fontSize={".8rem"}>投稿のサムネイルを追加できます。わかりやすく特徴的な投稿にすることができます。</Text>}
                 errors={errors} register={register} formState={formState}
                 placement={popoverPlacement}
+                setIsSaveButtonLoading={setIsSaveButtonLoading}
                 />
                 <TagInputPopover 
                 id="input_tags" title="タグ" icon={<FaTags/>} setValue={handleTagsAdd} value={stateValue.tags} onDeleteClick={handleTagDelete}

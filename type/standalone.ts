@@ -9,6 +9,7 @@ export interface ArticlePostFormProps {
     stateValue: ArticlePostData,
     setStateValue: React.Dispatch<React.SetStateAction<ArticlePostData>>, 
     contentDefaultValue: OutputData | null,
+    setIsSaveButtonLoading: React.Dispatch<React.SetStateAction<boolean>>, 
 }
 
 export enum LinkGenre {
