@@ -15,6 +15,18 @@ export const useCustomToast = () => {
             variant: "subtle",
         });
     }
+
+    const toastInfo = (title: string, description?: string) => {
+        toast({
+            position: "bottom-right",
+            isClosable: true,
+            title: title,
+            description: description,
+            status: "info",
+            duration: 5000,
+            variant: "subtle",
+        });
+    }
     
     const toastError = (title: string, description: string) => {
         toast({
@@ -28,26 +40,6 @@ export const useCustomToast = () => {
         });
     }
 
-    // const toastSuccess = (title: string, description?: string) => toast({
-    //     position: "bottom-right",
-    //     isClosable: true,
-    //     render: () => (
-    //         <Box fontSize={"0.8rem"}>
-    //             <Toast title={title} description={description} status="success" variant={"subtle"} duration={5000} isClosable />
-    //         </Box>
-    //     ),
-    // })
-    // const toastError = (title: string, description: string) => toast({
-    //     position: "bottom-right",
-    //     isClosable: true,
-    //     render: () => (
-    //         <Box fontSize={"0.8rem"}>
-    //             <Toast title={"ERROR : " + title} description={description} status='error'
-    //             variant={"subtle"} duration={5000} isClosable />
-    //         </Box>
-    //     ),
-    // })
-
     const toastNetDisconnectedError = () => toast({
         position: "bottom-left",
         duration:null,
@@ -57,5 +49,5 @@ export const useCustomToast = () => {
             </Box>
         ),
     })
-    return {toastSuccess, toastError, toastNetDisconnectedError}
+    return {toastSuccess, toastError, toastInfo, toastNetDisconnectedError}
 }

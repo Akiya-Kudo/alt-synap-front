@@ -105,6 +105,9 @@ const MyProfile: NextPage  = () => {
               setImage={handlePrevewImage} setImageFile={handleImageFile} setNoImageFile={handleNoImageFile}
               setNewImagePath={handleNewImagepath}
               beforeImage={currentUser?.user_image}
+              resizeMaxFileSize={100000}
+              resizeDecrementRatio={0.4}
+              setIsLoading={setIsSaveButtonLoading}
               >
                 <Flex flexDir="column" cursor={"pointer"}>
                   <Avatar 

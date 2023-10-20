@@ -47,7 +47,7 @@ export const EditPostMenu = ({uuid_pid, content_type, post}: {
         .then(res => {
             toastSuccess("削除が完了しました")
             //delete strage image if (new image file wont be uploaded in strage & if pre image_path(currentUserInfo.user_image) is firebase strage)
-            if ( res?.data?.delete_post?.top_image  && res.data.delete_post?.top_image.startsWith("https://firebasestorage.googleapis.com/v0/b/tipsy-c5831.appspot.com/o/posts%2F" )) {
+            if ( res?.data?.delete_post?.top_image  && res.data.delete_post?.top_image.startsWith("https://firebasestorage.googleapis.com/v0/b/tipsy-c5831.appspot.com/o/" )) {
                 const storageRef = ref(storage, res?.data?.delete_post?.top_image)
                 deleteObject(storageRef).then(res => console.log("strage deleted")).catch(error => console.log(error))
             }

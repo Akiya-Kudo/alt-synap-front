@@ -18,6 +18,7 @@ export const TopImageInputPopover = ({
     title,
     icon,
     tooltipContent,
+    setIsSaveButtonLoading,
     ...props
 }: TopImagePopoverProps) => {
     const { isOpen, onClose, onToggle } = useDisclosure()
@@ -110,6 +111,7 @@ export const TopImageInputPopover = ({
                             setImage={ handleImage } 
                             setImageFile={ setImageFile }
                             onChangeNoImageset={handleTopImageNoselected}
+                            setIsLoading={ setIsSaveButtonLoading }
                             />
                             {
                                 image &&

@@ -73,6 +73,7 @@ export interface TopImagePopoverProps extends PostPopoverProps {
     setImage: React.Dispatch<React.SetStateAction<string | null>>,
     imageFile: File | null | "DELETE",
     setImageFile: React.Dispatch<React.SetStateAction<File | null | "DELETE">>,
+    setIsSaveButtonLoading: React.Dispatch<React.SetStateAction<boolean>>,
 }
 export interface TagPopoverProps extends PostPopoverProps {
     value: Array<Tag> | Array<TagEditing>
@@ -86,7 +87,10 @@ export interface ImageSetPopoverProps extends PostPopoverProps {
     setNoImageFile: React.Dispatch<React.SetStateAction<undefined>>,
     setNewImagePath: React.Dispatch<React.SetStateAction<string | undefined>>,
     beforeImage?: string,
-    isBgMocked?: boolean
+    isBgMocked?: boolean,
+    resizeMaxFileSize?: number,
+    resizeDecrementRatio?: number,
+    setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 export interface GlassTagListProps extends FlexProps {

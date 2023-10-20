@@ -189,13 +189,21 @@ export interface GlassFormImageInputProps extends GlassInputProps {
     image: string | null,
     setImage: React.Dispatch<React.SetStateAction<string | null>>,
     setImageFile: React.Dispatch<React.SetStateAction<any>>,
-    onChangeNoImageset: (e:any) => void
+    onChangeNoImageset: (e:any) => void,
+    resizeMaxFileSize?: number,
+    resizeDecrementRatio?: number,
+    setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>,
 }
 export interface ImageInputDefaultProps extends GlassInputProps {
     register: any,
     setImage: (photo: string) => void | React.Dispatch<React.SetStateAction<string | undefined>>,
     setImageFile: React.Dispatch<React.SetStateAction<any>>,
     onChangeNoImageset: (e:any) => void
+} 
+export interface ImageInputOnResizeProps extends ImageInputDefaultProps {
+    resizeMaxFileSize?: number,
+    resizeDecrementRatio?: number,
+    setIsLoading?: React.Dispatch<React.SetStateAction<boolean>>,
 } 
 //コンテイナー
 export interface GlassContainerProps extends FlexProps{
