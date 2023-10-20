@@ -318,6 +318,7 @@ export const UrlLabelingStep = (
                     >    
                         <ImagePathInputPopover 
                         handleImagePath={handleImagePath} defValue={currentLink.image_path} 
+                        left={[-200, -250]} top={"60px"}
                         >
                             <ClickButton fontSize={[10, 12, 15]}>アイコンを追加</ClickButton>
                         </ImagePathInputPopover>

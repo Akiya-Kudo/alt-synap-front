@@ -75,6 +75,7 @@ const TopicPage: NextPage = () => {
                         folderInfo?.top_image &&
                         <Image
                         src={folderInfo?.top_image}
+                        objectFit="cover" 
                         width={300} height={300} borderRadius={20}
                         boxShadow={`5px 5px 15px ${shadow}, -5px -5px 15px ${highlight};`}
                         />

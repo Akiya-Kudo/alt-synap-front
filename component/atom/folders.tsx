@@ -84,7 +84,7 @@ export const FolderCard = ({
             <NextLink href={"/user/folders/" + fid}>
                 {
                     top_image 
-                    ? <Image src={ top_image } width={50} height={50} borderRadius={10}/>
+                    ? <Image src={ top_image } width={50} height={50} borderRadius={10} objectFit="cover" />
                     : <Center width={50} height={50} ><Image src={"/tipsy_logo.ico"} width={30} height={30} borderRadius={10}/></Center>
                 }
             </NextLink>

@@ -6,8 +6,8 @@ import { useGlassColorMode } from "../../util/hook/useColor"
 import { GlassInputDefault } from "../atom/inputs"
 
 export const ImagePathInputPopover = (
-    {handleImagePath, defValue, children, placement}
-    : {handleImagePath: (e: any) => void, defValue?: string, children: ReactNode, placement?: PlacementWithLogical | undefined }
+    {handleImagePath, defValue, children, placement, left, top}
+    : {handleImagePath: (e: any) => void, defValue?: string, children: ReactNode, placement?: PlacementWithLogical | undefined, left?: number[], top?: string}
     ) => {
     const { onOpen, onClose, isOpen } = useDisclosure()
     const { isOpen: T_isOpen, onOpen: T_onOpen, onClose: T_onClose } = useDisclosure()
@@ -26,7 +26,8 @@ export const ImagePathInputPopover = (
                 backgroundColor={mock_bg_switch}
                 borderRadius={"15px"}
                 w={["300px", "400px"]} maxWidth={"100vw"}
-                as="form" left={[-200, -250]} top={"60px"}
+                as="form" 
+                left={left} top={top}
                 >
                     <PopoverArrow
                     backgroundColor={mock_bg_switch}
