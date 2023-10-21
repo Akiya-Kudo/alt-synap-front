@@ -12,14 +12,13 @@ import { TfiUnlink } from 'react-icons/tfi'
 import { EditIcon } from "@chakra-ui/icons"
 import { AiOutlineHeart } from "react-icons/ai"
 import { MdBookmarkBorder } from "react-icons/md"
-import { useNeumorphismColorMode } from "../../util/hook/useColor"
 
 const Explanation: NextPage<{}>  = () => {
     const { colorMode } = useColorMode()
     return (
         <>
         <Head><title>Tipsy | Home</title></Head>
-        <LinkHeader title={""}/>
+        <LinkHeader title={"Tipsyについて"}/>
         <Flex flexDir={"column"} align={"center"} mt={5} className="page" pb={200}>
             <SharpBoard
             maxW={"1100px"} w={"90%"} justifyContent={"center"} borderRadius={["15px", "30px"]} 
@@ -85,9 +84,11 @@ const Explanation: NextPage<{}>  = () => {
 
                 <Flex pt={"6rem"}>
                     <SharpBoard py={4} px={7}>
-                        <Icon  aria-label='link_setting' as={IoIosLink} color="tipsy_color_3"  fontSize={"1.2rem"}/>
-                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}>Link Search</Heading>
-                        <Icon  aria-label='link_setting' as={IoIosLink} color="tipsy_color_3"  fontSize={"1.2rem"}/>
+                        <Icon  aria-label='link_setting' as={IoIosLink} color="tipsy_color_2"  fontSize={"1.2rem"}/>
+                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}
+                        bgGradient='linear(to-br, tipsy_color_2, tipsy_color_1)' bgClip='text'
+                        >Link Search</Heading>
+                        <Icon  aria-label='link_setting' as={IoIosLink} color="tipsy_color_1"  fontSize={"1.2rem"}/>
                     </SharpBoard>
                 </Flex>
                 <Box px={3}>
@@ -130,8 +131,10 @@ const Explanation: NextPage<{}>  = () => {
                 <Flex pt={"6rem"}>
                     <SharpBoard py={4} px={7}>
                         <Icon  aria-label='link_setting' as={BiCategoryAlt} color="tipsy_color_3"  fontSize={"1.2rem"}/>
-                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}>Collection</Heading>
-                        <Icon  aria-label='link_setting' as={BiCategoryAlt} color="tipsy_color_3"  fontSize={"1.2rem"}/>
+                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}
+                        bgGradient='linear(to-tr, tipsy_color_3, tipsy_color_1)' bgClip='text'
+                        >Collection</Heading>
+                        <Icon  aria-label='link_setting' as={BiCategoryAlt} color="tipsy_color_1"  fontSize={"1.2rem"}/>
                     </SharpBoard>
                 </Flex>
                 <Box px={3}>
@@ -163,8 +166,10 @@ const Explanation: NextPage<{}>  = () => {
 
                 <Flex pt={"6rem"}>
                     <SharpBoard py={4} px={7}>
-                        <Icon  aria-label='link_setting' as={TfiUnlink} color="tipsy_color_3"  fontSize={"1.2rem"}/>
-                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}>Multi Link Search</Heading>
+                        <Icon  aria-label='link_setting' as={TfiUnlink} color="tipsy_color_2"  fontSize={"1.2rem"}/>
+                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}
+                        bgGradient='linear(to-br, tipsy_color_2, tipsy_color_3)' bgClip='text'
+                        >Multi Link Search</Heading>
                         <Icon  aria-label='link_setting' as={TfiUnlink} color="tipsy_color_3"  fontSize={"1.2rem"}/>
                     </SharpBoard>
                 </Flex>
@@ -188,9 +193,11 @@ const Explanation: NextPage<{}>  = () => {
 
                 <Flex pt={"6rem"}>
                     <SharpBoard py={4} px={7}>
-                        <Icon  aria-label='link_setting' as={IoIosLink} color="tipsy_color_3"  fontSize={"1.2rem"}/>
-                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}>Link 投稿</Heading>
-                        <Icon  aria-label='link_setting' as={IoIosLink} color="tipsy_color_3"  fontSize={"1.2rem"}/>
+                        <Icon  aria-label='link_setting' as={IoIosLink} color="tipsy_color_1"  fontSize={"1.2rem"}/>
+                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}
+                        bgGradient='linear(to-tr, tipsy_color_1, tipsy_color_2)' bgClip='text'
+                        >Link 投稿</Heading>
+                        <Icon  aria-label='link_setting' as={IoIosLink} color="tipsy_color_2"  fontSize={"1.2rem"}/>
                     </SharpBoard>
                 </Flex>
                 <Box px={3}>
@@ -218,8 +225,10 @@ const Explanation: NextPage<{}>  = () => {
                 <Flex pt={"6rem"}>
                     <SharpBoard py={4} px={7}>
                         <Icon  aria-label='link_setting' as={EditIcon} color="tipsy_color_3"  fontSize={"1rem"}/>
-                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}>Article 投稿</Heading>
-                        <Icon  aria-label='link_setting' as={EditIcon} color="tipsy_color_3"  fontSize={"1rem"}/>
+                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}
+                        bgGradient='linear(to-br, tipsy_color_3, tipsy_color_2)' bgClip='text'
+                        >Article 投稿</Heading>
+                        <Icon  aria-label='link_setting' as={EditIcon} color="tipsy_color_2"  fontSize={"1rem"}/>
                     </SharpBoard>
                 </Flex>
                 <Box px={3}>
@@ -271,8 +280,10 @@ const Explanation: NextPage<{}>  = () => {
                 <Flex pt={"6rem"}>
                     <SharpBoard py={4} px={7}>
                         <Icon  aria-label='link_setting' as={MdBookmarkBorder} color="tipsy_color_3"  fontSize={"1.3rem"}/>
-                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}>Folder & ブックマーク</Heading>
-                        <Icon  aria-label='link_setting' as={MdBookmarkBorder} color="tipsy_color_3"  fontSize={"1.3rem"}/>
+                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}
+                        bgGradient='linear(to-tr, tipsy_color_3, tipsy_color_1)' bgClip='text'
+                        >Folder & ブックマーク</Heading>
+                        <Icon  aria-label='link_setting' as={MdBookmarkBorder} color="tipsy_color_1"  fontSize={"1.3rem"}/>
                     </SharpBoard>
                 </Flex>
                 <Box px={3}>
@@ -300,9 +311,11 @@ const Explanation: NextPage<{}>  = () => {
 
                 <Flex pt={"6rem"}>
                     <SharpBoard py={4} px={7}>
-                        <Icon  aria-label='link_setting' as={AiOutlineHeart} color="tipsy_color_3"  fontSize={"1.1rem"}/>
-                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}>いいね</Heading>
-                        <Icon  aria-label='link_setting' as={AiOutlineHeart} color="tipsy_color_3"  fontSize={"1.1rem"}/>
+                        <Icon  aria-label='link_setting' as={AiOutlineHeart} color="tipsy_color_1"  fontSize={"1.1rem"}/>
+                        <Heading mx={3} color={"tipsy_color_3"} size={"md"}
+                        bgGradient='linear(to-tr, tipsy_color_1, tipsy_color_2)' bgClip='text'
+                        >いいね</Heading>
+                        <Icon  aria-label='link_setting' as={AiOutlineHeart} color="tipsy_color_2"  fontSize={"1.1rem"}/>
                     </SharpBoard>
                 </Flex>
                 <Box px={3}>

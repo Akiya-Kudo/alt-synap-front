@@ -1,7 +1,7 @@
 import React from "react"
 import Image from 'next/image';
 import NextLink from 'next/link'
-import { Image as ChakraImage, Avatar, Box, Center, Link, Stack, Tag, Flex, Icon } from "@chakra-ui/react"
+import { Image as ChakraImage, Avatar, Box, Center, Link, Stack, Tag, Flex } from "@chakra-ui/react"
 import { TipsyCardProps } from "../../type/atom"
 import { useColorOrderPick, useGlassColorMode, useNeumorphismColorMode } from "../../util/hook/useColor"
 import { TruncatedHeading, TruncatedText } from "./texts";
@@ -252,7 +252,7 @@ export const TipsyCard_image = ({
                                 />
                                 <BookMarkButton
                                 uuid_pid={uuid_pid} folder_posts={folder_posts} folders={folders} post={post}
-                                size={4} ms={3} mt={1.5}
+                                size={4} ms={3} mt={1.5} isImage={!!post.top_image}
                                 />
                             </Stack>
                             {

@@ -18,7 +18,7 @@ export const isBoopkMarkToggledWithCacheExistVar = makeVar(null as { isMarked: b
 export const BookMarkButton = ({
     folder_posts, folders, post,
     size=5, borderRadius="full", mt="2",
-    uuid_pid,
+    uuid_pid, isImage=false,
     ...props
 }: BookMarkButtonProps) => {
     const { userState } = useContext(AuthContext);
@@ -129,6 +129,7 @@ export const BookMarkButton = ({
             <Menu
             isOpen={isOpen}
             onClose={onClose}
+            placement={isImage ? "top" : undefined}
             >
                 <MenuButton onClick={() => {
                     if (userState=='isUser') {
@@ -163,11 +164,11 @@ export const BookMarkButton = ({
                 </MenuButton>
 
                 <MenuList
-                pos={"relative"}
                 borderRadius={15}
                 backdropFilter={"blur(17px)"}
                 backgroundColor={"bg_menu_mock"}
                 fontSize="0.8rem"
+                height={[140, 190, 240]} overflow={"scroll"}
                 >
                     <MenuGroup title='Folderを選択' fontSize={".8rem"}>
                         {
@@ -181,7 +182,7 @@ export const BookMarkButton = ({
                                     icon={ isBookMarked ? <CheckIcon /> : undefined}
                                     onClick={() => handleBookMark(folder.fid, isBookMarked)}
                                     >
-                                        {folder.title}
+                                        {folder.title.length > 20 ? folder.title.slice(0, 20) + "..." : folder.title}
                                     </MenuItem>
                                 )
                             })

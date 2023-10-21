@@ -24,7 +24,7 @@ import { storage } from "../../util/firebase/init";
 export const FolderCreateCard = ({
     children, onOpen, onClose, isOpen
 }: {
-    children: any, onOpen: () => void, onClose: () => void, isOpen: boolean
+    children?: any, onOpen: () => void, onClose: () => void, isOpen: boolean
 }) => {
     return (
         <>
