@@ -31,17 +31,26 @@ const Contact: NextPage<{}>  = () => {
             if (contactForm.content.length > 1000) { 
                 throw new CommentMaxValidationError("コンテントの最大文字数は1000文字です。 | Content have to be max 1000 word", "CommentValidation")
             }
-
-            emailjs.sendForm('service_a4if6r8', 'template_63p7opb', formRef.current!=null ? formRef.current: "form undefined", 'aFiva8YD_oC_mZYTY')
-            .then((result) => {
-                toastSuccess("お問い合わせが完了しました。")
-                setIsSabeButtonLoading(true)
-                router.push("/")
-            }).finally(() => {
-                setIsSabeButtonLoading(false)
-            })
+            if (
+                process.env.NEXT_PUBLIC_FIREBASE_EMAILJS_SERVICE_ID
+                && process.env.NEXT_PUBLIC_FIREBASE_EMAILJS_TEMPLATE_ID 
+                && process.env.NEXT_PUBLIC_FIREBASE_EMAILJS_PUBLIC_KEY) {
+                    emailjs.sendForm(
+                        process.env.NEXT_PUBLIC_FIREBASE_EMAILJS_SERVICE_ID, 
+                        process.env.NEXT_PUBLIC_FIREBASE_EMAILJS_TEMPLATE_ID, 
+                        formRef.current!=null ? formRef.current: "form undefined", 
+                        process.env.NEXT_PUBLIC_FIREBASE_EMAILJS_PUBLIC_KEY
+                    )
+                    .then((result) => {
+                        toastSuccess("お問い合わせが完了しました。")
+                        setIsSabeButtonLoading(true)
+                        router.push("/")
+                    }).finally(() => {
+                        setIsSabeButtonLoading(false)
+                    })
+                } else throw new CommentMaxValidationError("モジュールの環境が使用できません。もう一度ページをリロードしてください。", "ModuleError")
         } catch (error: any) {
-            if (error.type == "CommentValidation") toastError(error.name, error.message)
+            if (error.type == "CommentValidation" || error.type == "ModuleError") toastError(error.name, error.message)
             else {
                 toastError("お問い合わせを適切に受け取ることができませんでした。", "お問い合わせ内容を再度確認して送信ください。")
             }
