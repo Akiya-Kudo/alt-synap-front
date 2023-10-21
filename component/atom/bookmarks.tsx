@@ -164,7 +164,7 @@ export const BookMarkButton = ({
                 </MenuButton>
 
                 <MenuList
-                borderRadius={15}
+                borderRadius={[7, 12, 15]}
                 backdropFilter={"blur(17px)"}
                 backgroundColor={"bg_menu_mock"}
                 fontSize="0.8rem"
