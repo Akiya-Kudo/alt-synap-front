@@ -7,13 +7,11 @@ import { useEffect, useState } from 'react';
 import UsersPage from '../../pages/users/[uuid_uid]';
 import { client } from '../../pages/_app';
 import { Post, Tag, UserTag } from '../../type/global';
-import { auth } from '../../util/firebase/init';
 import { POSTS_SEARCH } from '../../util/graphql/queries/posts.query.scheme';
 import { GET_HOT_TAGS } from '../../util/graphql/queries/tags.query.scheme';
 import { USER_QUERY } from '../../util/graphql/queries/users.query.schema';
 import { ClickButton } from '../atom/buttons';
 import { NeumTab, NeumTabaPagenationSwitch } from '../atom/indicators';
-import { TruncatedText } from '../atom/texts';
 
 const TipsyPostsDisplay = dynamic(
     () => import('../helper/TipsyPostsDisplay'),
@@ -38,8 +36,9 @@ const TipsyPostsTagsTabBoard = ({displayContent}: { displayContent: "HotTopics" 
                 const user_data = client.readQuery({ query: USER_QUERY });
                 setTopics(user_data?.user.user_tags.map((u_t: UserTag)=> u_t.tags))
             }else if (displayContent=="HotTopics") {
-                // const res = await getHotTags()
-                getHotTags().then(res => setTopics(res?.data?.hot_tags))
+                getHotTags().then(res => {
+                    setTopics(res?.data?.hot_tags)
+                })
             }
         },[])
     

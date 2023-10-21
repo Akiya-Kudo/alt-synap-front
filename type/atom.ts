@@ -287,6 +287,7 @@ export interface BookMarkButtonProps extends IconProps{
     post?: Post,
     size?: number,
     uuid_pid: string,
+    isImage?: boolean
 }
 
 //インディケーター
