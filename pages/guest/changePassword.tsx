@@ -1,61 +1,40 @@
-import { BoxProps, Center, Divider, Flex, Heading } from '@chakra-ui/react'
+import { Box, Center, Flex, Heading, Image, Input } from '@chakra-ui/react'
 import { NextPage } from 'next'
+import Head from 'next/head'
+// import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { EmailInput, SubmitButton } from '../../components/Forms/userForms'
-import { Header } from '../../components/layouts/Header/Header'
-import { AuthContext } from '../../context/auth'
-import { usePassChangeSendEmail } from '../../utils/hooks/useAuth'
-
-
-const Form = (props : BoxProps) => {
-
-    const {executeSendEmail} = usePassChangeSendEmail()
-
-    return (
-        <Flex
-            as="form" 
-            direction="column" 
-            w={400} 
-            justify="center" 
-            align="center" 
-            onSubmit={async e => {
-                e.preventDefault()
-                const target = await e.target as any;
-                const email = await target.inputText3.value as string;
-                executeSendEmail(email)
-            }}
-        >
-            {props.children}
-        </Flex>
-    )
-}
-
-
+import { ImageInputDefault } from '../../component/atom/inputs'
+import { PasswordChangeForm } from '../../component/standalone/PasswordChangeForm'
+import { AuthContext } from '../../util/hook/authContext'
+import { useCustomToast } from '../../util/hook/useCustomToast'
+import { useResizer } from '../../util/hook/useResizer'
+// import { useResizer } from '../../util/hook/useResizer'
 
 export const ChangePassword: NextPage = () => {
-
-    const { register, formState: { errors }, formState } = useForm({mode: "all"});
-
     const { userState } = useContext(AuthContext);
     const router = useRouter()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { if (userState == 'isUser')  router.replace('/') }, [userState])
-
 
     return (
         <>
-            <Header/>
-            <Flex className="page" direction="column" justify="center" align="center">  
-                <Form>
-                    <Heading mb={5}>Change Password</Heading>
-                    <Divider />
-                    <Center fontSize='sm'  color='grey' my={3}>please fill form and change password from the link in Email we will send</Center>
-                    <Divider />
-                    <EmailInput errors={ errors } register={ register } />
-                    <SubmitButton text='Password Change from your Email' formState={ formState }/>
-                </Form>
+        <Head><title>Tipsy | パスワード変更</title></Head>
+            <Flex
+            className="page"
+            direction="column" 
+            justify={["start", "center"]}
+            align="center" mt={[10, 0]}
+            >
+                <Heading m={2} size="lg">パスワード変更</Heading>
+                <Center
+                fontSize='sm'  
+                color={"text_light"}
+                my={3} mx={10}
+                >
+                    アカウントに登録したメールアドレスを入力し送信されたメールからパスワードを変更してください。
+                </Center>
+                <PasswordChangeForm/>
             </Flex>
         </>
     )

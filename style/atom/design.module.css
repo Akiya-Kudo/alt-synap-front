@@ -1,0 +1,37 @@
+.button {
+    box-shadow: 
+        15px 15px 30px rgba(105, 128, 154, 0.5),
+        -15px -15px 30px #ffffff;
+    transition: .3s all;
+}
+/* 擬似クラスは link > visited > hover > activeの順で定義しなければなりません */
+.button:hover {
+    box-shadow:
+        5px 5px 15px rgba(105, 128, 154, 0.5),
+        -5px -5px 15px #ffffff
+}
+
+.button:active {
+    box-shadow: 
+        inset 5px 5px 15px -3px rgba(105, 128, 154, 0.5),
+        inset -5px -5px 15px -3px #ffffff;
+}
+
+.bordFlat {
+    box-shadow: 
+        15px 15px 30px rgba(105, 128, 154, 0.5),
+        -15px -15px 30px #ffffff;
+}
+
+.bordConvex {
+    box-shadow: 
+        15px 15px 30px rgba(105, 128, 154, 0.5),
+        -15px -15px 30px #ffffff,
+        inset -15px -15px 30px -10px rgba(105, 128, 154, 0.5),
+        inset 15px 15px 30px -10px #ffffff;
+}
+
+a {
+    background-color: rgba(20, 22, 23, 0.5);
+    color: #181b1c;
+}
