@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Heading, Highlight, HStack, Icon, ListItem, Mark, OrderedList, Text, UnorderedList, useColorMode } from "@chakra-ui/react"
+import { Box, Divider, Flex, Heading, HStack, Icon, ListItem, Text, UnorderedList, useColorMode } from "@chakra-ui/react"
 import { NextPage } from "next"
 import Head from "next/head"
 import Link from "next/link"
@@ -17,8 +17,8 @@ const Explanation: NextPage<{}>  = () => {
     const { colorMode } = useColorMode()
     return (
         <>
-        <Head><title>Tipsy | Home</title></Head>
-        <LinkHeader title={"Tipsyについて"}/>
+        <Head><title>Tipsy | Guide</title></Head>
+        <LinkHeader title={""}/>
         <Flex flexDir={"column"} align={"center"} mt={5} className="page" pb={200}>
             <SharpBoard
             maxW={"1100px"} w={"90%"} justifyContent={"center"} borderRadius={["15px", "30px"]} 
@@ -26,8 +26,9 @@ const Explanation: NextPage<{}>  = () => {
             neumH={"shallow"} gap={5} p={[5, 7, 10]}
             >
                 <HStack align={"end"} flexWrap={"wrap"} justifyContent={"center"}>
+                    {/* <FlatText color={"bg_switch"} fontWeight={"bold"} fontSize={"3.5rem"}>について</FlatText> */}
+                    <FlatText color={"bg_switch"} fontWeight={"bold"} fontSize={"4rem"} mr={4}>What is </FlatText>
                     <FlatText color={"bg_switch"} fontWeight={"bold"} fontSize={"4.5rem"} >tipsy</FlatText>
-                    <FlatText color={"bg_switch"} fontWeight={"bold"} fontSize={"3.5rem"}>について</FlatText>
                 </HStack>
             </SharpBoard>
             <Flex
