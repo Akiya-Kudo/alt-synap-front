@@ -163,7 +163,7 @@ const apollo_cache_option = {
 }
 // Authorization header idT get & send
 const httplink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://alt-synap-back.vercel.app/graphql',
 })
 const authLink = setContext( async (operation, { headers })=>{
   // 型ガード + idTokenをheadersに付加
