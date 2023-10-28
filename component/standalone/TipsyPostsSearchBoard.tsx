@@ -113,8 +113,8 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                 position={"relative"}
                 >
                     <Heading size={"sm"}>Post 
-                        <Highlight query={ data?.count_total_posts.toString()} styles={{fontSize: "0.8rem" }}>
-                            { data.count_total_posts ? " " + data.count_total_posts.toString() : " " + "0"}
+                        <Highlight query={ data?.count_total_posts ? data?.count_total_posts.toString() : "0"} styles={{fontSize: "0.8rem" }}>
+                            { data?.count_total_posts ? " " + data?.count_total_posts.toString() : " " + "0"}
                         </Highlight>
                     </Heading>
                     {
@@ -197,7 +197,7 @@ const TipsyPostsSearchBoard = ({ query_text, selectedTid, isTagBoardDisplay, han
                             })}
                         </PinterestGrid>
                         {
-                            displayPosts.length < data.count_total_posts &&
+                            data?.count_total_posts && displayPosts.length < data?.count_total_posts &&
                             (<Center m={10}>
                                 <ClickButton
                                 size={"md"} py={3} px={5}
