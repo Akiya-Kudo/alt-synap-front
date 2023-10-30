@@ -8,7 +8,6 @@ import { theme } from '../style/global/theme';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import '../util/firebase/init'; //Initialize FirebaseApp
-import { useEffect } from 'react';
 import { auth } from '../util/firebase/init';
 import { BasicHeader } from '../component/layout/Header';
 import { useRouter } from 'next/router';
@@ -163,7 +162,8 @@ const apollo_cache_option = {
 }
 // Authorization header idT get & send
 const httplink = createHttpLink({
-  uri: 'http://localhost:4000/graphql'
+  // uri: 'http://localhost:4000/graphql'
+  uri: 'https://alt-synaps-back.onrender.com/graphql'
 })
 const authLink = setContext( async (operation, { headers })=>{
   // 型ガード + idTokenをheadersに付加
