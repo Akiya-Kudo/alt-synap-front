@@ -163,7 +163,8 @@ const apollo_cache_option = {
 // Authorization header idT get & send
 const httplink = createHttpLink({
   // uri: 'http://localhost:4000/graphql'
-  uri: 'https://alt-synaps-back.onrender.com/graphql'
+  // uri: 'https://alt-synaps-back.onrender.com/graphql'
+  uri: 'https://alt-synaps-back-1f01c50aef25.herokuapp.com/graphql'
 })
 const authLink = setContext( async (operation, { headers })=>{
   // 型ガード + idTokenをheadersに付加
